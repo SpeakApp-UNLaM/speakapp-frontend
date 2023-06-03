@@ -4,34 +4,38 @@ import 'package:provider/provider.dart';
 import '../../providers/recorder_provider.dart';
 
 class ButtonRecorder extends StatelessWidget {
-  final GestureTapCallback? onTap;
+  final VoidCallback? onPressed;
 
-  const ButtonRecorder({required this.onTap, super.key});
+  const ButtonRecorder({required this.onPressed, Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final recorderProv = context.watch<RecorderProvider>();
-    return GestureDetector(
-      onTap: onTap,
-      child: Center(
-        child: AnimatedContainer(
-          width: 135.0,
-          height: 135.0,
-          duration: const Duration(milliseconds: 200),
-          curve: Curves.easeOutBack,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              color: recorderProv.recordingOn
-                  ? const Color.fromARGB(255, 163, 201, 119)
-                  : const Color.fromARGB(255, 108, 134, 79)),
-          child: recorderProv.recordingOn
-              ? const Icon(
-                  Icons.mic,
-                  color: Color.fromARGB(255, 91, 138, 93),
-                  size: 40,
-                )
-              : const Icon(Icons.mic,
-                  size: 40, color: Color.fromARGB(255, 163, 201, 119)),
+
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 80.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
         ),
+        backgroundColor: Color.fromARGB(255, 127, 163, 85),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(
+            Icons.mic,
+            color: 
+          Colors.white,
+            size: 40,
+          ),
+          const SizedBox(width: 8.0),
+          Text(
+            recorderProv.recordingOn ? '...' : 'Grabar',
+            style: const TextStyle(fontSize: 16, color: Colors.white),
+          ),
+        ],
       ),
     );
   }

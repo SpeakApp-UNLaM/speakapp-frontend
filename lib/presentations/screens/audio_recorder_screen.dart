@@ -5,72 +5,93 @@ import 'package:sp_front/providers/recorder_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// ignore: must_be_immutable
-class AudioRecorderScreen extends StatelessWidget {
+class AudioRecorderScreen extends StatefulWidget {
   final Exercises exercise;
-  bool recordingOn = false;
 
-  AudioRecorderScreen({required this.exercise, super.key});
+  const AudioRecorderScreen({required this.exercise, Key? key}) : super(key: key);
+
+  @override
+  _AudioRecorderScreenState createState() => _AudioRecorderScreenState();
+}
+
+class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
+  bool isRecording = false;
 
   @override
   Widget build(BuildContext context) {
     final recorderProv = context.watch<RecorderProvider>();
+
+    void startRecording() {
+      if (!isRecording) {
+        recorderProv.startRecording();
+        setState(() {
+          isRecording = true;
+        });
+      }
+    }
+
+    void stopRecording() {
+      if (isRecording) {
+        recorderProv.stopRecording();
+        setState(() {
+          isRecording = false;
+        });
+      }
+    }
+
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Audio Recorder'),
+      appBar: AppBar(
+        title: const Text('SpeakApp'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Vamos a trabajar sílabas que\ncontengan este sonido",
+              style: GoogleFonts.roboto(
+                fontWeight: FontWeight.w500,
+                fontSize: 25,
+                color: const Color.fromARGB(255, 61, 79, 141),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              widget.exercise.getLetra(),
+              style: GoogleFonts.roboto(
+                fontSize: 50,
+                color: const Color.fromARGB(186, 255, 168, 7),
+              ),
+            ),
+            const SizedBox(height: 70.0),
+            Image.asset(
+              'assets/rat.png',
+              width: 200,
+              height: 200
+            ),
+            const SizedBox(height: 150.0),
+            Listener(
+              onPointerDown: (_) => startRecording(),
+              onPointerUp: (_) => stopRecording(),
+              child: ButtonRecorder(
+                onPressed: isRecording ? stopRecording : startRecording,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "Presionar y mantener para grabar",
+              style: GoogleFonts.nunito(
+                color: const Color.fromARGB(255, 108, 134, 79),
+              ),
+            ),
+            const SizedBox(height: 15),
+            Text(
+              recorderProv.transcription,
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                exercise.getLetra(),
-                style: GoogleFonts.nunito(
-                    fontSize: 50,
-                    color: const Color.fromARGB(186, 255, 168, 7)),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Text(
-                "Vamos a trabajar silabas que\n contiene este sonido",
-                style: GoogleFonts.nunito(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
-                    color: const Color.fromARGB(255, 61, 79, 141)),
-              ),
-              const SizedBox(
-                height: 130,
-              ),
-              exercise.getImage(),
-              const SizedBox(
-                height: 150,
-              ),
-              ButtonRecorder(
-                onTap: () {
-                  if (recordingOn) {
-                    recorderProv.stopRecording();
-                  } else {
-                    recorderProv.startRecording();
-                  }
-                  recordingOn = !recordingOn;
-                },
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                "Presionar el microfono",
-                style: GoogleFonts.nunito(
-                  color: const Color.fromARGB(255, 108, 134, 79),
-                ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Text(recorderProv.transcription),
-            ],
-          ),
-        ));
+      ),
+    );
   }
 }

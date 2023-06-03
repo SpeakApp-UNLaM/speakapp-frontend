@@ -17,9 +17,9 @@ class AudioRecorderApp extends StatelessWidget {
         providers: [ChangeNotifierProvider(create: (_) => RecorderProvider())],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Audio Recorder',
           theme: ThemeData(
-            primarySwatch: Colors.blue,
+            colorSchemeSeed: Colors.blueAccent,
+            useMaterial3: true
           ),
           home: AudioRecorderScreen(
             exercise: ExerciseR(
