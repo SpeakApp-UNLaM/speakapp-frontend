@@ -26,12 +26,11 @@ class Api {
     }
   }
 
-  static Future<Response> post(String path, FormData data1) async {
+  static Future<Response> post(String path, FormData data) async {
     try {
-      return await _dio.post(path, data: data1);
-    } catch (e) {
-      print(e);
-      throw ('Error en el POST');
+      return await _dio.post(path, data: data);
+    } on DioError catch (e) {
+      throw ('Error en el POST: $e');
     }
   }
 

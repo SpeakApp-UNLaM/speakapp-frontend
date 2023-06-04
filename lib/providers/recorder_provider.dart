@@ -1,76 +1,54 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:sp_front/config/helpers/api.dart';
+import 'package:sp_front/config/helpers/recorder.dart';
 import '../config/helpers/param.dart';
 import '../domain/entities/transcription.dart';
 import '../models/transcription_model.dart';
-import 'package:flutter_sound/flutter_sound.dart';
-import 'package:intl/date_symbol_data_local.dart';
-// ignore: depend_on_referenced_packages
-import 'package:permission_handler/permission_handler.dart';
-import 'package:path/path.dart' as path;
 
 class RecorderProvider extends ChangeNotifier {
   String _transcripton = "";
-  bool _recordingOn = false;
-  String _recordingPath = "";
-  final FlutterSoundRecorder _soundRecorder = FlutterSoundRecorder();
-
+  Recorder recorder = Recorder();
   String get transcription => _transcripton;
-  bool get recordingOn => _recordingOn;
+  bool _recording = false;
+  bool get recordingOn => _recording;
 
   Future<void> sendTranscription() async {
-    Api.configureDio(Param.urlServer);
-    String recordingPath = await Param.getRecordingPath();
-    MultipartFile f = MultipartFile.fromFileSync(recordingPath);
-    Future<FormData> createFormData() async {
-      return FormData.fromMap({
+    try {
+      Api.configureDio(Param.urlServer);
+      FormData formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(recorder.getRecordingPath()),
         'model': Param.modelWhisper,
-        'file': f,
       });
+
+      Response response = await Api.post(Param.postTranscription, formData);
+
+      if (response.statusCode == 200) {
+        TranscriptionModel transcriptionModel =
+            TranscriptionModel.fromJson(response.data);
+        Transcription transcriptionEntity =
+            transcriptionModel.toTranscriptionEntity();
+        _recording = false;
+        _transcripton = transcriptionEntity.getText();
+        notifyListeners();
+      } else {
+        throw Exception(
+            'Failed to send transcription. Status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      throw Exception('Failed to send transcription. Error: $error');
     }
+  }
 
-    FormData formD = await createFormData();
-    Response response = await Api.post(Param.postTranscription, formD);
-    var d = TranscriptionModel.fromJson(response.data);
-    Transcription transcription = d.toTranscriptionEntity();
-
-    _transcripton = transcription.getText();
-    _recordingOn = false;
+  void startRecording() {
+    recorder.startRecording();
+    _recording = true;
     notifyListeners();
   }
 
-  Future<void> startRecording() async {
-    _recordingOn = true;
-    _recordingPath = await Param.getRecordingPath();
-
-    _soundRecorder.openAudioSession(
-        focus: AudioFocus.requestFocusAndStopOthers,
-        category: SessionCategory.playAndRecord,
-        mode: SessionMode.modeDefault,
-        device: AudioDevice.speaker);
-    await _soundRecorder
-        .setSubscriptionDuration(const Duration(milliseconds: 10));
-    await initializeDateFormatting();
-    await Permission.microphone.request();
-    await Permission.storage.request();
-    await Permission.manageExternalStorage.request();
-
-    Directory d = Directory(path.dirname(_recordingPath));
-    if (!d.existsSync()) {
-      d.createSync();
-    }
-    _soundRecorder.openAudioSession();
-    await _soundRecorder.startRecorder(
-        toFile: _recordingPath, codec: Codec.aacMP4);
-    notifyListeners();
-  }
-
-  Future<void> stopRecording() async {
-    _soundRecorder.closeAudioSession();
-    await _soundRecorder.stopRecorder();
+  void stopRecording() {
+    recorder.stopRecording();
+    _recording = false;
     sendTranscription();
   }
 }

@@ -8,37 +8,19 @@ import 'package:google_fonts/google_fonts.dart';
 class AudioRecorderScreen extends StatefulWidget {
   final Exercises exercise;
 
-  const AudioRecorderScreen({required this.exercise, Key? key}) : super(key: key);
+  const AudioRecorderScreen({required this.exercise, Key? key})
+      : super(key: key);
 
   @override
-  _AudioRecorderScreenState createState() => _AudioRecorderScreenState();
+  AudioRecorderScreenState createState() => AudioRecorderScreenState();
 }
 
-class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
+class AudioRecorderScreenState extends State<AudioRecorderScreen> {
   bool isRecording = false;
 
   @override
   Widget build(BuildContext context) {
     final recorderProv = context.watch<RecorderProvider>();
-
-    void startRecording() {
-      if (!isRecording) {
-        recorderProv.startRecording();
-        setState(() {
-          isRecording = true;
-        });
-      }
-    }
-
-    void stopRecording() {
-      if (isRecording) {
-        recorderProv.stopRecording();
-        setState(() {
-          isRecording = false;
-        });
-      }
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('SpeakApp'),
@@ -64,18 +46,10 @@ class _AudioRecorderScreenState extends State<AudioRecorderScreen> {
               ),
             ),
             const SizedBox(height: 70.0),
-            Image.asset(
-              'assets/rat.png',
-              width: 200,
-              height: 200
-            ),
+            Image.asset('assets/rat.png', width: 200, height: 200),
             const SizedBox(height: 150.0),
-            Listener(
-              onPointerDown: (_) => startRecording(),
-              onPointerUp: (_) => stopRecording(),
-              child: ButtonRecorder(
-                onPressed: isRecording ? stopRecording : startRecording,
-              ),
+            ButtonRecorder(
+              onPressed: () {},
             ),
             const SizedBox(height: 10),
             Text(
