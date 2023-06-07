@@ -4,9 +4,7 @@ import 'package:provider/provider.dart';
 import '../../providers/recorder_provider.dart';
 
 class ButtonRecorder extends StatelessWidget {
-  final VoidCallback? onPressed;
-
-  const ButtonRecorder({required this.onPressed, Key? key}) : super(key: key);
+  const ButtonRecorder({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
