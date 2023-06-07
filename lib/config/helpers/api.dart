@@ -13,16 +13,15 @@ class Api {
     };
   }
 
-  static Future httpGet(String path) async {
+  static Future get(String path) async {
     try {
       final resp = await _dio.get(
         path,
       );
 
       return resp.data;
-    } catch (e) {
-      print(e);
-      throw ('Error en el GET');
+    } on DioError catch (e) {
+      throw ('Error en el POST: $e');
     }
   }
 
@@ -41,7 +40,6 @@ class Api {
       final resp = await _dio.put(path, data: formData);
       return resp.data;
     } catch (e) {
-      print(e);
       throw ('Error en el PUT');
     }
   }
@@ -53,7 +51,6 @@ class Api {
       final resp = await _dio.delete(path, data: formData);
       return resp.data;
     } catch (e) {
-      print(e);
       throw ('Error en el delete');
     }
   }
