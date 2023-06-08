@@ -19,7 +19,7 @@ class _ButtonPlayAudioState extends State<ButtonPlayAudio>
   void initState() {
     super.initState();
     audioPlayer = AudioPlayer();
-    audioPlayer.setAsset('assets/test-audio.mp3'); // TODO aca tiene que agarrar el audio correspondiente
+    audioPlayer.setFilePath('data/user/0/com.example.sp_front/cache/recording.wav'); // TODO aca tiene que agarrar el audio correspondiente
     audioPlayer.setLoopMode(
         LoopMode.off); // Opcional: Configura el bucle de reproducción
   }
