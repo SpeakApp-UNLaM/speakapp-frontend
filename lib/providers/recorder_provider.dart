@@ -16,6 +16,7 @@ class RecorderProvider extends ChangeNotifier {
   Future<void> sendTranscription() async {
     try {
       Api.configureDio(Param.urlServer);
+
       FormData formData = FormData.fromMap({
         'file': await MultipartFile.fromFile(recorder.getRecordingPath()),
         'model': Param.modelWhisper,
@@ -32,10 +33,14 @@ class RecorderProvider extends ChangeNotifier {
         _transcripton = transcriptionEntity.getText();
         notifyListeners();
       } else {
+        _recording = false;
+        notifyListeners();
         throw Exception(
             'Failed to send transcription. Status code: ${response.statusCode}');
       }
     } catch (error) {
+      _recording = false;
+      notifyListeners();
       throw Exception('Failed to send transcription. Error: $error');
     }
   }
@@ -49,6 +54,8 @@ class RecorderProvider extends ChangeNotifier {
   void stopRecording() {
     recorder.stopRecording();
     _recording = false;
+    notifyListeners();
+    //TODO en lugar de enviar directamente al backend, guardar el audio de forma temporal
     sendTranscription();
   }
 }

@@ -1,66 +1,113 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
-// ignore: depend_on_referenced_packages
-import 'package:path_provider/path_provider.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:rxdart/rxdart.dart';
+
+import '../../common/common.dart';
 
 class ButtonPlayAudio extends StatefulWidget {
-  const ButtonPlayAudio({super.key});
-
   @override
-  // ignore: library_private_types_in_public_api
-  _ButtonPlayAudio createState() => _ButtonPlayAudio();
+  _ButtonPlayAudioState createState() => _ButtonPlayAudioState();
 }
 
-class _ButtonPlayAudio extends State<ButtonPlayAudio> {
-  IconData icon = Icons.play_arrow;
-  double iRedondeo = 10;
+class _ButtonPlayAudioState extends State<ButtonPlayAudio>
+    with WidgetsBindingObserver {
+  late AudioPlayer audioPlayer;
+
   bool isPlaying = false;
-  final audioPlayer = AssetsAudioPlayer();
-  // ignore: non_constant_identifier_names
-  Color color_icon = const Color.fromARGB(255, 91, 138, 93);
-  @override
-  Widget build(BuildContext context) {
-    return FloatingActionButton.small(
-      onPressed: () {
-        if (!isPlaying) {
-          _playRecording();
-          color_icon = const Color.fromARGB(255, 112, 24, 28);
-          icon = Icons.pause;
-        } else {
-          _stopPlaying();
-          icon = Icons.play_arrow;
-          color_icon = const Color.fromARGB(255, 91, 138, 93);
-        }
-        isPlaying = !isPlaying;
-        setState(() {});
-      },
-      backgroundColor: const Color.fromARGB(255, 163, 201, 119),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(iRedondeo),
-      ),
-      child: Icon(icon, color: color_icon),
-    );
-  }
-
-  void _playRecording() async {
-    String recordingPath = await getTemporaryDirectory().then((value) {
-      return '${value.path}}/recording.mp4';
-    });
-    audioPlayer.open(
-      Audio.file(recordingPath),
-      autoStart: true,
-      showNotification: true,
-    );
-  }
-
-  void _stopPlaying() {
-    audioPlayer.stop();
-  }
 
   @override
   void initState() {
     super.initState();
+    audioPlayer = AudioPlayer();
+    audioPlayer.setFilePath('data/user/0/com.example.sp_front/cache/recording.wav'); // TODO aca tiene que agarrar el audio correspondiente
+    audioPlayer.setLoopMode(
+        LoopMode.off); // Opcional: Configura el bucle de reproducción
   }
 
-  bool isPlayingAudio() => isPlaying;
+  @override
+  void dispose() {
+    audioPlayer.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      // Release the player's resources when not in use. We use "stop" so that
+      // if the app resumes later, it will still remember what position to
+      // resume from.
+      audioPlayer.stop();
+    }
+  }
+
+  void playAudio() async {
+    // seteamos el state en reproduciendo
+    setState(() {
+      isPlaying = true;
+    });
+    await audioPlayer.play();
+
+    await audioPlayer.stop();
+    await audioPlayer.seek(Duration.zero);
+    setState(() {
+      isPlaying = false;
+    });
+  }
+
+  void pauseAudio() async {
+    await audioPlayer.pause();
+
+    setState(() {
+      isPlaying = false;
+    });
+  }
+
+  /// feature of rx_dart to combine the 3 streams of interest into one.
+  Stream<PositionData> get _positionDataStream =>
+      Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
+          audioPlayer.positionStream,
+          audioPlayer.bufferedPositionStream,
+          audioPlayer.durationStream,
+          (position, bufferedPosition, duration) => PositionData(
+              position, bufferedPosition, duration ?? Duration.zero));
+
+  @override
+Widget build(BuildContext context) {
+  return Center(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        IconButton(
+          icon: CircleAvatar(
+            backgroundColor: const Color.fromARGB(255, 127, 163, 85),
+            child: Icon(
+              isPlaying ? Icons.pause : Icons.play_arrow,
+              color: Colors.white,
+            ),
+          ),
+          onPressed: () {
+            if (isPlaying) {
+              pauseAudio();
+            } else {
+              playAudio();
+            }
+          },
+        ),
+        StreamBuilder<PositionData>(
+          stream: _positionDataStream,
+          builder: (context, snapshot) {
+            final positionData = snapshot.data;
+            return SeekBar(
+              duration: positionData?.duration ?? Duration.zero,
+              position: positionData?.position ?? Duration.zero,
+              bufferedPosition: positionData?.bufferedPosition ?? Duration.zero,
+              onChangeEnd: audioPlayer.seek,
+            );
+          },
+        ),
+      ],
+    ),
+  );
+}
+
 }

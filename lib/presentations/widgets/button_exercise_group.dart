@@ -19,7 +19,10 @@ class ButtonExerciseGroup extends StatelessWidget {
                   PageViewScreen(codeGroupExercise: codeGroup)),
         );
       },
-      child: Text(name),
+      child: Text(name.toUpperCase(), style: const TextStyle(
+                      fontFamily: 'Fixed',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18.0),),
     );
   }
 }

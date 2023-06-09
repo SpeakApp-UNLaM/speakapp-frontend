@@ -80,17 +80,20 @@ class _ListViewNM extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      itemCount: buttonsGroupLists.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        childAspectRatio: 1.0,
-        crossAxisSpacing: 10.0,
-        mainAxisSpacing: 10.0,
+    return Container(
+      margin: EdgeInsets.all(10.0), // Ajusta el valor según tus necesidades
+      child: GridView.builder(
+        itemCount: buttonsGroupLists.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          childAspectRatio: 1.0,
+          crossAxisSpacing: 10.0,
+          mainAxisSpacing: 10.0,
+        ),
+        itemBuilder: (BuildContext context, int index) {
+          return buttonsGroupLists[index];
+        },
       ),
-      itemBuilder: (BuildContext context, int index) {
-        return buttonsGroupLists[index];
-      },
     );
   }
 }

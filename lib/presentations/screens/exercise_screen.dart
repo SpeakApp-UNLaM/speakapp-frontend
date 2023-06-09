@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sp_front/domain/entities/exercise.dart';
+import 'package:sp_front/presentations/widgets/button_play_audio.dart';
 import 'package:sp_front/presentations/widgets/button_recorder.dart';
 import 'package:sp_front/providers/recorder_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../../domain/entities/exercise.dart';
 
 class ExerciseScreen extends StatefulWidget {
   final Exercise exercise;
@@ -42,9 +44,10 @@ class ExerciseScreenState extends State<ExerciseScreen> {
                 color: const Color.fromARGB(186, 255, 168, 7),
               ),
             ),
-            const SizedBox(height: 70.0),
-            widget.exercise.getImage(),
-            const SizedBox(height: 150.0),
+            const SizedBox(height: 50.0),
+            Image.asset('assets/rat.png', width: 200, height: 200),
+            const SizedBox(height: 40.0),
+            ButtonPlayAudio(),
             const ButtonRecorder(),
             const SizedBox(height: 10),
             Text(
