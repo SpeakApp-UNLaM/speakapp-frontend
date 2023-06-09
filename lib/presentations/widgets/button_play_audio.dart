@@ -43,9 +43,9 @@ class _ButtonPlayAudio extends State<ButtonPlayAudio> {
   }
 
   void _playRecording() async {
-    String recordingPath = await getTemporaryDirectory().then((value) {
-      return '${value.path}}/recording.mp4';
-    });
+    final directory = await getTemporaryDirectory();
+    String recordingPath = '${directory.path}/recording.mp4';
+
     audioPlayer.open(
       Audio.file(recordingPath),
       autoStart: true,

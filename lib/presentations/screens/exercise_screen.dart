@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:sp_front/domain/entities/exercises.dart';
+import 'package:sp_front/domain/entities/exercise.dart';
 import 'package:sp_front/presentations/widgets/button_recorder.dart';
 import 'package:sp_front/providers/recorder_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AudioRecorderScreen extends StatefulWidget {
-  final Exercises exercise;
+class ExerciseScreen extends StatefulWidget {
+  final Exercise exercise;
 
-  const AudioRecorderScreen({required this.exercise, Key? key})
-      : super(key: key);
+  const ExerciseScreen({required this.exercise, Key? key}) : super(key: key);
 
   @override
-  AudioRecorderScreenState createState() => AudioRecorderScreenState();
+  ExerciseScreenState createState() => ExerciseScreenState();
 }
 
-class AudioRecorderScreenState extends State<AudioRecorderScreen> {
-  bool isRecording = false;
-
+class ExerciseScreenState extends State<ExerciseScreen> {
   @override
   Widget build(BuildContext context) {
     final recorderProv = context.watch<RecorderProvider>();
@@ -46,11 +43,9 @@ class AudioRecorderScreenState extends State<AudioRecorderScreen> {
               ),
             ),
             const SizedBox(height: 70.0),
-            Image.asset('assets/rat.png', width: 200, height: 200),
+            widget.exercise.getImage(),
             const SizedBox(height: 150.0),
-            ButtonRecorder(
-              onPressed: () {},
-            ),
+            const ButtonRecorder(),
             const SizedBox(height: 10),
             Text(
               "Presionar y mantener para grabar",

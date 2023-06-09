@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sp_front/domain/entities/exercise_r.dart';
-import 'package:sp_front/presentations/screens/audio_recorder_screen.dart';
+import 'package:sp_front/presentations/screens/pending_screen.dart';
 import 'package:sp_front/providers/recorder_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -17,18 +16,9 @@ class AudioRecorderApp extends StatelessWidget {
         providers: [ChangeNotifierProvider(create: (_) => RecorderProvider())],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            colorSchemeSeed: Colors.blueAccent,
-            useMaterial3: true
-          ),
-          home: AudioRecorderScreen(
-            exercise: ExerciseR(
-                img: Image.network(
-                    "https://upload.wikimedia.org/wikipedia/commons/1/12/Mouse_line_drawing.jpg",
-                    scale: 3.0),
-                letra: "RR",
-                name: "Ratón"),
-          ),
+          theme:
+              ThemeData(colorSchemeSeed: Colors.blueAccent, useMaterial3: true),
+          home: const PendingScreen(),
         ));
   }
 }
