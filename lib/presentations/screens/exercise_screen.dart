@@ -45,7 +45,7 @@ class ExerciseScreenState extends State<ExerciseScreen> {
               ),
             ),
             const SizedBox(height: 50.0),
-            Image.asset('assets/rat.png', width: 200, height: 200),
+            widget.exercise.getImage(),
             const SizedBox(height: 40.0),
             ButtonPlayAudio(),
             const ButtonRecorder(),
@@ -57,8 +57,8 @@ class ExerciseScreenState extends State<ExerciseScreen> {
               ),
             ),
             const SizedBox(height: 15),
-            Text(
-              recorderProv.transcription,
+            const Text(
+              "",
               textAlign: TextAlign.center,
             ),
           ],

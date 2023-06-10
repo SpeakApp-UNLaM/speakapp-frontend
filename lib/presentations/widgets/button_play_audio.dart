@@ -19,7 +19,8 @@ class _ButtonPlayAudioState extends State<ButtonPlayAudio>
   void initState() {
     super.initState();
     audioPlayer = AudioPlayer();
-    audioPlayer.setFilePath('data/user/0/com.example.sp_front/cache/recording.wav'); // TODO aca tiene que agarrar el audio correspondiente
+
+    // TODO aca tiene que agarrar el audio correspondiente
     audioPlayer.setLoopMode(
         LoopMode.off); // Opcional: Configura el bucle de reproducción
   }
@@ -42,12 +43,15 @@ class _ButtonPlayAudioState extends State<ButtonPlayAudio>
 
   void playAudio() async {
     // seteamos el state en reproduciendo
+    await audioPlayer
+        .setFilePath('data/user/0/com.example.sp_front/cache/recording.wav');
     setState(() {
       isPlaying = true;
     });
     await audioPlayer.play();
 
     await audioPlayer.stop();
+
     await audioPlayer.seek(Duration.zero);
     setState(() {
       isPlaying = false;
@@ -72,42 +76,42 @@ class _ButtonPlayAudioState extends State<ButtonPlayAudio>
               position, bufferedPosition, duration ?? Duration.zero));
 
   @override
-Widget build(BuildContext context) {
-  return Center(
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        IconButton(
-          icon: CircleAvatar(
-            backgroundColor: const Color.fromARGB(255, 127, 163, 85),
-            child: Icon(
-              isPlaying ? Icons.pause : Icons.play_arrow,
-              color: Colors.white,
+  Widget build(BuildContext context) {
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconButton(
+            icon: CircleAvatar(
+              backgroundColor: const Color.fromARGB(255, 127, 163, 85),
+              child: Icon(
+                isPlaying ? Icons.pause : Icons.play_arrow,
+                color: Colors.white,
+              ),
             ),
+            onPressed: () {
+              if (isPlaying) {
+                pauseAudio();
+              } else {
+                playAudio();
+              }
+            },
           ),
-          onPressed: () {
-            if (isPlaying) {
-              pauseAudio();
-            } else {
-              playAudio();
-            }
-          },
-        ),
-        StreamBuilder<PositionData>(
-          stream: _positionDataStream,
-          builder: (context, snapshot) {
-            final positionData = snapshot.data;
-            return SeekBar(
-              duration: positionData?.duration ?? Duration.zero,
-              position: positionData?.position ?? Duration.zero,
-              bufferedPosition: positionData?.bufferedPosition ?? Duration.zero,
-              onChangeEnd: audioPlayer.seek,
-            );
-          },
-        ),
-      ],
-    ),
-  );
-}
-
+          StreamBuilder<PositionData>(
+            stream: _positionDataStream,
+            builder: (context, snapshot) {
+              final positionData = snapshot.data;
+              return SeekBar(
+                duration: positionData?.duration ?? Duration.zero,
+                position: positionData?.position ?? Duration.zero,
+                bufferedPosition:
+                    positionData?.bufferedPosition ?? Duration.zero,
+                onChangeEnd: audioPlayer.seek,
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
 }

@@ -55,19 +55,12 @@ class PageViewScreenState extends State<PageViewScreen> {
     List<Exercise> exercisesOnlyGroup = exercises
         .where((exercise) => exercise.idGroup == widget.codeGroupExercise)
         .toList();
-    List<Pending> pendingOnlyGroup = pendings
-        .where((p) => p.idGroupExercise == widget.codeGroupExercise)
-        .toList();
-
-    for (Pending pending in pendingOnlyGroup) {
-      for (Exercise exercise in exercisesOnlyGroup) {
-        log("Datos encontrados: ${exercise.letra} ${exercise.idGroup}. Dato pending:  ${pending.idExercise}");
-        if (pending.idExercise == exercise.id) {
-          conjuntoResultante.add(ExerciseScreen(exercise: exercise));
-        }
+    for (Exercise exercise in exercisesOnlyGroup) {
+      log("Datos encontrados: ${exercise.letra} ${exercise.idGroup}.");
+      if (pendings.any((pending) => pending.idExercise == exercise.id)) {
+        conjuntoResultante.add(ExerciseScreen(exercise: exercise));
       }
     }
-
     _pagesExercisesFounded = conjuntoResultante.toList();
     setState(() {
       _pagesExercisesFounded = conjuntoResultante.toList();

@@ -39,14 +39,11 @@ class PendingScreenState extends State<PendingScreen> {
     List<Pending> pendings = await getPendingList();
     Set<ButtonExerciseGroup> conjuntoResultante = {};
     for (GroupExercise group in groups) {
-      for (Pending pending in pendings) {
-        if (pending.idGroupExercise == group.id) {
-          conjuntoResultante.add(ButtonExerciseGroup(
-              name: group.wordGroupExercise, codeGroup: group.id));
-        }
+      if (pendings.any((pending) => pending.idGroupExercise == group.id)) {
+        conjuntoResultante.add(ButtonExerciseGroup(
+            name: group.wordGroupExercise, codeGroup: group.id));
       }
     }
-
     buttonsGroupLists = conjuntoResultante.toList();
     setState(() {});
   }
