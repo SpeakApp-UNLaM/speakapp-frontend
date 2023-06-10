@@ -47,24 +47,8 @@ class ExerciseScreenState extends State<ExerciseScreen> {
                   color: const Color.fromARGB(186, 255, 168, 7),
                 ),
               ),
-              const SizedBox(height: 20.0),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(
-                    color: Colors.grey, // Color del borde
-                    width: 2.0, // Ancho del borde
-                  ),
-                  color: Colors.white,
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0), // Margen interno deseado
-                    child: widget.exercise.img,
-                  ),
-                ),
-              ),
+              const SizedBox(height: 40.0),
+              widget.exercise.img,
               const SizedBox(height: 40.0),
               ButtonPlayAudio(),
               const ButtonRecorder(),
