@@ -67,31 +67,51 @@ class PageViewScreenState extends State<PageViewScreen> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: _listPagesExercises(),
+ @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: Column(
+      children: [
+        Expanded(
+          child: _listPagesExercises(),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              if (currentPageIndex > 0)
+                Expanded(
+                  flex: 1,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: _actionBtnBack(),
+                  ),
+                ),
+              if (currentPageIndex < _pagesExercisesFounded.length - 1)
+                Expanded(
+                  flex: 1,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: _actionBtnNext(),
+                  ),
+                ),
+              if (currentPageIndex == _pagesExercisesFounded.length - 1)
+                Expanded(
+                  flex: 1,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: _actionBtnGoHome(),
+                  ),
+                ),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                if (currentPageIndex > 0) _actionBtnBack(),
-                if (currentPageIndex < _pagesExercisesFounded.length - 1)
-                  _actionBtnNext(),
-                if (currentPageIndex == _pagesExercisesFounded.length - 1)
-                  _actionBtnGoHome(),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
+
 
   PageView _listPagesExercises() {
     return PageView.builder(
@@ -115,7 +135,7 @@ class PageViewScreenState extends State<PageViewScreen> {
       onPressed: () {
         // TODO:Acción cuando el usuario está en la última página
       },
-      child: const Text('Finalizar grupo de ejercicios'),
+      child: const Text('Finalizar'),
     );
   }
 

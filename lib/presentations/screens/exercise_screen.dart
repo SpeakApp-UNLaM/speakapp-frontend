@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 import 'package:sp_front/presentations/widgets/button_play_audio.dart';
 import 'package:sp_front/presentations/widgets/button_recorder.dart';
 import 'package:sp_front/providers/recorder_provider.dart';
@@ -24,44 +25,63 @@ class ExerciseScreenState extends State<ExerciseScreen> {
       appBar: AppBar(
         title: const Text('SpeakApp'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              "Vamos a trabajar sílabas que\ncontengan este sonido",
-              style: GoogleFonts.roboto(
-                fontWeight: FontWeight.w500,
-                fontSize: 25,
-                color: const Color.fromARGB(255, 61, 79, 141),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "¡Vamos a practicar! 😄 Palabras con la letra:",
+                style: GoogleFonts.nunito(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 25,
+                  color: const Color.fromARGB(255, 61, 79, 141),
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
-            ),
-            Text(
-              widget.exercise.getLetra(),
-              style: GoogleFonts.roboto(
-                fontSize: 50,
-                color: const Color.fromARGB(186, 255, 168, 7),
+              Text(
+                widget.exercise.getLetra(),
+                style: GoogleFonts.roboto(
+                  fontSize: 50,
+                  color: const Color.fromARGB(186, 255, 168, 7),
+                ),
               ),
-            ),
-            const SizedBox(height: 50.0),
-            widget.exercise.getImage(),
-            const SizedBox(height: 40.0),
-            ButtonPlayAudio(),
-            const ButtonRecorder(),
-            const SizedBox(height: 10),
-            Text(
-              "Presionar y mantener para grabar",
-              style: GoogleFonts.nunito(
-                color: const Color.fromARGB(255, 108, 134, 79),
+              const SizedBox(height: 20.0),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  border: Border.all(
+                    color: Colors.grey, // Color del borde
+                    width: 2.0, // Ancho del borde
+                  ),
+                  color: Colors.white,
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0), // Margen interno deseado
+                    child: widget.exercise.img,
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(height: 15),
-            const Text(
-              "",
-              textAlign: TextAlign.center,
-            ),
-          ],
+              const SizedBox(height: 40.0),
+              ButtonPlayAudio(),
+              const ButtonRecorder(),
+              const SizedBox(height: 10),
+              Text(
+                "Presionar y mantener para grabar",
+                style: GoogleFonts.nunito(
+                  color: const Color.fromARGB(255, 108, 134, 79),
+                ),
+              ),
+              const SizedBox(height: 15),
+              const Text(
+                "",
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       ),
     );
