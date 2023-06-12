@@ -2,15 +2,20 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:sp_front/config/helpers/api.dart';
 import 'package:sp_front/config/helpers/recorder.dart';
+import '../common/common.dart';
 import '../config/helpers/param.dart';
 import '../domain/entities/transcription.dart';
 import '../models/transcription_model.dart';
 
 class RecorderProvider extends ChangeNotifier {
   String _transcripton = "";
-  Recorder recorder = Recorder();
-  String get transcription => _transcripton;
   bool _recording = false;
+  bool _playing = false;
+  Recorder recorder = Recorder();
+
+  bool exist_audio = false;
+  String get transcription => _transcripton;
+  bool get playing => _playing;
   bool get recordingOn => _recording;
 
   Future<void> sendTranscription() async {
@@ -29,33 +34,44 @@ class RecorderProvider extends ChangeNotifier {
             TranscriptionModel.fromJson(response.data);
         Transcription transcriptionEntity =
             transcriptionModel.toTranscriptionEntity();
-        _recording = false;
         _transcripton = transcriptionEntity.getText();
         notifyListeners();
       } else {
-        _recording = false;
-        notifyListeners();
         throw Exception(
             'Failed to send transcription. Status code: ${response.statusCode}');
       }
     } catch (error) {
-      _recording = false;
-      notifyListeners();
       throw Exception('Failed to send transcription. Error: $error');
     }
   }
 
-  void startRecording() {
-    recorder.startRecording();
+  Future<void> startRecording() async {
+    await recorder.startRecording();
     _recording = true;
     notifyListeners();
   }
 
-  void stopRecording() {
-    recorder.stopRecording();
+  Future<void> stopRecording() async {
+    await recorder.stopRecording();
     _recording = false;
+    exist_audio = true;
     notifyListeners();
-    //TODO en lugar de enviar directamente al backend, guardar el audio de forma temporal
-    sendTranscription();
   }
+
+  Future<void> playAudio() async {
+    _playing = true;
+    notifyListeners();
+    await recorder.playAudio();
+    _playing = false;
+    notifyListeners();
+  }
+
+  Future<void> pauseAudio() async {
+    await recorder.pauseAudio();
+    _playing = false;
+    notifyListeners();
+  }
+
+  Stream<PositionData> getStreamAudioPlayer() =>
+      recorder.getStreamAudioPlayer();
 }

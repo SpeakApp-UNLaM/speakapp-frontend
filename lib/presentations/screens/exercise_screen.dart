@@ -48,9 +48,9 @@ class ExerciseScreenState extends State<ExerciseScreen> {
                 ),
               ),
               const SizedBox(height: 40.0),
-              widget.exercise.img,
+              widget.exercise.getImage(),
               const SizedBox(height: 40.0),
-              ButtonPlayAudio(),
+              const ButtonPlayAudio(),
               const ButtonRecorder(),
               const SizedBox(height: 10),
               Text(
@@ -60,8 +60,8 @@ class ExerciseScreenState extends State<ExerciseScreen> {
                 ),
               ),
               const SizedBox(height: 15),
-              const Text(
-                "",
+              Text(
+                recorderProv.transcription,
                 textAlign: TextAlign.center,
               ),
             ],

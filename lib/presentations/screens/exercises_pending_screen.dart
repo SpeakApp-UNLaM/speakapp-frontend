@@ -1,12 +1,14 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sp_front/domain/entities/exercise.dart';
 import '../../config/helpers/api.dart';
 import '../../config/helpers/param.dart';
 import '../../domain/entities/pending.dart';
 import '../../models/exercise_model.dart';
 import '../../models/pending_model.dart';
+import '../../providers/recorder_provider.dart';
 import 'exercise_screen.dart';
 
 class PageViewScreen extends StatefulWidget {
@@ -67,51 +69,51 @@ class PageViewScreenState extends State<PageViewScreen> {
     });
   }
 
- @override
-Widget build(BuildContext context) {
-  return Scaffold(
-    body: Column(
-      children: [
-        Expanded(
-          child: _listPagesExercises(),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              if (currentPageIndex > 0)
-                Expanded(
-                  flex: 1,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: _actionBtnBack(),
-                  ),
-                ),
-              if (currentPageIndex < _pagesExercisesFounded.length - 1)
-                Expanded(
-                  flex: 1,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: _actionBtnNext(),
-                  ),
-                ),
-              if (currentPageIndex == _pagesExercisesFounded.length - 1)
-                Expanded(
-                  flex: 1,
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: _actionBtnGoHome(),
-                  ),
-                ),
-            ],
+  @override
+  Widget build(BuildContext context) {
+    final recorderProv = context.watch<RecorderProvider>();
+    return Scaffold(
+      body: Column(
+        children: [
+          Expanded(
+            child: _listPagesExercises(),
           ),
-        ),
-      ],
-    ),
-  );
-}
-
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                if (currentPageIndex > 0)
+                  Expanded(
+                    flex: 1,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: _actionBtnBack(),
+                    ),
+                  ),
+                if (currentPageIndex < _pagesExercisesFounded.length - 1)
+                  Expanded(
+                    flex: 1,
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: _actionBtnNext(recorderProv),
+                    ),
+                  ),
+                if (currentPageIndex == _pagesExercisesFounded.length - 1)
+                  Expanded(
+                    flex: 1,
+                    child: Align(
+                      alignment: Alignment.centerRight,
+                      child: _actionBtnGoHome(),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   PageView _listPagesExercises() {
     return PageView.builder(
@@ -139,10 +141,10 @@ Widget build(BuildContext context) {
     );
   }
 
-  ElevatedButton _actionBtnNext() {
+  ElevatedButton _actionBtnNext(final recorderProv) {
     return ElevatedButton(
       onPressed: () {
-        //TODO: LOGICA PARA REGISTRAR RECORDER Y RESULTADOS
+        recorderProv.sendTranscription();
         _pc.nextPage(
           duration: const Duration(milliseconds: 500),
           curve: Curves.linearToEaseOut,

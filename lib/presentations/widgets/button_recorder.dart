@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import '../../providers/recorder_provider.dart';
 
 class ButtonRecorder extends StatelessWidget {
-
   const ButtonRecorder({Key? key}) : super(key: key);
 
   @override
@@ -12,8 +11,8 @@ class ButtonRecorder extends StatelessWidget {
     final recorderProv = context.watch<RecorderProvider>();
 
     return GestureDetector(
-        onTapUp: (details) => recorderProv.stopRecording(),
-        onTapDown: (details) => recorderProv.startRecording(),
+        onTapUp: (details) async => await recorderProv.stopRecording(),
+        onTapDown: (details) async => await recorderProv.startRecording(),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 500),
           curve: Curves.easeInOutCirc,
