@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:sp_front/config/helpers/api.dart';
@@ -13,15 +14,14 @@ class RecorderProvider extends ChangeNotifier {
   bool _playing = false;
   Recorder recorder = Recorder();
 
-  bool exist_audio = false;
+  bool _existAudio = false;
   String get transcription => _transcripton;
   bool get playing => _playing;
   bool get recordingOn => _recording;
+  bool get existAudio => _existAudio;
 
   Future<void> sendTranscription() async {
     try {
-      Api.configureDio(Param.urlServer);
-
       FormData formData = FormData.fromMap({
         'file': await MultipartFile.fromFile(recorder.getRecordingPath()),
         'model': Param.modelWhisper,
@@ -35,13 +35,13 @@ class RecorderProvider extends ChangeNotifier {
         Transcription transcriptionEntity =
             transcriptionModel.toTranscriptionEntity();
         _transcripton = transcriptionEntity.getText();
+        log(_transcripton);
         notifyListeners();
       } else {
-        throw Exception(
-            'Failed to send transcription. Status code: ${response.statusCode}');
+        Param.showToast("${response.statusCode}");
       }
     } catch (error) {
-      throw Exception('Failed to send transcription. Error: $error');
+      Param.showToast('Failed to send transcription. Error: $error');
     }
   }
 
@@ -54,7 +54,7 @@ class RecorderProvider extends ChangeNotifier {
   Future<void> stopRecording() async {
     await recorder.stopRecording();
     _recording = false;
-    exist_audio = true;
+    _existAudio = true;
     notifyListeners();
   }
 
@@ -74,4 +74,11 @@ class RecorderProvider extends ChangeNotifier {
 
   Stream<PositionData> getStreamAudioPlayer() =>
       recorder.getStreamAudioPlayer();
+
+  void resetAudio() {
+    recorder.reset();
+    _existAudio = false;
+    _transcripton = "";
+    notifyListeners();
+  }
 }

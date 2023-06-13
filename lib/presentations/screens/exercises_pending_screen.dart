@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_front/domain/entities/exercise.dart';
@@ -11,15 +9,15 @@ import '../../models/pending_model.dart';
 import '../../providers/recorder_provider.dart';
 import 'exercise_screen.dart';
 
-class PageViewScreen extends StatefulWidget {
+class ExercisePendingScreen extends StatefulWidget {
   final int codeGroupExercise;
-  const PageViewScreen({super.key, required this.codeGroupExercise});
+  const ExercisePendingScreen({super.key, required this.codeGroupExercise});
 
   @override
-  PageViewScreenState createState() => PageViewScreenState();
+  ExercisePendingScreenState createState() => ExercisePendingScreenState();
 }
 
-class PageViewScreenState extends State<PageViewScreen> {
+class ExercisePendingScreenState extends State<ExercisePendingScreen> {
   final PageController _pc = PageController();
 
   List<ExerciseScreen> _pagesExercisesFounded = [];
@@ -49,7 +47,6 @@ class PageViewScreenState extends State<PageViewScreen> {
   }
 
   Future<void> _getData() async {
-    Api.configureDio(Param.urlServer);
     List<Exercise> exercises = await getExercisesList();
     List<Pending> pendings = await getPendingList();
     Set<ExerciseScreen> conjuntoResultante = {};
@@ -58,7 +55,6 @@ class PageViewScreenState extends State<PageViewScreen> {
         .where((exercise) => exercise.idGroup == widget.codeGroupExercise)
         .toList();
     for (Exercise exercise in exercisesOnlyGroup) {
-      log("Datos encontrados: ${exercise.letra} ${exercise.idGroup}.");
       if (pendings.any((pending) => pending.idExercise == exercise.id)) {
         conjuntoResultante.add(ExerciseScreen(exercise: exercise));
       }
@@ -76,22 +72,15 @@ class PageViewScreenState extends State<PageViewScreen> {
       body: Column(
         children: [
           Expanded(
-            child: _listPagesExercises(),
+            child: _listPagesExercises(recorderProv),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                if (currentPageIndex > 0)
-                  Expanded(
-                    flex: 1,
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: _actionBtnBack(),
-                    ),
-                  ),
-                if (currentPageIndex < _pagesExercisesFounded.length - 1)
+                if (currentPageIndex < _pagesExercisesFounded.length - 1 &&
+                    recorderProv.existAudio)
                   Expanded(
                     flex: 1,
                     child: Align(
@@ -104,7 +93,7 @@ class PageViewScreenState extends State<PageViewScreen> {
                     flex: 1,
                     child: Align(
                       alignment: Alignment.centerRight,
-                      child: _actionBtnGoHome(),
+                      child: _actionBtnGoHome(recorderProv, context),
                     ),
                   ),
               ],
@@ -115,10 +104,11 @@ class PageViewScreenState extends State<PageViewScreen> {
     );
   }
 
-  PageView _listPagesExercises() {
+  PageView _listPagesExercises(final recorderProv) {
     return PageView.builder(
       itemCount: _pagesExercisesFounded.length,
       controller: _pc,
+      physics: const NeverScrollableScrollPhysics(),
       onPageChanged: (int pageIndex) {
         setState(() {
           currentPageIndex = pageIndex;
@@ -132,10 +122,12 @@ class PageViewScreenState extends State<PageViewScreen> {
     );
   }
 
-  ElevatedButton _actionBtnGoHome() {
+  ElevatedButton _actionBtnGoHome(final recorderProv, BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        // TODO:Acción cuando el usuario está en la última página
+      onPressed: () async {
+        await recorderProv.sendTranscription();
+        recorderProv.resetAudio();
+        Navigator.pop(context, 'fin_grupo');
       },
       child: const Text('Finalizar'),
     );
@@ -143,8 +135,9 @@ class PageViewScreenState extends State<PageViewScreen> {
 
   ElevatedButton _actionBtnNext(final recorderProv) {
     return ElevatedButton(
-      onPressed: () {
-        recorderProv.sendTranscription();
+      onPressed: () async {
+        await recorderProv.sendTranscription();
+        recorderProv.resetAudio();
         _pc.nextPage(
           duration: const Duration(milliseconds: 500),
           curve: Curves.linearToEaseOut,
@@ -154,21 +147,6 @@ class PageViewScreenState extends State<PageViewScreen> {
         });
       },
       child: const Text('Siguiente'),
-    );
-  }
-
-  ElevatedButton _actionBtnBack() {
-    return ElevatedButton(
-      onPressed: () {
-        _pc.previousPage(
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.ease,
-        );
-        setState(() {
-          currentPageIndex--;
-        });
-      },
-      child: const Text('Atrás'),
     );
   }
 }

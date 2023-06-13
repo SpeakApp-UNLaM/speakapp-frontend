@@ -34,7 +34,6 @@ class PendingScreenState extends State<PendingScreen> {
   }
 
   Future<void> _getData() async {
-    Api.configureDio(Param.urlServer);
     List<GroupExercise> groups = await getGroupExercisesList();
     List<Pending> pendings = await getPendingList();
     Set<ButtonExerciseGroup> conjuntoResultante = {};
@@ -78,7 +77,8 @@ class _ListViewNM extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(10.0), // Ajusta el valor según tus necesidades
+      margin:
+          const EdgeInsets.all(10.0), // Ajusta el valor según tus necesidades
       child: GridView.builder(
         itemCount: buttonsGroupLists.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

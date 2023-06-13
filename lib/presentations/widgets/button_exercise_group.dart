@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../providers/recorder_provider.dart';
 import '../screens/exercises_pending_screen.dart';
 
 class ButtonExerciseGroup extends StatelessWidget {
@@ -10,19 +12,26 @@ class ButtonExerciseGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final recorderProv = context.watch<RecorderProvider>();
     return ElevatedButton(
-      onPressed: () {
-        Navigator.push(
+      onPressed: () async {
+        recorderProv.resetAudio();
+        final resultado = await Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) =>
-                  PageViewScreen(codeGroupExercise: codeGroup)),
+            builder: (context) =>
+                ExercisePendingScreen(codeGroupExercise: codeGroup),
+          ),
         );
+        if (resultado == 'fin_grupo') {
+          //TODO: Logica para actualizar listas de grupos de ejercicios
+        }
       },
-      child: Text(name.toUpperCase(), style: const TextStyle(
-                      fontFamily: 'Fixed',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0),),
+      child: Text(
+        name.toUpperCase(),
+        style: const TextStyle(
+            fontFamily: 'Fixed', fontWeight: FontWeight.bold, fontSize: 18.0),
+      ),
     );
   }
 }

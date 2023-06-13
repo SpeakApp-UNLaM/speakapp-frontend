@@ -3,7 +3,11 @@ import 'package:sp_front/presentations/screens/pending_screen.dart';
 import 'package:sp_front/providers/recorder_provider.dart';
 import 'package:provider/provider.dart';
 
+import 'config/helpers/api.dart';
+import 'config/helpers/param.dart';
+
 void main() {
+  Api.configureDio(Param.urlServer);
   runApp(const AudioRecorderApp());
 }
 

@@ -19,34 +19,36 @@ class ButtonPlayAudioState extends State<ButtonPlayAudio>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          IconButton(
-            icon: CircleAvatar(
-              backgroundColor: const Color.fromARGB(255, 127, 163, 85),
-              child: Icon(
-                recorderProv.playing ? Icons.pause : Icons.play_arrow,
-                color: Colors.white,
+          if (recorderProv.existAudio)
+            IconButton(
+              icon: CircleAvatar(
+                backgroundColor: const Color.fromARGB(255, 127, 163, 85),
+                child: Icon(
+                  recorderProv.playing ? Icons.pause : Icons.play_arrow,
+                  color: Colors.white,
+                ),
               ),
+              onPressed: () {
+                if (recorderProv.playing) {
+                  recorderProv.pauseAudio();
+                } else {
+                  recorderProv.playAudio();
+                }
+              },
             ),
-            onPressed: () {
-              if (recorderProv.playing) {
-                recorderProv.pauseAudio();
-              } else {
-                recorderProv.playAudio();
-              }
-            },
-          ),
-          StreamBuilder<PositionData>(
-            stream: recorderProv.getStreamAudioPlayer(),
-            builder: (context, snapshot) {
-              final positionData = snapshot.data;
-              return SeekBar(
-                duration: positionData?.duration ?? Duration.zero,
-                position: positionData?.position ?? Duration.zero,
-                bufferedPosition:
-                    positionData?.bufferedPosition ?? Duration.zero,
-              );
-            },
-          ),
+          if (recorderProv.existAudio)
+            StreamBuilder<PositionData>(
+              stream: recorderProv.getStreamAudioPlayer(),
+              builder: (context, snapshot) {
+                final positionData = snapshot.data;
+                return SeekBar(
+                  duration: positionData?.duration ?? Duration.zero,
+                  position: positionData?.position ?? Duration.zero,
+                  bufferedPosition:
+                      positionData?.bufferedPosition ?? Duration.zero,
+                );
+              },
+            ),
         ],
       ),
     );

@@ -1,8 +1,10 @@
+import 'dart:io';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:sp_front/config/helpers/param.dart';
 import '../../common/common.dart';
 
 class Recorder {
@@ -16,31 +18,36 @@ class Recorder {
   Future<void> init() async {
     final directory = await getTemporaryDirectory();
     _recordingPath = '${directory.path}/recording.wav';
-    await audioPlayer.setFilePath(_recordingPath);
+    reset();
     if (await Permission.microphone.isGranted) {
       await Permission.storage.request();
     } else {
-      // Request the permission to record audio.
       await Permission.microphone.request();
     }
   }
 
   Future<void> startRecording() async {
-    _soundRecorder.openRecorder();
-    await _soundRecorder.startRecorder(toFile: _recordingPath);
+    try {
+      _soundRecorder.openRecorder();
+      await _soundRecorder.startRecorder(toFile: _recordingPath);
+    } catch (e) {
+      Param.showToast("$e");
+    }
   }
 
   Future<void> stopRecording() async {
-    _soundRecorder.closeRecorder();
     await _soundRecorder.stopRecorder();
+    try {
+      audioPlayer.setFilePath(_recordingPath);
+    } catch (e) {
+      Param.showToast("$e");
+    }
   }
 
   Future<void> playAudio() async {
     isPlaying = true;
     await audioPlayer.play();
-
     await audioPlayer.stop();
-
     await audioPlayer.seek(Duration.zero);
     isPlaying = false;
   }
@@ -65,4 +72,11 @@ class Recorder {
 
   Stream<PositionData> getStreamAudioPlayer() => _positionDataStream;
   String getRecordingPath() => _recordingPath;
+
+  Future<void> reset() async {
+    final file = File(_recordingPath);
+    if (await file.exists()) {
+      await file.delete();
+    }
+  }
 }

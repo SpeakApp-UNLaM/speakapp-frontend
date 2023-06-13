@@ -1,6 +1,6 @@
 import 'dart:io';
-
 import 'package:dio/dio.dart';
+import 'package:sp_front/config/helpers/param.dart';
 
 class Api {
   static final Dio _dio = Dio();
@@ -21,16 +21,18 @@ class Api {
 
       return resp.data;
     } on DioError catch (e) {
-      throw ('Error en el POST: $e');
+      Param.showToast('Error en el POST: $e');
     }
+    return null;
   }
 
-  static Future<Response> post(String path, FormData data) async {
+  static Future post(String path, FormData data) async {
     try {
       return await _dio.post(path, data: data);
     } on DioError catch (e) {
-      throw ('Error en el POST: $e');
+      Param.showToast('Error en el POST: $e');
     }
+    return null;
   }
 
   static Future put(String path, Map<String, dynamic> data) async {
