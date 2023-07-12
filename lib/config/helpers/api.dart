@@ -5,9 +5,9 @@ import 'package:sp_front/config/helpers/param.dart';
 class Api {
   static final Dio _dio = Dio();
 
-  static void configureDio(String urlServer) {
+  static void configureDio() {
     ///Base url
-    _dio.options.baseUrl = urlServer;
+    _dio.options.baseUrl = Param.urlServer;
     _dio.options.headers = {
       HttpHeaders.contentTypeHeader: "application/json",
     };

@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
-class TurnsScreen extends StatelessWidget {
-  const TurnsScreen({super.key});
+class TurnsView extends StatelessWidget {
+  static const String name = 'turns';
+
+  const TurnsView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Turnos'),
+        title: const Text('Turnos'),
       ),
-      body: Center(
+      body: const Center(
         child: Text(
           'Contenido de la Turnos',
           style: TextStyle(fontSize: 24),

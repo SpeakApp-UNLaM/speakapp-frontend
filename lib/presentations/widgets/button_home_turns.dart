@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sp_front/presentations/screens/views/turns_view.dart';
 
-class ButtonTurns extends StatelessWidget {
-  const ButtonTurns({
+class ButtonHomeTurns extends StatelessWidget {
+  const ButtonHomeTurns({
     super.key,
   });
 
@@ -13,7 +15,7 @@ class ButtonTurns extends StatelessWidget {
       child: FloatingActionButton(
         heroTag: 'turns_screen',
         onPressed: () {
-          Navigator.pushNamed(context, '/turns_screen');
+          context.pushNamed(TurnsView.name);
 
           // Acción al presionar el botón
         },

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sp_front/presentations/screens/views/messages_view.dart';
 
 class ButtonHomeMessages extends StatelessWidget {
   const ButtonHomeMessages({
@@ -13,7 +15,7 @@ class ButtonHomeMessages extends StatelessWidget {
       child: FloatingActionButton(
         heroTag: 'messages_screen',
         onPressed: () {
-          Navigator.pushNamed(context, '/messages_screen');
+          context.pushNamed(MessagesView.name);
 
           // Acción al presionar el botón
         },

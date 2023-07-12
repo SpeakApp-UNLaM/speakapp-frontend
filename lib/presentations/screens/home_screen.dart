@@ -4,6 +4,8 @@ import '../widgets/button_home_messages.dart';
 import '../widgets/button_home_turns.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const String name = 'home-principal';
+
   const HomeScreen({super.key});
 
   @override
@@ -27,7 +29,7 @@ class HomeScreenState extends State<HomeScreen> {
               children: [
                 ButtonHomeMessages(),
                 SizedBox(width: 50),
-                ButtonTurns(),
+                ButtonHomeTurns(),
               ],
             )
           ],

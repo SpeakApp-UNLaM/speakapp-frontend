@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sp_front/presentations/screens/views/phoneme_view.dart';
 
 class ButtonHomeExercise extends StatelessWidget {
   const ButtonHomeExercise({
@@ -11,10 +13,9 @@ class ButtonHomeExercise extends StatelessWidget {
       width: 100.0, // Ancho personalizado
       height: 100.0, // Alto personalizado
       child: FloatingActionButton(
-        heroTag: 'exercises_pending_screen',
         onPressed: () {
           // Acción al presionar el botón
-          Navigator.pushNamed(context, '/exercises_pending_screen');
+          context.pushNamed(PhonemeView.name);
         },
 
         elevation: 23.0,

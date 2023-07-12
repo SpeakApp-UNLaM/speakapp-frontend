@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:sp_front/config/helpers/api.dart';
 import 'package:sp_front/domain/entities/pending.dart';
-import 'package:sp_front/presentations/widgets/button_exercise_group.dart';
-import '../../config/helpers/param.dart';
-import '../../domain/entities/group_exercise.dart';
-import '../../models/group_exercise_model.dart';
-import '../../models/pending_model.dart';
+import 'package:sp_front/presentations/widgets/button_phoneme.dart';
+import '../../../config/helpers/param.dart';
+import '../../../domain/entities/phoneme.dart';
+import '../../../models/phoneme_model.dart';
+import '../../../models/pending_model.dart';
 
-class PendingScreen extends StatefulWidget {
-  const PendingScreen({Key? key}) : super(key: key);
+class PhonemeView extends StatefulWidget {
+  static const String name = 'pending';
+
+  const PhonemeView({Key? key}) : super(key: key);
 
   @override
-  PendingScreenState createState() => PendingScreenState();
+  PhonemeViewState createState() => PhonemeViewState();
 }
 
-class PendingScreenState extends State<PendingScreen> {
-  List<ButtonExerciseGroup> buttonsGroupLists = [];
+class PhonemeViewState extends State<PhonemeView> {
+  List<ButtonPhoneme> buttonsGroupLists = [];
 
   @override
   void initState() {
@@ -33,26 +35,34 @@ class PendingScreenState extends State<PendingScreen> {
     );
   }
 
-  Future<void> _getData() async {
+  void _getData() {
+    //TODO: GET PHONEMES DESDE TASK_GROUP
+    buttonsGroupLists.add(const ButtonPhoneme(name: "RR", codeGroup: 1));
+    buttonsGroupLists.add(const ButtonPhoneme(name: "L", codeGroup: 2));
+
+    /*
     List<GroupExercise> groups = await getGroupExercisesList();
     List<Pending> pendings = await getPendingList();
-    Set<ButtonExerciseGroup> conjuntoResultante = {};
+    Set<ButtonPhoneme> conjuntoResultante = {};
     for (GroupExercise group in groups) {
       if (pendings.any((pending) => pending.idGroupExercise == group.id)) {
-        conjuntoResultante.add(ButtonExerciseGroup(
-            name: group.wordGroupExercise, codeGroup: group.id));
+        conjuntoResultante.add(
+            ButtonPhoneme(name: group.wordGroupExercise, codeGroup: group.id));
       }
     }
     buttonsGroupLists = conjuntoResultante.toList();
     setState(() {});
+
+    */
+    setState(() {});
   }
 
-  Future<List<GroupExercise>> getGroupExercisesList() async {
+  Future<List<Phoneme>> getGroupExercisesList() async {
     final response = await Api.get(Param.getGroupExercises);
-    List<GroupExercise> groupExercises = [];
+    List<Phoneme> groupExercises = [];
     for (var element in response) {
       groupExercises
-          .add(GroupExerciseModel.fromJson(element).toGroupExerciseEntity());
+          .add(PhonemeModel.fromJson(element).toGroupExerciseEntity());
     }
     return groupExercises;
   }
@@ -72,7 +82,7 @@ class _ListViewNM extends StatelessWidget {
     required this.buttonsGroupLists,
   });
 
-  final List<ButtonExerciseGroup> buttonsGroupLists;
+  final List<ButtonPhoneme> buttonsGroupLists;
 
   @override
   Widget build(BuildContext context) {

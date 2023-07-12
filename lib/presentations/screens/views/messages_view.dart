@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-class MessagesScreen extends StatelessWidget {
-  const MessagesScreen({super.key});
+class MessagesView extends StatelessWidget {
+  static const String name = 'messages';
+
+  const MessagesView({super.key});
 
   @override
   Widget build(BuildContext context) {
