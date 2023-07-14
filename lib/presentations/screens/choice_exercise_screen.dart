@@ -8,9 +8,7 @@ class ChoiceExerciseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Material App',
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: const Text('Practicas'),
         ),
@@ -19,11 +17,11 @@ class ChoiceExerciseScreen extends StatelessWidget {
           children: [
             Text('RR'),
             SizedBox(
-              height: 23,
+              height: 10,
             ),
             Text("Seleccione una práctica para comenzar"),
             SizedBox(
-              height: 23,
+              height: 10,
             ),
             CardArticulation(),
             CardPractice(
@@ -31,7 +29,6 @@ class ChoiceExerciseScreen extends StatelessWidget {
             )
           ],
         ),
-      ),
-    );
+      );
   }
 }

@@ -23,12 +23,12 @@ class HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ButtonHomeExercise(),
-            SizedBox(height: 50),
+            SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ButtonHomeMessages(),
-                SizedBox(width: 50),
+                SizedBox(width: 20),
                 ButtonHomeTurns(),
               ],
             )

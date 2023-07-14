@@ -20,7 +20,18 @@ class AudioRecorderApp extends StatelessWidget {
           routerConfig: appRouter,
           debugShowCheckedModeBanner: false,
           theme:
-              ThemeData(colorSchemeSeed: Colors.blueAccent, useMaterial3: true),
+               ThemeData(
+                 colorScheme: const ColorScheme.light(
+                  primary:  Color(0xFF91e4fb),
+                  secondary:Color(0xFFffc957),
+                  tertiary: Color(0xFFd7eb5a)
+                ),
+                scaffoldBackgroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
+                textTheme: const TextTheme(
+                  displayLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.w600)
+                ),
+                useMaterial3: true),
+                
         ));
   }
 }
