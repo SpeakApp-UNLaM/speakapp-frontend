@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sp_front/presentations/screens/views/phoneme_view.dart';
+import 'package:sp_front/config/theme/app_theme.dart';
+import 'package:sp_front/presentations/screens/views/messages_view.dart';
 
-class ButtonHomeExercise extends StatelessWidget {
-  const ButtonHomeExercise({
+class ButtonHomeMessages extends StatelessWidget {
+  const ButtonHomeMessages({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 150.0,
-      width: 300,
+      height: 180.0,
+      width: 140.0,
       // Ancho personalizado
       child: Stack(
         children: [
@@ -20,10 +21,10 @@ class ButtonHomeExercise extends StatelessWidget {
             bottom: 0,
             right: 0,
             child: Container(
-              height: 146,
-              width: 295,
-              decoration: const BoxDecoration(
-                color: Color(0xFFffa834),
+              height: 176,
+              width: 136,
+              decoration: BoxDecoration(
+                color: colorList[2],
                 borderRadius: BorderRadius.all(
                   Radius.circular(16),
                 ),
@@ -31,41 +32,39 @@ class ButtonHomeExercise extends StatelessWidget {
             ),
           ),
           Container(
-            height: 146,
-            width: 295,
+            height: 176,
+            width: 136,
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.secondary,
-              borderRadius: const BorderRadius.all(
+              color: colorList[2],
+              borderRadius: BorderRadius.all(
                 Radius.circular(16),
               ),
             ),
             child: FloatingActionButton(
-              heroTag: 'exercise_screen',
+              heroTag: 'message_screen',
               onPressed: () {
                 // Acción al presionar el botón
-                context.pushNamed(PhonemeView.name);
+                context.pushNamed(MessagesView.name);
               },
-              backgroundColor: Theme.of(context).colorScheme.secondary,
+              backgroundColor: colorList[2],
               elevation: 23.0,
-              child: Column(
+              child:  Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(
-                    Icons.extension,
+                  Icon(
+                    Icons.mail,
                     size: 70,
-                    color: Color(0xFFff8351),
+                    color: colorList[3],
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  Text(
-                    "Practicas",
-                    style: GoogleFonts.nunitoSans(
-                        textStyle: const TextStyle(
-                            color: Color(0xFFff8351),
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700)),
-                  )
+                  Text("Mensajes",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: colorList[3],
+                        fontFamily: 'IkkaRounded',
+                      ))
                 ],
               ),
             ),

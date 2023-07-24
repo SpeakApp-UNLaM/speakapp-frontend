@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sp_front/config/theme/app_theme.dart';
 import 'package:sp_front/presentations/screens/views/turns_view.dart';
 
 class ButtonHomeTurns extends StatelessWidget {
@@ -22,8 +23,8 @@ class ButtonHomeTurns extends StatelessWidget {
             child: Container(
               height: 176,
               width: 136,
-              decoration: const BoxDecoration(
-                color: Color(0xFF00c8f8),
+              decoration:  BoxDecoration(
+                color: colorList[4],
                 borderRadius: BorderRadius.all(
                   Radius.circular(16),
                 ),
@@ -34,7 +35,7 @@ class ButtonHomeTurns extends StatelessWidget {
             height: 176,
             width: 136,
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
+              color: colorList[4],
               borderRadius: const BorderRadius.all(
                 Radius.circular(16),
               ),
@@ -45,29 +46,25 @@ class ButtonHomeTurns extends StatelessWidget {
                 // Acción al presionar el botón
                 context.pushNamed(TurnsView.name);
               },
-              backgroundColor: Theme.of(context).colorScheme.primary,
+              backgroundColor: colorList[4],
               elevation: 23.0,
-              child: Column(
+              child:  Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.calendar_month,
                     size: 70,
-                    color: Color(0xFF008db1),
+                    color: colorList[5],
                   ),
-                  const SizedBox(
+                  SizedBox(
                     height: 10,
                   ),
-                  Text(
-                    "Turnos",
-                    style: GoogleFonts.nunitoSans(
-                      textStyle: const TextStyle(
-                        color: Color(0xFF008db1),
+                 Text("Turnos",
+                      style: TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.w700
-                      ) 
-                    ),
-                  )
+                        color: colorList[5],
+                        fontFamily: 'IkkaRounded',
+                      ))
                 ],
               ),
             ),
