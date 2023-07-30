@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sp_front/config/theme/app_theme.dart';
 
 class Nivel {
   final String nombre;
@@ -31,17 +32,18 @@ class CardPractice extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 255, 195, 106),
+                color: colorList[0],
                 borderRadius: BorderRadius.circular(20.0),
               ),
               padding: const EdgeInsets.all(23),
-              child: const Center(
+              child: Center(
                 child: Text(
                   'Practicas',
                   style: TextStyle(
                     fontSize: 18.0,
-                    color: Color.fromARGB(255, 207, 100, 13),
+                    color: colorList[2],
                     fontWeight: FontWeight.bold,
+                    fontFamily: "IkkaRounded"
                   ),
                 ),
               ),
@@ -64,8 +66,7 @@ class CardPractice extends StatelessWidget {
                       padding: const EdgeInsets.all(10.0),
                       child: FilledButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromARGB(255, 127, 163,
-                                85), // Cambia el color de fondo aquí
+                            backgroundColor: colorList[4], // Cambia el color de fondo aquí
                           ),
                           onPressed: () {
                             // Acción del botón
@@ -73,6 +74,9 @@ class CardPractice extends StatelessWidget {
                           },
                           child: Text(
                             "Comenzar",
+                            style: TextStyle(
+                              fontFamily: 'IkkaRounded',
+                            ),
                           )),
                     ),
                   ],

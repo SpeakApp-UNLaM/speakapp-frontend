@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../config/theme/app_theme.dart';
+
 class CardArticulation extends StatelessWidget {
   const CardArticulation({
     super.key,
@@ -19,18 +21,18 @@ class CardArticulation extends StatelessWidget {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 255, 195, 106),
+                color: colorList[0],
                 borderRadius: BorderRadius.circular(20.0),
               ),
               padding: const EdgeInsets.all(23),
-              child: const Center(
+              child: Center(
                 child: Text(
                   'Articulemas',
                   style: TextStyle(
-                    fontSize: 18.0,
-                    color: Color.fromARGB(255, 207, 100, 13),
-                    fontWeight: FontWeight.bold,
-                  ),
+                      fontSize: 18.0,
+                      color: colorList[2],
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "IkkaRounded"),
                 ),
               ),
             ),

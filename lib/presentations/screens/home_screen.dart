@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         toolbarHeight: 70,
         titleSpacing: 20,
-        backgroundColor: Theme.of(context).primaryColorDark,
+        backgroundColor: Theme.of(context).primaryColor,
         title: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,29 +63,29 @@ class HomeScreen extends StatelessWidget {
         bottom: PreferredSize(
             preferredSize: const Size.fromHeight(1.0),
             child: Container(
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).primaryColorLight,
               height: 1.0,
             )),
       ),
       body: childView,
       bottomNavigationBar: Container(
-        margin: EdgeInsets.zero,
+          margin: EdgeInsets.zero,
           child: CurvedNavigationBar(
-        buttonBackgroundColor: Theme.of(context).primaryColorDark,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        color: Theme.of(context).primaryColorDark,
-        height: 75,
-        items: <Widget>[
-          ...appMenuItems.map((item) => Icon(
-                item.icon,
-                color: item.color,
-                size: 35,
-              )),
-        ],
-        onTap: (index) {
-          context.go(appMenuItems[index].link);
-        },
-      )),
+            buttonBackgroundColor: colorList[7],
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            color: colorList[7],
+            height: 50,
+            items: <Widget>[
+              ...appMenuItems.map((item) => Icon(
+                    item.icon,
+                    color: item.color,
+                    size: 35,
+                  )),
+            ],
+            onTap: (index) {
+              context.go(appMenuItems[index].link);
+            },
+          )),
     );
   }
 }

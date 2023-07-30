@@ -40,14 +40,14 @@ final appMenuItems = <MenuItem>[
     subtitle: '',
     link: '/messages_view',
     icon: Icons.mail_rounded,
-    color: colorList[3]
+    color: colorList[4]
   ),
   MenuItem(
     title: 'Turnos',
     subtitle: '',
     link: '/turns_view',
     icon: Icons.calendar_month_rounded,
-    color: colorList[5]
+    color: Color.fromARGB(255, 31, 86, 196)
   ),
 
 ];
