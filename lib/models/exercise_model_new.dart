@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:sp_front/presentations/screens/page_exercises/page_exercise_match_screen.dart';
-import '../domain/entities/exercise.dart';
 import '../presentations/screens/page_exercises/page_exercise_screen.dart';
 
 List<ExerciseModelNew> exerciseModelFromJson(String str) =>
@@ -42,14 +41,16 @@ class ExerciseModelNew {
     switch (type) {
       case 'speak':
         return PageExerciseScreen(
-            exercise:
-                Exercise(id: 1, pathImg: images[0], letra: letra, idGroup: 1));
+          imagePath: images.first.path,
+          namePhoneme: letra,
+        );
       case 'listen_selection':
         return PageExerciseMatchScreen(images: images, namePhoneme: letra);
       default:
         return PageExerciseScreen(
-            exercise:
-                Exercise(id: 1, pathImg: images[0], letra: letra, idGroup: 1));
+          imagePath: images.first.path,
+          namePhoneme: letra,
+        );
     }
   }
 }

@@ -85,7 +85,7 @@ class PageExerciseMatchScreenState extends State<PageExerciseMatchScreen> {
                     ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Row(
@@ -119,7 +119,7 @@ class PageExerciseMatchScreenState extends State<PageExerciseMatchScreen> {
                               padding: EdgeInsets.all(3),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
+                                children: [
                                   Icon(
                                     Icons.headset_rounded,
                                   )
@@ -147,39 +147,5 @@ class PageExerciseMatchScreenState extends State<PageExerciseMatchScreen> {
       }
     }
     return false;
-  }
-}
-
-class TextToSpeechNM extends StatelessWidget {
-  String palabra;
-  String selectedAudioPath;
-  TextToSpeechNM(this.palabra, {super.key, required this.selectedAudioPath});
-
-  @override
-  Widget build(Object context) {
-    return Container(
-      alignment: Alignment.center,
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            IconButton(
-              icon: const CircleAvatar(
-                backgroundColor: Color.fromARGB(255, 127, 163, 85),
-                child: Icon(
-                  Icons.headset_rounded,
-                  color: Colors.white,
-                ),
-              ),
-              onPressed: () {
-                selectedAudioPath = palabra;
-                TtsProvider().speak(palabra);
-              },
-            )
-          ],
-        ),
-      ),
-    );
   }
 }

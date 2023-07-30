@@ -52,13 +52,13 @@ class ButtonPhoneme extends StatelessWidget {
               heroTag: tag,
               onPressed: () async {
                 recorderProv.resetAudio();
-                final resultado = await Navigator.push(
+                /*final resultado = await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
                           ChoiceExerciseScreen(phoneme: 1, namePhoneme: name),
-                    ));
-                context.push('/choice_exercise');
+                    ));*/
+                context.push('/choice_exercise/$codeGroup/$name');
               },
               backgroundColor: colorList[0],
               elevation: 10.0,

@@ -12,14 +12,15 @@ class ChoiceExerciseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("mis datos $phoneme $namePhoneme");
     return Scaffold(
-       appBar: AppBar(
-          leading: BackButton(
-            color: Theme.of(context).primaryColor,
-          ),
-          backgroundColor: colorList[7],
-          toolbarHeight: 80,
-          title:  Column(
+      appBar: AppBar(
+        leading: BackButton(
+          color: Theme.of(context).primaryColor,
+        ),
+        backgroundColor: colorList[7],
+        toolbarHeight: 80,
+        title: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -38,21 +39,21 @@ class ChoiceExerciseScreen extends StatelessWidget {
                 ))
           ],
         ),
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(20),
-            ),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(20),
           ),
         ),
+      ),
       body: SingleChildScrollView(
         child: Column(children: [
-          //CardArticulation(), creo que son todos ejercicios ahora no?
-        ]),
-      ),
-    );
+          //CardArticulation(),
           CardPractice(
             idPhoneme: phoneme,
             namePhoneme: namePhoneme,
-          )
+          ) //creo que son todos ejercicios ahora no?
+        ]),
+      ),
+    );
   }
 }

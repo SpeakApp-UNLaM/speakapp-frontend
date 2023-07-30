@@ -35,30 +35,18 @@ class ExerciseScreenState extends State<ExerciseScreen> {
   @override
   void initState() {
     super.initState();
-    _getData();
+    _getData(widget.idPhoneme, widget.level, widget.categorias);
   }
 
-  /*Future<List<Exercise>> getExercisesList() async {
-    final response = await Api.get(Param.getExercises);
-    List<Exercise> exercises = [];
-    for (var element in response) {
-      exercises.add(ExerciseModel.fromJson(element).toExerciseEntity());
-    }
-    return exercises;
-  }*/
-
-  String getExerciseFromBD(
-      int idPhoneme, String nombre, List<String> categorias) {
-    //lista imagenes
-    //lista string_audios
-    //type_exercise
-    //TODO: GET EXERCISE DEL PHONEME, LEVEL, CATEGORY, USER
+  Future<void> _getData(
+      int idPhoneme, String nombre, List<String> categorias) async {
+    //TODO: GET EXERCISE DEL PHONEME, LEVEL, CATEGORY, USER || JSON EXAMPLE
+    //final response = await Api.get(Param.getExercises);
     List<Map<String, dynamic>> exerciseDataFromDatabase = [
       {
-        'type': 'listen_selection',
+        'type': 'speak',
         'images': [
-          {'index': 'rata', 'path': 'assets/rat.png'},
-          {'index': 'caramelo', 'path': 'assets/caramelo.png'}
+          {'index': 'rata', 'path': 'assets/rat.png'}
         ],
         'sil_frase_separated': []
       },
@@ -94,53 +82,6 @@ class ExerciseScreenState extends State<ExerciseScreen> {
     }
 
     //output_expected-> result_obtained
-
-    return "exerciseDataFromDatabase";
-  }
-
-  Future<List<Pending>> getPendingList() async {
-    final response = await Api.get(Param.getPending);
-    List<Pending> pending = [];
-    for (var element in response) {
-      pending.add(PendingModel.fromJson(element).toPendingEntity());
-    }
-    return pending;
-  }
-
-  Future<void> _getData() async {
-    /*
-    List<Exercise> exercises = await getExercisesList();
-    List<Pending> pendings = await getPendingList();
-    Set<PageExerciseScreen> conjuntoResultante = {};
-
-    List<Exercise> exercisesOnlyGroup = exercises
-        .where((exercise) => exercise.idGroup == widget.codeGroupExercise)
-        .toList();
-    for (Exercise exercise in exercisesOnlyGroup) {
-      if (pendings.any((pending) => pending.idExercise == exercise.id)) {
-        conjuntoResultante.add(PageExerciseScreen(exercise: exercise));
-      }
-    }
-    _pagesExercisesFounded = conjuntoResultante.toList();
-  */
-    getExerciseFromBD(widget.idPhoneme, widget.level, widget.categorias);
-    /*
-    if (widget.idPhoneme == 1) {
-      _pagesExercisesFounded.add(PageExerciseScreen(
-          exercise: Exercise(
-              id: 1, pathImg: "assets/caramelo.png", letra: "R", idGroup: 1)));
-      _pagesExercisesFounded.add(PageExerciseScreen(
-          exercise: Exercise(
-              id: 2, pathImg: "assets/rat.png", letra: "R", idGroup: 1)));
-    } else {
-      _pagesExercisesFounded.add(PageExerciseScreen(
-          exercise: Exercise(
-              id: 3, pathImg: "assets/clavo2.png", letra: "L", idGroup: 2)));
-      _pagesExercisesFounded.add(PageExerciseScreen(
-          exercise: Exercise(
-              id: 4, pathImg: "assets/flan.png", letra: "L", idGroup: 2)));
-    }*/
-    setState(() {});
   }
 
   @override

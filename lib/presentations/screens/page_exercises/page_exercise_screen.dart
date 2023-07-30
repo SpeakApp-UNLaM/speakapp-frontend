@@ -5,12 +5,12 @@ import 'package:sp_front/providers/recorder_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../domain/entities/exercise.dart';
-
 class PageExerciseScreen extends StatefulWidget {
-  final Exercise exercise;
+  final String imagePath;
+  final String namePhoneme;
 
-  const PageExerciseScreen({required this.exercise, Key? key})
+  const PageExerciseScreen(
+      {required this.imagePath, required this.namePhoneme, Key? key})
       : super(key: key);
 
   @override
@@ -41,14 +41,18 @@ class PageExerciseScreenState extends State<PageExerciseScreen> {
                 textAlign: TextAlign.center,
               ),
               Text(
-                widget.exercise.getLetra(),
+                widget.namePhoneme,
                 style: GoogleFonts.roboto(
                   fontSize: 50,
                   color: const Color.fromARGB(186, 255, 168, 7),
                 ),
               ),
               const SizedBox(height: 40.0),
-              widget.exercise.getImage(),
+              Image.asset(
+                widget.imagePath,
+                width: 200,
+                height: 200,
+              ),
               const SizedBox(height: 40.0),
               const ButtonPlayAudio(),
               const ButtonRecorder(),

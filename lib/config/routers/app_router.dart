@@ -95,12 +95,14 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
             );
           },
         ),
-         GoRoute(
-          path: '/choice_exercise',
+        GoRoute(
+          path: '/choice_exercise/:phoneme/:namePhoneme',
           pageBuilder: (context, state) {
             return CustomTransitionPage(
               key: state.pageKey,
-              child: const ChoiceExerciseScreen(phoneme: 1),
+              child: ChoiceExerciseScreen(
+                  phoneme: int.parse("${state.pathParameters['phoneme']}"),
+                  namePhoneme: "${state.pathParameters['namePhoneme']}"),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 // Change the opacity of the screen using a Curve based on the the animation's
