@@ -76,7 +76,6 @@ class _ButtonHomeExerciseState extends State<ButtonHomeExercise> {
                   context.pushNamed(PhonemeView.name);
                 },
                 backgroundColor: colorList[0],
-                elevation: 23.0,
                 child:  Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

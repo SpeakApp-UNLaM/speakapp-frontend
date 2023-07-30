@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sp_front/config/helpers/api.dart';
+import 'package:sp_front/config/theme/app_theme.dart';
 import 'package:sp_front/domain/entities/pending.dart';
 import 'package:sp_front/presentations/widgets/button_phoneme.dart';
 import '../../../config/helpers/param.dart';
@@ -30,27 +31,27 @@ class PhonemeViewState extends State<PhonemeView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColorDark,
+          backgroundColor: colorList[7],
           toolbarHeight: 80,
-          title: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text('Vamos a practicar',
-                  style: TextStyle(
-                      fontSize: 21,
-                      color: Color(0xFFF5F5F5),
-                      fontFamily: 'IkkaRounded',
-                      fontWeight: FontWeight.w400)),
-              const SizedBox(height: 10),
-              Text('Seleccione un fonema para practicar sus silabas:',
-                  style: GoogleFonts.nunito(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15,
-                    color: Color(0xFFF5F5F5),
-                  ))
-            ],
-          ),
+          title:  Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text('Vamos a practicar',
+                style: TextStyle(
+                    fontSize: 21,
+                    color: Theme.of(context).primaryColor,
+                    fontFamily: 'IkkaRounded',
+                    fontWeight: FontWeight.w400)),
+            const SizedBox(height: 10),
+            Text('Seleccione un fonema para practicar sus silabas:',
+                style: GoogleFonts.nunito(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15,
+                  color: Theme.of(context).primaryColor,
+                ))
+          ],
+        ),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(20),

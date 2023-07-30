@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_front/presentations/screens/choice_exercise_screen.dart';
 import '../../config/theme/app_theme.dart';
@@ -39,8 +40,8 @@ class ButtonPhoneme extends StatelessWidget {
             ),
           ),
           Container(
-            height: 136,
-            width: 116,
+            height: 135,
+            width: 114,
             decoration: BoxDecoration(
               color: colorList[0],
               borderRadius: const BorderRadius.all(
@@ -57,9 +58,10 @@ class ButtonPhoneme extends StatelessWidget {
                       builder: (context) =>
                           ChoiceExerciseScreen(phoneme: 1, namePhoneme: name),
                     ));
+                context.push('/choice_exercise');
               },
               backgroundColor: colorList[0],
-              elevation: 23.0,
+              elevation: 10.0,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

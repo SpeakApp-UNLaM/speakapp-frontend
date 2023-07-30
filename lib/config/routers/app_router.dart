@@ -1,6 +1,7 @@
 import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sp_front/presentations/screens/choice_exercise_screen.dart';
 import '../../presentations/screens/views.dart';
 
 // GoRouter configuration
@@ -81,6 +82,25 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
             return CustomTransitionPage(
               key: state.pageKey,
               child: const TurnsView(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                // Change the opacity of the screen using a Curve based on the the animation's
+                // value
+                return FadeTransition(
+                  opacity: CurveTween(curve: Curves.easeInOutCirc)
+                      .animate(animation),
+                  child: child,
+                );
+              },
+            );
+          },
+        ),
+         GoRoute(
+          path: '/choice_exercise',
+          pageBuilder: (context, state) {
+            return CustomTransitionPage(
+              key: state.pageKey,
+              child: const ChoiceExerciseScreen(phoneme: 1),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
                 // Change the opacity of the screen using a Curve based on the the animation's
