@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../config/theme/app_theme.dart';
 import '../widgets/card_articulation.dart';
 import '../widgets/card_practice.dart';
 
@@ -11,19 +12,19 @@ class ChoiceExerciseScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
        appBar: AppBar(
-          leading: const BackButton(
-            color: Color(0xFFF5F5F5),
+          leading: BackButton(
+            color: Theme.of(context).primaryColor,
           ),
-          backgroundColor: Theme.of(context).primaryColorDark,
+          backgroundColor: colorList[7],
           toolbarHeight: 80,
           title:  Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text('¿Estas listo?',
+            Text('¿Estas listo?',
                 style: TextStyle(
                     fontSize: 21,
-                    color: Color(0xFFF5F5F5),
+                    color: Theme.of(context).primaryColor,
                     fontFamily: 'IkkaRounded',
                     fontWeight: FontWeight.w400)),
             const SizedBox(height: 10),
@@ -31,7 +32,7 @@ class ChoiceExerciseScreen extends StatelessWidget {
                 style: GoogleFonts.nunito(
                   fontWeight: FontWeight.w500,
                   fontSize: 15,
-                  color: Color(0xFFF5F5F5),
+                  color: Theme.of(context).primaryColor,
                 ))
           ],
         ),
