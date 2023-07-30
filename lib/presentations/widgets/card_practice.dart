@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
 import 'package:sp_front/presentations/screens/exercise_screen.dart';
 
@@ -44,11 +45,10 @@ class CardPractice extends StatelessWidget {
                 child: Text(
                   'Practicas',
                   style: TextStyle(
-                    fontSize: 18.0,
-                    color: colorList[2],
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "IkkaRounded"
-                  ),
+                      fontSize: 18.0,
+                      color: colorList[2],
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "IkkaRounded"),
                 ),
               ),
             ),
@@ -75,12 +75,13 @@ class CardPractice extends StatelessWidget {
                       padding: const EdgeInsets.all(10.0),
                       child: FilledButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: colorList[4], // Cambia el color de fondo aquí
+                            backgroundColor:
+                                colorList[4], // Cambia el color de fondo aquí
                           ),
                           onPressed: () async {
                             //TODO: CREAR COMPONENTES PARA INGRESAR A LA LISTA DE EJERCICIOS
                             //TODO: TENGO QUE TRAER LA LISTA DE EJERCICIOS PARA EL NIVEL CATEGORIA Y PONEMA ASIGNADO
-                            await Navigator.push(
+                            /*await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ExerciseScreen(
@@ -88,7 +89,9 @@ class CardPractice extends StatelessWidget {
                                       namePhoneme: namePhoneme,
                                       level: asignacion.nombre,
                                       categorias: asignacion.categorias),
-                                ));
+                                )); */
+                            context.push(
+                                "/exercise/$idPhoneme/$namePhoneme/${asignacion.nombre}/${asignacion.categorias.join(', ')}/");
                             // Acción del botón
                             // Puedes agregar aquí la lógica que deseas ejecutar cuando se presiona el botón
                           },

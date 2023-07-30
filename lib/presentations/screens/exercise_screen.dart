@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sp_front/domain/entities/exercise.dart';
-import '../../config/helpers/api.dart';
-import '../../config/helpers/param.dart';
-import '../../domain/entities/pending.dart';
-import '../../models/exercise_model.dart';
 import '../../models/exercise_model_new.dart';
-import '../../models/pending_model.dart';
 import '../../providers/recorder_provider.dart';
-import 'page_exercises/page_exercise_screen.dart';
 
 class ExerciseScreen extends StatefulWidget {
   final int idPhoneme;
   final String namePhoneme;
   final String level;
-  final List<String> categorias;
+  final String categorias;
 
   const ExerciseScreen(
       {super.key,
@@ -38,8 +31,7 @@ class ExerciseScreenState extends State<ExerciseScreen> {
     _getData(widget.idPhoneme, widget.level, widget.categorias);
   }
 
-  Future<void> _getData(
-      int idPhoneme, String nombre, List<String> categorias) async {
+  Future<void> _getData(int idPhoneme, String nombre, String categorias) async {
     //TODO: GET EXERCISE DEL PHONEME, LEVEL, CATEGORY, USER || JSON EXAMPLE
     //final response = await Api.get(Param.getExercises);
     List<Map<String, dynamic>> exerciseDataFromDatabase = [
@@ -99,7 +91,8 @@ class ExerciseScreenState extends State<ExerciseScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 if (currentPageIndex < _pagesExercisesFounded.length - 1 &&
-                    recorderProv.existAudio)
+                    (recorderProv.existAudio ||
+                        recorderProv.isExerciseFinished))
                   Expanded(
                     flex: 1,
                     child: Align(

@@ -63,7 +63,7 @@ class PageExerciseMatchScreenState extends State<PageExerciseMatchScreen> {
                           } else {
                             selectedImagePath = img.path;
                           }
-                          print("${checkSelection()}");
+                          print("${checkSelection(recorderProv)}");
                         });
                       },
                       child: DecoratedBox(
@@ -101,7 +101,7 @@ class PageExerciseMatchScreenState extends State<PageExerciseMatchScreen> {
                           } else {
                             selectedAudioPath = img.index;
                           }
-                          print("${checkSelection()}");
+                          print("${checkSelection(recorderProv)}");
                         });
                         TtsProvider().speak(img.index);
                       },
@@ -138,14 +138,16 @@ class PageExerciseMatchScreenState extends State<PageExerciseMatchScreen> {
     );
   }
 
-  bool checkSelection() {
+  bool checkSelection(final recorderProv) {
     if (selectedAudioPath != "" && selectedImagePath != "") {
+      recorderProv.finishExercise();
       for (ImageExercise img in widget.images) {
         if (img.index == selectedAudioPath && img.path == selectedImagePath) {
           return true;
         }
       }
     }
+
     return false;
   }
 }
