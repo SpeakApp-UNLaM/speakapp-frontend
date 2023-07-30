@@ -5,13 +5,23 @@ import '../../config/helpers/api.dart';
 import '../../config/helpers/param.dart';
 import '../../domain/entities/pending.dart';
 import '../../models/exercise_model.dart';
+import '../../models/exercise_model_new.dart';
 import '../../models/pending_model.dart';
 import '../../providers/recorder_provider.dart';
-import 'page_exercise_screen.dart';
+import 'page_exercises/page_exercise_screen.dart';
 
 class ExerciseScreen extends StatefulWidget {
-  final int codeGroupExercise;
-  const ExerciseScreen({super.key, required this.codeGroupExercise});
+  final int idPhoneme;
+  final String namePhoneme;
+  final String level;
+  final List<String> categorias;
+
+  const ExerciseScreen(
+      {super.key,
+      required this.idPhoneme,
+      required this.namePhoneme,
+      required this.level,
+      required this.categorias});
 
   @override
   ExerciseScreenState createState() => ExerciseScreenState();
@@ -20,7 +30,7 @@ class ExerciseScreen extends StatefulWidget {
 class ExerciseScreenState extends State<ExerciseScreen> {
   final PageController _pc = PageController();
 
-  List<PageExerciseScreen> _pagesExercisesFounded = [];
+  final List<StatefulWidget> _pagesExercisesFounded = [];
   int currentPageIndex = 0;
   @override
   void initState() {
@@ -28,13 +38,64 @@ class ExerciseScreenState extends State<ExerciseScreen> {
     _getData();
   }
 
-  Future<List<Exercise>> getExercisesList() async {
+  /*Future<List<Exercise>> getExercisesList() async {
     final response = await Api.get(Param.getExercises);
     List<Exercise> exercises = [];
     for (var element in response) {
       exercises.add(ExerciseModel.fromJson(element).toExerciseEntity());
     }
     return exercises;
+  }*/
+
+  String getExerciseFromBD(
+      int idPhoneme, String nombre, List<String> categorias) {
+    //lista imagenes
+    //lista string_audios
+    //type_exercise
+    //TODO: GET EXERCISE DEL PHONEME, LEVEL, CATEGORY, USER
+    List<Map<String, dynamic>> exerciseDataFromDatabase = [
+      {
+        'type': 'listen_selection',
+        'images': [
+          {'index': 'rata', 'path': 'assets/rat.png'},
+          {'index': 'caramelo', 'path': 'assets/caramelo.png'}
+        ],
+        'sil_frase_separated': []
+      },
+      {
+        'type': 'listen_selection',
+        'images': [
+          {'index': 'rata', 'path': 'assets/rat.png'},
+          {'index': 'caramelo', 'path': 'assets/caramelo.png'}
+        ],
+        'sil_frase_separated': []
+      },
+      {
+        'type': 'listen_selection',
+        'images': [
+          {'index': 'rata', 'path': 'assets/rat.png'},
+          {'index': 'caramelo', 'path': 'assets/caramelo.png'}
+        ],
+        'sil_frase_separated': []
+      },
+      {
+        'type': 'listen_selection',
+        'images': [
+          {'index': 'rata', 'path': 'assets/rat.png'},
+          {'index': 'caramelo', 'path': 'assets/caramelo.png'}
+        ],
+        'sil_frase_separated': []
+      },
+    ];
+
+    for (var element in exerciseDataFromDatabase) {
+      _pagesExercisesFounded.add(
+          ExerciseModelNew.fromJson(element).fromEntity(widget.namePhoneme));
+    }
+
+    //output_expected-> result_obtained
+
+    return "exerciseDataFromDatabase";
   }
 
   Future<List<Pending>> getPendingList() async {
@@ -62,8 +123,9 @@ class ExerciseScreenState extends State<ExerciseScreen> {
     }
     _pagesExercisesFounded = conjuntoResultante.toList();
   */
-    //TODO: GET EXERCISE DEL PHONEME, LEVEL, CATEGORY, USER
-    if (widget.codeGroupExercise == 1) {
+    getExerciseFromBD(widget.idPhoneme, widget.level, widget.categorias);
+    /*
+    if (widget.idPhoneme == 1) {
       _pagesExercisesFounded.add(PageExerciseScreen(
           exercise: Exercise(
               id: 1, pathImg: "assets/caramelo.png", letra: "R", idGroup: 1)));
@@ -77,7 +139,7 @@ class ExerciseScreenState extends State<ExerciseScreen> {
       _pagesExercisesFounded.add(PageExerciseScreen(
           exercise: Exercise(
               id: 4, pathImg: "assets/flan.png", letra: "L", idGroup: 2)));
-    }
+    }*/
     setState(() {});
   }
 

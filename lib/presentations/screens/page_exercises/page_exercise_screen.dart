@@ -5,7 +5,7 @@ import 'package:sp_front/providers/recorder_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../domain/entities/exercise.dart';
+import '../../../domain/entities/exercise.dart';
 
 class PageExerciseScreen extends StatefulWidget {
   final Exercise exercise;

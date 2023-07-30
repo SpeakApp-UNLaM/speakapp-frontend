@@ -32,25 +32,25 @@ class PhonemeViewState extends State<PhonemeView> {
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColorDark,
           toolbarHeight: 80,
-          title:  Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text('Vamos a practicar',
-                style: TextStyle(
-                    fontSize: 21,
+          title: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text('Vamos a practicar',
+                  style: TextStyle(
+                      fontSize: 21,
+                      color: Color(0xFFF5F5F5),
+                      fontFamily: 'IkkaRounded',
+                      fontWeight: FontWeight.w400)),
+              const SizedBox(height: 10),
+              Text('Seleccione un fonema para practicar sus silabas:',
+                  style: GoogleFonts.nunito(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15,
                     color: Color(0xFFF5F5F5),
-                    fontFamily: 'IkkaRounded',
-                    fontWeight: FontWeight.w400)),
-            const SizedBox(height: 10),
-            Text('Seleccione un fonema para practicar sus silabas:',
-                style: GoogleFonts.nunito(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15,
-                  color: Color(0xFFF5F5F5),
-                ))
-          ],
-        ),
+                  ))
+            ],
+          ),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(20),
@@ -70,17 +70,17 @@ class PhonemeViewState extends State<PhonemeView> {
     buttonsGroupLists
         .add(const ButtonPhoneme(name: "L", codeGroup: 2, tag: '2'));
     buttonsGroupLists
-        .add(const ButtonPhoneme(name: "S", codeGroup: 2, tag: '3'));
+        .add(const ButtonPhoneme(name: "S", codeGroup: 3, tag: '3'));
     buttonsGroupLists
-        .add(const ButtonPhoneme(name: "D", codeGroup: 2, tag: '4'));
+        .add(const ButtonPhoneme(name: "D", codeGroup: 4, tag: '4'));
     buttonsGroupLists
-        .add(const ButtonPhoneme(name: "M", codeGroup: 2, tag: '5'));
+        .add(const ButtonPhoneme(name: "M", codeGroup: 5, tag: '5'));
     buttonsGroupLists
-        .add(const ButtonPhoneme(name: "N", codeGroup: 2, tag: '6'));
+        .add(const ButtonPhoneme(name: "N", codeGroup: 6, tag: '6'));
     buttonsGroupLists
-        .add(const ButtonPhoneme(name: "J", codeGroup: 2, tag: '7'));
+        .add(const ButtonPhoneme(name: "J", codeGroup: 7, tag: '7'));
     buttonsGroupLists
-        .add(const ButtonPhoneme(name: "B", codeGroup: 2, tag: '8'));
+        .add(const ButtonPhoneme(name: "B", codeGroup: 8, tag: '8'));
     /*
     List<GroupExercise> groups = await getGroupExercisesList();
     List<Pending> pendings = await getPendingList();

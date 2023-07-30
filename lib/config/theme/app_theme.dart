@@ -48,10 +48,13 @@ class AppTheme {
                 fontFamily: 'IkkaRounded',
                 fontWeight: FontWeight.w400),
             bodySmall: GoogleFonts.nunito(
-                textStyle: TextStyle(fontSize: 10, color: Color(0xFFF5F5F5))),
+                textStyle:
+                    const TextStyle(fontSize: 10, color: Color(0xFFF5F5F5))),
             bodyMedium: GoogleFonts.nunito(
-                textStyle: TextStyle(fontSize: 15, color: Color(0xFFF5F5F5))),
+                textStyle:
+                    const TextStyle(fontSize: 15, color: Color(0xFFF5F5F5))),
             bodyLarge: GoogleFonts.nunito(
-                textStyle: TextStyle(fontSize: 18, color: Color(0xFFF5F5F5)))));
+                textStyle:
+                    const TextStyle(fontSize: 18, color: Color(0xFFF5F5F5)))));
   }
 }

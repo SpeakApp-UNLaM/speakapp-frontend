@@ -9,7 +9,11 @@ class ButtonPhoneme extends StatelessWidget {
   final String name;
   final String tag;
 
-  const ButtonPhoneme({super.key, required this.codeGroup, required this.name, required this.tag});
+  const ButtonPhoneme(
+      {super.key,
+      required this.codeGroup,
+      required this.name,
+      required this.tag});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +32,7 @@ class ButtonPhoneme extends StatelessWidget {
               width: 116,
               decoration: BoxDecoration(
                 color: colorList[1],
-                borderRadius: BorderRadius.all(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(16),
                 ),
               ),
@@ -39,7 +43,7 @@ class ButtonPhoneme extends StatelessWidget {
             width: 116,
             decoration: BoxDecoration(
               color: colorList[0],
-              borderRadius: BorderRadius.all(
+              borderRadius: const BorderRadius.all(
                 Radius.circular(16),
               ),
             ),
@@ -51,7 +55,7 @@ class ButtonPhoneme extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          const ChoiceExerciseScreen(phoneme: 1),
+                          ChoiceExerciseScreen(phoneme: 1, namePhoneme: name),
                     ));
               },
               backgroundColor: colorList[0],
@@ -70,25 +74,6 @@ class ButtonPhoneme extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-    return ElevatedButton(
-      onPressed: () async {
-        recorderProv.resetAudio();
-        final resultado = await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const ChoiceExerciseScreen(phoneme: 1),
-          ),
-        );
-        if (resultado == 'fin_grupo') {
-          //TODO: Logica para actualizar listas de grupos de ejercicios
-        }
-      },
-      child: Text(
-        name.toUpperCase(),
-        style: const TextStyle(
-            fontFamily: 'Fixed', fontWeight: FontWeight.bold, fontSize: 18.0),
       ),
     );
   }
