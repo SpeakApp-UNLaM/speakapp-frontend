@@ -6,18 +6,21 @@ import '../widgets/card_practice.dart';
 
 class ChoiceExerciseScreen extends StatelessWidget {
   final int phoneme;
-  const ChoiceExerciseScreen({super.key, required this.phoneme});
+  final String namePhoneme;
+  const ChoiceExerciseScreen(
+      {super.key, required this.phoneme, required this.namePhoneme});
 
   @override
   Widget build(BuildContext context) {
+    print("mis datos $phoneme $namePhoneme");
     return Scaffold(
-       appBar: AppBar(
-          leading: BackButton(
-            color: Theme.of(context).primaryColor,
-          ),
-          backgroundColor: colorList[7],
-          toolbarHeight: 80,
-          title:  Column(
+      appBar: AppBar(
+        leading: BackButton(
+          color: Theme.of(context).primaryColor,
+        ),
+        backgroundColor: colorList[7],
+        toolbarHeight: 80,
+        title: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -42,14 +45,15 @@ class ChoiceExerciseScreen extends StatelessWidget {
             ),
           ),
         ),
-      body: SingleChildScrollView(
+        body: SingleChildScrollView(
         child: Column(children: [
-          //CardArticulation(), creo que son todos ejercicios ahora no?
+          //CardArticulation(),
           CardPractice(
             idPhoneme: phoneme,
-          )
+            namePhoneme: namePhoneme,
+          ) //creo que son todos ejercicios ahora no?
         ]),
-      ),
+      ),      
     );
   }
 }

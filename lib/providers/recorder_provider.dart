@@ -15,11 +15,13 @@ class RecorderProvider extends ChangeNotifier {
   Recorder recorder = Recorder();
 
   bool _existAudio = false;
+
+  bool _exerciseFinished = false;
   String get transcription => _transcripton;
   bool get playing => _playing;
   bool get recordingOn => _recording;
   bool get existAudio => _existAudio;
-
+  bool get isExerciseFinished => _exerciseFinished;
   Future<void> sendTranscription() async {
     try {
       FormData formData = FormData.fromMap({
@@ -79,6 +81,16 @@ class RecorderProvider extends ChangeNotifier {
     recorder.reset();
     _existAudio = false;
     _transcripton = "";
+    notifyListeners();
+  }
+
+  void finishExercise() {
+    _exerciseFinished = true;
+    notifyListeners();
+  }
+
+  void unfinishExercise() {
+    _exerciseFinished = false;
     notifyListeners();
   }
 }

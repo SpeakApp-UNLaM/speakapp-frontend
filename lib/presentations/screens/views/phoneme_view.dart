@@ -71,17 +71,17 @@ class PhonemeViewState extends State<PhonemeView> {
     buttonsGroupLists
         .add(const ButtonPhoneme(name: "L", codeGroup: 2, tag: '2'));
     buttonsGroupLists
-        .add(const ButtonPhoneme(name: "S", codeGroup: 2, tag: '3'));
+        .add(const ButtonPhoneme(name: "S", codeGroup: 3, tag: '3'));
     buttonsGroupLists
-        .add(const ButtonPhoneme(name: "D", codeGroup: 2, tag: '4'));
+        .add(const ButtonPhoneme(name: "D", codeGroup: 4, tag: '4'));
     buttonsGroupLists
-        .add(const ButtonPhoneme(name: "M", codeGroup: 2, tag: '5'));
+        .add(const ButtonPhoneme(name: "M", codeGroup: 5, tag: '5'));
     buttonsGroupLists
-        .add(const ButtonPhoneme(name: "N", codeGroup: 2, tag: '6'));
+        .add(const ButtonPhoneme(name: "N", codeGroup: 6, tag: '6'));
     buttonsGroupLists
-        .add(const ButtonPhoneme(name: "J", codeGroup: 2, tag: '7'));
+        .add(const ButtonPhoneme(name: "J", codeGroup: 7, tag: '7'));
     buttonsGroupLists
-        .add(const ButtonPhoneme(name: "B", codeGroup: 2, tag: '8'));
+        .add(const ButtonPhoneme(name: "B", codeGroup: 8, tag: '8'));
     /*
     List<GroupExercise> groups = await getGroupExercisesList();
     List<Pending> pendings = await getPendingList();

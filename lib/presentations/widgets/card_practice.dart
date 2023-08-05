@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
+import 'package:sp_front/presentations/screens/exercise_screen.dart';
+
+import '../../domain/entities/exercise.dart';
 
 class Nivel {
   final String nombre;
@@ -8,13 +12,14 @@ class Nivel {
 }
 
 class CardPractice extends StatelessWidget {
-  CardPractice({super.key, required this.idPhoneme});
+  CardPractice({super.key, required this.idPhoneme, required this.namePhoneme});
   List<Nivel> lvlAssigned = [];
-  int idPhoneme = 0;
+  int idPhoneme;
+  String namePhoneme;
   void _getData() {
     //TODO: GET [LEVEL X CATEGORY] DEL PHONEME
-    lvlAssigned.add(Nivel('Nivel 1', ['Categoria A', 'Categoria B']));
-    lvlAssigned.add(Nivel('Nivel 2', ['Categoria C', 'Categoria D']));
+    lvlAssigned.add(Nivel('Nivel 1', ['Silabas']));
+    lvlAssigned.add(Nivel('Nivel 2', ['Silabas', 'Palabras']));
   }
 
   @override
@@ -40,11 +45,10 @@ class CardPractice extends StatelessWidget {
                 child: Text(
                   'Practicas',
                   style: TextStyle(
-                    fontSize: 18.0,
-                    color: colorList[2],
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "IkkaRounded"
-                  ),
+                      fontSize: 18.0,
+                      color: colorList[2],
+                      fontWeight: FontWeight.bold,
+                      fontFamily: "IkkaRounded"),
                 ),
               ),
             ),
@@ -58,21 +62,40 @@ class CardPractice extends StatelessWidget {
                   children: [
                     Expanded(
                       child: ListTile(
-                        title: Text(asignacion.nombre),
-                        subtitle: Text(asignacion.categorias.join(', ')),
+                        title: Text(
+                          asignacion.nombre,
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        subtitle: Text(asignacion.categorias.join(', '),
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 141, 141, 141))),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: FilledButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: colorList[4], // Cambia el color de fondo aquí
+                            backgroundColor:
+                                colorList[4], // Cambia el color de fondo aquí
                           ),
-                          onPressed: () {
+                          onPressed: () async {
+                            //TODO: CREAR COMPONENTES PARA INGRESAR A LA LISTA DE EJERCICIOS
+                            //TODO: TENGO QUE TRAER LA LISTA DE EJERCICIOS PARA EL NIVEL CATEGORIA Y PONEMA ASIGNADO
+                            /*await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ExerciseScreen(
+                                      idPhoneme: idPhoneme,
+                                      namePhoneme: namePhoneme,
+                                      level: asignacion.nombre,
+                                      categorias: asignacion.categorias),
+                                )); */
+                            context.push(
+                                "/exercise/$idPhoneme/$namePhoneme/${asignacion.nombre}/${asignacion.categorias.join(', ')}/");
                             // Acción del botón
                             // Puedes agregar aquí la lógica que deseas ejecutar cuando se presiona el botón
                           },
-                          child: Text(
+                          child: const Text(
                             "Comenzar",
                             style: TextStyle(
                               fontFamily: 'IkkaRounded',

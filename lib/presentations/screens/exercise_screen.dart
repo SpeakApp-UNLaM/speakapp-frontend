@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sp_front/domain/entities/exercise.dart';
-import '../../config/helpers/api.dart';
-import '../../config/helpers/param.dart';
-import '../../domain/entities/pending.dart';
-import '../../models/exercise_model.dart';
-import '../../models/pending_model.dart';
+import '../../models/exercise_model_new.dart';
 import '../../providers/recorder_provider.dart';
-import 'page_exercise_screen.dart';
 
 class ExerciseScreen extends StatefulWidget {
-  final int codeGroupExercise;
-  const ExerciseScreen({super.key, required this.codeGroupExercise});
+  final int idPhoneme;
+  final String namePhoneme;
+  final String level;
+  final String categorias;
+
+  const ExerciseScreen(
+      {super.key,
+      required this.idPhoneme,
+      required this.namePhoneme,
+      required this.level,
+      required this.categorias});
 
   @override
   ExerciseScreenState createState() => ExerciseScreenState();
@@ -20,65 +23,57 @@ class ExerciseScreen extends StatefulWidget {
 class ExerciseScreenState extends State<ExerciseScreen> {
   final PageController _pc = PageController();
 
-  List<PageExerciseScreen> _pagesExercisesFounded = [];
+  final List<StatefulWidget> _pagesExercisesFounded = [];
   int currentPageIndex = 0;
   @override
   void initState() {
     super.initState();
-    _getData();
+    _getData(widget.idPhoneme, widget.level, widget.categorias);
   }
 
-  Future<List<Exercise>> getExercisesList() async {
-    final response = await Api.get(Param.getExercises);
-    List<Exercise> exercises = [];
-    for (var element in response) {
-      exercises.add(ExerciseModel.fromJson(element).toExerciseEntity());
-    }
-    return exercises;
-  }
+  Future<void> _getData(int idPhoneme, String nombre, String categorias) async {
+    //TODO: GET EXERCISE DEL PHONEME, LEVEL, CATEGORY, USER || JSON EXAMPLE
+    //final response = await Api.get(Param.getExercises);
+    List<Map<String, dynamic>> exerciseDataFromDatabase = [
+      {
+        'type': 'speak',
+        'images': [
+          {'index': 'rata', 'path': 'assets/rat.png'}
+        ],
+        'sil_frase_separated': []
+      },
+      {
+        'type': 'listen_selection',
+        'images': [
+          {'index': 'rata', 'path': 'assets/rat.png'},
+          {'index': 'caramelo', 'path': 'assets/caramelo.png'}
+        ],
+        'sil_frase_separated': []
+      },
+      {
+        'type': 'listen_selection',
+        'images': [
+          {'index': 'rata', 'path': 'assets/rat.png'},
+          {'index': 'caramelo', 'path': 'assets/caramelo.png'}
+        ],
+        'sil_frase_separated': []
+      },
+      {
+        'type': 'listen_selection',
+        'images': [
+          {'index': 'rata', 'path': 'assets/rat.png'},
+          {'index': 'caramelo', 'path': 'assets/caramelo.png'}
+        ],
+        'sil_frase_separated': []
+      },
+    ];
 
-  Future<List<Pending>> getPendingList() async {
-    final response = await Api.get(Param.getPending);
-    List<Pending> pending = [];
-    for (var element in response) {
-      pending.add(PendingModel.fromJson(element).toPendingEntity());
+    for (var element in exerciseDataFromDatabase) {
+      _pagesExercisesFounded.add(
+          ExerciseModelNew.fromJson(element).fromEntity(widget.namePhoneme));
     }
-    return pending;
-  }
 
-  Future<void> _getData() async {
-    /*
-    List<Exercise> exercises = await getExercisesList();
-    List<Pending> pendings = await getPendingList();
-    Set<PageExerciseScreen> conjuntoResultante = {};
-
-    List<Exercise> exercisesOnlyGroup = exercises
-        .where((exercise) => exercise.idGroup == widget.codeGroupExercise)
-        .toList();
-    for (Exercise exercise in exercisesOnlyGroup) {
-      if (pendings.any((pending) => pending.idExercise == exercise.id)) {
-        conjuntoResultante.add(PageExerciseScreen(exercise: exercise));
-      }
-    }
-    _pagesExercisesFounded = conjuntoResultante.toList();
-  */
-    //TODO: GET EXERCISE DEL PHONEME, LEVEL, CATEGORY, USER
-    if (widget.codeGroupExercise == 1) {
-      _pagesExercisesFounded.add(PageExerciseScreen(
-          exercise: Exercise(
-              id: 1, pathImg: "assets/caramelo.png", letra: "R", idGroup: 1)));
-      _pagesExercisesFounded.add(PageExerciseScreen(
-          exercise: Exercise(
-              id: 2, pathImg: "assets/rat.png", letra: "R", idGroup: 1)));
-    } else {
-      _pagesExercisesFounded.add(PageExerciseScreen(
-          exercise: Exercise(
-              id: 3, pathImg: "assets/clavo2.png", letra: "L", idGroup: 2)));
-      _pagesExercisesFounded.add(PageExerciseScreen(
-          exercise: Exercise(
-              id: 4, pathImg: "assets/flan.png", letra: "L", idGroup: 2)));
-    }
-    setState(() {});
+    //output_expected-> result_obtained
   }
 
   @override
@@ -96,7 +91,8 @@ class ExerciseScreenState extends State<ExerciseScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 if (currentPageIndex < _pagesExercisesFounded.length - 1 &&
-                    recorderProv.existAudio)
+                    (recorderProv.existAudio ||
+                        recorderProv.isExerciseFinished))
                   Expanded(
                     flex: 1,
                     child: Align(
