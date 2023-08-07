@@ -1,23 +1,28 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:sp_front/models/exercise_model_new.dart';
 import 'package:sp_front/presentations/widgets/button_play_audio.dart';
 import 'package:sp_front/presentations/widgets/button_recorder.dart';
 import 'package:sp_front/providers/recorder_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class PageExerciseScreen extends StatefulWidget {
-  final String imagePath;
+class PageExerciseRecord extends StatefulWidget {
+  final ImageExercise img;
   final String namePhoneme;
-
-  const PageExerciseScreen(
-      {required this.imagePath, required this.namePhoneme, Key? key})
+  final int idExercise;
+  const PageExerciseRecord(
+      {required this.idExercise,
+      required this.img,
+      required this.namePhoneme,
+      Key? key})
       : super(key: key);
 
   @override
-  PageExerciseScreenState createState() => PageExerciseScreenState();
+  PageExerciseRecordState createState() => PageExerciseRecordState();
 }
 
-class PageExerciseScreenState extends State<PageExerciseScreen> {
+class PageExerciseRecordState extends State<PageExerciseRecord> {
   @override
   Widget build(BuildContext context) {
     final recorderProv = context.watch<RecorderProvider>();
@@ -48,10 +53,11 @@ class PageExerciseScreenState extends State<PageExerciseScreen> {
                 ),
               ),
               const SizedBox(height: 40.0),
-              Image.asset(
-                widget.imagePath,
-                width: 200,
-                height: 200,
+              SizedBox(
+                width: 200, // Establecer el ancho deseado
+                height: 200, // Establecer la altura deseada
+                child: Image.memory(base64.decode(widget.img.base64),
+                    fit: BoxFit.cover),
               ),
               const SizedBox(height: 40.0),
               const ButtonPlayAudio(),

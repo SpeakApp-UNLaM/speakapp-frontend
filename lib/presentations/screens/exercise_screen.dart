@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../config/helpers/param.dart';
 import '../../models/exercise_model_new.dart';
 import '../../providers/recorder_provider.dart';
 
@@ -34,37 +35,93 @@ class ExerciseScreenState extends State<ExerciseScreen> {
   Future<void> _getData(int idPhoneme, String nombre, String categorias) async {
     //TODO: GET EXERCISE DEL PHONEME, LEVEL, CATEGORY, USER || JSON EXAMPLE
     //final response = await Api.get(Param.getExercises);
+
+    /** FINAL
+     * 
+     * REQUEST
+{
+   'phonemeId': 1,
+   'category': ['silabas', 'palabras'],
+   'level': 2
+ }
+
+{
+   'phonemeId': 1,
+   'category': ['palabras'],
+   'level': 3
+}
+
+//RESPONSE
+
+{
+   'exerciseId': 1,
+   'type': 'speak', ///enum EXERCISE_TYPE
+   'result': 'ra',
+   'images': [
+     {
+      'name': 'rata', //string
+      'base64': 'assets/rat.png', //string
+      'divided_name': 'ra-ta' //string
+     },
+   ], 
+}
+
+     */
+
     List<Map<String, dynamic>> exerciseDataFromDatabase = [
       {
+        'exerciseId': 1,
         'type': 'speak',
+
+        ///enum EXERCISE_TYPE
+        'result': 'ra',
         'images': [
-          {'index': 'rata', 'path': 'assets/rat.png'}
+          {
+            'name': 'rata', //string
+            'base64': Param.base64Rata, //string
+            'divided_name': 'ra-ta' //string
+          },
         ],
-        'sil_frase_separated': []
       },
       {
+        'exerciseId': 2,
         'type': 'listen_selection',
+
+        ///enum EXERCISE_TYPE
+        'result': 'ra',
         'images': [
-          {'index': 'rata', 'path': 'assets/rat.png'},
-          {'index': 'caramelo', 'path': 'assets/caramelo.png'}
+          {
+            'name': 'rata', //string
+            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ra-ta' //string
+          },
+          {
+            'name': 'caramelo', //string
+            'base64':
+                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ra-ta' //string
+          },
         ],
-        'sil_frase_separated': []
       },
       {
+        'exerciseId': 3,
         'type': 'listen_selection',
+
+        ///enum EXERCISE_TYPE
+        'result': 'ra',
         'images': [
-          {'index': 'rata', 'path': 'assets/rat.png'},
-          {'index': 'caramelo', 'path': 'assets/caramelo.png'}
+          {
+            'name': 'rata', //string
+            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ra-ta' //string
+          },
+          {
+            'name': 'caramelo', //string
+            'base64':
+                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ra-ta' //string
+          },
         ],
-        'sil_frase_separated': []
-      },
-      {
-        'type': 'listen_selection',
-        'images': [
-          {'index': 'rata', 'path': 'assets/rat.png'},
-          {'index': 'caramelo', 'path': 'assets/caramelo.png'}
-        ],
-        'sil_frase_separated': []
       },
     ];
 

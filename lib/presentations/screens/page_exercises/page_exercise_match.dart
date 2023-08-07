@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:sp_front/providers/recorder_provider.dart';
 import 'package:provider/provider.dart';
@@ -5,19 +7,23 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../../models/exercise_model_new.dart';
 import '../../../providers/tts_provider.dart';
 
-class PageExerciseMatchScreen extends StatefulWidget {
+class PageExerciseMatch extends StatefulWidget {
+  final int idExercise;
   final List<ImageExercise> images;
   final String namePhoneme;
-  const PageExerciseMatchScreen(
-      {Key? key, required this.images, required this.namePhoneme})
+  const PageExerciseMatch(
+      {Key? key,
+      required this.images,
+      required this.namePhoneme,
+      required this.idExercise})
       : super(key: key);
 
   @override
-  PageExerciseMatchScreenState createState() => PageExerciseMatchScreenState();
+  PageExerciseMatchState createState() => PageExerciseMatchState();
 }
 
 //TODO: MEJORAR DISEÑO. LOGICA PRINCIPAL ESTÁ FUNCIONAL
-class PageExerciseMatchScreenState extends State<PageExerciseMatchScreen> {
+class PageExerciseMatchState extends State<PageExerciseMatch> {
   String selectedImagePath = "";
   String selectedAudioPath = "";
   @override
@@ -58,10 +64,10 @@ class PageExerciseMatchScreenState extends State<PageExerciseMatchScreen> {
                       onTap: () {
                         setState(() {
                           if (selectedImagePath != "" &&
-                              img.path == selectedImagePath) {
+                              img.base64 == selectedImagePath) {
                             selectedImagePath = "";
                           } else {
-                            selectedImagePath = img.path;
+                            selectedImagePath = img.base64;
                           }
                           print("${checkSelection(recorderProv)}");
                         });
@@ -69,17 +75,18 @@ class PageExerciseMatchScreenState extends State<PageExerciseMatchScreen> {
                       child: DecoratedBox(
                           decoration: BoxDecoration(
                               border: Border.all(
-                            color: selectedImagePath == img.path
+                            color: selectedImagePath == img.base64
                                 ? Colors.blue
                                 : Colors.transparent,
                             width: 3.0,
                           )),
                           child: Container(
                             margin: const EdgeInsets.all(8),
-                            child: Image.asset(
-                              img.path,
-                              width: 180,
-                              height: 180,
+                            child: SizedBox(
+                              width: 180, // Establecer el ancho deseado
+                              height: 180, // Establecer la altura deseada
+                              child: Image.memory(base64.decode(img.base64),
+                                  fit: BoxFit.cover),
                             ),
                           )),
                     ),
@@ -96,19 +103,19 @@ class PageExerciseMatchScreenState extends State<PageExerciseMatchScreen> {
                       onTap: () {
                         setState(() {
                           if (selectedAudioPath != "" &&
-                              img.index == selectedAudioPath) {
+                              img.name == selectedAudioPath) {
                             selectedAudioPath = "";
                           } else {
-                            selectedAudioPath = img.index;
+                            selectedAudioPath = img.name;
                           }
                           print("${checkSelection(recorderProv)}");
                         });
-                        TtsProvider().speak(img.index);
+                        TtsProvider().speak(img.name);
                       },
                       child: DecoratedBox(
                           decoration: BoxDecoration(
                               border: Border.all(
-                            color: selectedAudioPath == img.index
+                            color: selectedAudioPath == img.name
                                 ? Colors.blue
                                 : Colors.transparent,
                             width: 3.0,
@@ -142,7 +149,7 @@ class PageExerciseMatchScreenState extends State<PageExerciseMatchScreen> {
     if (selectedAudioPath != "" && selectedImagePath != "") {
       recorderProv.finishExercise();
       for (ImageExercise img in widget.images) {
-        if (img.index == selectedAudioPath && img.path == selectedImagePath) {
+        if (img.name == selectedAudioPath && img.base64 == selectedImagePath) {
           return true;
         }
       }
