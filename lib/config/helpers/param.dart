@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+enum TypeExercise {
+  speak,
+  listenSelection,
+}
+
 class Param {
   //10.0.2.2 IP especial para emuladores, que mapea la IP del HOST el cual está ejecutando (equivalente a LOCALHOST)
   static const urlServer = "http://10.0.2.2:9292/speak-app/";

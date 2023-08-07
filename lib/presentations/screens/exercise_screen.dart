@@ -71,7 +71,7 @@ class ExerciseScreenState extends State<ExerciseScreen> {
     List<Map<String, dynamic>> exerciseDataFromDatabase = [
       {
         'exerciseId': 1,
-        'type': 'speak',
+        'type': TypeExercise.speak,
 
         ///enum EXERCISE_TYPE
         'result': 'ra',
@@ -85,7 +85,7 @@ class ExerciseScreenState extends State<ExerciseScreen> {
       },
       {
         'exerciseId': 2,
-        'type': 'listen_selection',
+        'type': TypeExercise.listenSelection,
 
         ///enum EXERCISE_TYPE
         'result': 'ra',
@@ -105,7 +105,7 @@ class ExerciseScreenState extends State<ExerciseScreen> {
       },
       {
         'exerciseId': 3,
-        'type': 'listen_selection',
+        'type': TypeExercise.listenSelection,
 
         ///enum EXERCISE_TYPE
         'result': 'ra',

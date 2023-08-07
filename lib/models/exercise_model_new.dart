@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:sp_front/presentations/screens/page_exercises/page_exercise_match.dart';
+import '../config/helpers/param.dart';
 import '../presentations/screens/page_exercises/page_exercise_recoder.dart';
 
 List<ExerciseModelNew> exerciseModelFromJson(String str) =>
@@ -12,7 +13,7 @@ String exerciseModelToJson(List<ExerciseModelNew> data) =>
 
 class ExerciseModelNew {
   int exerciseId;
-  String type;
+  TypeExercise type;
   String result;
   List<ImageExercise> images;
 
@@ -41,13 +42,13 @@ class ExerciseModelNew {
 
   StatefulWidget fromEntity(String letra) {
     switch (type) {
-      case 'speak':
+      case TypeExercise.speak:
         return PageExerciseRecord(
           img: images.first,
           namePhoneme: letra,
           idExercise: exerciseId,
         );
-      case 'listen_selection':
+      case TypeExercise.listenSelection:
         return PageExerciseMatch(
           images: images,
           namePhoneme: letra,
