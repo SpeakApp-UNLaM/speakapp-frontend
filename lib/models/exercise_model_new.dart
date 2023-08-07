@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:sp_front/presentations/screens/page_exercises/page_exercise_match_screen.dart';
-import '../presentations/screens/page_exercises/page_exercise_screen.dart';
+import 'package:sp_front/presentations/screens/page_exercises/page_exercise_match.dart';
+import '../config/helpers/param.dart';
+import '../presentations/screens/page_exercises/page_exercise_recoder.dart';
 
 List<ExerciseModelNew> exerciseModelFromJson(String str) =>
     List<ExerciseModelNew>.from(
@@ -11,66 +12,78 @@ String exerciseModelToJson(List<ExerciseModelNew> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class ExerciseModelNew {
-  String type;
+  int exerciseId;
+  TypeExercise type;
+  String result;
   List<ImageExercise> images;
-  List<String> silFraseSeparated;
 
   ExerciseModelNew({
+    required this.exerciseId,
     required this.type,
+    required this.result,
     required this.images,
-    required this.silFraseSeparated,
   });
 
   factory ExerciseModelNew.fromJson(Map<String, dynamic> json) =>
       ExerciseModelNew(
+        exerciseId: json["exerciseId"],
         type: json["type"],
+        result: json["result"],
         images: List<ImageExercise>.from(
             json["images"].map((x) => ImageExercise.fromJson(x))),
-        silFraseSeparated:
-            List<String>.from(json["sil_frase_separated"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
+        "exerciseId": exerciseId,
         "type": type,
+        "result": result,
         "images": List<dynamic>.from(images.map((x) => x.toJson())),
-        "sil_frase_separated":
-            List<dynamic>.from(silFraseSeparated.map((x) => x)),
       };
 
   StatefulWidget fromEntity(String letra) {
     switch (type) {
-      case 'speak':
-        return PageExerciseScreen(
-          imagePath: images.first.path,
+      case TypeExercise.speak:
+        return PageExerciseRecord(
+          img: images.first,
           namePhoneme: letra,
+          idExercise: exerciseId,
         );
-      case 'listen_selection':
-        return PageExerciseMatchScreen(images: images, namePhoneme: letra);
-      default:
-        return PageExerciseScreen(
-          imagePath: images.first.path,
+      case TypeExercise.listenSelection:
+        return PageExerciseMatch(
+          images: images,
           namePhoneme: letra,
+          idExercise: exerciseId,
+        );
+      default:
+        return PageExerciseRecord(
+          img: images.first,
+          namePhoneme: letra,
+          idExercise: exerciseId,
         );
     }
   }
 }
 
 class ImageExercise {
-  String index;
-  String path;
+  String name;
+  String base64;
+  String dividedName;
 
   ImageExercise({
-    required this.index,
-    required this.path,
+    required this.name,
+    required this.base64,
+    required this.dividedName,
   });
 
   factory ImageExercise.fromJson(Map<String, dynamic> json) => ImageExercise(
-        index: json["index"],
-        path: json["path"],
+        name: json["name"],
+        base64: json["base64"],
+        dividedName: json["divided_name"],
       );
 
   Map<String, dynamic> toJson() => {
-        "index": index,
-        "path": path,
+        "name": name,
+        "base64": base64,
+        "divided_name": dividedName,
       };
 }

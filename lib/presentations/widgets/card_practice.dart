@@ -90,7 +90,7 @@ class CardPractice extends StatelessWidget {
                                       level: asignacion.nombre,
                                       categorias: asignacion.categorias),
                                 )); */
-                            context.push(
+                            context.go(
                                 "/exercise/$idPhoneme/$namePhoneme/${asignacion.nombre}/${asignacion.categorias.join(', ')}/");
                             // Acción del botón
                             // Puedes agregar aquí la lógica que deseas ejecutar cuando se presiona el botón
