@@ -39,13 +39,13 @@ class ChoiceExerciseScreen extends StatelessWidget {
                 ))
           ],
         ),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(20),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(30),
+            ),
           ),
         ),
-      ),
-      body: SingleChildScrollView(
+        body: SingleChildScrollView(
         child: Column(children: [
           //CardArticulation(),
           CardPractice(
@@ -53,7 +53,7 @@ class ChoiceExerciseScreen extends StatelessWidget {
             namePhoneme: namePhoneme,
           ) //creo que son todos ejercicios ahora no?
         ]),
-      ),
+      ),      
     );
   }
 }

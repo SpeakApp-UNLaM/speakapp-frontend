@@ -46,7 +46,7 @@ class HomeScreen extends StatelessWidget {
                 onTap: () {},
                 child: Icon(
                   Icons.notifications,
-                  color: Theme.of(context).primaryColorLight,
+                  color: colorList[7],
                 ),
               )),
           Padding(

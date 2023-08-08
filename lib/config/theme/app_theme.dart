@@ -16,7 +16,7 @@ class AppTheme {
   static ThemeData theme() {
     return ThemeData(
         useMaterial3: true,
-        colorSchemeSeed: Color.fromARGB(255, 31, 86, 196),
+        colorSchemeSeed: Color.fromRGBO(12, 87, 251, 196),
         textTheme: TextTheme(
             headlineLarge: const TextStyle(
                 fontSize: 24.0,
