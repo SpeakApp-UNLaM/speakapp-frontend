@@ -1,57 +1,97 @@
-// To parse this JSON data, do
-//
-//     final exerciseModel = exerciseModelFromJson(jsonString);
-
 import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:sp_front/presentations/screens/page_exercises/page_exercise_match.dart';
+import '../config/helpers/param.dart';
+import '../presentations/screens/page_exercises/page_exercise_order_syllable.dart';
+import '../presentations/screens/page_exercises/page_exercise_recoder.dart';
 
-import '../domain/entities/exercise.dart';
+List<ExerciseModelNew> exerciseModelFromJson(String str) =>
+    List<ExerciseModelNew>.from(
+        json.decode(str).map((x) => ExerciseModelNew.fromJson(x)));
 
-List<ExerciseModel> exerciseModelFromJson(String str) =>
-    List<ExerciseModel>.from(
-        json.decode(str).map((x) => ExerciseModel.fromJson(x)));
-
-String exerciseModelToJson(List<ExerciseModel> data) =>
+String exerciseModelToJson(List<ExerciseModelNew> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class ExerciseModel {
-  final String wordExercise;
-  final int idGroupExercise;
-  final String urlImageRelated;
-  final String resultExpected;
-  final int level;
-  final int id;
-  ExerciseModel({
-    required this.wordExercise,
-    required this.idGroupExercise,
-    required this.urlImageRelated,
-    required this.resultExpected,
-    required this.level,
-    required this.id,
+class ExerciseModelNew {
+  int exerciseId;
+  TypeExercise type;
+  String result;
+  List<ImageExercise> images;
+
+  ExerciseModelNew({
+    required this.exerciseId,
+    required this.type,
+    required this.result,
+    required this.images,
   });
 
-  factory ExerciseModel.fromJson(Map<String, dynamic> json) => ExerciseModel(
-        wordExercise: json["wordExercise"],
-        idGroupExercise: json["idGroupExercise"],
-        urlImageRelated: json["urlImageRelated"],
-        resultExpected: json["resultExpected"],
-        level: json["level"],
-        id: json["id"],
+  factory ExerciseModelNew.fromJson(Map<String, dynamic> json) =>
+      ExerciseModelNew(
+        exerciseId: json["exerciseId"],
+        type: json["type"],
+        result: json["result"],
+        images: List<ImageExercise>.from(
+            json["images"].map((x) => ImageExercise.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "wordExercise": wordExercise,
-        "idGroupExercise": idGroupExercise,
-        "urlImageRelated": urlImageRelated,
-        "resultExpected": resultExpected,
-        "level": level,
-        "id": id
+        "exerciseId": exerciseId,
+        "type": type,
+        "result": result,
+        "images": List<dynamic>.from(images.map((x) => x.toJson())),
       };
-  Exercise toExerciseEntity() => Exercise(
-        id: id,
-        idGroup: idGroupExercise,
-        level: level,
-        resultExpected: resultExpected,
-        pathImg: urlImageRelated,
-        letra: wordExercise,
+
+  StatefulWidget fromEntity(String letra) {
+    switch (type) {
+      case TypeExercise.speak:
+        return PageExerciseRecord(
+          img: images.first,
+          namePhoneme: letra,
+          idExercise: exerciseId,
+        );
+      case TypeExercise.multipleMatchSelection:
+        return PageExerciseMatch(
+          images: images,
+          namePhoneme: letra,
+          idExercise: exerciseId,
+        );
+      case TypeExercise.orderSyllable:
+        return PageExerciseOrderSyllabe(
+          img: images.first,
+          namePhoneme: letra,
+          idExercise: exerciseId,
+          syllables: images.first.dividedName,
+        );
+      default:
+        return PageExerciseRecord(
+          img: images.first,
+          namePhoneme: letra,
+          idExercise: exerciseId,
+        );
+    }
+  }
+}
+
+class ImageExercise {
+  String name;
+  String base64;
+  List<String> dividedName;
+
+  ImageExercise({
+    required this.name,
+    required this.base64,
+    required this.dividedName,
+  });
+
+  factory ImageExercise.fromJson(Map<String, dynamic> json) => ImageExercise(
+        name: json["name"],
+        base64: json["base64"],
+        dividedName: (json["divided_name"]).split('-'),
       );
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "base64": base64,
+        "divided_name": dividedName,
+      };
 }

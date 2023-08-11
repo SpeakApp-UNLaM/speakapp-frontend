@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sp_front/providers/recorder_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../models/exercise_model_new.dart';
+import '../../../models/exercise_model.dart';
 import '../../../providers/tts_provider.dart';
 
 class PageExerciseMatch extends StatefulWidget {

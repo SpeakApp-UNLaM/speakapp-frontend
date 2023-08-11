@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../config/helpers/param.dart';
-import '../../models/exercise_model_new.dart';
+import '../../models/exercise_model.dart';
 import '../../providers/recorder_provider.dart';
 
 class ExerciseScreen extends StatefulWidget {
@@ -70,6 +70,20 @@ class ExerciseScreenState extends State<ExerciseScreen> {
 
     List<Map<String, dynamic>> exerciseDataFromDatabase = [
       {
+        'exerciseId': 4,
+        'type': TypeExercise.orderSyllable,
+
+        ///enum EXERCISE_TYPE
+        'result': 'ra',
+        'images': [
+          {
+            'name': 'caramelo', //string
+            'base64': Param.base64Caramelo, //string
+            'divided_name': 'ca-ra-me-lo' //string
+          },
+        ],
+      },
+      {
         'exerciseId': 1,
         'type': TypeExercise.speak,
 
@@ -85,7 +99,7 @@ class ExerciseScreenState extends State<ExerciseScreen> {
       },
       {
         'exerciseId': 2,
-        'type': TypeExercise.listenSelection,
+        'type': TypeExercise.multipleMatchSelection,
 
         ///enum EXERCISE_TYPE
         'result': 'ra',
@@ -105,7 +119,7 @@ class ExerciseScreenState extends State<ExerciseScreen> {
       },
       {
         'exerciseId': 3,
-        'type': TypeExercise.listenSelection,
+        'type': TypeExercise.multipleMatchSelection,
 
         ///enum EXERCISE_TYPE
         'result': 'ra',

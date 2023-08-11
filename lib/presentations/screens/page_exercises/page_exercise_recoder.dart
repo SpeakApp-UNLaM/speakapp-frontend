@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:sp_front/models/exercise_model_new.dart';
+import 'package:sp_front/models/exercise_model.dart';
 import 'package:sp_front/presentations/widgets/button_play_audio.dart';
 import 'package:sp_front/presentations/widgets/button_recorder.dart';
 import 'package:sp_front/providers/recorder_provider.dart';
