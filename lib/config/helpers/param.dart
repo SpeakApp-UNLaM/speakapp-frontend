@@ -3,7 +3,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 enum TypeExercise {
   speak,
-  listenSelection,
+  multipleMatchSelection,
+  minimumPairsSelection,
+  multipleSelection,
+  singleSelectionSyllable,
+  orderSyllable,
+  singleSelectionWord,
+  consonantalSyllable
 }
 
 class Param {

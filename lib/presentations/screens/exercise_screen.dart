@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import '../../config/helpers/param.dart';
 import '../../config/theme/app_theme.dart';
-import '../../models/exercise_model_new.dart';
+import '../../models/exercise_model.dart';
 import '../../providers/recorder_provider.dart';
 
 class ExerciseScreen extends StatefulWidget {
@@ -73,6 +73,20 @@ class ExerciseScreenState extends State<ExerciseScreen> {
 
     List<Map<String, dynamic>> exerciseDataFromDatabase = [
       {
+        'exerciseId': 4,
+        'type': TypeExercise.orderSyllable,
+
+        ///enum EXERCISE_TYPE
+        'result': 'ra',
+        'images': [
+          {
+            'name': 'caramelo', //string
+            'base64': Param.base64Caramelo, //string
+            'divided_name': 'ca-ra-me-lo' //string
+          },
+        ],
+      },
+      {
         'exerciseId': 1,
         'type': TypeExercise.speak,
 
@@ -102,7 +116,7 @@ class ExerciseScreenState extends State<ExerciseScreen> {
       },
       {
         'exerciseId': 2,
-        'type': TypeExercise.listenSelection,
+        'type': TypeExercise.multipleMatchSelection,
 
         ///enum EXERCISE_TYPE
         'result': 'ra',
@@ -122,7 +136,7 @@ class ExerciseScreenState extends State<ExerciseScreen> {
       },
       {
         'exerciseId': 3,
-        'type': TypeExercise.listenSelection,
+        'type': TypeExercise.multipleMatchSelection,
 
         ///enum EXERCISE_TYPE
         'result': 'ra',
@@ -152,8 +166,8 @@ class ExerciseScreenState extends State<ExerciseScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final exerciseProv = context.watch<ExerciseProvider>();
     final recorderProv = context.watch<RecorderProvider>();
-    //final exerciseProv = context.watch<ExerciseProvider>();
     return Scaffold(
       body: Padding(
         padding:
@@ -178,7 +192,7 @@ class ExerciseScreenState extends State<ExerciseScreen> {
               ],
             ),
             Expanded(
-              child: _listPagesExercises(recorderProv),
+              child: _listPagesExercises(exerciseProv),
             ),
             Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -191,12 +205,12 @@ class ExerciseScreenState extends State<ExerciseScreen> {
                         )
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 30),
-                        child: _actionBtnNext(recorderProv),
+                        child: _actionBtnNext(exerciseProv, recorderProv),
                       ),
                     if (currentPageIndex == _pagesExercisesFounded.length - 1)
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 30),
-                        child: _actionBtnGoHome(recorderProv, context),
+                        child: _actionBtnGoHome(exerciseProv, context),
                       ),
                   ],
                 )),
@@ -206,7 +220,7 @@ class ExerciseScreenState extends State<ExerciseScreen> {
     );
   }
 
-  PageView _listPagesExercises(final recorderProv) {
+  PageView _listPagesExercises(ExerciseProvider exerciseProv) {
     return PageView.builder(
       itemCount: _pagesExercisesFounded.length,
       controller: _pc,
@@ -224,27 +238,28 @@ class ExerciseScreenState extends State<ExerciseScreen> {
     );
   }
 
-  ElevatedButton _actionBtnGoHome(final recorderProv, BuildContext context) {
+  ElevatedButton _actionBtnGoHome(ExerciseProvider exerciseProv, BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
         //TODO: DESCOMENTAR LINEA SENDTRANSCRIPTION
         //await recorderProv.sendTranscription();
-        recorderProv.resetAudio();
+        //exerciseProv.resetAudio();
         Navigator.pop(context, 'fin_grupo');
       },
       child: const Text('FINALIZAR'),
     );
   }
 
-  ElevatedButton _actionBtnNext(final recorderProv) {
+  ElevatedButton _actionBtnNext(ExerciseProvider exerciseProv, RecorderProvider recorderProv) {
     return ElevatedButton(
-      onPressed: (!recorderProv.existAudio && !recorderProv.isExerciseFinished)
+      onPressed: (!exerciseProv.isExerciseFinished)
           ? null
           : () async {
               //TODO: DESCOMENTAR LINEA 153 PARA EJECUTAR CORRECTAMENTE PROCESO
               //await recorderProv.sendTranscription();
 
               recorderProv.resetAudio();
+              exerciseProv.unfinishExercise();
               _pc.nextPage(
                 duration: const Duration(milliseconds: 500),
                 curve: Curves.linearToEaseOut,

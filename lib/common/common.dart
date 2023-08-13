@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:sp_front/config/theme/app_theme.dart';
 
 class SeekBar extends StatefulWidget {
   final Duration duration;
@@ -8,12 +9,14 @@ class SeekBar extends StatefulWidget {
   final Duration bufferedPosition;
   final ValueChanged<Duration>? onChanged;
   final ValueChanged<Duration>? onChangeEnd;
+  final bool disable;
 
   const SeekBar({
     Key? key,
     required this.duration,
     required this.position,
     required this.bufferedPosition,
+    required this.disable,
     this.onChanged,
     this.onChangeEnd,
   }) : super(key: key);
@@ -37,12 +40,14 @@ class SeekBarState extends State<SeekBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Container(
+      width: 150,
+     child: Stack(
       children: [
         SliderTheme(
           data: _sliderThemeData.copyWith(
             thumbShape: HiddenThumbComponentShape(),
-            activeTrackColor: Colors.blue.shade100,
+            activeTrackColor: Colors.grey.shade200,
             inactiveTrackColor: Colors.grey.shade300,
           ),
           child: ExcludeSemantics(
@@ -91,7 +96,7 @@ class SeekBarState extends State<SeekBar> {
               }
               _dragValue = null;
             },
-            activeColor: const Color.fromARGB(255, 127, 163, 85),
+            activeColor: widget.disable ? Theme.of(context).primaryColorDark : Colors.grey.shade300,
           ),
         ),
         Positioned(
@@ -105,7 +110,7 @@ class SeekBarState extends State<SeekBar> {
               style: Theme.of(context).textTheme.bodySmall),
         ),
       ],
-    );
+    ));
   }
 
   Duration get _remaining => widget.duration - widget.position;

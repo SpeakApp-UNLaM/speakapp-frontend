@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:sp_front/providers/recorder_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../config/theme/app_theme.dart';
-import '../../../models/exercise_model_new.dart';
+import '../../../models/exercise_model.dart';
 import '../../../providers/tts_provider.dart';
 
 class PageExerciseMatch extends StatefulWidget {
@@ -29,7 +30,7 @@ class PageExerciseMatchState extends State<PageExerciseMatch> {
   String selectedAudioPath = "";
   @override
   Widget build(BuildContext context) {
-    final recorderProv = context.watch<RecorderProvider>();
+    final exerciseProv = context.watch<ExerciseProvider>();
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -64,7 +65,7 @@ class PageExerciseMatchState extends State<PageExerciseMatch> {
                           } else {
                             selectedImagePath = img.base64;
                           }
-                          print("${checkSelection(recorderProv)}");
+                          print("${checkSelection(exerciseProv)}");
                         });
                       },
                       child: DecoratedBox(
@@ -108,7 +109,7 @@ class PageExerciseMatchState extends State<PageExerciseMatch> {
                           } else {
                             selectedAudioPath = img.name;
                           }
-                          print("${checkSelection(recorderProv)}");
+                          print("${checkSelection(exerciseProv)}");
                         });
                         TtsProvider().speak(img.name);
                       },
@@ -152,9 +153,9 @@ class PageExerciseMatchState extends State<PageExerciseMatch> {
     );
   }
 
-  bool checkSelection(final recorderProv) {
+  bool checkSelection(ExerciseProvider exerciseProv) {
     if (selectedAudioPath != "" && selectedImagePath != "") {
-      recorderProv.finishExercise();
+      exerciseProv.finishExercise();
       for (ImageExercise img in widget.images) {
         if (img.name == selectedAudioPath && img.base64 == selectedImagePath) {
           return true;
