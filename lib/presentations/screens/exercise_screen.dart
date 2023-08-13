@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:sp_front/providers/exercise_provider.dart';
 import '../../config/helpers/param.dart';
+import '../../config/theme/app_theme.dart';
 import '../../models/exercise_model_new.dart';
 import '../../providers/recorder_provider.dart';
 
@@ -84,6 +87,20 @@ class ExerciseScreenState extends State<ExerciseScreen> {
         ],
       },
       {
+        'exerciseId': 4,
+        'type': TypeExercise.speak,
+
+        ///enum EXERCISE_TYPE
+        'result': 'ra',
+        'images': [
+          {
+            'name': 'rata', //string
+            'base64': Param.base64Rata, //string
+            'divided_name': 'ra-ta' //string
+          },
+        ],
+      },
+      {
         'exerciseId': 2,
         'type': TypeExercise.listenSelection,
 
@@ -136,39 +153,55 @@ class ExerciseScreenState extends State<ExerciseScreen> {
   @override
   Widget build(BuildContext context) {
     final recorderProv = context.watch<RecorderProvider>();
+    //final exerciseProv = context.watch<ExerciseProvider>();
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: _listPagesExercises(recorderProv),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
+      body: Padding(
+        padding:
+            const EdgeInsets.only(top: 30, right: 5, left: 5, bottom: 20),
+        child: Column(
+          children: [
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                if (currentPageIndex < _pagesExercisesFounded.length - 1 &&
-                    (recorderProv.existAudio ||
-                        recorderProv.isExerciseFinished))
-                  Expanded(
-                    flex: 1,
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: _actionBtnNext(recorderProv),
-                    ),
-                  ),
-                if (currentPageIndex == _pagesExercisesFounded.length - 1)
-                  Expanded(
-                    flex: 1,
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: _actionBtnGoHome(recorderProv, context),
-                    ),
-                  ),
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () => context.go('/'),
+                ),
+                Expanded(
+                    child: LinearProgressIndicator(
+                  backgroundColor: colorList[7],
+                  color: colorList[4],
+                  value: currentPageIndex / _pagesExercisesFounded.length,
+                  minHeight: 6,
+                )),
               ],
             ),
-          ),
-        ],
+            Expanded(
+              child: _listPagesExercises(recorderProv),
+            ),
+            Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    if (currentPageIndex <
+                            _pagesExercisesFounded.length - 1 //&&
+                        //(recorderProv.existAudio ||
+                        //recorderProv.isExerciseFinished)
+                        )
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        child: _actionBtnNext(recorderProv),
+                      ),
+                    if (currentPageIndex == _pagesExercisesFounded.length - 1)
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        child: _actionBtnGoHome(recorderProv, context),
+                      ),
+                  ],
+                )),
+          ],
+        ),
       ),
     );
   }
@@ -199,25 +232,35 @@ class ExerciseScreenState extends State<ExerciseScreen> {
         recorderProv.resetAudio();
         Navigator.pop(context, 'fin_grupo');
       },
-      child: const Text('Finalizar'),
+      child: const Text('FINALIZAR'),
     );
   }
 
   ElevatedButton _actionBtnNext(final recorderProv) {
     return ElevatedButton(
-      onPressed: () async {
-        //TODO: DESCOMENTAR LINEA 153 PARA EJECUTAR CORRECTAMENTE PROCESO
-        //await recorderProv.sendTranscription();
-        recorderProv.resetAudio();
-        _pc.nextPage(
-          duration: const Duration(milliseconds: 500),
-          curve: Curves.linearToEaseOut,
-        );
-        setState(() {
-          currentPageIndex++;
-        });
-      },
-      child: const Text('Siguiente'),
+      onPressed: (!recorderProv.existAudio && !recorderProv.isExerciseFinished)
+          ? null
+          : () async {
+              //TODO: DESCOMENTAR LINEA 153 PARA EJECUTAR CORRECTAMENTE PROCESO
+              //await recorderProv.sendTranscription();
+
+              recorderProv.resetAudio();
+              _pc.nextPage(
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.linearToEaseOut,
+              );
+              setState(() {
+                currentPageIndex++;
+              });
+            },
+      style: ElevatedButton.styleFrom(
+        minimumSize: const Size(300, 50),
+        shape: RoundedRectangleBorder(
+          borderRadius:
+              BorderRadius.circular(10), // Cambia el valor del radio de borde
+        ),
+      ),
+      child: const Text('CONTINUAR'),
     );
   }
 }

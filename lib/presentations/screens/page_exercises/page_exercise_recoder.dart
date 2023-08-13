@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:sp_front/config/theme/app_theme.dart';
 import 'package:sp_front/models/exercise_model_new.dart';
 import 'package:sp_front/presentations/widgets/button_play_audio.dart';
 import 'package:sp_front/presentations/widgets/button_recorder.dart';
@@ -25,57 +27,48 @@ class PageExerciseRecord extends StatefulWidget {
 class PageExerciseRecordState extends State<PageExerciseRecord> {
   @override
   Widget build(BuildContext context) {
-    final recorderProv = context.watch<RecorderProvider>();
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('SpeakApp'),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "¡Vamos a practicar! 😄 Palabras con la letra:",
-                style: GoogleFonts.nunito(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 25,
-                  color: const Color.fromARGB(255, 61, 79, 141),
-                ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('¡Vamos a practicar! \nPalabras con la letra:',
                 textAlign: TextAlign.center,
-              ),
-              Text(
-                widget.namePhoneme,
-                style: GoogleFonts.roboto(
-                  fontSize: 50,
-                  color: const Color.fromARGB(186, 255, 168, 7),
-                ),
-              ),
-              const SizedBox(height: 40.0),
-              SizedBox(
-                width: 200, // Establecer el ancho deseado
-                height: 200, // Establecer la altura deseada
-                child: Image.memory(base64.decode(widget.img.base64),
-                    fit: BoxFit.cover),
-              ),
-              const SizedBox(height: 40.0),
-              const ButtonPlayAudio(),
-              const ButtonRecorder(),
-              const SizedBox(height: 10),
-              Text(
-                "Presionar y mantener para grabar",
-                style: GoogleFonts.nunito(
-                  color: const Color.fromARGB(255, 108, 134, 79),
-                ),
-              ),
-              const SizedBox(height: 15),
-              Text(
-                recorderProv.transcription,
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
+                style: TextStyle(
+                    fontFamily: 'IkkaRounded',
+                    fontSize: 20,
+                    color: Theme.of(context).primaryColorDark)),
+            Text(widget.namePhoneme,
+                style: TextStyle(
+                    fontFamily: 'IkkaRounded',
+                    fontSize: 40,
+                    color: colorList[1])),
+            const SizedBox(height: 20.0),
+            Container(
+              width: 240, // Establecer el ancho deseado
+              height: 240, 
+              padding: EdgeInsets.all(40),
+              decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(16)),
+                              border: Border.all(
+                                color: Colors.grey.shade300,
+                                width: 4.0,
+                              )),// Establecer la altura deseada
+              child: Image.memory(base64.decode(widget.img.base64),
+                  fit: BoxFit.cover),
+            ),
+            const SizedBox(height: 30.0),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 40),
+              child:const ButtonPlayAudio()
+            ),
+            const SizedBox(height: 30.0),
+            const ButtonRecorder(),
+            const SizedBox(height: 10),
+           
+          ],
         ),
       ),
     );

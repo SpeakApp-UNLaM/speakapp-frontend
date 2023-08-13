@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../../config/theme/app_theme.dart';
 import '../../providers/recorder_provider.dart';
 
 class ButtonRecorder extends StatelessWidget {
@@ -19,7 +21,7 @@ class ButtonRecorder extends StatelessWidget {
           decoration: BoxDecoration(
             color: recorderProv.recordingOn
                 ? Colors.grey[400]
-                : const Color.fromARGB(255, 127, 163, 85),
+                :  colorList[4],
             borderRadius: BorderRadius.circular(30.0),
             boxShadow: [
               if (recorderProv.recordingOn)
@@ -42,7 +44,11 @@ class ButtonRecorder extends StatelessWidget {
               const SizedBox(width: 8.0),
               Text(
                 recorderProv.recordingOn ? '...' : 'Grabar',
-                style: const TextStyle(fontSize: 16, color: Colors.white),
+                style: GoogleFonts.nunitoSans(textStyle: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white
+                )),
               ),
             ],
           ),

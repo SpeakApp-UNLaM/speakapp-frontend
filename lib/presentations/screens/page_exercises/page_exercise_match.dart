@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sp_front/providers/recorder_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../config/theme/app_theme.dart';
 import '../../../models/exercise_model_new.dart';
 import '../../../providers/tts_provider.dart';
 
@@ -30,9 +31,6 @@ class PageExerciseMatchState extends State<PageExerciseMatch> {
   Widget build(BuildContext context) {
     final recorderProv = context.watch<RecorderProvider>();
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('SpeakApp'),
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -40,22 +38,19 @@ class PageExerciseMatchState extends State<PageExerciseMatch> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "¡Vamos a practicar! 😄 Palabras con la letra:",
-                style: GoogleFonts.nunito(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 25,
-                  color: const Color.fromARGB(255, 61, 79, 141),
-                ),
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                widget.namePhoneme,
-                style: GoogleFonts.roboto(
-                  fontSize: 50,
-                  color: const Color.fromARGB(186, 255, 168, 7),
-                ),
-              ),
-              const SizedBox(height: 40.0),
+                  '¡Vamos a practicar! \n¿Que imagen se corresponde a cada audio?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: 'IkkaRounded',
+                      fontSize: 20,
+                      color: Theme.of(context).primaryColorDark)),
+              const SizedBox(height: 10.0),
+              Text(widget.namePhoneme,
+                  style: TextStyle(
+                      fontFamily: 'IkkaRounded',
+                      fontSize: 50,
+                      color: colorList[1])),
+              const SizedBox(height: 50.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -74,21 +69,26 @@ class PageExerciseMatchState extends State<PageExerciseMatch> {
                       },
                       child: DecoratedBox(
                           decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(16)),
                               border: Border.all(
-                            color: selectedImagePath == img.base64
-                                ? Colors.blue
-                                : Colors.transparent,
-                            width: 3.0,
-                          )),
-                          child: Container(
-                            margin: const EdgeInsets.all(8),
-                            child: SizedBox(
-                              width: 180, // Establecer el ancho deseado
-                              height: 180, // Establecer la altura deseada
-                              child: Image.memory(base64.decode(img.base64),
-                                  fit: BoxFit.cover),
-                            ),
-                          )),
+                                color: selectedImagePath == img.base64
+                                    ? colorList[0]
+                                    : Colors.grey.shade300,
+                                width: 4.0,
+                              )),
+                          child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Container(
+                                margin: const EdgeInsets.all(8),
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                child: SizedBox(
+                                  width: 120, // Establecer el ancho deseado
+                                  height: 120, // Establecer la altura deseada
+                                  child: Image.memory(base64.decode(img.base64),
+                                      fit: BoxFit.cover),
+                                ),
+                              ))),
                     ),
                 ],
               ),
@@ -96,7 +96,7 @@ class PageExerciseMatchState extends State<PageExerciseMatch> {
                 height: 30,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   for (ImageExercise img in widget.images)
                     GestureDetector(
@@ -114,22 +114,29 @@ class PageExerciseMatchState extends State<PageExerciseMatch> {
                       },
                       child: DecoratedBox(
                           decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(32)),
                               border: Border.all(
-                            color: selectedAudioPath == img.name
-                                ? Colors.blue
-                                : Colors.transparent,
-                            width: 3.0,
-                          )),
+                                color: selectedAudioPath == img.name
+                                    ? colorList[0]
+                                    : Colors.grey.shade300,
+                                width: 3.0,
+                              )),
                           child: Container(
                             alignment: Alignment.center,
-                            child: const Padding(
-                              padding: EdgeInsets.all(3),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
+                            padding: EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 10),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 5, right: 5),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Icon(
-                                    Icons.headset_rounded,
-                                  )
+                                    Icons.volume_up_outlined,
+                                    color: Colors.grey.shade400,
+                                  ),
+                                  const Text("Reproducir")
                                 ],
                               ),
                             ),

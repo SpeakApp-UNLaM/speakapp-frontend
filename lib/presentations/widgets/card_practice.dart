@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
 import 'package:sp_front/presentations/screens/exercise_screen.dart';
 
@@ -31,6 +32,7 @@ class CardPractice extends StatelessWidget {
           .width, // Ocupa todo el ancho de la pantalla
       margin: const EdgeInsets.all(30.0),
       child: Card(
+        color: Theme.of(context).cardColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         elevation: 6,
         child: Column(
@@ -64,11 +66,15 @@ class CardPractice extends StatelessWidget {
                       child: ListTile(
                         title: Text(
                           asignacion.nombre,
-                          style: TextStyle(color: Colors.black),
+                          style: GoogleFonts.nunito(
+                              textStyle: TextStyle(
+                                  color: Colors.grey.shade700,
+                                  fontWeight: FontWeight.w600)),
                         ),
                         subtitle: Text(asignacion.categorias.join(', '),
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 141, 141, 141))),
+                            style: GoogleFonts.nunito(
+                              textStyle: TextStyle(
+                                  color: Colors.grey.shade500))),
                       ),
                     ),
                     Padding(
