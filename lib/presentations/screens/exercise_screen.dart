@@ -73,50 +73,8 @@ class ExerciseScreenState extends State<ExerciseScreen> {
 
     List<Map<String, dynamic>> exerciseDataFromDatabase = [
       {
-        'exerciseId': 4,
-        'type': TypeExercise.orderSyllable,
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'caramelo', //string
-            'base64': Param.base64Caramelo, //string
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-        ],
-      },
-      {
-        'exerciseId': 1,
-        'type': TypeExercise.speak,
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'rata', //string
-            'base64': Param.base64Rata, //string
-            'divided_name': 'ra-ta' //string
-          },
-        ],
-      },
-      {
-        'exerciseId': 4,
-        'type': TypeExercise.speak,
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'rata', //string
-            'base64': Param.base64Rata, //string
-            'divided_name': 'ra-ta' //string
-          },
-        ],
-      },
-      {
         'exerciseId': 2,
-        'type': TypeExercise.multipleMatchSelection,
+        'type': 'multipleMatchSelection',
 
         ///enum EXERCISE_TYPE
         'result': 'ra',
@@ -135,8 +93,50 @@ class ExerciseScreenState extends State<ExerciseScreen> {
         ],
       },
       {
+        'exerciseId': 4,
+        'type': 'orderSyllable',
+
+        ///enum EXERCISE_TYPE
+        'result': 'ra',
+        'images': [
+          {
+            'name': 'caramelo', //string
+            'base64': Param.base64Caramelo, //string
+            'divided_name': 'ca-ra-me-lo' //string
+          },
+        ],
+      },
+      {
+        'exerciseId': 1,
+        'type': 'speak',
+
+        ///enum EXERCISE_TYPE
+        'result': 'ra',
+        'images': [
+          {
+            'name': 'rata', //string
+            'base64': Param.base64Rata, //string
+            'divided_name': 'ra-ta' //string
+          },
+        ],
+      },
+      {
+        'exerciseId': 4,
+        'type': 'speak',
+
+        ///enum EXERCISE_TYPE
+        'result': 'ra',
+        'images': [
+          {
+            'name': 'rata', //string
+            'base64': Param.base64Rata, //string
+            'divided_name': 'ra-ta' //string
+          },
+        ],
+      },
+      {
         'exerciseId': 3,
-        'type': TypeExercise.multipleMatchSelection,
+        'type': 'multipleMatchSelection',
 
         ///enum EXERCISE_TYPE
         'result': 'ra',
@@ -157,8 +157,8 @@ class ExerciseScreenState extends State<ExerciseScreen> {
     ];
 
     for (var element in exerciseDataFromDatabase) {
-      _pagesExercisesFounded.add(
-          ExerciseModelNew.fromJson(element).fromEntity(widget.namePhoneme));
+      _pagesExercisesFounded
+          .add(ExerciseModel.fromJson(element).fromEntity(widget.namePhoneme));
     }
 
     //output_expected-> result_obtained
@@ -170,8 +170,7 @@ class ExerciseScreenState extends State<ExerciseScreen> {
     final recorderProv = context.watch<RecorderProvider>();
     return Scaffold(
       body: Padding(
-        padding:
-            const EdgeInsets.only(top: 30, right: 5, left: 5, bottom: 20),
+        padding: const EdgeInsets.only(top: 30, right: 5, left: 5, bottom: 20),
         child: Column(
           children: [
             Row(
@@ -238,7 +237,8 @@ class ExerciseScreenState extends State<ExerciseScreen> {
     );
   }
 
-  ElevatedButton _actionBtnGoHome(ExerciseProvider exerciseProv, BuildContext context) {
+  ElevatedButton _actionBtnGoHome(
+      ExerciseProvider exerciseProv, BuildContext context) {
     return ElevatedButton(
       onPressed: () async {
         //TODO: DESCOMENTAR LINEA SENDTRANSCRIPTION
@@ -250,7 +250,8 @@ class ExerciseScreenState extends State<ExerciseScreen> {
     );
   }
 
-  ElevatedButton _actionBtnNext(ExerciseProvider exerciseProv, RecorderProvider recorderProv) {
+  ElevatedButton _actionBtnNext(
+      ExerciseProvider exerciseProv, RecorderProvider recorderProv) {
     return ElevatedButton(
       onPressed: (!exerciseProv.isExerciseFinished)
           ? null

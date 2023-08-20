@@ -34,6 +34,11 @@ class Param {
     );
   }
 
+  static TypeExercise stringToEnum(String value) {
+    return TypeExercise.values
+        .firstWhere((element) => element.toString() == 'TypeExercise.$value');
+  }
+
   //TODO: TEMPORAL. PARA HACER PRUEBAS YA EN BASE64
   // SITE PARA CONVERTIR A BASE64: https://products.aspose.app/imaging/es/conversion/image-to-base64
   static const base64Rata =

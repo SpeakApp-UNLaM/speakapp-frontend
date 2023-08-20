@@ -1,34 +1,33 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:sp_front/presentations/screens/page_exercises/page_exercise_match.dart';
+import 'package:sp_front/presentations/screens/page_exercises/page_exercise_multiple_match_sel.dart';
 import '../config/helpers/param.dart';
 import '../presentations/screens/page_exercises/page_exercise_order_syllable.dart';
-import '../presentations/screens/page_exercises/page_exercise_recoder.dart';
+import '../presentations/screens/page_exercises/page_exercise_speak.dart';
 
-List<ExerciseModelNew> exerciseModelFromJson(String str) =>
-    List<ExerciseModelNew>.from(
-        json.decode(str).map((x) => ExerciseModelNew.fromJson(x)));
+List<ExerciseModel> exerciseModelFromJson(String str) =>
+    List<ExerciseModel>.from(
+        json.decode(str).map((x) => ExerciseModel.fromJson(x)));
 
-String exerciseModelToJson(List<ExerciseModelNew> data) =>
+String exerciseModelToJson(List<ExerciseModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class ExerciseModelNew {
+class ExerciseModel {
   int exerciseId;
   TypeExercise type;
   String result;
   List<ImageExercise> images;
 
-  ExerciseModelNew({
+  ExerciseModel({
     required this.exerciseId,
     required this.type,
     required this.result,
     required this.images,
   });
 
-  factory ExerciseModelNew.fromJson(Map<String, dynamic> json) =>
-      ExerciseModelNew(
+  factory ExerciseModel.fromJson(Map<String, dynamic> json) => ExerciseModel(
         exerciseId: json["exerciseId"],
-        type: json["type"],
+        type: Param.stringToEnum(json["type"]),
         result: json["result"],
         images: List<ImageExercise>.from(
             json["images"].map((x) => ImageExercise.fromJson(x))),
@@ -44,13 +43,13 @@ class ExerciseModelNew {
   StatefulWidget fromEntity(String letra) {
     switch (type) {
       case TypeExercise.speak:
-        return PageExerciseRecord(
+        return PageExerciseSpeak(
           img: images.first,
           namePhoneme: letra,
           idExercise: exerciseId,
         );
       case TypeExercise.multipleMatchSelection:
-        return PageExerciseMatch(
+        return PageExerciseMultipleMatchSel(
           images: images,
           namePhoneme: letra,
           idExercise: exerciseId,
@@ -63,7 +62,7 @@ class ExerciseModelNew {
           syllables: images.first.dividedName,
         );
       default:
-        return PageExerciseRecord(
+        return PageExerciseSpeak(
           img: images.first,
           namePhoneme: letra,
           idExercise: exerciseId,
