@@ -244,7 +244,7 @@ class ExerciseScreenState extends State<ExerciseScreen> {
         //TODO: DESCOMENTAR LINEA SENDTRANSCRIPTION
         //await recorderProv.sendTranscription();
         //exerciseProv.resetAudio();
-        Navigator.pop(context, 'fin_grupo');
+        context.go('/');
       },
       child: const Text('FINALIZAR'),
     );

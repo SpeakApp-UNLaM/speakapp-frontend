@@ -2,6 +2,8 @@ import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sp_front/presentations/screens/choice_exercise_screen.dart';
+import '../../presentations/screens/auth/screens/login_screen.dart';
+import '../../presentations/screens/auth/screens/register_screen.dart';
 import '../../presentations/screens/exercise_screen.dart';
 import '../../presentations/screens/views.dart';
 
@@ -34,6 +36,14 @@ final appRouter = GoRouter(
 );*/
 
 final appRouter = GoRouter(initialLocation: '/', routes: [
+   GoRoute(
+      path: '/login',
+      builder: (context, state) => const LoginScreen(),
+    ),
+    GoRoute(
+      path: '/register',
+      builder: (context, state) => const RegisterScreen(),
+    ),
   ShellRoute(
       builder: (context, state, child) {
         return HomeScreen(childView: child);
