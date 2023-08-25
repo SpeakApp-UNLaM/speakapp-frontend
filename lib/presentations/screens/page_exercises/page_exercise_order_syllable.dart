@@ -2,11 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_front/models/exercise_model.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import '../../../config/theme/app_theme.dart';
-
-import '../../../providers/recorder_provider.dart';
+import '../../../providers/tts_provider.dart';
 
 class PageExerciseOrderSyllabe extends StatefulWidget {
   final ImageExercise img;
@@ -49,18 +47,23 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                     fontSize: 50,
                     color: colorList[1])),
             const SizedBox(height: 40.0),
-            Container(
-              width: 200, // Establecer el ancho deseado
-              height: 200,
-              padding: EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(16)),
-                  border: Border.all(
-                    color: Colors.grey.shade300,
-                    width: 4.0,
-                  )), // Establecer la altura deseada
-              child: Image.memory(base64.decode(widget.img.base64),
-                  fit: BoxFit.cover),
+            GestureDetector(
+              onTap: () {
+                TtsProvider().speak(widget.img.name);
+              },
+              child: Container(
+                width: 200, // Establecer el ancho deseado
+                height: 200,
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(16)),
+                    border: Border.all(
+                      color: Colors.grey.shade300,
+                      width: 4.0,
+                    )), // Establecer la altura deseada
+                child: Image.memory(base64.decode(widget.img.base64),
+                    fit: BoxFit.cover),
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

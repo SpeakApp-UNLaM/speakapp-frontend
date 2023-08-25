@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:sp_front/presentations/screens/page_exercises/page_exercise_multiple_match_sel.dart';
+import 'package:sp_front/presentations/screens/page_exercises/pages_exercises.dart';
 import '../config/helpers/param.dart';
-import '../presentations/screens/page_exercises/page_exercise_order_syllable.dart';
-import '../presentations/screens/page_exercises/page_exercise_speak.dart';
 
 List<ExerciseModel> exerciseModelFromJson(String str) =>
     List<ExerciseModel>.from(
@@ -61,6 +59,33 @@ class ExerciseModel {
           idExercise: exerciseId,
           syllables: images.first.dividedName,
         );
+      case TypeExercise.minimumPairsSelection:
+        return PageExerciseMinimumPairsSel(
+            images: images, namePhoneme: letra, idExercise: exerciseId);
+      case TypeExercise.multipleSelection:
+        return PageExerciseMultipleSelection(
+            images: images,
+            namePhoneme: letra,
+            idExercise: exerciseId,
+            syllable: result);
+      case TypeExercise.singleSelectionSyllable:
+        return PageExerciseSingleSelectionSyllable(
+            images: images,
+            namePhoneme: letra,
+            idExercise: exerciseId,
+            syllable: result);
+      case TypeExercise.singleSelectionWord:
+        return PageExerciseSingleSelectionWord(
+            images: images,
+            namePhoneme: letra,
+            idExercise: exerciseId,
+            syllable: result);
+      case TypeExercise.consonantalSyllable:
+        return PageExerciseConsonantalSyllable(
+          images: images,
+          namePhoneme: letra,
+          idExercise: exerciseId,
+        );
       default:
         return PageExerciseSpeak(
           img: images.first,
@@ -93,4 +118,8 @@ class ImageExercise {
         "base64": base64,
         "divided_name": dividedName,
       };
+
+  List<String> getSyllables() {
+    return dividedName;
+  }
 }

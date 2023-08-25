@@ -38,43 +38,24 @@ class ExerciseScreenState extends State<ExerciseScreen> {
   Future<void> _getData(int idPhoneme, String nombre, String categorias) async {
     //TODO: GET EXERCISE DEL PHONEME, LEVEL, CATEGORY, USER || JSON EXAMPLE
     //final response = await Api.get(Param.getExercises);
-
-    /** FINAL
-     * 
-     * REQUEST
-{
-   'phonemeId': 1,
-   'category': ['silabas', 'palabras'],
-   'level': 2
- }
-
-{
-   'phonemeId': 1,
-   'category': ['palabras'],
-   'level': 3
-}
-
-//RESPONSE
-
-{
-   'exerciseId': 1,
-   'type': 'speak', ///enum EXERCISE_TYPE
-   'result': 'ra',
-   'images': [
-     {
-      'name': 'rata', //string
-      'base64': 'assets/rat.png', //string
-      'divided_name': 'ra-ta' //string
-     },
-   ], 
-}
-
-     */
-
     List<Map<String, dynamic>> exerciseDataFromDatabase = [
       {
         'exerciseId': 2,
-        'type': 'multipleMatchSelection',
+        'type': 'consonantalSyllable',
+
+        ///enum EXERCISE_TYPE
+        'result': 'ra',
+        'images': [
+          {
+            'name': 'rata', //string
+            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'RA-LA-TRA' //string
+          },
+        ],
+      },
+      {
+        'exerciseId': 55,
+        'type': 'singleSelectionWord',
 
         ///enum EXERCISE_TYPE
         'result': 'ra',
@@ -88,7 +69,79 @@ class ExerciseScreenState extends State<ExerciseScreen> {
             'name': 'caramelo', //string
             'base64':
                 Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ca-ra-me-lo' //string
+          },
+        ],
+      },
+      {
+        'exerciseId': 44,
+        'type': 'singleSelectionSyllable',
+
+        ///enum EXERCISE_TYPE
+        'result': 'ra',
+        'images': [
+          {
+            'name': 'rata', //string
+            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
             'divided_name': 'ra-ta' //string
+          },
+          {
+            'name': 'caramelo', //string
+            'base64':
+                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ca-ra-me-lo' //string
+          },
+        ],
+      },
+      {
+        'exerciseId': 33,
+        'type': 'multipleSelection',
+
+        ///enum EXERCISE_TYPE
+        'result': 'ra',
+        'images': [
+          {
+            'name': 'rata', //string
+            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ra-ta' //string
+          },
+          {
+            'name': 'caramelo', //string
+            'base64':
+                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ca-ra-me-lo' //string
+          },
+          {
+            'name': 'caramelo', //string
+            'base64':
+                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ca-ra-me-lo' //string
+          },
+          {
+            'name': 'caramelo', //string
+            'base64':
+                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ca-ra-me-lo' //string
+          },
+        ],
+      },
+      {
+        'exerciseId': 22,
+        'type': 'minimumPairsSelection',
+
+        ///enum EXERCISE_TYPE
+        'result': 'ra',
+        'images': [
+          {
+            'name': 'rata', //string
+            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ra-ta' //string
+          },
+          {
+            'name': 'caramelo', //string
+            'base64':
+                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ca-ra-me-lo' //string
           },
         ],
       },
@@ -178,7 +231,7 @@ class ExerciseScreenState extends State<ExerciseScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 IconButton(
-                  icon: Icon(Icons.close),
+                  icon: const Icon(Icons.close),
                   onPressed: () => context.go('/'),
                 ),
                 Expanded(
@@ -203,12 +256,12 @@ class ExerciseScreenState extends State<ExerciseScreen> {
                         //recorderProv.isExerciseFinished)
                         )
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
                         child: _actionBtnNext(exerciseProv, recorderProv),
                       ),
                     if (currentPageIndex == _pagesExercisesFounded.length - 1)
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30),
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
                         child: _actionBtnGoHome(exerciseProv, context),
                       ),
                   ],

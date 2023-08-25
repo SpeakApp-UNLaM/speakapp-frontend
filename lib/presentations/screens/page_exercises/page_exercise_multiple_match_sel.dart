@@ -64,11 +64,11 @@ class PageExerciseMultipleMatchSelState
                           }
                           audiosSelected.remove(img.name);
                         } else {
+                          TtsProvider().speak(img.name);
                           audiosSelected.add(img.name);
                         }
                         exerciseProv.finishExercise();
                         setState(() {});
-                        TtsProvider().speak(img.name);
                       },
                       child: DecoratedBox(
                           decoration: BoxDecoration(
@@ -157,10 +157,4 @@ class PageExerciseMultipleMatchSelState
       ),
     );
   }
-}
-
-class WidgetsPaired {
-  String audioSelected = "";
-  String img64Selected = "";
-  int indexColorAssigned = -1;
 }

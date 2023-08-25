@@ -44,7 +44,7 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
             Container(
               width: 240, // Establecer el ancho deseado
               height: 240,
-              padding: EdgeInsets.all(40),
+              padding: const EdgeInsets.all(40),
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(16)),
                   border: Border.all(
@@ -55,9 +55,9 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
                   fit: BoxFit.cover),
             ),
             const SizedBox(height: 30.0),
-            Padding(
+            const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 40),
-                child: const ButtonPlayAudio()),
+                child: ButtonPlayAudio()),
             const SizedBox(height: 30.0),
             const ButtonRecorder(),
             const SizedBox(height: 10),

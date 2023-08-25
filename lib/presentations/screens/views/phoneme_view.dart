@@ -33,25 +33,25 @@ class PhonemeViewState extends State<PhonemeView> {
         appBar: AppBar(
           backgroundColor: colorList[7],
           toolbarHeight: 80,
-          title:  Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text('Vamos a practicar',
-                style: TextStyle(
-                    fontSize: 21,
+          title: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text('Vamos a practicar',
+                  style: TextStyle(
+                      fontSize: 21,
+                      color: Theme.of(context).primaryColor,
+                      fontFamily: 'IkkaRounded',
+                      fontWeight: FontWeight.w400)),
+              const SizedBox(height: 10),
+              Text('Seleccione un fonema para practicar sus silabas:',
+                  style: GoogleFonts.nunito(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 15,
                     color: Theme.of(context).primaryColor,
-                    fontFamily: 'IkkaRounded',
-                    fontWeight: FontWeight.w400)),
-            const SizedBox(height: 10),
-            Text('Seleccione un fonema para practicar sus silabas:',
-                style: GoogleFonts.nunito(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 15,
-                  color: Theme.of(context).primaryColor,
-                ))
-          ],
-        ),
+                  ))
+            ],
+          ),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(
               bottom: Radius.circular(20),
@@ -67,7 +67,7 @@ class PhonemeViewState extends State<PhonemeView> {
   void _getData() {
     //TODO: GET PHONEMES DESDE TASK_GROUP
     buttonsGroupLists
-        .add(const ButtonPhoneme(name: "RR", codeGroup: 1, tag: '1'));
+        .add(const ButtonPhoneme(name: "R", codeGroup: 1, tag: '1'));
     buttonsGroupLists
         .add(const ButtonPhoneme(name: "L", codeGroup: 2, tag: '2'));
     buttonsGroupLists
