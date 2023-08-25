@@ -18,7 +18,7 @@ class Recorder {
   Future<void> init() async {
     final directory = await getTemporaryDirectory();
     _recordingPath = '${directory.path}/recording.wav';
-    reset();
+    //reset();
     if (await Permission.microphone.isGranted) {
       await Permission.storage.request();
     } else {
@@ -75,6 +75,7 @@ class Recorder {
 
   Future<void> reset() async {
     final file = File(_recordingPath);
+    audioPlayer.dispose();
     if (await file.exists()) {
       await file.delete();
     }

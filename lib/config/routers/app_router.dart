@@ -117,13 +117,13 @@ final appRouter = GoRouter(initialLocation: '/', routes: [
             );
           },
         ),
-        GoRoute(
-          path: '/exercise/:idPhoneme/:namePhoneme/:level/:categorias',
-          builder: (context, state) => ExerciseScreen(
-              idPhoneme: int.parse("${state.pathParameters['idPhoneme']}"),
-              namePhoneme: "${state.pathParameters['namePhoneme']}",
-              level: "${state.pathParameters['level']}",
-              categorias: "${state.pathParameters['categorias']}"),
-        ),
       ]),
+  GoRoute(
+    path: '/exercise/:idPhoneme/:namePhoneme/:level/:categorias',
+    builder: (context, state) => ExerciseScreen(
+        idPhoneme: int.parse("${state.pathParameters['idPhoneme']}"),
+        namePhoneme: "${state.pathParameters['namePhoneme']}",
+        level: "${state.pathParameters['level']}",
+        categorias: "${state.pathParameters['categorias']}"),
+  ),
 ]);

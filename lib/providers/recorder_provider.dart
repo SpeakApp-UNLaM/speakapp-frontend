@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sp_front/config/helpers/api.dart';
 import 'package:sp_front/config/helpers/recorder.dart';
 import '../common/common.dart';
@@ -77,7 +78,7 @@ class RecorderProvider extends ChangeNotifier {
   Stream<PositionData> getStreamAudioPlayer() =>
       recorder.getStreamAudioPlayer();
 
-  void resetAudio() {
+  void resetAudio() async {
     recorder.reset();
     _existAudio = false;
     _transcripton = "";
