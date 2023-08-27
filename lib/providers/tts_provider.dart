@@ -20,9 +20,11 @@ class TtsProvider extends ChangeNotifier {
   Future<void> speak(String text) async {
     if (_playing) await stop();
     if (text.isNotEmpty) {
-      await _flutterTts.setLanguage('es'); // Establece el idioma, en este caso, español.
-      await _flutterTts.setSpeechRate(1.0); // creo que es la velocidad del hablado, no funciona en español :(
-      await _flutterTts.setPitch(1.0); 
+      await _flutterTts
+          .setLanguage('es'); // Establece el idioma, en este caso, español.
+      await _flutterTts.setSpeechRate(
+          0.5); // creo que es la velocidad del hablado, no funciona en español :(
+      await _flutterTts.setPitch(1.0);
       await _flutterTts.speak(text);
       _playing = true;
       notifyListeners();

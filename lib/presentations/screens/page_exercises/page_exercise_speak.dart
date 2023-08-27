@@ -5,6 +5,8 @@ import 'package:sp_front/models/exercise_model.dart';
 import 'package:sp_front/presentations/widgets/button_play_audio.dart';
 import 'package:sp_front/presentations/widgets/button_recorder.dart';
 
+import '../../../config/helpers/param.dart';
+
 class PageExerciseSpeak extends StatefulWidget {
   final ImageExercise img;
   final String namePhoneme;
@@ -42,22 +44,24 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
                     color: colorList[1])),
             const SizedBox(height: 20.0),
             Container(
-              width: 240, // Establecer el ancho deseado
-              height: 240,
-              padding: EdgeInsets.all(40),
+              padding: const EdgeInsets.all(40),
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(16)),
                   border: Border.all(
                     color: Colors.grey.shade300,
                     width: 4.0,
                   )), // Establecer la altura deseada
-              child: Image.memory(base64.decode(widget.img.base64),
-                  fit: BoxFit.cover),
+              child: SizedBox(
+                width: Param.tamImages,
+                height: Param.tamImages,
+                child: Image.memory(base64.decode(widget.img.base64),
+                    fit: BoxFit.cover),
+              ),
             ),
             const SizedBox(height: 30.0),
-            Padding(
+            const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 40),
-                child: const ButtonPlayAudio()),
+                child: ButtonPlayAudio()),
             const SizedBox(height: 30.0),
             const ButtonRecorder(),
             const SizedBox(height: 10),
