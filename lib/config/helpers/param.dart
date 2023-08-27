@@ -21,7 +21,7 @@ class Param {
   static const getPending = "/pending/1";
   static const getGroupExercises = "/groupExercises";
   static const modelWhisper = "whisper-1";
-
+  static const tamImages = 120.0;
   static void showToast(String response) {
     Fluttertoast.showToast(
       msg: 'Error: $response', // Mensaje de la excepción

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:provider/provider.dart';
+import '../../../config/helpers/param.dart';
 import '../../../config/theme/app_theme.dart';
 import '../../../models/exercise_model.dart';
 import '../../../providers/tts_provider.dart';
@@ -129,8 +130,8 @@ class PageExerciseConsonantalSyllableState
                       margin: const EdgeInsets.all(8),
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: SizedBox(
-                        width: 150, // Establecer el ancho deseado
-                        height: 150, // Establecer la altura deseada
+                        width: Param.tamImages, // Establecer el ancho deseado
+                        height: Param.tamImages, // Establecer la altura deseada
                         child: Image.memory(base64.decode(img.base64),
                             fit: BoxFit.cover),
                       ),

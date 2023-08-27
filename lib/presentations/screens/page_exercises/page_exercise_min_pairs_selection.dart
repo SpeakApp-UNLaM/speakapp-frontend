@@ -96,44 +96,50 @@ class PageExerciseMinimumPairsSelState
     );
   }
 
-  Row drawImages(ExerciseProvider exerciseProv) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        for (ImageExercise img in widget.images)
-          GestureDetector(
-            onTap: () {
-              if (imageSelected == img.name) {
-                imageSelected = "";
-              } else {
-                imageSelected = img.name;
-              }
-              exerciseProv.finishExercise();
-              setState(() {});
-            },
-            child: DecoratedBox(
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(16)),
-                    border: Border.all(
-                      color: imageSelected == img.name
-                          ? colorList[1]
-                          : Colors.grey.shade300,
-                      width: 4.0,
-                    )),
-                child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Container(
-                      margin: const EdgeInsets.all(8),
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: SizedBox(
-                        width: 150, // Establecer el ancho deseado
-                        height: 150, // Establecer la altura deseada
-                        child: Image.memory(base64.decode(img.base64),
-                            fit: BoxFit.cover),
-                      ),
-                    ))),
+  Widget drawImages(ExerciseProvider exerciseProv) {
+    return Wrap(
+      spacing: 10.0,
+      runSpacing: 10.0,
+      children: widget.images.map((img) {
+        final isSelected = imageSelected == img.name;
+        final borderColor = isSelected ? colorList[1] : Colors.grey.shade300;
+
+        return GestureDetector(
+          onTap: () {
+            if (isSelected) {
+              imageSelected = "";
+            } else {
+              imageSelected = img.name;
+            }
+            exerciseProv.finishExercise();
+            setState(() {});
+          },
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(16)),
+              border: Border.all(
+                color: borderColor,
+                width: 4.0,
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Container(
+                margin: const EdgeInsets.all(8),
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: SizedBox(
+                  width: Param.tamImages,
+                  height: Param.tamImages,
+                  child: Image.memory(
+                    base64.decode(img.base64),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
           ),
-      ],
+        );
+      }).toList(),
     );
   }
 }

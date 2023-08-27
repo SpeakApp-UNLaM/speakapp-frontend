@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:provider/provider.dart';
+import '../../../config/helpers/param.dart';
 import '../../../config/theme/app_theme.dart';
 import '../../../models/exercise_model.dart';
 import '../../../providers/tts_provider.dart';
@@ -130,8 +131,8 @@ class PageExerciseMultipleSelectionState
                             margin: const EdgeInsets.all(8),
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: SizedBox(
-                                width: 150,
-                                height: 150,
+                                width: Param.tamImages,
+                                height: Param.tamImages,
                                 child: Image.memory(
                                   base64.decode(image.base64),
                                   fit: BoxFit.cover,

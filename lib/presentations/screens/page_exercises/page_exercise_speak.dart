@@ -5,6 +5,8 @@ import 'package:sp_front/models/exercise_model.dart';
 import 'package:sp_front/presentations/widgets/button_play_audio.dart';
 import 'package:sp_front/presentations/widgets/button_recorder.dart';
 
+import '../../../config/helpers/param.dart';
+
 class PageExerciseSpeak extends StatefulWidget {
   final ImageExercise img;
   final String namePhoneme;
@@ -50,8 +52,8 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
                     width: 4.0,
                   )), // Establecer la altura deseada
               child: SizedBox(
-                width: 150,
-                height: 150,
+                width: Param.tamImages,
+                height: Param.tamImages,
                 child: Image.memory(base64.decode(widget.img.base64),
                     fit: BoxFit.cover),
               ),

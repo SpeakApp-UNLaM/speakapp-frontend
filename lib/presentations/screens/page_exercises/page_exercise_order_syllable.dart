@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_front/models/exercise_model.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
+import '../../../config/helpers/param.dart';
 import '../../../config/theme/app_theme.dart';
 import '../../../providers/tts_provider.dart';
 
@@ -61,8 +62,8 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                         width: 4.0,
                       )), // Establecer la altura deseada
                   child: SizedBox(
-                      height: 150,
-                      width: 150,
+                      height: Param.tamImages,
+                      width: Param.tamImages,
                       child: Image.memory(base64.decode(widget.img.base64),
                           fit: BoxFit.cover)),
                 ),
