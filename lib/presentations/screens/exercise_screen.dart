@@ -124,8 +124,7 @@ class ExerciseScreenState extends State<ExerciseScreen> {
           {
             'name': 'rata', //string
             'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name':
-                'RA-LA-TRA-RA-LA-TRA-RA-LA-TRA-RA-LA-TRA-RA-LA-TRA-RA-LA-TRA' //string
+            'divided_name': 'RA-LA-TRA-BRA' //string
           },
         ],
       },
@@ -191,7 +190,7 @@ class ExerciseScreenState extends State<ExerciseScreen> {
           {
             'name': 'caramelo', //string
             'base64': Param.base64Caramelo, //string
-            'divided_name': 'ca-ra-me-lo-D-S-EQW-EQ-WEEQ' //string
+            'divided_name': 'ca-ra-me-lo' //string
           },
         ],
       },
