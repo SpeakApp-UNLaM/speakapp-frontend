@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:sp_front/config/routers/app_router.dart';
+import 'package:sp_front/providers/auth_provider.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
+import 'package:sp_front/providers/login_provider.dart';
 import 'package:sp_front/providers/recorder_provider.dart';
 import 'package:provider/provider.dart';
 import 'config/helpers/api.dart';
 import 'config/theme/app_theme.dart';
 
 void main() {
-  FlutterNativeSplash.preserve(widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
+  FlutterNativeSplash.preserve(
+      widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
   Api.configureDio();
   runApp(const AudioRecorderApp());
   FlutterNativeSplash.remove();
@@ -20,12 +23,16 @@ class AudioRecorderApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [ChangeNotifierProvider(create: (_) => RecorderProvider()), ChangeNotifierProvider(create: (_) => ExerciseProvider())],
+        providers: [
+          ChangeNotifierProvider(create: (_) => RecorderProvider()),
+          ChangeNotifierProvider(create: (_) => ExerciseProvider()),
+          ChangeNotifierProvider(create: (_) => LoginProvider()),
+          ChangeNotifierProvider(create: (_) => AuthProvider())
+        ],
         child: MaterialApp.router(
           routerConfig: appRouter,
           debugShowCheckedModeBanner: false,
           theme: AppTheme.theme(),
-                
         ));
   }
 }

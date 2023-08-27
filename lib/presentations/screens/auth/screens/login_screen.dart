@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
+import 'package:sp_front/providers/login_provider.dart';
 
 import '../../../../shared/custom_filled_button.dart';
 import '../../../../shared/custom_text_form_field.dart';
@@ -28,7 +30,7 @@ class LoginScreen extends StatelessWidget {
             // Icon Banner
             Image(
               image: AssetImage('assets/branding/Logo_SpeakApp.png'),
-              width: 200,
+              width: 220,
               height: 100,
             ),
             const SizedBox(height: 50),
@@ -56,6 +58,8 @@ class _LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textStyles = Theme.of(context).textTheme;
+    final loginProv = context.watch<LoginProvider>();
+
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -66,14 +70,18 @@ class _LoginForm extends StatelessWidget {
           GoogleFonts.nunito(
                 textStyle: TextStyle(fontSize: 30, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w800))),
           const SizedBox(height: 90),
-          const CustomTextFormField(
+          CustomTextFormField(
             label: 'Correo',
             keyboardType: TextInputType.emailAddress,
+            onChanged: (value) => context.read<LoginProvider>().onEmailChange(value),
+            errorMessage: loginProv.email.errorMessage,
           ),
           const SizedBox(height: 30),
-          const CustomTextFormField(
+          CustomTextFormField(
             label: 'Contraseña',
             obscureText: true,
+            onChanged: (value) => context.read<LoginProvider>().onPasswordChange(value),
+            errorMessage: loginProv.password.errorMessage,
           ),
           const SizedBox(height: 30),
           SizedBox(
@@ -82,7 +90,9 @@ class _LoginForm extends StatelessWidget {
               child: CustomFilledButton(
                 text: 'Ingresar',
                 buttonColor: colorList[0],
-                onPressed: () {},
+                onPressed: () {
+                  context.read<LoginProvider>().onFormSubmit(context);
+                },
               )),
           const Spacer(flex: 2),
           Row(

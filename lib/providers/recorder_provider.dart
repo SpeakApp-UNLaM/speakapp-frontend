@@ -30,7 +30,7 @@ class RecorderProvider extends ChangeNotifier {
         'model': Param.modelWhisper,
       });
 
-      Response response = await Api.post(Param.postTranscription, formData);
+      /*Response response = await Api.post(Param.postTranscription, formData);
 
       if (response.statusCode == 200) {
         TranscriptionModel transcriptionModel =
@@ -43,6 +43,7 @@ class RecorderProvider extends ChangeNotifier {
       } else {
         Param.showToast("${response.statusCode}");
       }
+      */
     } catch (error) {
       Param.showToast('Failed to send transcription. Error: $error');
     }
