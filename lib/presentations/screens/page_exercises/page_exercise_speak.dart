@@ -42,8 +42,6 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
                     color: colorList[1])),
             const SizedBox(height: 20.0),
             Container(
-              width: 240, // Establecer el ancho deseado
-              height: 240,
               padding: const EdgeInsets.all(40),
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(16)),
@@ -51,8 +49,12 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
                     color: Colors.grey.shade300,
                     width: 4.0,
                   )), // Establecer la altura deseada
-              child: Image.memory(base64.decode(widget.img.base64),
-                  fit: BoxFit.cover),
+              child: SizedBox(
+                width: 150,
+                height: 150,
+                child: Image.memory(base64.decode(widget.img.base64),
+                    fit: BoxFit.cover),
+              ),
             ),
             const SizedBox(height: 30.0),
             const Padding(

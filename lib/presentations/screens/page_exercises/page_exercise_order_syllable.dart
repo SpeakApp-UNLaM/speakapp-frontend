@@ -30,90 +30,89 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
   Widget build(BuildContext context) {
     final exerciseProv = context.watch<ExerciseProvider>();
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('¡Vamos a practicar! \nFormemos la palabra',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontFamily: 'IkkaRounded',
-                    fontSize: 20,
-                    color: Theme.of(context).primaryColorDark)),
-            Text(widget.namePhoneme,
-                style: TextStyle(
-                    fontFamily: 'IkkaRounded',
-                    fontSize: 50,
-                    color: colorList[1])),
-            const SizedBox(height: 40.0),
-            GestureDetector(
-              onTap: () {
-                TtsProvider().speak(widget.img.name);
-              },
-              child: Container(
-                width: 200, // Establecer el ancho deseado
-                height: 200,
-                padding: const EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(16)),
-                    border: Border.all(
-                      color: Colors.grey.shade300,
-                      width: 4.0,
-                    )), // Establecer la altura deseada
-                child: Image.memory(base64.decode(widget.img.base64),
-                    fit: BoxFit.cover),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('¡Vamos a practicar! \nFormemos la palabra',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: 'IkkaRounded',
+                      fontSize: 20,
+                      color: Theme.of(context).primaryColorDark)),
+              Text(widget.namePhoneme,
+                  style: TextStyle(
+                      fontFamily: 'IkkaRounded',
+                      fontSize: 50,
+                      color: colorList[1])),
+              const SizedBox(height: 40.0),
+              GestureDetector(
+                onTap: () {
+                  TtsProvider().speak(widget.img.name);
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(16)),
+                      border: Border.all(
+                        color: Colors.grey.shade300,
+                        width: 4.0,
+                      )), // Establecer la altura deseada
+                  child: SizedBox(
+                      height: 150,
+                      width: 150,
+                      child: Image.memory(base64.decode(widget.img.base64),
+                          fit: BoxFit.cover)),
+                ),
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: widget.syllables.asMap().entries.map((entry) {
-                final int index = entry.key;
-                return DragTarget<String>(
-                  onAccept: (value) {
-                    setState(() {
-                      formedWord.removeWhere((element) => element.isEmpty);
-                      formedWord.add(value);
-                      if (widget.syllables.length > formedWord.length) {
-                        formedWord.add("");
-                      } else {
-                        exerciseProv.finishExercise();
-                      }
-                    });
-                  },
-                  builder: (context, acceptedItems, rejectedItems) {
-                    return Row(
-                      children: [
-                        Container(
-                          width: 70,
-                          height: 70,
-                          alignment: Alignment.center,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              if (formedWord.length > index)
-                                ReorderableSyllableWidget(
-                                    syllable: formedWord[index]),
-                              Divider(
-                                color: Theme.of(context).primaryColorDark,
-                              ),
-                            ],
-                          ),
+              Wrap(
+                spacing: 20,
+                runSpacing: 20,
+                children: widget.syllables.asMap().entries.map((entry) {
+                  final int index = entry.key;
+                  return DragTarget<String>(
+                    onAccept: (value) {
+                      setState(() {
+                        formedWord.removeWhere((element) => element.isEmpty);
+                        formedWord.add(value);
+                        if (widget.syllables.length > formedWord.length) {
+                          formedWord.add("");
+                        } else {
+                          exerciseProv.finishExercise();
+                        }
+                      });
+                    },
+                    builder: (context, acceptedItems, rejectedItems) {
+                      return Container(
+                        width: 70,
+                        height: 70,
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            if (formedWord.length > index)
+                              ReorderableSyllableWidget(
+                                  syllable: formedWord[index]),
+                            Divider(
+                              color: Theme.of(context).primaryColorDark,
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 10)
-                      ],
-                    );
-                  },
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: widget.syllables
-                  .where((syllable) => !formedWord.contains(syllable))
-                  .map((syllable) {
-                return Draggable<String>(
+                      );
+                    },
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 20,
+                runSpacing: 20,
+                children: widget.syllables
+                    .where((syllable) => !formedWord.contains(syllable))
+                    .map((syllable) {
+                  return Draggable<String>(
                     data: syllable,
                     feedback: ReorderableSyllableWidget(syllable: syllable),
                     childWhenDragging: Container(
@@ -127,8 +126,7 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 2,
                             blurRadius: 5,
-                            offset: Offset(0,
-                                3), // Cambia la posición de la sombra (horizontal, vertical)
+                            offset: Offset(0, 3),
                           ),
                         ],
                       ),
@@ -143,8 +141,7 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 2,
                             blurRadius: 5,
-                            offset: Offset(0,
-                                3), // Cambia la posición de la sombra (horizontal, vertical)
+                            offset: Offset(0, 3),
                           ),
                         ],
                       ),
@@ -154,25 +151,28 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                       child: Text(
                         syllable.toUpperCase(),
                         style: TextStyle(
-                            color: Theme.of(context).primaryColorDark,
-                            fontFamily: "IkkaRounded",
-                            fontSize: 15),
+                          color: Theme.of(context).primaryColorDark,
+                          fontFamily: "IkkaRounded",
+                          fontSize: 15,
+                        ),
                       ),
-                    ));
-              }).toList(),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  formedWord.clear();
-                  formedWord.add("");
-                  exerciseProv.unfinishExercise();
-                });
-              },
-              child: const Text('Reiniciar'),
-            ),
-          ],
+                    ),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    formedWord.clear();
+                    formedWord.add("");
+                    exerciseProv.unfinishExercise();
+                  });
+                },
+                child: const Text('Reiniciar'),
+              ),
+            ],
+          ),
         ),
       ),
     );

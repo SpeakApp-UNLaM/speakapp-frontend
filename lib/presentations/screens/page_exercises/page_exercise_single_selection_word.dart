@@ -69,9 +69,10 @@ class PageExerciseSingleSelectionWordState
     );
   }
 
-  Row drawImages(ExerciseProvider exerciseProv) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget drawImages(ExerciseProvider exerciseProv) {
+    return Wrap(
+      spacing: 10.0,
+      runSpacing: 10.0,
       children: [
         for (ImageExercise img in widget.images)
           GestureDetector(
@@ -86,26 +87,31 @@ class PageExerciseSingleSelectionWordState
               setState(() {});
             },
             child: DecoratedBox(
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(16)),
-                    border: Border.all(
-                      color: imageSelected == img.name
-                          ? colorList[1]
-                          : Colors.grey.shade300,
-                      width: 4.0,
-                    )),
-                child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Container(
-                      margin: const EdgeInsets.all(8),
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: SizedBox(
-                        width: 150, // Establecer el ancho deseado
-                        height: 150, // Establecer la altura deseada
-                        child: Image.memory(base64.decode(img.base64),
-                            fit: BoxFit.cover),
-                      ),
-                    ))),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(16)),
+                border: Border.all(
+                  color: imageSelected == img.name
+                      ? colorList[1]
+                      : Colors.grey.shade300,
+                  width: 4.0,
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Container(
+                  margin: const EdgeInsets.all(8),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: SizedBox(
+                    width: 150,
+                    height: 150,
+                    child: Image.memory(
+                      base64.decode(img.base64),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
       ],
     );

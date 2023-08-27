@@ -57,9 +57,10 @@ class PageExerciseConsonantalSyllableState
     );
   }
 
-  Row drawElements(ExerciseProvider exerciseProv, List<String> syllables) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  Widget drawElements(ExerciseProvider exerciseProv, List<String> syllables) {
+    return Wrap(
+      spacing: 10.0,
+      runSpacing: 10.0,
       children: [
         for (String syllable in syllables)
           GestureDetector(
@@ -73,34 +74,34 @@ class PageExerciseConsonantalSyllableState
               setState(() {});
             },
             child: DecoratedBox(
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(16)),
-                    border: Border.all(
-                      color: syllableSelected == syllable
-                          ? colorList[1]
-                          : Colors.grey.shade300,
-                      width: 3.0,
-                    )),
-                child: Container(
-                  alignment: Alignment.center,
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 5, right: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(syllable,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontFamily: 'IkkaRounded',
-                                fontSize: 30,
-                                color: Theme.of(context).primaryColorDark))
-                      ],
-                    ),
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(16)),
+                border: Border.all(
+                  color: syllableSelected == syllable
+                      ? colorList[1]
+                      : Colors.grey.shade300,
+                  width: 3.0,
+                ),
+              ),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 5, right: 5),
+                  child: Wrap(
+                    children: [
+                      Text(syllable,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: 'IkkaRounded',
+                              fontSize: 25,
+                              color: Theme.of(context).primaryColorDark))
+                    ],
                   ),
-                )),
-          )
+                ),
+              ),
+            ),
+          ),
       ],
     );
   }
@@ -128,8 +129,8 @@ class PageExerciseConsonantalSyllableState
                       margin: const EdgeInsets.all(8),
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: SizedBox(
-                        width: 200, // Establecer el ancho deseado
-                        height: 200, // Establecer la altura deseada
+                        width: 150, // Establecer el ancho deseado
+                        height: 150, // Establecer la altura deseada
                         child: Image.memory(base64.decode(img.base64),
                             fit: BoxFit.cover),
                       ),

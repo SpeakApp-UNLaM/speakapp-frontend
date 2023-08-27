@@ -53,8 +53,9 @@ class PageExerciseMultipleSelectionState
                       fontFamily: 'IkkaRounded',
                       fontSize: 50,
                       color: colorList[1])),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              Wrap(
+                spacing: 10.0,
+                runSpacing: 10.0,
                 children: [
                   GestureDetector(
                     onTap: () {
@@ -63,85 +64,83 @@ class PageExerciseMultipleSelectionState
                       TtsProvider().speak(widget.syllable);
                     },
                     child: DecoratedBox(
-                        decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(32)),
-                            border: Border.all(
-                              color: Colors.grey.shade300,
-                              width: 3.0,
-                            )),
-                        child: Container(
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 10),
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 5, right: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Icon(
-                                  Icons.volume_up_outlined,
-                                  color: Colors.grey.shade400,
-                                ),
-                                const Text("Reproducir")
-                              ],
-                            ),
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(32)),
+                        border: Border.all(
+                          color: Colors.grey.shade300,
+                          width: 3.0,
+                        ),
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 5, right: 5),
+                          child: Wrap(
+                            children: [
+                              Icon(
+                                Icons.volume_up_outlined,
+                                color: Colors.grey.shade400,
+                              ),
+                              const Text("Reproducir")
+                            ],
                           ),
-                        )),
-                  )
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 5.0),
-              GridView.builder(
-                shrinkWrap:
-                    true, // Asegura que la cuadrícula se ajuste a su contenido
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 16.0, // Espaciado vertical
-                    crossAxisSpacing: 16.0,
-                    childAspectRatio: 1 // Espaciado horizontal
-                    ),
-                itemCount: widget.images.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    onTap: () {
-                      if (imagesSelected
-                          .contains(widget.images[index].base64)) {
-                        imagesSelected.remove(widget.images[index].base64);
-                      } else {
-                        TtsProvider().speak(widget.images[index].name);
-                        imagesSelected.add(widget.images[index].base64);
-                      }
-                      exerciseProv.finishExercise();
+              Wrap(
+                spacing: 10.0,
+                runSpacing: 10.0,
+                children: [
+                  for (var image in widget.images)
+                    GestureDetector(
+                      onTap: () {
+                        final isSelected =
+                            imagesSelected.contains(image.base64);
+                        if (isSelected) {
+                          imagesSelected.remove(image.base64);
+                        } else {
+                          TtsProvider().speak(image.name);
+                          imagesSelected.add(image.base64);
+                        }
+                        exerciseProv.finishExercise();
 
-                      setState(() {});
-                    },
-                    child: DecoratedBox(
+                        setState(() {});
+                      },
+                      child: DecoratedBox(
                         decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(16)),
-                            border: Border.all(
-                              color: imagesSelected
-                                      .contains(widget.images[index].base64)
-                                  ? colorList[imagesSelected
-                                      .indexOf(widget.images[index].base64)]
-                                  : Colors.grey.shade300,
-                              width: 4.0,
-                            )),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(16)),
+                          border: Border.all(
+                            color: imagesSelected.contains(image.base64)
+                                ? colorList[
+                                    imagesSelected.indexOf(image.base64)]
+                                : Colors.grey.shade300,
+                            width: 4.0,
+                          ),
+                        ),
                         child: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Container(
-                              margin: const EdgeInsets.all(8),
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: AspectRatio(
-                                aspectRatio: 2, // Establecer la altura deseada
+                          padding: const EdgeInsets.all(10),
+                          child: Container(
+                            margin: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: SizedBox(
+                                width: 150,
+                                height: 150,
                                 child: Image.memory(
-                                    base64.decode(widget.images[index].base64),
-                                    fit: BoxFit.cover),
-                              ),
-                            ))),
-                  );
-                },
+                                  base64.decode(image.base64),
+                                  fit: BoxFit.cover,
+                                )),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
               ),
               const SizedBox(height: 40.0),
             ],

@@ -40,42 +40,8 @@ class ExerciseScreenState extends State<ExerciseScreen> {
     //final response = await Api.get(Param.getExercises);
     List<Map<String, dynamic>> exerciseDataFromDatabase = [
       {
-        'exerciseId': 2,
-        'type': 'consonantalSyllable',
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'rata', //string
-            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'RA-LA-TRA' //string
-          },
-        ],
-      },
-      {
-        'exerciseId': 55,
-        'type': 'singleSelectionWord',
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'rata', //string
-            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ra-ta' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-        ],
-      },
-      {
-        'exerciseId': 44,
-        'type': 'singleSelectionSyllable',
+        'exerciseId': 22,
+        'type': 'minimumPairsSelection',
 
         ///enum EXERCISE_TYPE
         'result': 'ra',
@@ -123,11 +89,49 @@ class ExerciseScreenState extends State<ExerciseScreen> {
                 Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
             'divided_name': 'ca-ra-me-lo' //string
           },
+          {
+            'name': 'rata', //string
+            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ra-ta' //string
+          },
+          {
+            'name': 'caramelo', //string
+            'base64':
+                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ca-ra-me-lo' //string
+          },
+          {
+            'name': 'caramelo', //string
+            'base64':
+                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ca-ra-me-lo' //string
+          },
+          {
+            'name': 'caramelo', //string
+            'base64':
+                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ca-ra-me-lo' //string
+          },
         ],
       },
       {
-        'exerciseId': 22,
-        'type': 'minimumPairsSelection',
+        'exerciseId': 2,
+        'type': 'consonantalSyllable',
+
+        ///enum EXERCISE_TYPE
+        'result': 'ra',
+        'images': [
+          {
+            'name': 'rata', //string
+            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name':
+                'RA-LA-TRA-RA-LA-TRA-RA-LA-TRA-RA-LA-TRA-RA-LA-TRA-RA-LA-TRA' //string
+          },
+        ],
+      },
+      {
+        'exerciseId': 55,
+        'type': 'singleSelectionWord',
 
         ///enum EXERCISE_TYPE
         'result': 'ra',
@@ -136,6 +140,38 @@ class ExerciseScreenState extends State<ExerciseScreen> {
             'name': 'rata', //string
             'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
             'divided_name': 'ra-ta' //string
+          },
+          {
+            'name': 'caramelo', //string
+            'base64':
+                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ca-ra-me-lo' //string
+          },
+          {
+            'name': 'caramelo', //string
+            'base64':
+                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ca-ra-me-lo' //string
+          },
+        ],
+      },
+      {
+        'exerciseId': 44,
+        'type': 'singleSelectionSyllable',
+
+        ///enum EXERCISE_TYPE
+        'result': 'ra',
+        'images': [
+          {
+            'name': 'rata', //string
+            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ra-ta' //string
+          },
+          {
+            'name': 'caramelo', //string
+            'base64':
+                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ca-ra-me-lo' //string
           },
           {
             'name': 'caramelo', //string
@@ -155,7 +191,7 @@ class ExerciseScreenState extends State<ExerciseScreen> {
           {
             'name': 'caramelo', //string
             'base64': Param.base64Caramelo, //string
-            'divided_name': 'ca-ra-me-lo' //string
+            'divided_name': 'ca-ra-me-lo-D-S-EQW-EQ-WEEQ' //string
           },
         ],
       },
@@ -197,6 +233,24 @@ class ExerciseScreenState extends State<ExerciseScreen> {
           {
             'name': 'rata', //string
             'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ra-ta' //string
+          },
+          {
+            'name': 'caramelo', //string
+            'base64':
+                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ra-ta' //string
+          },
+          {
+            'name': 'caramelo', //string
+            'base64':
+                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
+            'divided_name': 'ra-ta' //string
+          },
+          {
+            'name': 'caramelo', //string
+            'base64':
+                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
             'divided_name': 'ra-ta' //string
           },
           {
@@ -297,7 +351,7 @@ class ExerciseScreenState extends State<ExerciseScreen> {
         //TODO: DESCOMENTAR LINEA SENDTRANSCRIPTION
         //await recorderProv.sendTranscription();
         //exerciseProv.resetAudio();
-        Navigator.pop(context, 'fin_grupo');
+        context.go('/');
       },
       child: const Text('FINALIZAR'),
     );

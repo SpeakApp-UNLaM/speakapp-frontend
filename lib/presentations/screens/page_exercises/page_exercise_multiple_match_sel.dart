@@ -51,104 +51,109 @@ class PageExerciseMultipleMatchSelState
                       fontFamily: 'IkkaRounded',
                       fontSize: 50,
                       color: colorList[1])),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  for (ImageExercise img in widget.images)
-                    GestureDetector(
-                      onTap: () {
-                        if (audiosSelected.contains(img.name)) {
-                          if (imagesSelected.length >= audiosSelected.length) {
-                            imagesSelected
-                                .removeAt(audiosSelected.indexOf(img.name));
-                          }
-                          audiosSelected.remove(img.name);
-                        } else {
-                          TtsProvider().speak(img.name);
-                          audiosSelected.add(img.name);
+              Wrap(
+                spacing: 10.0,
+                runSpacing: 11,
+                children: widget.images.map((img) {
+                  final isSelected = audiosSelected.contains(img.name);
+                  final borderColor = isSelected
+                      ? colorList[audiosSelected.indexOf(img.name)]
+                      : Colors.grey.shade300;
+
+                  return GestureDetector(
+                    onTap: () {
+                      if (isSelected) {
+                        final index = audiosSelected.indexOf(img.name);
+                        if (imagesSelected.length >= audiosSelected.length) {
+                          imagesSelected.removeAt(index);
                         }
-                        exerciseProv.finishExercise();
-                        setState(() {});
-                      },
-                      child: DecoratedBox(
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(32)),
-                              border: Border.all(
-                                color: audiosSelected.contains(img.name)
-                                    ? colorList[
-                                        audiosSelected.indexOf(img.name)]
-                                    : Colors.grey.shade300,
-                                width: 3.0,
-                              )),
-                          child: Container(
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 10),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 5, right: 5),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Icon(
-                                    Icons.volume_up_outlined,
-                                    color: Colors.grey.shade400,
-                                  ),
-                                  const Text("Reproducir")
-                                ],
+                        audiosSelected.remove(img.name);
+                      } else {
+                        TtsProvider().speak(img.name);
+                        audiosSelected.add(img.name);
+                      }
+                      exerciseProv.finishExercise();
+                      setState(() {});
+                    },
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(32)),
+                        border: Border.all(
+                          color: borderColor,
+                          width: 3.0,
+                        ),
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 10),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 5, right: 5),
+                          child: Wrap(
+                            children: [
+                              Icon(
+                                Icons.volume_up_outlined,
+                                color: Colors.grey.shade400,
                               ),
-                            ),
-                          )),
-                    )
-                ],
+                              const Text("Reproducir")
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
               const SizedBox(height: 40.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  for (ImageExercise img in widget.images)
-                    GestureDetector(
-                      onTap: () {
-                        if (imagesSelected.contains(img.base64)) {
-                          if (audiosSelected.length >= imagesSelected.length) {
-                            audiosSelected
-                                .removeAt(imagesSelected.indexOf(img.base64));
-                          }
-                          imagesSelected.remove(img.base64);
-                        } else {
-                          imagesSelected.add(img.base64);
-                        }
-                        exerciseProv.finishExercise();
+              Wrap(
+                spacing: 10.0,
+                runSpacing: 10.0,
+                children: widget.images.map((img) {
+                  final isSelected = imagesSelected.contains(img.base64);
+                  final borderColor = isSelected
+                      ? colorList[imagesSelected.indexOf(img.base64)]
+                      : Colors.grey.shade300;
 
-                        setState(() {});
-                      },
-                      child: DecoratedBox(
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(16)),
-                              border: Border.all(
-                                color: imagesSelected.contains(img.base64)
-                                    ? colorList[
-                                        imagesSelected.indexOf(img.base64)]
-                                    : Colors.grey.shade300,
-                                width: 4.0,
-                              )),
-                          child: Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Container(
-                                margin: const EdgeInsets.all(8),
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: SizedBox(
-                                  width: 120, // Establecer el ancho deseado
-                                  height: 120, // Establecer la altura deseada
-                                  child: Image.memory(base64.decode(img.base64),
-                                      fit: BoxFit.cover),
-                                ),
-                              ))),
+                  return GestureDetector(
+                    onTap: () {
+                      if (isSelected) {
+                        final index = imagesSelected.indexOf(img.base64);
+                        if (audiosSelected.length >= imagesSelected.length) {
+                          audiosSelected.removeAt(index);
+                        }
+                        imagesSelected.remove(img.base64);
+                      } else {
+                        imagesSelected.add(img.base64);
+                      }
+                      exerciseProv.finishExercise();
+
+                      setState(() {});
+                    },
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(16)),
+                        border: Border.all(
+                          color: borderColor,
+                          width: 4.0,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Container(
+                          margin: const EdgeInsets.all(8),
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: SizedBox(
+                            width: 150,
+                            height: 150,
+                            child: Image.memory(base64.decode(img.base64),
+                                fit: BoxFit.cover),
+                          ),
+                        ),
+                      ),
                     ),
-                ],
+                  );
+                }).toList(),
               ),
               const SizedBox(height: 40.0),
             ],
