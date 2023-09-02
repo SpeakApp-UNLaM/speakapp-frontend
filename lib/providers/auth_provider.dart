@@ -37,11 +37,19 @@ class AuthProvider with ChangeNotifier {
     Response response = await Api.post(Param.postLogin, data);
 
     if (response.statusCode == 200) {
-      final Map<String, dynamic> responseData =response.data;
+      final Map<String, dynamic> responseData = response.data;
 
-      var userData = responseData['token'];
+      var token = responseData['token'];
 
-      User authUser = User.fromJson(userData);
+      //User authUser = User.fromJson(userData);
+      User authUser = User(
+          userId: 1,
+          username: 'professional',
+          email: 'professional',
+          phone: '11311984311',
+          type: 'professional',
+          token: token,
+          renewalToken: token);
 
       UserPreferences().saveUser(authUser);
 

@@ -24,10 +24,10 @@ class AudioRecorderApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
+          ChangeNotifierProvider(create: (_) => AuthProvider()),
           ChangeNotifierProvider(create: (_) => RecorderProvider()),
           ChangeNotifierProvider(create: (_) => ExerciseProvider()),
           ChangeNotifierProvider(create: (_) => LoginProvider()),
-          ChangeNotifierProvider(create: (_) => AuthProvider())
         ],
         child: MaterialApp.router(
           routerConfig: appRouter,

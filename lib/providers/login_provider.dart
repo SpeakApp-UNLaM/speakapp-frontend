@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
+import 'package:go_router/go_router.dart';
 import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_front/providers/auth_provider.dart';
@@ -50,9 +50,8 @@ class LoginProvider extends ChangeNotifier {
 
     AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
 
-
-        auth
-        .login(email.value, password.value)
-        .then((value) => {print(value)});
+    auth.login(email.value, password.value).then((value) => {
+          if (auth.loggedInStatus == Status.LoggedIn) {context.go('/')} else {}
+        });
   }
 }

@@ -32,7 +32,7 @@ class Email extends FormzInput<String, EmailError> {
   EmailError? validator(String value) {
     
     if ( value.isEmpty || value.trim().isEmpty ) return EmailError.empty;
-    if ( !emailRegExp.hasMatch(value) ) return EmailError.format;
+    //if ( !emailRegExp.hasMatch(value) ) return EmailError.format;
 
     return null;
   }

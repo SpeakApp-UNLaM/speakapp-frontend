@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:sp_front/presentations/screens/choice_exercise_screen.dart';
 import '../../config/theme/app_theme.dart';
 import '../../providers/recorder_provider.dart';
 

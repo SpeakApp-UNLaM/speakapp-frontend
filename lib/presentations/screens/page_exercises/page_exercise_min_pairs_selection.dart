@@ -33,7 +33,6 @@ class PageExerciseMinimumPairsSelState
   @override
   Widget build(BuildContext context) {
     String nameAudio = widget.images.first.name;
-    final exerciseProv = context.watch<ExerciseProvider>();
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -55,7 +54,6 @@ class PageExerciseMinimumPairsSelState
                 children: [
                   GestureDetector(
                     onTap: () {
-                      setState(() {});
                       TtsProvider().speak(nameAudio);
                     },
                     child: DecoratedBox(
@@ -88,7 +86,7 @@ class PageExerciseMinimumPairsSelState
                 ],
               ),
               const SizedBox(height: 40.0),
-              drawImages(exerciseProv),
+              drawImages(),
               const SizedBox(height: 40.0),
             ],
           ),
@@ -97,7 +95,18 @@ class PageExerciseMinimumPairsSelState
     );
   }
 
-  Widget drawImages(ExerciseProvider exerciseProv) {
+    void handleImageTap(String imageName) {
+    setState(() {
+      if (imageSelected == imageName) {
+        imageSelected = "";
+      } else {
+        imageSelected = imageName;
+      }
+      context.read<ExerciseProvider>().finishExercise();
+    });
+  }
+
+  Widget drawImages() {
     return Wrap(
       spacing: 10.0,
       runSpacing: 10.0,
@@ -106,14 +115,16 @@ class PageExerciseMinimumPairsSelState
         final borderColor = isSelected ? colorList[1] : Colors.grey.shade300;
 
         return GestureDetector(
+          key: ValueKey(img.name),
           onTap: () {
-            if (isSelected) {
-              imageSelected = "";
-            } else {
-              imageSelected = img.name;
-            }
-            exerciseProv.finishExercise();
-            setState(() {});
+            setState(() {
+              if (isSelected) {
+                imageSelected = "";
+              } else {
+                imageSelected = img.name;
+              }
+              context.read<ExerciseProvider>().finishExercise();
+            });
           },
           child: DecoratedBox(
             decoration: BoxDecoration(

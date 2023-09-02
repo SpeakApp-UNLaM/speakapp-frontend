@@ -7,6 +7,8 @@ import 'package:sp_front/presentations/widgets/navigation-drawer/custom_bottom_n
 
 import '../../config/menu/menu_items.dart';
 
+enum SampleItem { itemOne, itemTwo, itemThree }
+
 class HomeScreen extends StatelessWidget {
   static const name = 'home-screen';
 
@@ -44,20 +46,73 @@ class HomeScreen extends StatelessWidget {
               padding: const EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {},
-                child: Icon(
-                  Icons.notifications,
-                  color: colorList[7],
-                ),
+                child: PopupMenuButton(
+                    color: colorList[7],
+                    onSelected: (SampleItem) {},
+                    itemBuilder: (BuildContext context) =>
+                        <PopupMenuEntry<SampleItem>>[
+                          const PopupMenuItem<SampleItem>(
+                            value: SampleItem.itemOne,
+                            child: Row(
+                              children: [
+                                Icon(Icons.settings),
+                                SizedBox(width: 8),
+                                Text('Configuracion'),
+                              ],
+                            ),
+                          ),
+                          const PopupMenuDivider(),
+                          const PopupMenuItem<SampleItem>(
+                            value: SampleItem.itemTwo,
+                            child: Row(
+                              children: [
+                                Icon(Icons.logout),
+                                SizedBox(width: 8),
+                                Text('Salir'),
+                              ],
+                            ),
+                          ),
+                        ],
+                    child: Icon(
+                      Icons.notifications,
+                      color: colorList[7],
+                    )),
               )),
           Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                  onTap: () {},
-                  child: const CircleAvatar(
-                    //TODO GET IMAGE FROM USER
-                    backgroundImage:
-                        AssetImage('assets/branding/Logo_SpeakApp.png'),
-                  ))),
+            padding: const EdgeInsets.only(right: 20.0),
+            child: PopupMenuButton(
+                color: colorList[7],
+                onSelected: (SampleItem) {},
+                itemBuilder: (BuildContext context) =>
+                    <PopupMenuEntry<SampleItem>>[
+                      const PopupMenuItem<SampleItem>(
+                        value: SampleItem.itemOne,
+                        child: Row(
+                          children: [
+                            Icon(Icons.settings),
+                            SizedBox(width: 8),
+                            Text('Configuracion'),
+                          ],
+                        ),
+                      ),
+                      const PopupMenuDivider(),
+                      const PopupMenuItem<SampleItem>(
+                        value: SampleItem.itemTwo,
+                        child: Row(
+                          children: [
+                            Icon(Icons.logout),
+                            SizedBox(width: 8),
+                            Text('Salir'),
+                          ],
+                        ),
+                      ),
+                    ],
+                child: const CircleAvatar(
+                  //TODO GET IMAGE FROM USER
+                  backgroundImage:
+                      AssetImage('assets/branding/Logo_SpeakApp.png'),
+                )),
+          ),
         ],
         bottom: PreferredSize(
             preferredSize: const Size.fromHeight(1.0),
