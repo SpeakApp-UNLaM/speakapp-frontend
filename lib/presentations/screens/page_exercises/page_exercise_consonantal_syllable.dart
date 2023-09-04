@@ -27,6 +27,20 @@ class PageExerciseConsonantalSyllable extends StatefulWidget {
 //TODO: MEJORAR DISEÑO. LOGICA PRINCIPAL ESTÁ FUNCIONAL
 class PageExerciseConsonantalSyllableState
     extends State<PageExerciseConsonantalSyllable> {
+  late List<Image> _listImages;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _listImages = widget.images.map((img) {
+      return Image.memory(
+        base64.decode(img.base64),
+        fit: BoxFit.cover,
+      );
+    }).toList();
+  }
+
   String syllableSelected = "";
   @override
   Widget build(BuildContext context) {
@@ -132,8 +146,7 @@ class PageExerciseConsonantalSyllableState
                       child: SizedBox(
                         width: Param.tamImages, // Establecer el ancho deseado
                         height: Param.tamImages, // Establecer la altura deseada
-                        child: Image.memory(base64.decode(img.base64),
-                            fit: BoxFit.cover),
+                        child: _listImages[widget.images.indexOf(img)],
                       ),
                     ))),
           ),

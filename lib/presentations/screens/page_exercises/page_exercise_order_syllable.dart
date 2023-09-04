@@ -27,6 +27,18 @@ class PageExerciseOrderSyllabe extends StatefulWidget {
 
 class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
   List<String> formedWord = [];
+  late Image _image;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _image = Image.memory(
+      base64.decode(widget.img.base64),
+      fit: BoxFit.cover,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final exerciseProv = context.watch<ExerciseProvider>();
@@ -64,8 +76,7 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                   child: SizedBox(
                       height: Param.tamImages,
                       width: Param.tamImages,
-                      child: Image.memory(base64.decode(widget.img.base64),
-                          fit: BoxFit.cover)),
+                      child: _image),
                 ),
               ),
               Wrap(

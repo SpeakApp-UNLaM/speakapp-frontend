@@ -29,6 +29,19 @@ class PageExerciseMinimumPairsSel extends StatefulWidget {
 class PageExerciseMinimumPairsSelState
     extends State<PageExerciseMinimumPairsSel> {
   String imageSelected = "";
+  late List<Image> _listImages;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _listImages = widget.images.map((img) {
+      return Image.memory(
+        base64.decode(img.base64),
+        fit: BoxFit.cover,
+      );
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,16 +108,6 @@ class PageExerciseMinimumPairsSelState
     );
   }
 
-    void handleImageTap(String imageName) {
-    setState(() {
-      if (imageSelected == imageName) {
-        imageSelected = "";
-      } else {
-        imageSelected = imageName;
-      }
-      context.read<ExerciseProvider>().finishExercise();
-    });
-  }
 
   Widget drawImages() {
     return Wrap(
@@ -140,13 +143,9 @@ class PageExerciseMinimumPairsSelState
                 margin: const EdgeInsets.all(8),
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: SizedBox(
-                  width: Param.tamImages,
-                  height: Param.tamImages,
-                  child: Image.memory(
-                    base64.decode(img.base64),
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                    width: Param.tamImages,
+                    height: Param.tamImages,
+                    child: _listImages[widget.images.indexOf(img)]),
               ),
             ),
           ),

@@ -31,6 +31,19 @@ class PageExerciseSingleSelectionWord extends StatefulWidget {
 class PageExerciseSingleSelectionWordState
     extends State<PageExerciseSingleSelectionWord> {
   String imageSelected = "";
+  late List<Image> _listImages;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _listImages = widget.images.map((img) {
+      return Image.memory(
+        base64.decode(img.base64),
+        fit: BoxFit.cover,
+      );
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,10 +118,7 @@ class PageExerciseSingleSelectionWordState
                   child: SizedBox(
                     width: Param.tamImages,
                     height: Param.tamImages,
-                    child: Image.memory(
-                      base64.decode(img.base64),
-                      fit: BoxFit.cover,
-                    ),
+                    child: _listImages[widget.images.indexOf(img)],
                   ),
                 ),
               ),

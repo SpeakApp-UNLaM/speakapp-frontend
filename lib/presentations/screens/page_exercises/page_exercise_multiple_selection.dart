@@ -30,6 +30,19 @@ class PageExerciseMultipleSelection extends StatefulWidget {
 class PageExerciseMultipleSelectionState
     extends State<PageExerciseMultipleSelection> {
   List<String> imagesSelected = [];
+  late List<Image> _listImages;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _listImages = widget.images.map((img) {
+      return Image.memory(
+        base64.decode(img.base64),
+        fit: BoxFit.cover,
+      );
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,10 +146,7 @@ class PageExerciseMultipleSelectionState
                             child: SizedBox(
                                 width: Param.tamImages,
                                 height: Param.tamImages,
-                                child: Image.memory(
-                                  base64.decode(image.base64),
-                                  fit: BoxFit.cover,
-                                )),
+                                child: _listImages[widget.images.indexOf(image)]),
                           ),
                         ),
                       ),
