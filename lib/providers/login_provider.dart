@@ -54,4 +54,10 @@ class LoginProvider extends ChangeNotifier {
           if (auth.loggedInStatus == Status.LoggedIn) {context.go('/')} else {}
         });
   }
+
+  onLogOut(BuildContext context) {
+    AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
+
+    auth.logout();
+  }
 }

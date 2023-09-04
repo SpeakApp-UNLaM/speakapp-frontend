@@ -2,12 +2,15 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
 import 'package:sp_front/presentations/widgets/navigation-drawer/custom_bottom_navigation.dart';
 
 import '../../config/menu/menu_items.dart';
+import '../../providers/auth_provider.dart';
+import '../../providers/login_provider.dart';
 
-enum SampleItem { itemOne, itemTwo, itemThree }
+enum SampleItem { config, logOut }
 
 class HomeScreen extends StatelessWidget {
   static const name = 'home-screen';
@@ -18,6 +21,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider =
+        Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 70,
@@ -52,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                     itemBuilder: (BuildContext context) =>
                         <PopupMenuEntry<SampleItem>>[
                           const PopupMenuItem<SampleItem>(
-                            value: SampleItem.itemOne,
+                            value: SampleItem.config,
                             child: Row(
                               children: [
                                 Icon(Icons.settings),
@@ -63,7 +68,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                           const PopupMenuDivider(),
                           const PopupMenuItem<SampleItem>(
-                            value: SampleItem.itemTwo,
+                            value: SampleItem.logOut,
                             child: Row(
                               children: [
                                 Icon(Icons.logout),
@@ -82,11 +87,18 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.only(right: 20.0),
             child: PopupMenuButton(
                 color: colorList[7],
-                onSelected: (SampleItem) {},
+                onSelected: (SampleItem item) {
+                  switch (item) {
+                    case SampleItem.logOut:
+                      context.read<LoginProvider>().onLogOut(context);
+                    default:
+                      return;
+                  }
+                },
                 itemBuilder: (BuildContext context) =>
                     <PopupMenuEntry<SampleItem>>[
                       const PopupMenuItem<SampleItem>(
-                        value: SampleItem.itemOne,
+                        value: SampleItem.config,
                         child: Row(
                           children: [
                             Icon(Icons.settings),
@@ -97,7 +109,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                       const PopupMenuDivider(),
                       const PopupMenuItem<SampleItem>(
-                        value: SampleItem.itemTwo,
+                        value: SampleItem.logOut,
                         child: Row(
                           children: [
                             Icon(Icons.logout),

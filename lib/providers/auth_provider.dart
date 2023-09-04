@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../auth/user.dart';
 import '../auth/user_preferences.dart';
@@ -20,6 +21,25 @@ enum Status {
 }
 
 class AuthProvider with ChangeNotifier {
+
+   final SharedPreferences prefs;
+  bool _loggedIn = false;
+
+  AuthProvider(this.prefs) {
+    loggedIn = prefs.getBool('LoggedIn') ?? false;
+  }
+
+  bool get loggedIn => _loggedIn;
+  set loggedIn(bool value) {
+    _loggedIn = value;
+    prefs.setBool('LoggedIn', value);
+    notifyListeners();
+  }
+
+  void checkLoggedIn() {
+    loggedIn = prefs.getBool('LoggedIn') ?? false;
+  }
+
   Status _loggedInStatus = Status.NotLoggedIn;
   Status _registeredInStatus = Status.NotRegistered;
 
@@ -40,7 +60,7 @@ class AuthProvider with ChangeNotifier {
       final Map<String, dynamic> responseData = response.data;
 
       var token = responseData['token'];
-
+      loggedIn = true;
       //User authUser = User.fromJson(userData);
       User authUser = User(
           userId: 1,
@@ -66,6 +86,13 @@ class AuthProvider with ChangeNotifier {
       };
     }
     return result;
+  }
+
+  logout() {
+      UserPreferences().removeUser();
+     _loggedIn = false;
+
+    notifyListeners();
   }
 
 /* TODO REGISTER
