@@ -5,15 +5,25 @@ import '../../domain/entities/level.dart';
 import '../widgets/card_articulation.dart';
 import '../widgets/card_practice.dart';
 
-class ChoiceExerciseScreen extends StatelessWidget {
+
+class ChoiceExerciseScreenParameters {
   final int phoneme;
   final String namePhoneme;
   final List<Level> levels;
+
+  ChoiceExerciseScreenParameters({
+    required this.phoneme,
+    required this.namePhoneme,
+    required this.levels,
+  });
+}
+
+class ChoiceExerciseScreen extends StatelessWidget {
+  final ChoiceExerciseScreenParameters object;
+
   const ChoiceExerciseScreen(
       {super.key,
-      required this.phoneme,
-      required this.namePhoneme,
-      required this.levels});
+      required this.object});
 
   @override
   Widget build(BuildContext context) {
@@ -53,9 +63,9 @@ class ChoiceExerciseScreen extends StatelessWidget {
         child: Column(children: [
           //CardArticulation(),
           CardPractice(
-              idPhoneme: phoneme,
-              namePhoneme: namePhoneme,
-              levels: levels) //creo que son todos ejercicios ahora no?
+              idPhoneme: object.phoneme,
+              namePhoneme: object.namePhoneme,
+              levels: object.levels) //creo que son todos ejercicios ahora no?
         ]),
       ),
     );

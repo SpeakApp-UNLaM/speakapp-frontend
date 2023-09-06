@@ -52,13 +52,20 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
               child: SizedBox(
                 width: Param.tamImages,
                 height: Param.tamImages,
-                child: widget.img.first.imageData != null
+                child: widget.img.isNotEmpty
                     ? Image.memory(
                         base64.decode(widget.img.first.imageData),
                         fit: BoxFit.cover,
                       )
-                    : Text(widget
-                        .result), // Aquí puedes usar un widget de marcador de posición o el que prefieras
+                    : Center(
+                        child: Text(
+                          widget.result.toUpperCase(),
+                          style: TextStyle(
+                              fontFamily: 'IkkaRounded',
+                              fontSize: 70,
+                              color: colorList[1]),
+                        ),
+                      ), // Aquí puedes usar un widget de marcador de posición o el que prefieras
               ),
             ),
             const SizedBox(height: 30.0),

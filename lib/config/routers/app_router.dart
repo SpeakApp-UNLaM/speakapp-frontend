@@ -11,12 +11,17 @@ import '../../presentations/screens/auth/screens/register_screen.dart';
 import '../../presentations/screens/exercise_screen.dart';
 import '../../presentations/screens/views.dart';
 
+final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
+final GlobalKey<NavigatorState> _shellNavigator =
+    GlobalKey(debugLabel: 'shell');
+
 // GoRouter configuration
 class AppRouter {
   final AuthProvider authProvider;
   AppRouter(this.authProvider);
 
   late final router = GoRouter(
+    navigatorKey: _rootNavigatorKey,
     refreshListenable: authProvider,
     debugLogDiagnostics: true,
     routes: [
@@ -37,6 +42,7 @@ class AppRouter {
         ),
       ),
       ShellRoute(
+          navigatorKey: _shellNavigator,
           builder: (context, state, child) {
             return HomeScreen(childView: child);
           },
@@ -44,6 +50,7 @@ class AppRouter {
             GoRoute(
               path: '/',
               name: 'HomeScreen',
+              parentNavigatorKey: _shellNavigator,
               pageBuilder: (context, state) {
                 return CustomTransitionPage(
                   name: 'PhonemeScreen',
@@ -65,6 +72,7 @@ class AppRouter {
             GoRoute(
               path: '/messages_view',
               name: 'MessageScreen',
+              parentNavigatorKey: _shellNavigator,
               pageBuilder: (context, state) {
                 return CustomTransitionPage(
                   key: state.pageKey,
@@ -84,6 +92,7 @@ class AppRouter {
             ),
             GoRoute(
               path: '/turns_view',
+              parentNavigatorKey: _shellNavigator,
               pageBuilder: (context, state) {
                 return CustomTransitionPage(
                   key: state.pageKey,
@@ -101,14 +110,17 @@ class AppRouter {
                 );
               },
             ),
-            /*GoRoute(
-              path: '/choice_exercise/:phoneme/:namePhoneme',
+            GoRoute(
+              path: '/choice_exercise',
+              name: 'choice_exercise',
               pageBuilder: (context, state) {
+
+                ChoiceExerciseScreenParameters args =
+                    state.extra as ChoiceExerciseScreenParameters;
+
                 return CustomTransitionPage(
                   key: state.pageKey,
-                  child: ChoiceExerciseScreen(
-                      phoneme: int.parse("${state.pathParameters['phoneme']}"),
-                      namePhoneme: "${state.pathParameters['namePhoneme']}"),
+                  child: ChoiceExerciseScreen(object: args),
                   transitionsBuilder:
                       (context, animation, secondaryAnimation, child) {
                     // Change the opacity of the screen using a Curve based on the the animation's
@@ -121,16 +133,15 @@ class AppRouter {
                   },
                 );
               },
-            ),*/
+            ),
           ]),
-      /*GoRoute(
-        path: '/exercise/:idPhoneme/:namePhoneme/:level/:categorias',
-        builder: (context, state) => ExerciseScreen(
-            idPhoneme: int.parse("${state.pathParameters['idPhoneme']}"),
-            namePhoneme: "${state.pathParameters['namePhoneme']}",
-            level: "${state.pathParameters['level']}",
-            categorias: "${state.pathParameters['categorias']}"),
-      ),*/
+      GoRoute(
+          path: '/exercise',
+          parentNavigatorKey: _rootNavigatorKey,
+          builder: (context, state) {
+            ExerciseParameters params = state.extra as ExerciseParameters;
+            return ExerciseScreen(object: params);
+          }),
     ],
     redirect: (context, state) {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);

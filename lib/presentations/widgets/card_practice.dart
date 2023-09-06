@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
 
@@ -80,26 +81,14 @@ class CardPractice extends StatelessWidget {
                                 colorList[4], // Cambia el color de fondo aquí
                           ),
                           onPressed: () async {
-                            Map<String, dynamic> data = {
-                              "phonemeId": idPhoneme,
-                              "level": asignacion.name,
-                              "categories": (asignacion.categories
-                                  .map((category) => category.toLowerCase())
-                                  .toList())
-                            };
-                            final response =
-                                await Api.post(Param.getExercises, data);
-                            await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ExerciseScreen(
-                                      idPhoneme: idPhoneme,
-                                      namePhoneme: namePhoneme,
-                                      level: asignacion.name,
-                                      categories: asignacion.categories,
-                                      response: response),
-                                ));
-                            //context.go( "/exercise/$idPhoneme/$namePhoneme/${asignacion.name}/${asignacion.categories.join(', ')}/");
+                            ExerciseParameters params = ExerciseParameters(
+                              idPhoneme: idPhoneme,
+                              namePhoneme: namePhoneme,
+                              level: levels[index].value,
+                              categories: levels[index].categories
+                            );
+
+                            context.push("/exercise", extra: params);
                             // Acción del botón
                             // Puedes agregar aquí la lógica que deseas ejecutar cuando se presiona el botón
                           },

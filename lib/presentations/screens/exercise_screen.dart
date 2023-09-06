@@ -3,23 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
+import '../../config/helpers/api.dart';
+import '../../config/helpers/param.dart';
 import '../../config/theme/app_theme.dart';
 import '../../models/exercise_model.dart';
 import '../../providers/recorder_provider.dart';
 
-class ExerciseScreen extends StatefulWidget {
+class ExerciseParameters {
   final int idPhoneme;
+  final int level;
   final String namePhoneme;
-  final String level;
-  final List<String> categories;
-  final Response response;
-  const ExerciseScreen(
-      {super.key,
-      required this.idPhoneme,
+  final List<String>? categories;
+
+  const ExerciseParameters(
+      {required this.idPhoneme,
       required this.namePhoneme,
       required this.level,
-      required this.categories,
-      required this.response});
+      required this.categories});
+}
+
+class ExerciseScreen extends StatefulWidget {
+  final ExerciseParameters object;
+  const ExerciseScreen({super.key, required this.object});
 
   @override
   ExerciseScreenState createState() => ExerciseScreenState();
@@ -27,17 +32,27 @@ class ExerciseScreen extends StatefulWidget {
 
 class ExerciseScreenState extends State<ExerciseScreen> {
   final PageController _pc = PageController();
+  Future<Response>? _fetchData;
+  List<StatefulWidget> _pagesExercisesFounded = [];
 
-  final List<StatefulWidget> _pagesExercisesFounded = [];
+  Future<Response> fetchData() async {
+    Map<String, dynamic> data = {
+      "phonemeId": widget.object.idPhoneme,
+      "level": widget.object.level,
+      "categories": widget.object.categories
+          ?.map((category) => category.toLowerCase())
+          .toList(),
+    };
+    final response = await Api.post(Param.getExercises, data);
+
+    return response;
+  }
+
   int currentPageIndex = 0;
   @override
   void initState() {
-    for (var element in widget.response.data) {
-      _pagesExercisesFounded
-          .add(ExerciseModel.fromJson(element).fromEntity(widget.namePhoneme));
-    }
-
     super.initState();
+    _fetchData = fetchData();
   }
 
   @override
@@ -45,52 +60,76 @@ class ExerciseScreenState extends State<ExerciseScreen> {
     final exerciseProv = context.watch<ExerciseProvider>();
     final recorderProv = context.watch<RecorderProvider>();
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top: 30, right: 5, left: 5, bottom: 20),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () => context.go('/'),
-                ),
-                Expanded(
-                    child: LinearProgressIndicator(
-                  backgroundColor: colorList[7],
-                  color: colorList[4],
-                  value: currentPageIndex / _pagesExercisesFounded.length,
-                  minHeight: 6,
-                )),
-              ],
-            ),
-            Expanded(
-              child: _listPagesExercises(exerciseProv),
-            ),
-            Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    if (currentPageIndex <
-                            _pagesExercisesFounded.length - 1 //&&
-                        //(recorderProv.existAudio ||
-                        //recorderProv.isExerciseFinished)
-                        )
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
-                        child: _actionBtnNext(exerciseProv, recorderProv),
+      body: FutureBuilder<Response>(
+        future: _fetchData,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            final response = snapshot.data!;
+
+            if (_pagesExercisesFounded.isEmpty) {
+              for (var element in response.data) {
+                _pagesExercisesFounded.add(ExerciseModel.fromJson(element)
+                    .fromEntity(widget.object.namePhoneme));
+              }
+            }
+
+            return Padding(
+              padding:
+                  const EdgeInsets.only(top: 30, right: 5, left: 5, bottom: 20),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () => context.go('/'),
                       ),
-                    if (currentPageIndex == _pagesExercisesFounded.length - 1)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
-                        child: _actionBtnGoHome(exerciseProv, context),
-                      ),
-                  ],
-                )),
-          ],
-        ),
+                      Expanded(
+                          child: LinearProgressIndicator(
+                        backgroundColor: colorList[7],
+                        color: colorList[4],
+                        value: currentPageIndex / _pagesExercisesFounded.length,
+                        minHeight: 6,
+                      )),
+                    ],
+                  ),
+                  Expanded(
+                    child: _listPagesExercises(exerciseProv),
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          if (currentPageIndex <
+                                  _pagesExercisesFounded.length - 1 //&&
+                              //(recorderProv.existAudio ||
+                              //recorderProv.isExerciseFinished)
+                              )
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 30),
+                              child: _actionBtnNext(exerciseProv, recorderProv),
+                            ),
+                          if (currentPageIndex ==
+                              _pagesExercisesFounded.length - 1)
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 30),
+                              child: _actionBtnGoHome(exerciseProv, context),
+                            ),
+                        ],
+                      )),
+                ],
+              ),
+            );
+          }
+        },
       ),
     );
   }

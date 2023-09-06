@@ -55,7 +55,7 @@ class PhonemeModel {
     }
 
     return nivelMap.entries.map((entry) {
-      return Level(name: '${entry.key}', categories: entry.value);
+      return Level(name: '${entry.key}', value: entry.key, categories: entry.value);
     }).toList();
   }
 }

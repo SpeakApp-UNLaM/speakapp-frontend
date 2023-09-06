@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../config/theme/app_theme.dart';
 import '../../domain/entities/level.dart';
@@ -53,15 +54,15 @@ class ButtonPhoneme extends StatelessWidget {
               heroTag: tag,
               onPressed: () async {
                 recorderProv.resetAudio();
-                await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ChoiceExerciseScreen(
-                          phoneme: idPhoneme,
-                          namePhoneme: namePhoneme,
-                          levels: levels),
-                    ));
-                //context.push('/choice_exercise/$codeGroup/$name');
+
+                ChoiceExerciseScreenParameters params =
+                    ChoiceExerciseScreenParameters(
+                  phoneme: idPhoneme,
+                  namePhoneme: namePhoneme,
+                  levels: levels,
+                );
+                
+                context.push("/choice_exercise", extra: params);
               },
               backgroundColor: colorList[0],
               elevation: 10.0,
