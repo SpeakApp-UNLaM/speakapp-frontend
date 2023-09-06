@@ -23,13 +23,17 @@ class ExerciseModel {
     required this.images,
   });
 
-  factory ExerciseModel.fromJson(Map<String, dynamic> json) => ExerciseModel(
-        exerciseId: json["exerciseId"],
-        type: Param.stringToEnum(json["type"]),
-        result: json["result"],
-        images: List<ImageExercise>.from(
-            json["images"].map((x) => ImageExercise.fromJson(x))),
-      );
+  factory ExerciseModel.fromJson(Map<String, dynamic> json) {
+    return ExerciseModel(
+      exerciseId: json["exerciseId"] ?? 0, // Valor predeterminado si es nulo
+      type: Param.stringToEnumTypeExercise(json["type"]),
+      result: json["result"] ?? "", // Valor predeterminado si es nulo
+      images: (json["images"] as List<dynamic>?)
+              ?.map((x) => ImageExercise.fromJson(x))
+              .toList() ??
+          [],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "exerciseId": exerciseId,
@@ -40,47 +44,48 @@ class ExerciseModel {
 
   StatefulWidget fromEntity(String letra) {
     switch (type) {
-      case TypeExercise.speak:
+      case TypeExercise.SPEAK:
         return PageExerciseSpeak(
-          img: images.first,
+          images,
+          result,
           namePhoneme: letra,
           idExercise: exerciseId,
         );
-      case TypeExercise.multipleMatchSelection:
+      case TypeExercise.MULTIPLE_MATCH_SELECTION:
         return PageExerciseMultipleMatchSel(
           images: images,
           namePhoneme: letra,
           idExercise: exerciseId,
         );
-      case TypeExercise.orderSyllable:
+      case TypeExercise.ORDER_SYLLABLE:
         return PageExerciseOrderSyllabe(
           img: images.first,
           namePhoneme: letra,
           idExercise: exerciseId,
           syllables: images.first.dividedName,
         );
-      case TypeExercise.minimumPairsSelection:
+      case TypeExercise.MINIMUM_PAIRS_SELECTION:
         return PageExerciseMinimumPairsSel(
             images: images, namePhoneme: letra, idExercise: exerciseId);
-      case TypeExercise.multipleSelection:
+      case TypeExercise.MULTIPLE_SELECTION:
         return PageExerciseMultipleSelection(
             images: images,
             namePhoneme: letra,
             idExercise: exerciseId,
             syllable: result);
-      case TypeExercise.singleSelectionSyllable:
+      case TypeExercise.SINGLE_SELECTION_SYLLABLE:
         return PageExerciseSingleSelectionSyllable(
             images: images,
             namePhoneme: letra,
             idExercise: exerciseId,
             syllable: result);
-      case TypeExercise.singleSelectionWord:
+      case TypeExercise.SINGLE_SELECTION_WORD:
         return PageExerciseSingleSelectionWord(
             images: images,
             namePhoneme: letra,
             idExercise: exerciseId,
             syllable: result);
-      case TypeExercise.consonantalSyllable:
+      case TypeExercise.CONSONANTAL_SYLLABLE:
         return PageExerciseConsonantalSyllable(
           images: images,
           namePhoneme: letra,
@@ -88,7 +93,8 @@ class ExerciseModel {
         );
       default:
         return PageExerciseSpeak(
-          img: images.first,
+          images,
+          result,
           namePhoneme: letra,
           idExercise: exerciseId,
         );
@@ -98,25 +104,27 @@ class ExerciseModel {
 
 class ImageExercise {
   String name;
-  String base64;
+  String imageData;
   List<String> dividedName;
 
   ImageExercise({
     required this.name,
-    required this.base64,
+    required this.imageData,
     required this.dividedName,
   });
 
-  factory ImageExercise.fromJson(Map<String, dynamic> json) => ImageExercise(
-        name: json["name"],
-        base64: json["base64"],
-        dividedName: (json["divided_name"]).split('-'),
-      );
+  factory ImageExercise.fromJson(Map<String, dynamic> json) {
+    return ImageExercise(
+      name: json["name"] ?? "",
+      imageData: json["imageData"] ?? "",
+      dividedName: (json["dividedName"] as String?)?.split('-') ?? [],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "name": name,
-        "base64": base64,
-        "divided_name": dividedName,
+        "imageData": imageData,
+        "dividedName": dividedName,
       };
 
   List<String> getSyllables() {

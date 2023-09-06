@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../config/theme/app_theme.dart';
+import '../../domain/entities/level.dart';
 import '../../providers/recorder_provider.dart';
+import '../screens/choice_exercise_screen.dart';
 
 class ButtonPhoneme extends StatelessWidget {
-  final int codeGroup;
-  final String name;
+  final int idPhoneme;
+  final String namePhoneme;
   final String tag;
-
+  final List<Level> levels;
   const ButtonPhoneme(
       {super.key,
-      required this.codeGroup,
-      required this.name,
-      required this.tag});
+      required this.idPhoneme,
+      required this.namePhoneme,
+      required this.tag,
+      required this.levels});
 
   @override
   Widget build(BuildContext context) {
@@ -51,20 +53,22 @@ class ButtonPhoneme extends StatelessWidget {
               heroTag: tag,
               onPressed: () async {
                 recorderProv.resetAudio();
-                /*final resultado = await Navigator.push(
+                await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          ChoiceExerciseScreen(phoneme: 1, namePhoneme: name),
-                    ));*/
-                context.push('/choice_exercise/$codeGroup/$name');
+                      builder: (context) => ChoiceExerciseScreen(
+                          phoneme: idPhoneme,
+                          namePhoneme: namePhoneme,
+                          levels: levels),
+                    ));
+                //context.push('/choice_exercise/$codeGroup/$name');
               },
               backgroundColor: colorList[0],
               elevation: 10.0,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(name.toUpperCase(),
+                  Text(namePhoneme.toUpperCase(),
                       style: TextStyle(
                         fontSize: 36,
                         color: colorList[2],

@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../config/theme/app_theme.dart';
+import '../../domain/entities/level.dart';
 import '../widgets/card_articulation.dart';
 import '../widgets/card_practice.dart';
 
 class ChoiceExerciseScreen extends StatelessWidget {
   final int phoneme;
   final String namePhoneme;
+  final List<Level> levels;
   const ChoiceExerciseScreen(
-      {super.key, required this.phoneme, required this.namePhoneme});
+      {super.key,
+      required this.phoneme,
+      required this.namePhoneme,
+      required this.levels});
 
   @override
   Widget build(BuildContext context) {
-    print("mis datos $phoneme $namePhoneme");
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
@@ -39,21 +43,21 @@ class ChoiceExerciseScreen extends StatelessWidget {
                 ))
           ],
         ),
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(
-              bottom: Radius.circular(30),
-            ),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(30),
           ),
         ),
-        body: SingleChildScrollView(
+      ),
+      body: SingleChildScrollView(
         child: Column(children: [
           //CardArticulation(),
           CardPractice(
-            idPhoneme: phoneme,
-            namePhoneme: namePhoneme,
-          ) //creo que son todos ejercicios ahora no?
+              idPhoneme: phoneme,
+              namePhoneme: namePhoneme,
+              levels: levels) //creo que son todos ejercicios ahora no?
         ]),
-      ),      
+      ),
     );
   }
 }

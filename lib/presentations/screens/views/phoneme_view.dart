@@ -64,24 +64,32 @@ class PhonemeViewState extends State<PhonemeView> {
         ])));
   }
 
-  void _getData() {
+  Future<void> _getData() async {
+    final response = await Api.get("${Param.getTasks}/1");
+    for (var element in response) {
+      buttonsGroupLists
+          .add(PhonemeModel.fromJson(element).toButtonPhonemeEntity());
+    }
     //TODO: GET PHONEMES DESDE TASK_GROUP
+    /*buttonsGroupLists.add(const ButtonPhoneme(
+      namePhoneme: "R",
+      idPhoneme: 1,
+      tag: '1',
+    ));
     buttonsGroupLists
-        .add(const ButtonPhoneme(name: "R", codeGroup: 1, tag: '1'));
+        .add(const ButtonPhoneme(namePhoneme: "L", idPhoneme: 2, tag: '2'));
     buttonsGroupLists
-        .add(const ButtonPhoneme(name: "L", codeGroup: 2, tag: '2'));
+        .add(const ButtonPhoneme(namePhoneme: "S", idPhoneme: 3, tag: '3'));
     buttonsGroupLists
-        .add(const ButtonPhoneme(name: "S", codeGroup: 3, tag: '3'));
+        .add(const ButtonPhoneme(namePhoneme: "D", idPhoneme: 4, tag: '4'));
     buttonsGroupLists
-        .add(const ButtonPhoneme(name: "D", codeGroup: 4, tag: '4'));
+        .add(const ButtonPhoneme(namePhoneme: "M", idPhoneme: 5, tag: '5'));
     buttonsGroupLists
-        .add(const ButtonPhoneme(name: "M", codeGroup: 5, tag: '5'));
+        .add(const ButtonPhoneme(namePhoneme: "N", idPhoneme: 6, tag: '6'));
     buttonsGroupLists
-        .add(const ButtonPhoneme(name: "N", codeGroup: 6, tag: '6'));
+        .add(const ButtonPhoneme(namePhoneme: "J", idPhoneme: 7, tag: '7'));
     buttonsGroupLists
-        .add(const ButtonPhoneme(name: "J", codeGroup: 7, tag: '7'));
-    buttonsGroupLists
-        .add(const ButtonPhoneme(name: "B", codeGroup: 8, tag: '8'));
+        .add(const ButtonPhoneme(namePhoneme: "B", idPhoneme: 8, tag: '8'));*/
     /*
     List<GroupExercise> groups = await getGroupExercisesList();
     List<Pending> pendings = await getPendingList();
@@ -98,7 +106,7 @@ class PhonemeViewState extends State<PhonemeView> {
     */
     setState(() {});
   }
-
+  /*
   Future<List<Phoneme>> getGroupExercisesList() async {
     final response = await Api.get(Param.getGroupExercises);
     List<Phoneme> groupExercises = [];
@@ -107,7 +115,7 @@ class PhonemeViewState extends State<PhonemeView> {
           .add(PhonemeModel.fromJson(element).toGroupExerciseEntity());
     }
     return groupExercises;
-  }
+  }*/
 
   Future<List<Pending>> getPendingList() async {
     final response = await Api.get(Param.getPending);

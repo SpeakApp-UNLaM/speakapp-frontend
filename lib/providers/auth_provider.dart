@@ -21,8 +21,7 @@ enum Status {
 }
 
 class AuthProvider with ChangeNotifier {
-
-   final SharedPreferences prefs;
+  final SharedPreferences prefs;
   bool _loggedIn = false;
 
   AuthProvider(this.prefs) {
@@ -89,8 +88,8 @@ class AuthProvider with ChangeNotifier {
   }
 
   logout() {
-      UserPreferences().removeUser();
-     _loggedIn = false;
+    UserPreferences().removeUser();
+    _loggedIn = false;
 
     notifyListeners();
   }

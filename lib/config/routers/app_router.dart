@@ -101,7 +101,7 @@ class AppRouter {
                 );
               },
             ),
-            GoRoute(
+            /*GoRoute(
               path: '/choice_exercise/:phoneme/:namePhoneme',
               pageBuilder: (context, state) {
                 return CustomTransitionPage(
@@ -121,22 +121,22 @@ class AppRouter {
                   },
                 );
               },
-            ),
+            ),*/
           ]),
-      GoRoute(
+      /*GoRoute(
         path: '/exercise/:idPhoneme/:namePhoneme/:level/:categorias',
         builder: (context, state) => ExerciseScreen(
             idPhoneme: int.parse("${state.pathParameters['idPhoneme']}"),
             namePhoneme: "${state.pathParameters['namePhoneme']}",
             level: "${state.pathParameters['level']}",
             categorias: "${state.pathParameters['categorias']}"),
-      ),
+      ),*/
     ],
     redirect: (context, state) {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       final loginLoc = state.pageKey;
       final loggingIn = state.matchedLocation == loginLoc;
-      
+
       //final createAccountLoc = state.namedLocation(createAccountRouteName);
       //final creatingAccount = state.subloc == createAccountLoc;
       final loggedIn = authProvider.loggedIn;

@@ -1,8 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
-import '../../config/helpers/param.dart';
 import '../../config/theme/app_theme.dart';
 import '../../models/exercise_model.dart';
 import '../../providers/recorder_provider.dart';
@@ -11,14 +11,15 @@ class ExerciseScreen extends StatefulWidget {
   final int idPhoneme;
   final String namePhoneme;
   final String level;
-  final String categorias;
-
+  final List<String> categories;
+  final Response response;
   const ExerciseScreen(
       {super.key,
       required this.idPhoneme,
       required this.namePhoneme,
       required this.level,
-      required this.categorias});
+      required this.categories,
+      required this.response});
 
   @override
   ExerciseScreenState createState() => ExerciseScreenState();
@@ -31,243 +32,12 @@ class ExerciseScreenState extends State<ExerciseScreen> {
   int currentPageIndex = 0;
   @override
   void initState() {
-    super.initState();
-    _getData(widget.idPhoneme, widget.level, widget.categorias);
-  }
-
-  Future<void> _getData(int idPhoneme, String nombre, String categorias) async {
-    //TODO: GET EXERCISE DEL PHONEME, LEVEL, CATEGORY, USER || JSON EXAMPLE
-    //final response = await Api.get(Param.getExercises);
-    List<Map<String, dynamic>> exerciseDataFromDatabase = [
-      {
-        'exerciseId': 22,
-        'type': 'minimumPairsSelection',
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'rata', //string
-            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ra-ta' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-        ],
-      },
-      {
-        'exerciseId': 33,
-        'type': 'multipleSelection',
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'rata', //string
-            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ra-ta' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-          {
-            'name': 'rata', //string
-            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ra-ta' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-        ],
-      },
-      {
-        'exerciseId': 2,
-        'type': 'consonantalSyllable',
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'rata', //string
-            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'RA-LA-TRA-BRA' //string
-          },
-        ],
-      },
-      {
-        'exerciseId': 55,
-        'type': 'singleSelectionWord',
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'rata', //string
-            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ra-ta' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-        ],
-      },
-      {
-        'exerciseId': 44,
-        'type': 'singleSelectionSyllable',
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'rata', //string
-            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ra-ta' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-        ],
-      },
-      {
-        'exerciseId': 4,
-        'type': 'orderSyllable',
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'caramelo', //string
-            'base64': Param.base64Caramelo, //string
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-        ],
-      },
-      {
-        'exerciseId': 1,
-        'type': 'speak',
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'rata', //string
-            'base64': Param.base64Rata, //string
-            'divided_name': 'ra-ta' //string
-          },
-        ],
-      },
-      {
-        'exerciseId': 4,
-        'type': 'speak',
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'rata', //string
-            'base64': Param.base64Rata, //string
-            'divided_name': 'ra-ta' //string
-          },
-        ],
-      },
-      {
-        'exerciseId': 3,
-        'type': 'multipleMatchSelection',
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'rata', //string
-            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ra-ta' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ra-ta' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ra-ta' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ra-ta' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ra-ta' //string
-          },
-        ],
-      },
-    ];
-
-    for (var element in exerciseDataFromDatabase) {
+    for (var element in widget.response.data) {
       _pagesExercisesFounded
           .add(ExerciseModel.fromJson(element).fromEntity(widget.namePhoneme));
     }
 
-    //output_expected-> result_obtained
+    super.initState();
   }
 
   @override

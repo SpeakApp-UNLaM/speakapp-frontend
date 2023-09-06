@@ -34,7 +34,7 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
     super.initState();
 
     _image = Image.memory(
-      base64.decode(widget.img.base64),
+      base64.decode(widget.img.imageData),
       fit: BoxFit.cover,
     );
   }

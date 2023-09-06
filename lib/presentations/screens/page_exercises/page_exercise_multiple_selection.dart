@@ -38,7 +38,7 @@ class PageExerciseMultipleSelectionState
 
     _listImages = widget.images.map((img) {
       return Image.memory(
-        base64.decode(img.base64),
+        base64.decode(img.imageData),
         fit: BoxFit.cover,
       );
     }).toList();
@@ -115,12 +115,12 @@ class PageExerciseMultipleSelectionState
                     GestureDetector(
                       onTap: () {
                         final isSelected =
-                            imagesSelected.contains(image.base64);
+                            imagesSelected.contains(image.imageData);
                         if (isSelected) {
-                          imagesSelected.remove(image.base64);
+                          imagesSelected.remove(image.imageData);
                         } else {
                           TtsProvider().speak(image.name);
-                          imagesSelected.add(image.base64);
+                          imagesSelected.add(image.imageData);
                         }
                         exerciseProv.finishExercise();
 
@@ -131,9 +131,9 @@ class PageExerciseMultipleSelectionState
                           borderRadius:
                               const BorderRadius.all(Radius.circular(16)),
                           border: Border.all(
-                            color: imagesSelected.contains(image.base64)
+                            color: imagesSelected.contains(image.imageData)
                                 ? colorList[
-                                    imagesSelected.indexOf(image.base64)]
+                                    imagesSelected.indexOf(image.imageData)]
                                 : Colors.grey.shade300,
                             width: 4.0,
                           ),
@@ -146,7 +146,8 @@ class PageExerciseMultipleSelectionState
                             child: SizedBox(
                                 width: Param.tamImages,
                                 height: Param.tamImages,
-                                child: _listImages[widget.images.indexOf(image)]),
+                                child:
+                                    _listImages[widget.images.indexOf(image)]),
                           ),
                         ),
                       ),

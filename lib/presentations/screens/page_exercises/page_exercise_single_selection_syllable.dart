@@ -39,7 +39,7 @@ class PageExerciseSingleSelectionSyllableState
 
     _listImages = widget.images.map((img) {
       return Image.memory(
-        base64.decode(img.base64),
+        base64.decode(img.imageData),
         fit: BoxFit.cover,
       );
     }).toList();

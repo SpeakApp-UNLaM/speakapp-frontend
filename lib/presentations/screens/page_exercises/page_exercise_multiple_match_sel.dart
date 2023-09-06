@@ -36,7 +36,7 @@ class PageExerciseMultipleMatchSelState
 
     _listImages = widget.images.map((img) {
       return Image.memory(
-        base64.decode(img.base64),
+        base64.decode(img.imageData),
         fit: BoxFit.cover,
       );
     }).toList();
@@ -124,21 +124,21 @@ class PageExerciseMultipleMatchSelState
                 spacing: 10.0,
                 runSpacing: 10.0,
                 children: widget.images.map((img) {
-                  final isSelected = imagesSelected.contains(img.base64);
+                  final isSelected = imagesSelected.contains(img.imageData);
                   final borderColor = isSelected
-                      ? colorList[imagesSelected.indexOf(img.base64)]
+                      ? colorList[imagesSelected.indexOf(img.imageData)]
                       : Colors.grey.shade300;
 
                   return GestureDetector(
                     onTap: () {
                       if (isSelected) {
-                        final index = imagesSelected.indexOf(img.base64);
+                        final index = imagesSelected.indexOf(img.imageData);
                         if (audiosSelected.length >= imagesSelected.length) {
                           audiosSelected.removeAt(index);
                         }
-                        imagesSelected.remove(img.base64);
+                        imagesSelected.remove(img.imageData);
                       } else {
-                        imagesSelected.add(img.base64);
+                        imagesSelected.add(img.imageData);
                       }
                       exerciseProv.finishExercise();
 

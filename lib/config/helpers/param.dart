@@ -2,29 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 enum TypeExercise {
-  speak,
-  multipleMatchSelection,
-  minimumPairsSelection,
-  multipleSelection,
-  singleSelectionSyllable,
-  orderSyllable,
-  singleSelectionWord,
-  consonantalSyllable
+  SPEAK, // ignore: constant_identifier_names
+  MULTIPLE_MATCH_SELECTION, // ignore: constant_identifier_names
+  MINIMUM_PAIRS_SELECTION, // ignore: constant_identifier_names
+  MULTIPLE_SELECTION, // ignore: constant_identifier_names
+  SINGLE_SELECTION_SYLLABLE, // ignore: constant_identifier_names
+  ORDER_SYLLABLE, // ignore: constant_identifier_names
+  SINGLE_SELECTION_WORD, // ignore: constant_identifier_names
+  CONSONANTAL_SYLLABLE, // ignore: constant_identifier_names
+}
+
+enum Categories {
+  SYLLABLE,
+  WORD,
 }
 
 class Param {
+  Map<Categories, String> categoriesDescriptions = {
+    Categories.SYLLABLE: "Silaba",
+    Categories.WORD: "Palabra",
+  };
+
   //10.0.2.2 IP especial para emuladores, que mapea la IP del HOST el cual está ejecutando (equivalente a LOCALHOST)
-  static const urlServer = "http://172.17.128.1:9292/speak-app/";
+  static const urlServer = "http://10.0.2.2:9292/speak-app/";
   static const postTranscription = "/speech-recognition/transcription";
 
   static const getCareers = "/careers";
-  static const getExercises = "/exercises";
+  static const getExercises = "/tasks/items";
+  static const getTasks = "/tasks/";
   static const getPending = "/pending/1";
   static const getGroupExercises = "/groupExercises";
   static const modelWhisper = "whisper-1";
   static const postLogin = "/auth/signin";
   static const tamImages = 120.0;
-  
+
   static void showToast(String response) {
     Fluttertoast.showToast(
       msg: 'Error: $response', // Mensaje de la excepción
@@ -37,9 +48,14 @@ class Param {
     );
   }
 
-  static TypeExercise stringToEnum(String value) {
+  static TypeExercise stringToEnumTypeExercise(String value) {
     return TypeExercise.values
         .firstWhere((element) => element.toString() == 'TypeExercise.$value');
+  }
+
+  static Categories stringToEnumCategories(String value) {
+    return Categories.values
+        .firstWhere((element) => element.toString() == 'Categories.$value');
   }
 
   //TODO: TEMPORAL. PARA HACER PRUEBAS YA EN BASE64

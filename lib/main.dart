@@ -11,9 +11,9 @@ import 'config/helpers/api.dart';
 import 'config/theme/app_theme.dart';
 
 Future<void> main() async {
+  Api.configureDio();
   FlutterNativeSplash.preserve(
       widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
-  Api.configureDio();
   final state = AuthProvider(await SharedPreferences.getInstance());
   FlutterNativeSplash.remove();
   state.checkLoggedIn();
@@ -45,8 +45,7 @@ class AudioRecorderApp extends StatelessWidget {
           return MaterialApp.router(
             routeInformationParser: router.routeInformationParser,
             routerDelegate: router.routerDelegate,
-            routeInformationProvider:
-                router.routeInformationProvider, 
+            routeInformationProvider: router.routeInformationProvider,
             debugShowCheckedModeBanner: false,
             theme: AppTheme.theme(),
           );
