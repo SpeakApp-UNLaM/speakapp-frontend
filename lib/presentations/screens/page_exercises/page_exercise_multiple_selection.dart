@@ -128,6 +128,7 @@ class PageExerciseMultipleSelectionState
                       },
                       child: DecoratedBox(
                         decoration: BoxDecoration(
+                          color: Colors.white,
                           borderRadius:
                               const BorderRadius.all(Radius.circular(16)),
                           border: Border.all(

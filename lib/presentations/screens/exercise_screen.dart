@@ -113,14 +113,14 @@ class ExerciseScreenState extends State<ExerciseScreen> {
                               )
                             Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 30),
+                                  const EdgeInsets.symmetric(horizontal: 40),
                               child: _actionBtnNext(exerciseProv, recorderProv),
                             ),
                           if (currentPageIndex ==
                               _pagesExercisesFounded.length - 1)
                             Padding(
                               padding:
-                                  const EdgeInsets.symmetric(horizontal: 30),
+                                  const EdgeInsets.symmetric(horizontal: 40),
                               child: _actionBtnGoHome(exerciseProv, context),
                             ),
                         ],
@@ -186,12 +186,15 @@ class ExerciseScreenState extends State<ExerciseScreen> {
             },
       style: ElevatedButton.styleFrom(
         minimumSize: const Size(300, 50),
+        foregroundColor: colorList[4],
         shape: RoundedRectangleBorder(
-          borderRadius:
-              BorderRadius.circular(10), // Cambia el valor del radio de borde
+          borderRadius: BorderRadius.circular(32), // Cambia el valor del radio de borde
         ),
       ),
-      child: const Text('CONTINUAR'),
+      child: Text('CONTINUAR', style: TextStyle(
+                      fontFamily: 'IkkaRounded',
+                      fontSize: 14,
+                      color: Theme.of(context).primaryColorDark),),
     );
   }
 }
