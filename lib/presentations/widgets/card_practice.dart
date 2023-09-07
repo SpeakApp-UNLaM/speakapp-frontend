@@ -1,10 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
 
-import '../../config/helpers/api.dart';
 import '../../config/helpers/param.dart';
 import '../../domain/entities/level.dart';
 import '../screens/exercise_screen.dart';
@@ -61,13 +59,19 @@ class CardPractice extends StatelessWidget {
                     Expanded(
                       child: ListTile(
                         title: Text(
-                          "Nivel ${asignacion.name}",
+                          "Nivel ${asignacion.value}",
                           style: GoogleFonts.nunito(
                               textStyle: TextStyle(
                                   color: Colors.grey.shade700,
                                   fontWeight: FontWeight.w600)),
                         ),
-                        subtitle: Text(asignacion.categories.join(', '),
+                        subtitle: Text(
+                            "" +
+                                asignacion.categories
+                                    .map((category) =>
+                                        Param.categoriesDescriptions[category])
+                                    .toList()
+                                    .join(', '),
                             style: GoogleFonts.nunito(
                                 textStyle:
                                     TextStyle(color: Colors.grey.shade500))),
@@ -82,11 +86,10 @@ class CardPractice extends StatelessWidget {
                           ),
                           onPressed: () async {
                             ExerciseParameters params = ExerciseParameters(
-                              idPhoneme: idPhoneme,
-                              namePhoneme: namePhoneme,
-                              level: levels[index].value,
-                              categories: levels[index].categories
-                            );
+                                idPhoneme: idPhoneme,
+                                namePhoneme: namePhoneme,
+                                level: levels[index].value,
+                                categories: levels[index].categories);
 
                             context.push("/exercise", extra: params);
                             // Acción del botón

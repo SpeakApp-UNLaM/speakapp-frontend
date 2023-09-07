@@ -13,7 +13,7 @@ class ExerciseParameters {
   final int idPhoneme;
   final int level;
   final String namePhoneme;
-  final List<String>? categories;
+  final List<Categories>? categories;
 
   const ExerciseParameters(
       {required this.idPhoneme,
@@ -40,7 +40,7 @@ class ExerciseScreenState extends State<ExerciseScreen> {
       "phonemeId": widget.object.idPhoneme,
       "level": widget.object.level,
       "categories": widget.object.categories
-          ?.map((category) => category.toLowerCase())
+          ?.map((e) => e.toString().split('.').last)
           .toList(),
     };
     final response = await Api.post(Param.getExercises, data);

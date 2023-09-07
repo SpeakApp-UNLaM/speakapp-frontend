@@ -2,19 +2,17 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:sp_front/presentations/screens/page_exercises/pages_exercises.dart';
 import '../config/helpers/param.dart';
+import 'image_model.dart';
 
 List<ExerciseModel> exerciseModelFromJson(String str) =>
     List<ExerciseModel>.from(
         json.decode(str).map((x) => ExerciseModel.fromJson(x)));
 
-String exerciseModelToJson(List<ExerciseModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
 class ExerciseModel {
   int exerciseId;
   TypeExercise type;
   String result;
-  List<ImageExercise> images;
+  List<ImageExerciseModel> images;
 
   ExerciseModel({
     required this.exerciseId,
@@ -25,11 +23,11 @@ class ExerciseModel {
 
   factory ExerciseModel.fromJson(Map<String, dynamic> json) {
     return ExerciseModel(
-      exerciseId: json["exerciseId"] ?? 0, // Valor predeterminado si es nulo
+      exerciseId: json["exerciseId"], // Valor predeterminado si es nulo
       type: Param.stringToEnumTypeExercise(json["type"]),
       result: json["result"] ?? "", // Valor predeterminado si es nulo
       images: (json["images"] as List<dynamic>?)
-              ?.map((x) => ImageExercise.fromJson(x))
+              ?.map((x) => ImageExerciseModel.fromJson(x))
               .toList() ??
           [],
     );
@@ -99,35 +97,5 @@ class ExerciseModel {
           idExercise: exerciseId,
         );
     }
-  }
-}
-
-class ImageExercise {
-  String name;
-  String imageData;
-  List<String> dividedName;
-
-  ImageExercise({
-    required this.name,
-    required this.imageData,
-    required this.dividedName,
-  });
-
-  factory ImageExercise.fromJson(Map<String, dynamic> json) {
-    return ImageExercise(
-      name: json["name"] ?? "",
-      imageData: json["imageData"] ?? "",
-      dividedName: (json["dividedName"] as String?)?.split('-') ?? [],
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "imageData": imageData,
-        "dividedName": dividedName,
-      };
-
-  List<String> getSyllables() {
-    return dividedName;
   }
 }

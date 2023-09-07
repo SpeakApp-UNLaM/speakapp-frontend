@@ -6,7 +6,9 @@ import 'dart:convert';
 
 import 'package:sp_front/presentations/widgets/button_phoneme.dart';
 
+import '../config/helpers/param.dart';
 import '../domain/entities/level.dart';
+import 'categories_model.dart';
 
 List<PhonemeModel> phonemeModelFromJson(String str) => List<PhonemeModel>.from(
     json.decode(str).map((x) => PhonemeModel.fromJson(x)));
@@ -16,68 +18,48 @@ String phonemeModelToJson(List<PhonemeModel> data) =>
 
 class PhonemeModel {
   Phoneme phoneme;
-  List<CategoriesDto> categoriesDto;
+  List<CategoriesModel> categoriesModel;
 
   PhonemeModel({
     required this.phoneme,
-    required this.categoriesDto,
+    required this.categoriesModel,
   });
 
   factory PhonemeModel.fromJson(Map<String, dynamic> json) => PhonemeModel(
         phoneme: Phoneme.fromJson(json["phoneme"]),
-        categoriesDto: List<CategoriesDto>.from(
-            json["categoriesDTO"].map((x) => CategoriesDto.fromJson(x))),
+        categoriesModel: List<CategoriesModel>.from(
+            json["categoriesDTO"].map((x) => CategoriesModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "phoneme": phoneme.toJson(),
         "categoriesDTO":
-            List<dynamic>.from(categoriesDto.map((x) => x.toJson())),
+            List<dynamic>.from(categoriesModel.map((x) => x.toJson())),
       };
 
   ButtonPhoneme toButtonPhonemeEntity() {
     return ButtonPhoneme(
       idPhoneme: phoneme.idPhoneme,
       namePhoneme: phoneme.namePhoneme,
-      levels: createLevels(categoriesDto),
+      levels: createLevels(categoriesModel),
       tag: phoneme.idPhoneme.toString(),
     );
   }
 
-  List<Level> createLevels(List<CategoriesDto> categoriesDto) {
-    final nivelMap = <int, List<String>>{};
+  List<Level> createLevels(List<CategoriesModel> categoriesDto) {
+    final nivelMap = <int, List<Categories>>{};
 
     for (final item in categoriesDto) {
-      final categoryDTO = item;
+      final categoryModel = item;
       nivelMap
-          .putIfAbsent(categoryDTO.level, () => [])
-          .add(categoryDTO.category);
+          .putIfAbsent(categoryModel.level, () => [])
+          .add(categoryModel.category);
     }
 
     return nivelMap.entries.map((entry) {
-      return Level(name: '${entry.key}', value: entry.key, categories: entry.value);
+      return Level(value: entry.key, categories: entry.value);
     }).toList();
   }
-}
-
-class CategoriesDto {
-  String category;
-  int level;
-
-  CategoriesDto({
-    required this.category,
-    required this.level,
-  });
-
-  factory CategoriesDto.fromJson(Map<String, dynamic> json) => CategoriesDto(
-        category: json["category"],
-        level: json["level"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "category": category,
-        "level": level,
-      };
 }
 
 class Phoneme {
