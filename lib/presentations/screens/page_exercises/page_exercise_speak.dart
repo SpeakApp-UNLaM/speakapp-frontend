@@ -1,14 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
-import 'package:sp_front/models/exercise_model.dart';
 import 'package:sp_front/presentations/widgets/button_play_audio.dart';
 import 'package:sp_front/presentations/widgets/button_recorder.dart';
 
 import '../../../config/helpers/param.dart';
+import '../../../models/image_model.dart';
 
 class PageExerciseSpeak extends StatefulWidget {
-  final List<ImageExercise> img;
+  final List<ImageExerciseModel> img;
   final String namePhoneme;
   final int idExercise;
   final String result;

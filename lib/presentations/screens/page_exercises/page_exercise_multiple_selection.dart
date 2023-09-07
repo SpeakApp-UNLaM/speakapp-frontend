@@ -5,12 +5,12 @@ import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../config/helpers/param.dart';
 import '../../../config/theme/app_theme.dart';
-import '../../../models/exercise_model.dart';
+import '../../../models/image_model.dart';
 import '../../../providers/tts_provider.dart';
 
 class PageExerciseMultipleSelection extends StatefulWidget {
   final int idExercise;
-  final List<ImageExercise> images;
+  final List<ImageExerciseModel> images;
   final String namePhoneme;
   final String syllable;
 

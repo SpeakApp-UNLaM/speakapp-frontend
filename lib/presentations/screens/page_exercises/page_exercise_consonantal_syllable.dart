@@ -5,12 +5,12 @@ import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../config/helpers/param.dart';
 import '../../../config/theme/app_theme.dart';
-import '../../../models/exercise_model.dart';
+import '../../../models/image_model.dart';
 import '../../../providers/tts_provider.dart';
 
 class PageExerciseConsonantalSyllable extends StatefulWidget {
   final int idExercise;
-  final List<ImageExercise> images;
+  final List<ImageExerciseModel> images;
   final String namePhoneme;
   const PageExerciseConsonantalSyllable(
       {Key? key,
@@ -125,7 +125,7 @@ class PageExerciseConsonantalSyllableState
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        for (ImageExercise img in widget.images)
+        for (ImageExerciseModel img in widget.images)
           GestureDetector(
             onTap: () {
               TtsProvider().speak(img.name);

@@ -1,6 +1,7 @@
+import '../../config/helpers/param.dart';
+
 class Level {
-  final String name;
   final int value;
-  final List<String> categories;
-  const Level({required this.name, required this.value, required this.categories});
+  final List<Categories> categories;
+  const Level({required this.value, required this.categories});
 }
