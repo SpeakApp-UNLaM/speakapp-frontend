@@ -44,48 +44,48 @@ class ExerciseModel {
 
   StatefulWidget fromEntity(String letra) {
     switch (type) {
-      case TypeExercise.SPEAK:
+      case TypeExercise.speak:
         return PageExerciseSpeak(
           images,
           result,
           namePhoneme: letra,
           idExercise: exerciseId,
         );
-      case TypeExercise.MULTIPLE_MATCH_SELECTION:
+      case TypeExercise.multiple_match_selection:
         return PageExerciseMultipleMatchSel(
           images: images,
           namePhoneme: letra,
           idExercise: exerciseId,
         );
-      case TypeExercise.ORDER_SYLLABLE:
+      case TypeExercise.order_syllable:
         return PageExerciseOrderSyllabe(
           img: images.first,
           namePhoneme: letra,
           idExercise: exerciseId,
           syllables: images.first.dividedName,
         );
-      case TypeExercise.MINIMUM_PAIRS_SELECTION:
+      case TypeExercise.minimum_pairs_selection:
         return PageExerciseMinimumPairsSel(
             images: images, namePhoneme: letra, idExercise: exerciseId);
-      case TypeExercise.MULTIPLE_SELECTION:
+      case TypeExercise.mutiple_selection:
         return PageExerciseMultipleSelection(
             images: images,
             namePhoneme: letra,
             idExercise: exerciseId,
             syllable: result);
-      case TypeExercise.SINGLE_SELECTION_SYLLABLE:
+      case TypeExercise.single_selection_syllable:
         return PageExerciseSingleSelectionSyllable(
             images: images,
             namePhoneme: letra,
             idExercise: exerciseId,
             syllable: result);
-      case TypeExercise.SINGLE_SELECTION_WORD:
+      case TypeExercise.single_selection_word:
         return PageExerciseSingleSelectionWord(
             images: images,
             namePhoneme: letra,
             idExercise: exerciseId,
             syllable: result);
-      case TypeExercise.CONSONANTAL_SYLLABLE:
+      case TypeExercise.consonantal_syllable:
         return PageExerciseConsonantalSyllable(
           images: images,
           namePhoneme: letra,

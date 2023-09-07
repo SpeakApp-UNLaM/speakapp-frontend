@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 enum TypeExercise {
-  SPEAK, // ignore: constant_identifier_names
-  MULTIPLE_MATCH_SELECTION, // ignore: constant_identifier_names
-  MINIMUM_PAIRS_SELECTION, // ignore: constant_identifier_names
-  MULTIPLE_SELECTION, // ignore: constant_identifier_names
-  SINGLE_SELECTION_SYLLABLE, // ignore: constant_identifier_names
-  ORDER_SYLLABLE, // ignore: constant_identifier_names
-  SINGLE_SELECTION_WORD, // ignore: constant_identifier_names
-  CONSONANTAL_SYLLABLE, // ignore: constant_identifier_names
+  speak,
+  multiple_match_selection, // ignore: constant_identifier_names
+  minimum_pairs_selection, // ignore: constant_identifier_names
+  mutiple_selection, // ignore: constant_identifier_names
+  single_selection_syllable, // ignore: constant_identifier_names
+  order_syllable, // ignore: constant_identifier_names
+  single_selection_word, // ignore: constant_identifier_names
+  consonantal_syllable, // ignore: constant_identifier_names
 }
 
 enum Categories {

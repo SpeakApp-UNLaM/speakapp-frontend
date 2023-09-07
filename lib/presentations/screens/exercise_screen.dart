@@ -33,7 +33,7 @@ class ExerciseScreen extends StatefulWidget {
 class ExerciseScreenState extends State<ExerciseScreen> {
   final PageController _pc = PageController();
   Future<Response>? _fetchData;
-  List<StatefulWidget> _pagesExercisesFounded = [];
+  final List<StatefulWidget> _pagesExercisesFounded = [];
 
   Future<Response> fetchData() async {
     Map<String, dynamic> data = {
@@ -44,7 +44,10 @@ class ExerciseScreenState extends State<ExerciseScreen> {
           .toList(),
     };
     final response = await Api.post(Param.getExercises, data);
-
+    for (var element in response.data) {
+      _pagesExercisesFounded.add(ExerciseModel.fromJson(element)
+          .fromEntity(widget.object.namePhoneme));
+    }
     return response;
   }
 
@@ -64,19 +67,10 @@ class ExerciseScreenState extends State<ExerciseScreen> {
         future: _fetchData,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else {
-            final response = snapshot.data!;
-
-            if (_pagesExercisesFounded.isEmpty) {
-              for (var element in response.data) {
-                _pagesExercisesFounded.add(ExerciseModel.fromJson(element)
-                    .fromEntity(widget.object.namePhoneme));
-              }
-            }
-
             return Padding(
               padding:
                   const EdgeInsets.only(top: 30, right: 5, left: 5, bottom: 20),
