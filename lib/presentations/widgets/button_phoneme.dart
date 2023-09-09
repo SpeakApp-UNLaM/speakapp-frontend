@@ -2,21 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../../config/theme/app_theme.dart';
-import '../../domain/entities/level.dart';
+import '../../domain/entities/task.dart';
 import '../../providers/recorder_provider.dart';
-import '../screens/choice_exercise_screen.dart';
 
 class ButtonPhoneme extends StatelessWidget {
-  final int idPhoneme;
-  final String namePhoneme;
   final String tag;
-  final List<Level> levels;
-  const ButtonPhoneme(
-      {super.key,
-      required this.idPhoneme,
-      required this.namePhoneme,
-      required this.tag,
-      required this.levels});
+  final Task task;
+  const ButtonPhoneme({super.key, required this.tag, required this.task});
 
   @override
   Widget build(BuildContext context) {
@@ -55,21 +47,14 @@ class ButtonPhoneme extends StatelessWidget {
               onPressed: () async {
                 recorderProv.resetAudio();
 
-                ChoiceExerciseScreenParameters params =
-                    ChoiceExerciseScreenParameters(
-                  phoneme: idPhoneme,
-                  namePhoneme: namePhoneme,
-                  levels: levels,
-                );
-                
-                context.push("/choice_exercise", extra: params);
+                context.push("/choice_exercise", extra: task);
               },
               backgroundColor: colorList[0],
               elevation: 10.0,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(namePhoneme.toUpperCase(),
+                  Text(task.phoneme.namePhoneme.toUpperCase(),
                       style: TextStyle(
                         fontSize: 36,
                         color: colorList[2],

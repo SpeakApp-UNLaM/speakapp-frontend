@@ -1,29 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../config/theme/app_theme.dart';
-import '../../domain/entities/level.dart';
+import '../../domain/entities/task.dart';
 import '../widgets/card_articulation.dart';
 import '../widgets/card_practice.dart';
-
 
 class ChoiceExerciseScreenParameters {
   final int phoneme;
   final String namePhoneme;
-  final List<Level> levels;
+  //final List<Level> levels;
 
-  ChoiceExerciseScreenParameters({
-    required this.phoneme,
-    required this.namePhoneme,
-    required this.levels,
-  });
+  ChoiceExerciseScreenParameters(
+      {required this.phoneme, required this.namePhoneme});
 }
 
 class ChoiceExerciseScreen extends StatelessWidget {
-  final ChoiceExerciseScreenParameters object;
+  final Task object;
 
-  const ChoiceExerciseScreen(
-      {super.key,
-      required this.object});
+  const ChoiceExerciseScreen({super.key, required this.object});
 
   @override
   Widget build(BuildContext context) {
@@ -63,9 +57,9 @@ class ChoiceExerciseScreen extends StatelessWidget {
         child: Column(children: [
           //CardArticulation(),
           CardPractice(
-              idPhoneme: object.phoneme,
-              namePhoneme: object.namePhoneme,
-              levels: object.levels) //creo que son todos ejercicios ahora no?
+              idPhoneme: object.phoneme.idPhoneme,
+              namePhoneme: object.phoneme.namePhoneme,
+              categories: object.categories)
         ]),
       ),
     );

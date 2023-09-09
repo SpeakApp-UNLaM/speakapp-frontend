@@ -1,11 +1,10 @@
-import 'package:flutter/animation.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_front/auth/check_auth_status_screen.dart';
 import 'package:sp_front/presentations/screens/choice_exercise_screen.dart';
 import 'package:sp_front/providers/auth_provider.dart';
+import '../../domain/entities/task.dart';
 import '../../presentations/screens/auth/screens/login_screen.dart';
 import '../../presentations/screens/auth/screens/register_screen.dart';
 import '../../presentations/screens/exercise_screen.dart';
@@ -114,9 +113,7 @@ class AppRouter {
               path: '/choice_exercise',
               name: 'choice_exercise',
               pageBuilder: (context, state) {
-
-                ChoiceExerciseScreenParameters args =
-                    state.extra as ChoiceExerciseScreenParameters;
+                Task args = state.extra as Task;
 
                 return CustomTransitionPage(
                   key: state.pageKey,

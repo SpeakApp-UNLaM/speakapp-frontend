@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
-
 import '../../config/helpers/param.dart';
-import '../../domain/entities/level.dart';
+import '../../domain/entities/category.dart';
 import '../screens/exercise_screen.dart';
 
 class CardPractice extends StatelessWidget {
-  final List<Level> levels;
+  final List<Category> categories;
   final int idPhoneme;
   final String namePhoneme;
 
@@ -16,10 +15,17 @@ class CardPractice extends StatelessWidget {
       {super.key,
       required this.idPhoneme,
       required this.namePhoneme,
-      required this.levels});
+      required this.categories});
 
   @override
   Widget build(BuildContext context) {
+    final nivelMap = <int, List<Categories>>{};
+    for (final item in categories) {
+      final categoryModel = item;
+      nivelMap
+          .putIfAbsent(categoryModel.level, () => [])
+          .add(categoryModel.category);
+    }
     return Container(
       width: MediaQuery.of(context)
           .size
@@ -51,27 +57,27 @@ class CardPractice extends StatelessWidget {
             const SizedBox(height: 10.0),
             ListView.builder(
               shrinkWrap: true,
-              itemCount: levels.length,
+              itemCount: nivelMap.length,
               itemBuilder: (context, index) {
-                final asignacion = levels[index];
+                final nivel = nivelMap.keys.elementAt(index);
+                final categorias = nivelMap.values.elementAt(index);
                 return Row(
                   children: [
                     Expanded(
                       child: ListTile(
                         title: Text(
-                          "Nivel ${asignacion.value}",
+                          "Nivel $nivel",
                           style: GoogleFonts.nunito(
                               textStyle: TextStyle(
                                   color: Colors.grey.shade700,
                                   fontWeight: FontWeight.w600)),
                         ),
                         subtitle: Text(
-                            "" +
-                                asignacion.categories
-                                    .map((category) =>
-                                        Param.categoriesDescriptions[category])
-                                    .toList()
-                                    .join(', '),
+                            categorias
+                                .map((category) =>
+                                    Param.categoriesDescriptions[category])
+                                .toList()
+                                .join(', '),
                             style: GoogleFonts.nunito(
                                 textStyle:
                                     TextStyle(color: Colors.grey.shade500))),
@@ -88,8 +94,8 @@ class CardPractice extends StatelessWidget {
                             ExerciseParameters params = ExerciseParameters(
                                 idPhoneme: idPhoneme,
                                 namePhoneme: namePhoneme,
-                                level: levels[index].value,
-                                categories: levels[index].categories);
+                                level: nivel,
+                                categories: categorias);
 
                             context.push("/exercise", extra: params);
                             // Acción del botón

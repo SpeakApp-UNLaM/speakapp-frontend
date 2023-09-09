@@ -11,15 +11,14 @@ import '../../providers/recorder_provider.dart';
 
 class ExerciseParameters {
   final int idPhoneme;
-  final int level;
   final String namePhoneme;
-  final List<Categories>? categories;
-
+  final List<Categories> categories;
+  final int level;
   const ExerciseParameters(
       {required this.idPhoneme,
       required this.namePhoneme,
-      required this.level,
-      required this.categories});
+      required this.categories,
+      required this.level});
 }
 
 class ExerciseScreen extends StatefulWidget {
@@ -39,9 +38,9 @@ class ExerciseScreenState extends State<ExerciseScreen> {
     Map<String, dynamic> data = {
       "phonemeId": widget.object.idPhoneme,
       "level": widget.object.level,
-      "categories": widget.object.categories
-          ?.map((e) => e.toString().split('.').last)
-          .toList(),
+      "categories": widget.object.categories.map((category) {
+        return category.toString().split('.').last;
+      }).toList()
     };
     final response = await Api.post(Param.getExercises, data);
     for (var element in response.data) {

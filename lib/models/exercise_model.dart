@@ -65,7 +65,7 @@ class ExerciseModel {
       case TypeExercise.minimum_pairs_selection:
         return PageExerciseMinimumPairsSel(
             images: images, namePhoneme: letra, idExercise: exerciseId);
-      case TypeExercise.mutiple_selection:
+      case TypeExercise.multiple_selection:
         return PageExerciseMultipleSelection(
             images: images,
             namePhoneme: letra,

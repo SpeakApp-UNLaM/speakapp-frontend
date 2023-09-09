@@ -1,3 +1,5 @@
+import '../domain/entities/phoneme.dart';
+
 class PhonemeModel {
   int idPhoneme;
   String namePhoneme;
@@ -8,12 +10,15 @@ class PhonemeModel {
   });
 
   factory PhonemeModel.fromJson(Map<String, dynamic> json) => PhonemeModel(
-        idPhoneme: json["idPhoneme"],
-        namePhoneme: json["namePhoneme"],
+        idPhoneme: json['idPhoneme'],
+        namePhoneme: json['namePhoneme'],
       );
 
   Map<String, dynamic> toJson() => {
         "idPhoneme": idPhoneme,
         "namePhoneme": namePhoneme,
       };
+
+  Phoneme toPhonemeEntity() =>
+      Phoneme(idPhoneme: idPhoneme, namePhoneme: namePhoneme);
 }

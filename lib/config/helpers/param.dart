@@ -5,7 +5,7 @@ enum TypeExercise {
   speak,
   multiple_match_selection, // ignore: constant_identifier_names
   minimum_pairs_selection, // ignore: constant_identifier_names
-  mutiple_selection, // ignore: constant_identifier_names
+  multiple_selection, // ignore: constant_identifier_names
   single_selection_syllable, // ignore: constant_identifier_names
   order_syllable, // ignore: constant_identifier_names
   single_selection_word, // ignore: constant_identifier_names
