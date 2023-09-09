@@ -7,7 +7,7 @@ class CustomBottomNavigation extends StatelessWidget {
   const CustomBottomNavigation({super.key});
 
   void onItemTapped(BuildContext context, MenuItem item) {
-    context.go(item.link);
+    context.goNamed(item.link);
   }
 
   int getCurrentIndex(BuildContext context) {

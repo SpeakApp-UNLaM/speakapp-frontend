@@ -2,10 +2,15 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
 import 'package:sp_front/presentations/widgets/navigation-drawer/custom_bottom_navigation.dart';
 
 import '../../config/menu/menu_items.dart';
+import '../../providers/auth_provider.dart';
+import '../../providers/login_provider.dart';
+
+enum SampleItem { config, logOut }
 
 class HomeScreen extends StatelessWidget {
   static const name = 'home-screen';
@@ -16,6 +21,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider =
+        Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 70,
@@ -44,21 +51,80 @@ class HomeScreen extends StatelessWidget {
               padding: const EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {},
-                child: Icon(
-                  Icons.notifications,
-                  color: colorList[7],
-                ),
+                child: PopupMenuButton(
+                    color: colorList[7],
+                    onSelected: (SampleItem) {},
+                    itemBuilder: (BuildContext context) =>
+                        <PopupMenuEntry<SampleItem>>[
+                          const PopupMenuItem<SampleItem>(
+                            value: SampleItem.config,
+                            child: Row(
+                              children: [
+                                Icon(Icons.settings),
+                                SizedBox(width: 8),
+                                Text('Configuracion'),
+                              ],
+                            ),
+                          ),
+                          const PopupMenuDivider(),
+                          const PopupMenuItem<SampleItem>(
+                            value: SampleItem.logOut,
+                            child: Row(
+                              children: [
+                                Icon(Icons.logout),
+                                SizedBox(width: 8),
+                                Text('Salir'),
+                              ],
+                            ),
+                          ),
+                        ],
+                    child: Icon(
+                      Icons.notifications,
+                      color: colorList[7],
+                    )),
               )),
           Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {},
+            padding: const EdgeInsets.only(right: 20.0),
+            child: PopupMenuButton(
+                color: colorList[7],
+                onSelected: (SampleItem item) {
+                  switch (item) {
+                    case SampleItem.logOut:
+                      context.read<LoginProvider>().onLogOut(context);
+                    default:
+                      return;
+                  }
+                },
+                itemBuilder: (BuildContext context) =>
+                    <PopupMenuEntry<SampleItem>>[
+                      const PopupMenuItem<SampleItem>(
+                        value: SampleItem.config,
+                        child: Row(
+                          children: [
+                            Icon(Icons.settings),
+                            SizedBox(width: 8),
+                            Text('Configuracion'),
+                          ],
+                        ),
+                      ),
+                      const PopupMenuDivider(),
+                      const PopupMenuItem<SampleItem>(
+                        value: SampleItem.logOut,
+                        child: Row(
+                          children: [
+                            Icon(Icons.logout),
+                            SizedBox(width: 8),
+                            Text('Salir'),
+                          ],
+                        ),
+                      ),
+                    ],
                 child: const CircleAvatar(
                   //TODO GET IMAGE FROM USER
-                  backgroundImage: NetworkImage(
-                      'https://img.freepik.com/foto-gratis/nino-sonriente-aislado-rosa_23-2148984798.jpg?w=1380&t=st=1689548961~exp=1689549561~hmac=ca7f09fd97ffda2f39c4e258f2ae1c44b69bab0c6423cd0ec106c492a469caf2'),
-                ),
-              )),
+                  backgroundImage:
+                      AssetImage('assets/branding/Logo_SpeakApp.png'),
+                )),
+          ),
         ],
         bottom: PreferredSize(
             preferredSize: const Size.fromHeight(1.0),

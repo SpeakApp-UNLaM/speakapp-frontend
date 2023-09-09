@@ -5,12 +5,12 @@ import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../config/helpers/param.dart';
 import '../../../config/theme/app_theme.dart';
-import '../../../models/exercise_model.dart';
+import '../../../models/image_model.dart';
 import '../../../providers/tts_provider.dart';
 
 class PageExerciseMultipleSelection extends StatefulWidget {
   final int idExercise;
-  final List<ImageExercise> images;
+  final List<ImageExerciseModel> images;
   final String namePhoneme;
   final String syllable;
 
@@ -30,6 +30,19 @@ class PageExerciseMultipleSelection extends StatefulWidget {
 class PageExerciseMultipleSelectionState
     extends State<PageExerciseMultipleSelection> {
   List<String> imagesSelected = [];
+  late List<Image> _listImages;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _listImages = widget.images.map((img) {
+      return Image.memory(
+        base64.decode(img.imageData),
+        fit: BoxFit.cover,
+      );
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,12 +115,12 @@ class PageExerciseMultipleSelectionState
                     GestureDetector(
                       onTap: () {
                         final isSelected =
-                            imagesSelected.contains(image.base64);
+                            imagesSelected.contains(image.imageData);
                         if (isSelected) {
-                          imagesSelected.remove(image.base64);
+                          imagesSelected.remove(image.imageData);
                         } else {
                           TtsProvider().speak(image.name);
-                          imagesSelected.add(image.base64);
+                          imagesSelected.add(image.imageData);
                         }
                         exerciseProv.finishExercise();
 
@@ -118,9 +131,9 @@ class PageExerciseMultipleSelectionState
                           borderRadius:
                               const BorderRadius.all(Radius.circular(16)),
                           border: Border.all(
-                            color: imagesSelected.contains(image.base64)
+                            color: imagesSelected.contains(image.imageData)
                                 ? colorList[
-                                    imagesSelected.indexOf(image.base64)]
+                                    imagesSelected.indexOf(image.imageData)]
                                 : Colors.grey.shade300,
                             width: 4.0,
                           ),
@@ -133,10 +146,8 @@ class PageExerciseMultipleSelectionState
                             child: SizedBox(
                                 width: Param.tamImages,
                                 height: Param.tamImages,
-                                child: Image.memory(
-                                  base64.decode(image.base64),
-                                  fit: BoxFit.cover,
-                                )),
+                                child:
+                                    _listImages[widget.images.indexOf(image)]),
                           ),
                         ),
                       ),

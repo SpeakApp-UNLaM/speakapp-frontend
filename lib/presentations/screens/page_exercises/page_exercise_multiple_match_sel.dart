@@ -5,12 +5,12 @@ import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../config/helpers/param.dart';
 import '../../../config/theme/app_theme.dart';
-import '../../../models/exercise_model.dart';
+import '../../../models/image_model.dart';
 import '../../../providers/tts_provider.dart';
 
 class PageExerciseMultipleMatchSel extends StatefulWidget {
   final int idExercise;
-  final List<ImageExercise> images;
+  final List<ImageExerciseModel> images;
   final String namePhoneme;
 
   const PageExerciseMultipleMatchSel(
@@ -28,6 +28,20 @@ class PageExerciseMultipleMatchSel extends StatefulWidget {
 //TODO: MEJORAR DISEÑO. LOGICA PRINCIPAL ESTÁ FUNCIONAL
 class PageExerciseMultipleMatchSelState
     extends State<PageExerciseMultipleMatchSel> {
+  late List<Image> _listImages;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _listImages = widget.images.map((img) {
+      return Image.memory(
+        base64.decode(img.imageData),
+        fit: BoxFit.cover,
+      );
+    }).toList();
+  }
+
   List<String> audiosSelected = [], imagesSelected = [];
   @override
   Widget build(BuildContext context) {
@@ -110,21 +124,21 @@ class PageExerciseMultipleMatchSelState
                 spacing: 10.0,
                 runSpacing: 10.0,
                 children: widget.images.map((img) {
-                  final isSelected = imagesSelected.contains(img.base64);
+                  final isSelected = imagesSelected.contains(img.imageData);
                   final borderColor = isSelected
-                      ? colorList[imagesSelected.indexOf(img.base64)]
+                      ? colorList[imagesSelected.indexOf(img.imageData)]
                       : Colors.grey.shade300;
 
                   return GestureDetector(
                     onTap: () {
                       if (isSelected) {
-                        final index = imagesSelected.indexOf(img.base64);
+                        final index = imagesSelected.indexOf(img.imageData);
                         if (audiosSelected.length >= imagesSelected.length) {
                           audiosSelected.removeAt(index);
                         }
-                        imagesSelected.remove(img.base64);
+                        imagesSelected.remove(img.imageData);
                       } else {
-                        imagesSelected.add(img.base64);
+                        imagesSelected.add(img.imageData);
                       }
                       exerciseProv.finishExercise();
 
@@ -147,8 +161,7 @@ class PageExerciseMultipleMatchSelState
                           child: SizedBox(
                             width: Param.tamImages,
                             height: Param.tamImages,
-                            child: Image.memory(base64.decode(img.base64),
-                                fit: BoxFit.cover),
+                            child: _listImages[widget.images.indexOf(img)],
                           ),
                         ),
                       ),

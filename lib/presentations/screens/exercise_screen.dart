@@ -1,24 +1,30 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
+import '../../config/helpers/api.dart';
 import '../../config/helpers/param.dart';
 import '../../config/theme/app_theme.dart';
 import '../../models/exercise_model.dart';
 import '../../providers/recorder_provider.dart';
 
-class ExerciseScreen extends StatefulWidget {
+class ExerciseParameters {
   final int idPhoneme;
+  final int level;
   final String namePhoneme;
-  final String level;
-  final String categorias;
+  final List<Categories>? categories;
 
-  const ExerciseScreen(
-      {super.key,
-      required this.idPhoneme,
+  const ExerciseParameters(
+      {required this.idPhoneme,
       required this.namePhoneme,
       required this.level,
-      required this.categorias});
+      required this.categories});
+}
+
+class ExerciseScreen extends StatefulWidget {
+  final ExerciseParameters object;
+  const ExerciseScreen({super.key, required this.object});
 
   @override
   ExerciseScreenState createState() => ExerciseScreenState();
@@ -26,248 +32,30 @@ class ExerciseScreen extends StatefulWidget {
 
 class ExerciseScreenState extends State<ExerciseScreen> {
   final PageController _pc = PageController();
-
+  Future<Response>? _fetchData;
   final List<StatefulWidget> _pagesExercisesFounded = [];
+
+  Future<Response> fetchData() async {
+    Map<String, dynamic> data = {
+      "phonemeId": widget.object.idPhoneme,
+      "level": widget.object.level,
+      "categories": widget.object.categories
+          ?.map((e) => e.toString().split('.').last)
+          .toList(),
+    };
+    final response = await Api.post(Param.getExercises, data);
+    for (var element in response.data) {
+      _pagesExercisesFounded.add(ExerciseModel.fromJson(element)
+          .fromEntity(widget.object.namePhoneme));
+    }
+    return response;
+  }
+
   int currentPageIndex = 0;
   @override
   void initState() {
     super.initState();
-    _getData(widget.idPhoneme, widget.level, widget.categorias);
-  }
-
-  Future<void> _getData(int idPhoneme, String nombre, String categorias) async {
-    //TODO: GET EXERCISE DEL PHONEME, LEVEL, CATEGORY, USER || JSON EXAMPLE
-    //final response = await Api.get(Param.getExercises);
-    List<Map<String, dynamic>> exerciseDataFromDatabase = [
-      {
-        'exerciseId': 22,
-        'type': 'minimumPairsSelection',
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'rata', //string
-            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ra-ta' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-        ],
-      },
-      {
-        'exerciseId': 33,
-        'type': 'multipleSelection',
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'rata', //string
-            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ra-ta' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-          {
-            'name': 'rata', //string
-            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ra-ta' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-        ],
-      },
-      {
-        'exerciseId': 2,
-        'type': 'consonantalSyllable',
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'rata', //string
-            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'RA-LA-TRA-BRA' //string
-          },
-        ],
-      },
-      {
-        'exerciseId': 55,
-        'type': 'singleSelectionWord',
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'rata', //string
-            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ra-ta' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-        ],
-      },
-      {
-        'exerciseId': 44,
-        'type': 'singleSelectionSyllable',
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'rata', //string
-            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ra-ta' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-        ],
-      },
-      {
-        'exerciseId': 4,
-        'type': 'orderSyllable',
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'caramelo', //string
-            'base64': Param.base64Caramelo, //string
-            'divided_name': 'ca-ra-me-lo' //string
-          },
-        ],
-      },
-      {
-        'exerciseId': 1,
-        'type': 'speak',
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'rata', //string
-            'base64': Param.base64Rata, //string
-            'divided_name': 'ra-ta' //string
-          },
-        ],
-      },
-      {
-        'exerciseId': 4,
-        'type': 'speak',
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'rata', //string
-            'base64': Param.base64Rata, //string
-            'divided_name': 'ra-ta' //string
-          },
-        ],
-      },
-      {
-        'exerciseId': 3,
-        'type': 'multipleMatchSelection',
-
-        ///enum EXERCISE_TYPE
-        'result': 'ra',
-        'images': [
-          {
-            'name': 'rata', //string
-            'base64': Param.base64Rata, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ra-ta' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ra-ta' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ra-ta' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ra-ta' //string
-          },
-          {
-            'name': 'caramelo', //string
-            'base64':
-                Param.base64Caramelo, //TEMPORAL PARA TESTEAR YA CON BASE64
-            'divided_name': 'ra-ta' //string
-          },
-        ],
-      },
-    ];
-
-    for (var element in exerciseDataFromDatabase) {
-      _pagesExercisesFounded
-          .add(ExerciseModel.fromJson(element).fromEntity(widget.namePhoneme));
-    }
-
-    //output_expected-> result_obtained
+    _fetchData = fetchData();
   }
 
   @override
@@ -275,52 +63,67 @@ class ExerciseScreenState extends State<ExerciseScreen> {
     final exerciseProv = context.watch<ExerciseProvider>();
     final recorderProv = context.watch<RecorderProvider>();
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top: 30, right: 5, left: 5, bottom: 20),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () => context.go('/'),
-                ),
-                Expanded(
-                    child: LinearProgressIndicator(
-                  backgroundColor: colorList[7],
-                  color: colorList[4],
-                  value: currentPageIndex / _pagesExercisesFounded.length,
-                  minHeight: 6,
-                )),
-              ],
-            ),
-            Expanded(
-              child: _listPagesExercises(exerciseProv),
-            ),
-            Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  children: [
-                    if (currentPageIndex <
-                            _pagesExercisesFounded.length - 1 //&&
-                        //(recorderProv.existAudio ||
-                        //recorderProv.isExerciseFinished)
-                        )
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
-                        child: _actionBtnNext(exerciseProv, recorderProv),
+      body: FutureBuilder<Response>(
+        future: _fetchData,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else {
+            return Padding(
+              padding:
+                  const EdgeInsets.only(top: 30, right: 5, left: 5, bottom: 20),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () => context.go('/'),
                       ),
-                    if (currentPageIndex == _pagesExercisesFounded.length - 1)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
-                        child: _actionBtnGoHome(exerciseProv, context),
-                      ),
-                  ],
-                )),
-          ],
-        ),
+                      Expanded(
+                          child: LinearProgressIndicator(
+                        backgroundColor: colorList[7],
+                        color: colorList[4],
+                        value: currentPageIndex / _pagesExercisesFounded.length,
+                        minHeight: 6,
+                      )),
+                    ],
+                  ),
+                  Expanded(
+                    child: _listPagesExercises(exerciseProv),
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          if (currentPageIndex <
+                                  _pagesExercisesFounded.length - 1 //&&
+                              //(recorderProv.existAudio ||
+                              //recorderProv.isExerciseFinished)
+                              )
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 30),
+                              child: _actionBtnNext(exerciseProv, recorderProv),
+                            ),
+                          if (currentPageIndex ==
+                              _pagesExercisesFounded.length - 1)
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 30),
+                              child: _actionBtnGoHome(exerciseProv, context),
+                            ),
+                        ],
+                      )),
+                ],
+              ),
+            );
+          }
+        },
       ),
     );
   }

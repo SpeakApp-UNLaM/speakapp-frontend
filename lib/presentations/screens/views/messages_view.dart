@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 import 'package:sp_front/providers/tts_provider.dart';
 
 class MessagesView extends StatelessWidget {
@@ -13,11 +12,7 @@ class MessagesView extends StatelessWidget {
       appBar: AppBar(),
       body: Center(
         child: Column(
-          children: [
-            TextToSpeech(),
-            TextToSpeech2(),
-            TextToSpeech3()
-          ],
+          children: [TextToSpeech(), TextToSpeech2(), TextToSpeech3()],
         ),
       ),
     );
@@ -25,7 +20,6 @@ class MessagesView extends StatelessWidget {
 }
 
 class TextToSpeech extends StatelessWidget {
-
   @override
   Widget build(Object context) {
     return Container(
@@ -36,8 +30,7 @@ class TextToSpeech extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             ElevatedButton(
-                child: Text("NU"),
-                onPressed: () => TtsProvider().speak("NU"))
+                child: Text("NU"), onPressed: () => TtsProvider().speak("NU"))
           ],
         ),
       ),
@@ -46,7 +39,6 @@ class TextToSpeech extends StatelessWidget {
 }
 
 class TextToSpeech2 extends StatelessWidget {
-
   @override
   Widget build(Object context) {
     return Container(
@@ -57,8 +49,7 @@ class TextToSpeech2 extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             ElevatedButton(
-                child: Text("BLA"),
-                onPressed: () => TtsProvider().speak("BLA"))
+                child: Text("BLA"), onPressed: () => TtsProvider().speak("BLA"))
           ],
         ),
       ),
@@ -67,7 +58,6 @@ class TextToSpeech2 extends StatelessWidget {
 }
 
 class TextToSpeech3 extends StatelessWidget {
-
   @override
   Widget build(Object context) {
     return Container(
@@ -78,8 +68,7 @@ class TextToSpeech3 extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             ElevatedButton(
-                child: Text("DO"),
-                onPressed: () => TtsProvider().speak("DO"))
+                child: Text("DO"), onPressed: () => TtsProvider().speak("DO"))
           ],
         ),
       ),

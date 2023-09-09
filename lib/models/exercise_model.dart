@@ -2,19 +2,17 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:sp_front/presentations/screens/page_exercises/pages_exercises.dart';
 import '../config/helpers/param.dart';
+import 'image_model.dart';
 
 List<ExerciseModel> exerciseModelFromJson(String str) =>
     List<ExerciseModel>.from(
         json.decode(str).map((x) => ExerciseModel.fromJson(x)));
 
-String exerciseModelToJson(List<ExerciseModel> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
 class ExerciseModel {
   int exerciseId;
   TypeExercise type;
   String result;
-  List<ImageExercise> images;
+  List<ImageExerciseModel> images;
 
   ExerciseModel({
     required this.exerciseId,
@@ -23,13 +21,17 @@ class ExerciseModel {
     required this.images,
   });
 
-  factory ExerciseModel.fromJson(Map<String, dynamic> json) => ExerciseModel(
-        exerciseId: json["exerciseId"],
-        type: Param.stringToEnum(json["type"]),
-        result: json["result"],
-        images: List<ImageExercise>.from(
-            json["images"].map((x) => ImageExercise.fromJson(x))),
-      );
+  factory ExerciseModel.fromJson(Map<String, dynamic> json) {
+    return ExerciseModel(
+      exerciseId: json["exerciseId"], // Valor predeterminado si es nulo
+      type: Param.stringToEnumTypeExercise(json["type"]),
+      result: json["result"] ?? "", // Valor predeterminado si es nulo
+      images: (json["images"] as List<dynamic>?)
+              ?.map((x) => ImageExerciseModel.fromJson(x))
+              .toList() ??
+          [],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "exerciseId": exerciseId,
@@ -42,45 +44,46 @@ class ExerciseModel {
     switch (type) {
       case TypeExercise.speak:
         return PageExerciseSpeak(
-          img: images.first,
+          images,
+          result,
           namePhoneme: letra,
           idExercise: exerciseId,
         );
-      case TypeExercise.multipleMatchSelection:
+      case TypeExercise.multiple_match_selection:
         return PageExerciseMultipleMatchSel(
           images: images,
           namePhoneme: letra,
           idExercise: exerciseId,
         );
-      case TypeExercise.orderSyllable:
+      case TypeExercise.order_syllable:
         return PageExerciseOrderSyllabe(
           img: images.first,
           namePhoneme: letra,
           idExercise: exerciseId,
           syllables: images.first.dividedName,
         );
-      case TypeExercise.minimumPairsSelection:
+      case TypeExercise.minimum_pairs_selection:
         return PageExerciseMinimumPairsSel(
             images: images, namePhoneme: letra, idExercise: exerciseId);
-      case TypeExercise.multipleSelection:
+      case TypeExercise.mutiple_selection:
         return PageExerciseMultipleSelection(
             images: images,
             namePhoneme: letra,
             idExercise: exerciseId,
             syllable: result);
-      case TypeExercise.singleSelectionSyllable:
+      case TypeExercise.single_selection_syllable:
         return PageExerciseSingleSelectionSyllable(
             images: images,
             namePhoneme: letra,
             idExercise: exerciseId,
             syllable: result);
-      case TypeExercise.singleSelectionWord:
+      case TypeExercise.single_selection_word:
         return PageExerciseSingleSelectionWord(
             images: images,
             namePhoneme: letra,
             idExercise: exerciseId,
             syllable: result);
-      case TypeExercise.consonantalSyllable:
+      case TypeExercise.consonantal_syllable:
         return PageExerciseConsonantalSyllable(
           images: images,
           namePhoneme: letra,
@@ -88,38 +91,11 @@ class ExerciseModel {
         );
       default:
         return PageExerciseSpeak(
-          img: images.first,
+          images,
+          result,
           namePhoneme: letra,
           idExercise: exerciseId,
         );
     }
-  }
-}
-
-class ImageExercise {
-  String name;
-  String base64;
-  List<String> dividedName;
-
-  ImageExercise({
-    required this.name,
-    required this.base64,
-    required this.dividedName,
-  });
-
-  factory ImageExercise.fromJson(Map<String, dynamic> json) => ImageExercise(
-        name: json["name"],
-        base64: json["base64"],
-        dividedName: (json["divided_name"]).split('-'),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "base64": base64,
-        "divided_name": dividedName,
-      };
-
-  List<String> getSyllables() {
-    return dividedName;
   }
 }

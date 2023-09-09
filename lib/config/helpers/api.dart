@@ -26,7 +26,7 @@ class Api {
     return null;
   }
 
-  static Future post(String path, FormData data) async {
+  static Future post(String path, Map<String, dynamic> data) async {
     try {
       return await _dio.post(path, data: data);
     } on DioError catch (e) {

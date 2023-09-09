@@ -5,12 +5,12 @@ import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../config/helpers/param.dart';
 import '../../../config/theme/app_theme.dart';
-import '../../../models/exercise_model.dart';
+import '../../../models/image_model.dart';
 import '../../../providers/tts_provider.dart';
 
 class PageExerciseMinimumPairsSel extends StatefulWidget {
   final int idExercise;
-  final List<ImageExercise> images;
+  final List<ImageExerciseModel> images;
   final String namePhoneme;
 
   const PageExerciseMinimumPairsSel(
@@ -29,11 +29,23 @@ class PageExerciseMinimumPairsSel extends StatefulWidget {
 class PageExerciseMinimumPairsSelState
     extends State<PageExerciseMinimumPairsSel> {
   String imageSelected = "";
+  late List<Image> _listImages;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _listImages = widget.images.map((img) {
+      return Image.memory(
+        base64.decode(img.imageData),
+        fit: BoxFit.cover,
+      );
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
     String nameAudio = widget.images.first.name;
-    final exerciseProv = context.watch<ExerciseProvider>();
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -55,7 +67,6 @@ class PageExerciseMinimumPairsSelState
                 children: [
                   GestureDetector(
                     onTap: () {
-                      setState(() {});
                       TtsProvider().speak(nameAudio);
                     },
                     child: DecoratedBox(
@@ -88,7 +99,7 @@ class PageExerciseMinimumPairsSelState
                 ],
               ),
               const SizedBox(height: 40.0),
-              drawImages(exerciseProv),
+              drawImages(),
               const SizedBox(height: 40.0),
             ],
           ),
@@ -97,7 +108,7 @@ class PageExerciseMinimumPairsSelState
     );
   }
 
-  Widget drawImages(ExerciseProvider exerciseProv) {
+  Widget drawImages() {
     return Wrap(
       spacing: 10.0,
       runSpacing: 10.0,
@@ -106,14 +117,16 @@ class PageExerciseMinimumPairsSelState
         final borderColor = isSelected ? colorList[1] : Colors.grey.shade300;
 
         return GestureDetector(
+          key: ValueKey(img.name),
           onTap: () {
-            if (isSelected) {
-              imageSelected = "";
-            } else {
-              imageSelected = img.name;
-            }
-            exerciseProv.finishExercise();
-            setState(() {});
+            setState(() {
+              if (isSelected) {
+                imageSelected = "";
+              } else {
+                imageSelected = img.name;
+              }
+              context.read<ExerciseProvider>().finishExercise();
+            });
           },
           child: DecoratedBox(
             decoration: BoxDecoration(
@@ -129,13 +142,9 @@ class PageExerciseMinimumPairsSelState
                 margin: const EdgeInsets.all(8),
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 child: SizedBox(
-                  width: Param.tamImages,
-                  height: Param.tamImages,
-                  child: Image.memory(
-                    base64.decode(img.base64),
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                    width: Param.tamImages,
+                    height: Param.tamImages,
+                    child: _listImages[widget.images.indexOf(img)]),
               ),
             ),
           ),

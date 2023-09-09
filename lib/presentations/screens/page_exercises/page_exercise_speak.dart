@@ -1,21 +1,19 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
-import 'package:sp_front/models/exercise_model.dart';
 import 'package:sp_front/presentations/widgets/button_play_audio.dart';
 import 'package:sp_front/presentations/widgets/button_recorder.dart';
 
 import '../../../config/helpers/param.dart';
+import '../../../models/image_model.dart';
 
 class PageExerciseSpeak extends StatefulWidget {
-  final ImageExercise img;
+  final List<ImageExerciseModel> img;
   final String namePhoneme;
   final int idExercise;
-  const PageExerciseSpeak(
-      {required this.idExercise,
-      required this.img,
-      required this.namePhoneme,
-      Key? key})
+  final String result;
+  const PageExerciseSpeak(this.img, this.result,
+      {required this.idExercise, required this.namePhoneme, Key? key})
       : super(key: key);
 
   @override
@@ -54,8 +52,20 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
               child: SizedBox(
                 width: Param.tamImages,
                 height: Param.tamImages,
-                child: Image.memory(base64.decode(widget.img.base64),
-                    fit: BoxFit.cover),
+                child: widget.img.isNotEmpty
+                    ? Image.memory(
+                        base64.decode(widget.img.first.imageData),
+                        fit: BoxFit.cover,
+                      )
+                    : Center(
+                        child: Text(
+                          widget.result.toUpperCase(),
+                          style: TextStyle(
+                              fontFamily: 'IkkaRounded',
+                              fontSize: 70,
+                              color: colorList[1]),
+                        ),
+                      ), // Aquí puedes usar un widget de marcador de posición o el que prefieras
               ),
             ),
             const SizedBox(height: 30.0),
