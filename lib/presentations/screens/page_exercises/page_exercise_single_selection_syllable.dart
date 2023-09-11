@@ -41,6 +41,7 @@ class PageExerciseSingleSelectionSyllableState
       return Image.memory(
         base64.decode(img.imageData),
         fit: BoxFit.cover,
+
       );
     }).toList();
   }
@@ -63,7 +64,7 @@ class PageExerciseSingleSelectionSyllableState
                       fontSize: 20,
                       color: Theme.of(context).primaryColorDark)),
               const SizedBox(height: 10.0),
-              Text(widget.syllable,
+              Text(widget.syllable.toUpperCase(),
                   style: TextStyle(
                       fontFamily: 'IkkaRounded',
                       fontSize: 50,
@@ -135,6 +136,7 @@ class PageExerciseSingleSelectionSyllableState
             },
             child: DecoratedBox(
               decoration: BoxDecoration(
+                color: Colors.white,
                 borderRadius: const BorderRadius.all(Radius.circular(16)),
                 border: Border.all(
                   color: imageSelected == img.name
