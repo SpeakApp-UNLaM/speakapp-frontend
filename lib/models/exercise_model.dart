@@ -23,7 +23,7 @@ class ExerciseModel {
 
   factory ExerciseModel.fromJson(Map<String, dynamic> json) {
     return ExerciseModel(
-      exerciseId: json["exerciseId"], // Valor predeterminado si es nulo
+      exerciseId: json["idTaskItem"], // Valor predeterminado si es nulo
       type: Param.stringToEnumTypeExercise(json["type"]),
       result: json["result"] ?? "", // Valor predeterminado si es nulo
       images: (json["images"] as List<dynamic>?)

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
 import 'package:sp_front/presentations/widgets/button_phoneme.dart';
 import '../../../config/helpers/task_handled.dart';
@@ -14,9 +15,23 @@ class PhonemeView extends StatefulWidget {
   PhonemeViewState createState() => PhonemeViewState();
 }
 
-class PhonemeViewState extends State<PhonemeView> {
+class PhonemeViewState extends State<PhonemeView>
+    with TickerProviderStateMixin {
   List<ButtonPhoneme> buttonsGroupLists = [];
   TaskHandled taskHandled = TaskHandled();
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +68,22 @@ class PhonemeViewState extends State<PhonemeView> {
           future: taskHandled.fetchData(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
+              return Center(
+                child: SizedBox(
+                    height: 200,
+                    width: 200,
+                    child: Lottie.asset(
+                      'assets/animations/Loading.json',
+                      controller: _controller,
+                      onLoaded: (composition) {
+                        // Configure the AnimationController with the duration of the
+                        // Lottie file and start the animation.
+                        _controller
+                          ..duration = composition.duration
+                          ..repeat();
+                      },
+                    )),
+              );
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else if (snapshot.hasData) {

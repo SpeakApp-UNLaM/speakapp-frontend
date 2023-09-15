@@ -40,24 +40,28 @@ class ExerciseScreenState extends State<ExerciseScreen>
 
   Future<Response> fetchData() async {
     Map<String, dynamic> data = {
-      "phonemeId": widget.object.idPhoneme,
+      "idPhoneme": widget.object.idPhoneme,
       "level": widget.object.level,
       "categories": widget.object.categories.map((category) {
         return category.toString().split('.').last;
       }).toList()
     };
     final response = await Api.post(Param.getExercises, data);
-    for (var element in response.data) {
-      _pagesExercisesFounded.add(ExerciseModel.fromJson(element)
-          .fromEntity(widget.object.namePhoneme));
-    }
 
-    return null;
+    await Future.delayed(const Duration(seconds: 3), () {
+      for (var element in response.data) {
+        _pagesExercisesFounded.add(ExerciseModel.fromJson(element)
+            .fromEntity(widget.object.namePhoneme));
+      }
+    });
+
+    return response;
   }
 
   int currentPageIndex = 0;
   int exerciseIteration = 0;
   bool _showCongratulations = false;
+  bool _isFinishedExercise = false;
 
   @override
   void initState() {
@@ -81,13 +85,27 @@ class ExerciseScreenState extends State<ExerciseScreen>
           future: _fetchData,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return Center(
+                  child: Padding(
+                padding: EdgeInsets.only(bottom: 100),
+                child: Lottie.asset(
+                  'assets/animations/HelloLoading.json',
+                  controller: _controller,
+                  onLoaded: (composition) {
+                    // Configure the AnimationController with the duration of the
+                    // Lottie file and start the animation.
+                    _controller
+                      ..duration = composition.duration
+                      ..repeat();
+                  },
+                ),
+              ));
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
               return Stack(children: [
                 Visibility(
-                    visible: !_showCongratulations,
+                    visible: !_showCongratulations && !_isFinishedExercise,
                     maintainState: true,
                     child: Padding(
                       padding: const EdgeInsets.only(
@@ -160,15 +178,111 @@ class ExerciseScreenState extends State<ExerciseScreen>
                                     color: Theme.of(context).primaryColorDark)),
                           ),
                           Lottie.asset(
-                            'assets/animations/congrats.json',
+                            'assets/animations/BoyJumping.json',
                             controller: _controller,
                             onLoaded: (composition) {
                               // Configure the AnimationController with the duration of the
                               // Lottie file and start the animation.
                               _controller
                                 ..duration = composition.duration
-                                ..forward();
+                                ..repeat();
                             },
+                          ),
+                        ],
+                      ),
+                    )),
+                Visibility(
+                    visible: _isFinishedExercise,
+                    child: Center(
+                      child: Column(
+                        children: [
+                          SizedBox(height: 70),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Text('FELICITACIONES',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: 'IkkaRounded',
+                                    fontSize: 30,
+                                    color: Theme.of(context).primaryColorDark)),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Text('¡Buen trabajo, lo has conseguido!',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontFamily: 'IkkaRounded',
+                                    fontSize: 18,
+                                    color: colorList[1])),
+                          ),
+                          const SizedBox(height: 50),
+                          Container(
+                              width: 600,
+                              height: 450,
+                              child: Lottie.asset(
+                                'assets/animations/Confetti.json',
+                                controller: _controller,
+                                onLoaded: (composition) {
+                                  // Configure the AnimationController with the duration of the
+                                  // Lottie file and start the animation.
+                                  _controller
+                                    ..duration = composition.duration
+                                    ..repeat();
+                                },
+                              )),
+                          const SizedBox(height: 50),
+                          SizedBox(
+                            height: 50.0,
+                            width: 250.0,
+                            // Ancho personalizado
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  bottom: 0,
+                                  child: Container(
+                                    height: 46,
+                                    width: 246,
+                                    decoration: BoxDecoration(
+                                      color: colorList[1],
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(16),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  height: 44,
+                                  width: 244,
+                                  decoration: BoxDecoration(
+                                    color: colorList[0],
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(16),
+                                    ),
+                                  ),
+                                  child: FloatingActionButton(
+                                    onPressed: () async {
+                                      recorderProv.resetAudio();
+
+                                      context.go('/');
+                                    },
+                                    backgroundColor: colorList[0],
+                                    elevation: 10.0,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text("FINALIZAR EJERCICIO",
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              color: colorList[2],
+                                              fontFamily: 'IkkaRounded',
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -197,65 +311,164 @@ class ExerciseScreenState extends State<ExerciseScreen>
     );
   }
 
-  ElevatedButton _actionBtnGoHome(
+  SizedBox _actionBtnGoHome(
       ExerciseProvider exerciseProv, BuildContext context) {
-    return ElevatedButton(
-      onPressed: () async {
-        //TODO: DESCOMENTAR LINEA SENDTRANSCRIPTION
-        //await recorderProv.sendTranscription();
-        //exerciseProv.resetAudio();
-        context.go('/');
-      },
-      child: const Text('FINALIZAR'),
+    return SizedBox(
+      height: 50.0,
+      width: 250.0,
+      // Ancho personalizado
+      child: Stack(
+        children: [
+          Positioned(
+            bottom: 0,
+            child: Container(
+              height: 46,
+              width: 246,
+              decoration: BoxDecoration(
+                color: !exerciseProv.isExerciseFinished
+                    ? Colors.grey.shade300
+                    : colorList[1],
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(16),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            height: 44,
+            width: 244,
+            decoration: BoxDecoration(
+              color: !exerciseProv.isExerciseFinished
+                  ? Colors.grey.shade200
+                  : colorList[0],
+              borderRadius: const BorderRadius.all(
+                Radius.circular(16),
+              ),
+            ),
+            child: FloatingActionButton(
+              heroTag: "finalizarEjercicio",
+              onPressed: (!exerciseProv.isExerciseFinished)
+                  ? null
+                  : () async {
+                      //TODO: DESCOMENTAR LINEA 153 PARA EJECUTAR CORRECTAMENTE PROCESO
+                      //await recorderProv.sendTranscription();
+                      //TODO: DESCOMENTAR LINEA SENDTRANSCRIPTION
+                      //await recorderProv.sendTranscription();
+                      //exerciseProv.resetAudio();
+                      //TODO SEND DATA
+
+                      setState(() {
+                        _isFinishedExercise = true;
+                      });
+                    },
+              backgroundColor: !exerciseProv.isExerciseFinished
+                  ? Colors.grey.shade200
+                  : colorList[0],
+              elevation: 10.0,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("CONTINUAR",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: !exerciseProv.isExerciseFinished
+                            ? Colors.grey.shade300
+                            : colorList[2],
+                        fontFamily: 'IkkaRounded',
+                      ))
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  ElevatedButton _actionBtnNext(
+  SizedBox _actionBtnNext(
       ExerciseProvider exerciseProv, RecorderProvider recorderProv) {
-    return ElevatedButton(
-      onPressed: (!exerciseProv.isExerciseFinished)
-          ? null
-          : () async {
-              //TODO: DESCOMENTAR LINEA 153 PARA EJECUTAR CORRECTAMENTE PROCESO
-              //await recorderProv.sendTranscription();
+    return SizedBox(
+      height: 50.0,
+      width: 250.0,
+      // Ancho personalizado
+      child: Stack(
+        children: [
+          Positioned(
+            bottom: 0,
+            child: Container(
+              height: 46,
+              width: 246,
+              decoration: BoxDecoration(
+                color: !exerciseProv.isExerciseFinished
+                    ? Colors.grey.shade300
+                    : colorList[1],
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(16),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            height: 44,
+            width: 244,
+            decoration: BoxDecoration(
+              color: !exerciseProv.isExerciseFinished
+                  ? Colors.grey.shade200
+                  : colorList[0],
+              borderRadius: const BorderRadius.all(
+                Radius.circular(16),
+              ),
+            ),
+            child: FloatingActionButton(
+              onPressed: (!exerciseProv.isExerciseFinished)
+                  ? null
+                  : () async {
+                      //TODO: DESCOMENTAR LINEA 153 PARA EJECUTAR CORRECTAMENTE PROCESO
+                      //await recorderProv.sendTranscription();
 
-              recorderProv.resetAudio();
-              exerciseProv.unfinishExercise();
+                      recorderProv.resetAudio();
+                      exerciseProv.unfinishExercise();
 
-              setState(() {
-                exerciseIteration++;
-              });
+                      setState(() {
+                        exerciseIteration++;
+                      });
 
-              // Muestra la animación de felicitación cada 3 iteraciones
-              if (exerciseIteration % 3 == 0) {
-                _showCongratulations = true;
-                Future.delayed(const Duration(seconds: 6), () {
-                  setState(() {
-                    _showCongratulations = false;
-                  });
-                });
-              } // Incrementa el contador de iteraciones de ejercicio
-              // Espera 5 segundos antes de cambiar _showCongratulations a false
+                      // Muestra la animación de felicitación cada 3 iteraciones
+                      if (exerciseIteration % 3 == 0) {
+                        _showCongratulations = true;
+                        Future.delayed(const Duration(seconds: 6), () {
+                          setState(() {
+                            _showCongratulations = false;
+                          });
+                        });
+                      } // Incrementa el contador de iteraciones de ejercicio
+                      // Espera 5 segundos antes de cambiar _showCongratulations a false
 
-              _pc.nextPage(
-                duration: const Duration(milliseconds: 500),
-                curve: Curves.linearToEaseOut,
-              );
-            },
-      style: ElevatedButton.styleFrom(
-        minimumSize: const Size(300, 50),
-        foregroundColor: colorList[4],
-        shape: RoundedRectangleBorder(
-          borderRadius:
-              BorderRadius.circular(32), // Cambia el valor del radio de borde
-        ),
-      ),
-      child: Text(
-        'CONTINUAR',
-        style: TextStyle(
-            fontFamily: 'IkkaRounded',
-            fontSize: 14,
-            color: Theme.of(context).primaryColorDark),
+                      _pc.nextPage(
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.linearToEaseOut,
+                      );
+                    },
+              backgroundColor: !exerciseProv.isExerciseFinished
+                  ? Colors.grey.shade200
+                  : colorList[0],
+              elevation: 10.0,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("CONTINUAR",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: !exerciseProv.isExerciseFinished
+                            ? Colors.grey.shade300
+                            : colorList[2],
+                        fontFamily: 'IkkaRounded',
+                      ))
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

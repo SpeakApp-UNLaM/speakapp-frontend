@@ -33,6 +33,12 @@ class _MessagesView extends State<MessagesView> with TickerProviderStateMixin {
       body: Center(
         child: Column(
           children: [
+            Text("COMING SOON - OCTUBRE 2023",
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              color: Theme.of(context).primaryColor,
+                                              fontFamily: 'IkkaRounded',
+                                            )),
             Lottie.asset(
               'assets/animations/congrats.json',
               controller: _controller,

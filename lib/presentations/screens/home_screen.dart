@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:sp_front/auth/user.dart';
+import 'package:sp_front/auth/user_preferences.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
 import 'package:sp_front/presentations/widgets/navigation-drawer/custom_bottom_navigation.dart';
 
@@ -21,6 +23,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User user;
+    UserPreferences().getUser().then((value) => {user = value})  ;
     AuthProvider authProvider =
         Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
@@ -121,8 +125,7 @@ class HomeScreen extends StatelessWidget {
                     ],
                 child: const CircleAvatar(
                   //TODO GET IMAGE FROM USER
-                  backgroundImage:
-                      AssetImage('assets/branding/Logo_SpeakApp.png'),
+                  backgroundImage: AssetImage('assets/niño-feliz.jpg'),
                 )),
           ),
         ],

@@ -58,17 +58,18 @@ class AuthProvider with ChangeNotifier {
     if (response.statusCode == 200) {
       final Map<String, dynamic> responseData = response.data;
 
-      var token = responseData['token'];
       loggedIn = true;
       //User authUser = User.fromJson(userData);
       User authUser = User(
-          userId: 1,
-          username: 'professional',
-          email: 'professional',
+          userId: responseData['idUser'],
+          username: responseData['username'],
+          firstName: responseData['firstName'],
+          lastName: responseData['lastName'],
+          email: responseData['email'],
           phone: '11311984311',
           type: 'professional',
-          token: token,
-          renewalToken: token);
+          token: responseData['token'],
+          renewalToken: responseData['token']);
 
       UserPreferences().saveUser(authUser);
 
@@ -89,6 +90,7 @@ class AuthProvider with ChangeNotifier {
 
   logout() {
     UserPreferences().removeUser();
+    
     _loggedIn = false;
 
     notifyListeners();
