@@ -1,24 +1,18 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter_sound/flutter_sound.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:sp_front/config/helpers/param.dart';
-import '../../common/common.dart';
 
 class Recorder {
-  String _recordingPath = "";
+  String? _lastRecordedPath = "";
   final FlutterSoundRecorder _soundRecorder = FlutterSoundRecorder();
-  final AudioPlayer audioPlayer = AudioPlayer()..setLoopMode(LoopMode.off);
-  bool isPlaying = false;
+
   Recorder() {
     init();
   }
   Future<void> init() async {
-    final directory = await getTemporaryDirectory();
-    _recordingPath = '${directory.path}/recording.wav';
-    //reset();
     if (await Permission.microphone.isGranted) {
       await Permission.storage.request();
     } else {
@@ -26,58 +20,48 @@ class Recorder {
     }
   }
 
-  Future<void> startRecording() async {
+  Future<void> startRecording2() async {
     try {
       _soundRecorder.openRecorder();
-      await _soundRecorder.startRecorder(toFile: _recordingPath);
+      await _soundRecorder.startRecorder(toFile: "record.mp4", bitRate: 48000);
     } catch (e) {
-      Param.showToast("$e");
+      Param.showToast("Error al iniciar la grabación: $e");
     }
   }
 
-  Future<void> stopRecording() async {
-    await _soundRecorder.stopRecorder();
+  Future<String?> stopRecording2() async {
     try {
-      audioPlayer.setFilePath(_recordingPath);
+      _lastRecordedPath = await _soundRecorder.stopRecorder();
     } catch (e) {
-      Param.showToast("$e");
+      Param.showToast("Error al detener la grabación: $e");
     }
+    return _lastRecordedPath;
   }
 
-  Future<void> playAudio() async {
-    isPlaying = true;
-    await audioPlayer.play();
-    await audioPlayer.stop();
-    await audioPlayer.seek(Duration.zero);
-    isPlaying = false;
+  String? getPathAudioRecorded() {
+    return _lastRecordedPath;
   }
 
-  Future<void> pauseAudio() async {
-    await audioPlayer.pause();
-    isPlaying = false;
-  }
-
-  void disposeRecorder() {
-    audioPlayer.dispose();
+  void reset() {
     _soundRecorder.closeRecorder();
+    _deleteFile();
   }
 
-  Stream<PositionData> get _positionDataStream =>
-      Rx.combineLatest3<Duration, Duration, Duration?, PositionData>(
-          audioPlayer.positionStream,
-          audioPlayer.bufferedPositionStream,
-          audioPlayer.durationStream,
-          (position, bufferedPosition, duration) => PositionData(
-              position, bufferedPosition, duration ?? Duration.zero));
+  Future<String> convertAudioToBase64() async {
+    File audioFile = File("$_lastRecordedPath");
+    Uint8List bytes = await audioFile.readAsBytes();
+    return base64Encode(bytes);
+  }
 
-  Stream<PositionData> getStreamAudioPlayer() => _positionDataStream;
-  String getRecordingPath() => _recordingPath;
+  Future<void> _deleteFile() async {
+    try {
+      final file = File("$_lastRecordedPath");
 
-  Future<void> reset() async {
-    final file = File(_recordingPath);
-    audioPlayer.dispose();
-    if (await file.exists()) {
-      await file.delete();
+      if (await file.exists()) {
+        await file.delete();
+      }
+    } catch (e) {
+      Param.showToast('Error al eliminar el archivo: $e');
     }
   }
 }

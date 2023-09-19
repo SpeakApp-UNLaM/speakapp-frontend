@@ -5,11 +5,13 @@ import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../config/helpers/param.dart';
 import '../../../config/theme/app_theme.dart';
+import '../../../domain/entities/result_exercise.dart';
+import '../../../domain/entities/result_pair_images.dart';
 import '../../../models/image_model.dart';
 import '../../../providers/tts_provider.dart';
 
 class PageExerciseMultipleMatchSel extends StatefulWidget {
-  final int idExercise;
+  final int idTaskItem;
   final List<ImageExerciseModel> images;
   final String namePhoneme;
 
@@ -17,7 +19,7 @@ class PageExerciseMultipleMatchSel extends StatefulWidget {
       {Key? key,
       required this.images,
       required this.namePhoneme,
-      required this.idExercise})
+      required this.idTaskItem})
       : super(key: key);
 
   @override
@@ -25,7 +27,6 @@ class PageExerciseMultipleMatchSel extends StatefulWidget {
       PageExerciseMultipleMatchSelState();
 }
 
-//TODO: MEJORAR DISEÑO. LOGICA PRINCIPAL ESTÁ FUNCIONAL
 class PageExerciseMultipleMatchSelState
     extends State<PageExerciseMultipleMatchSel> {
   late List<Image> _listImages;
@@ -43,8 +44,10 @@ class PageExerciseMultipleMatchSelState
   }
 
   List<String> audiosSelected = [], imagesSelected = [];
+  late List<ResultPairImages> pairImages;
   @override
   Widget build(BuildContext context) {
+    print("multiple_match_sel");
     final exerciseProv = context.watch<ExerciseProvider>();
     return Scaffold(
       body: SingleChildScrollView(
@@ -81,13 +84,26 @@ class PageExerciseMultipleMatchSelState
                         final index = audiosSelected.indexOf(img.name);
                         if (imagesSelected.length >= audiosSelected.length) {
                           imagesSelected.removeAt(index);
+                          pairImages.removeAt(index);
                         }
                         audiosSelected.remove(img.name);
                       } else {
                         TtsProvider().speak(img.name);
                         audiosSelected.add(img.name);
+                        int auxIndex = audiosSelected.lastIndexOf(img.name);
+                        if (pairImages[auxIndex] != null) {
+                          pairImages[auxIndex].setAudio(img.name);
+                        } else {
+                          pairImages.add(ResultPairImages(
+                              idImage: 0, nameImage: img.name));
+                        }
                       }
-                      exerciseProv.finishExercise();
+                      exerciseProv.saveParcialResult(ResultExercise(
+                          idTaskItem: widget.idTaskItem,
+                          type: TypeExercise.multiple_match_selection,
+                          audio: "",
+                          pairImagesResult: pairImages));
+                      //exerciseProv.finishExercise();
                       setState(() {});
                     },
                     child: DecoratedBox(
@@ -135,13 +151,26 @@ class PageExerciseMultipleMatchSelState
                         final index = imagesSelected.indexOf(img.imageData);
                         if (audiosSelected.length >= imagesSelected.length) {
                           audiosSelected.removeAt(index);
+                          pairImages.removeAt(index);
                         }
                         imagesSelected.remove(img.imageData);
                       } else {
                         imagesSelected.add(img.imageData);
+                        int auxIndex =
+                            imagesSelected.lastIndexOf(img.imageData);
+                        if (pairImages[auxIndex] != null) {
+                          pairImages[auxIndex].setIdImage(1);
+                        } else {
+                          pairImages.add(ResultPairImages(
+                              idImage: img.idImage, nameImage: ""));
+                        }
                       }
-                      exerciseProv.finishExercise();
-
+                      //exerciseProv.finishExercise();
+                      exerciseProv.saveParcialResult(ResultExercise(
+                          idTaskItem: widget.idTaskItem,
+                          type: TypeExercise.multiple_match_selection,
+                          audio: "",
+                          pairImagesResult: pairImages));
                       setState(() {});
                     },
                     child: DecoratedBox(

@@ -9,13 +9,13 @@ List<ExerciseModel> exerciseModelFromJson(String str) =>
         json.decode(str).map((x) => ExerciseModel.fromJson(x)));
 
 class ExerciseModel {
-  int exerciseId;
+  int idTaskItem;
   TypeExercise type;
   String result;
   List<ImageExerciseModel> images;
 
   ExerciseModel({
-    required this.exerciseId,
+    required this.idTaskItem,
     required this.type,
     required this.result,
     required this.images,
@@ -23,7 +23,7 @@ class ExerciseModel {
 
   factory ExerciseModel.fromJson(Map<String, dynamic> json) {
     return ExerciseModel(
-      exerciseId: json["idTaskItem"], // Valor predeterminado si es nulo
+      idTaskItem: json["idTaskItem"], // Valor predeterminado si es nulo
       type: Param.stringToEnumTypeExercise(json["type"]),
       result: json["result"] ?? "", // Valor predeterminado si es nulo
       images: (json["images"] as List<dynamic>?)
@@ -34,7 +34,7 @@ class ExerciseModel {
   }
 
   Map<String, dynamic> toJson() => {
-        "exerciseId": exerciseId,
+        "exerciseId": idTaskItem,
         "type": type,
         "result": result,
         "images": List<dynamic>.from(images.map((x) => x.toJson())),
@@ -47,54 +47,54 @@ class ExerciseModel {
           images,
           result,
           namePhoneme: letra,
-          idExercise: exerciseId,
+          idTaskItem: idTaskItem,
         );
       case TypeExercise.multiple_match_selection:
         return PageExerciseMultipleMatchSel(
           images: images,
           namePhoneme: letra,
-          idExercise: exerciseId,
+          idTaskItem: idTaskItem,
         );
       case TypeExercise.order_syllable:
         return PageExerciseOrderSyllabe(
           img: images.first,
           namePhoneme: letra,
-          idExercise: exerciseId,
+          idTaskItem: idTaskItem,
           syllables: images.first.dividedName,
         );
       case TypeExercise.minimum_pairs_selection:
         return PageExerciseMinimumPairsSel(
-            images: images, namePhoneme: letra, idExercise: exerciseId);
+            images: images, namePhoneme: letra, idTaskItem: idTaskItem);
       case TypeExercise.multiple_selection:
         return PageExerciseMultipleSelection(
             images: images,
             namePhoneme: letra,
-            idExercise: exerciseId,
+            idTaskItem: idTaskItem,
             syllable: result);
       case TypeExercise.single_selection_syllable:
         return PageExerciseSingleSelectionSyllable(
             images: images,
             namePhoneme: letra,
-            idExercise: exerciseId,
+            idTaskItem: idTaskItem,
             syllable: result);
       case TypeExercise.single_selection_word:
         return PageExerciseSingleSelectionWord(
             images: images,
             namePhoneme: letra,
-            idExercise: exerciseId,
+            idTaskItem: idTaskItem,
             syllable: result);
       case TypeExercise.consonantal_syllable:
         return PageExerciseConsonantalSyllable(
           images: images,
           namePhoneme: letra,
-          idExercise: exerciseId,
+          idTaskItem: idTaskItem,
         );
       default:
         return PageExerciseSpeak(
           images,
           result,
           namePhoneme: letra,
-          idExercise: exerciseId,
+          idTaskItem: idTaskItem,
         );
     }
   }

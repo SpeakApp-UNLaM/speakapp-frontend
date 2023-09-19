@@ -3,11 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 
+import '../../config/helpers/param.dart';
 import '../../config/theme/app_theme.dart';
+import '../../domain/entities/result_exercise.dart';
 import '../../providers/recorder_provider.dart';
 
 class ButtonRecorder extends StatelessWidget {
-  const ButtonRecorder({Key? key}) : super(key: key);
+  final int idExercise;
+  const ButtonRecorder({Key? key, required this.idExercise}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +21,14 @@ class ButtonRecorder extends StatelessWidget {
         onTapUp: (details) async {
           await recorderProv.stopRecording();
           if (recorderProv.existAudio) {
-            exerciseProv.finishExercise();
+            String audioInBase64 = await recorderProv.convertAudioToBase64();
+            audioInBase64 = "audio64";
+            exerciseProv.saveParcialResult(ResultExercise(
+                idTaskItem: idExercise,
+                type: TypeExercise.speak,
+                audio: audioInBase64,
+                pairImagesResult: []));
+            //exerciseProv.finishExercise();
           }
         },
         onTapDown: (details) async => await recorderProv.startRecording(),

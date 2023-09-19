@@ -21,8 +21,9 @@ class ButtonPlayAudioState extends State<ButtonPlayAudio>
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(32)),
           border: Border.all(
-            color:
-                recorderProv.existAudio ? Theme.of(context).primaryColorDark : Colors.grey.shade300,
+            color: recorderProv.existAudio
+                ? Theme.of(context).primaryColorDark
+                : Colors.grey.shade300,
             width: 2.0,
           )),
       child: Row(
@@ -31,7 +32,9 @@ class ButtonPlayAudioState extends State<ButtonPlayAudio>
           IconButton(
               icon: Icon(
                 recorderProv.playing ? Icons.pause : Icons.play_arrow,
-                color: recorderProv.existAudio ? Theme.of(context).primaryColorDark : Colors.grey.shade300, 
+                color: recorderProv.existAudio
+                    ? Theme.of(context).primaryColorDark
+                    : Colors.grey.shade300,
                 size: 30,
               ),
               onPressed: !recorderProv.existAudio
@@ -44,7 +47,9 @@ class ButtonPlayAudioState extends State<ButtonPlayAudio>
                       }
                     }),
           StreamBuilder<PositionData>(
-            stream: recorderProv.existAudio ? recorderProv.getStreamAudioPlayer() : const Stream.empty(),
+            stream: recorderProv.existAudio
+                ? recorderProv.getStreamAudioPlayer()
+                : const Stream.empty(),
             builder: (context, snapshot) {
               final positionData = snapshot.data;
               return SeekBar(
@@ -56,11 +61,6 @@ class ButtonPlayAudioState extends State<ButtonPlayAudio>
               );
             },
           ),
-          Icon(
-            Icons.volume_up_rounded,
-            color:
-                recorderProv.existAudio ? Theme.of(context).primaryColorDark : Colors.grey.shade300,
-          )
         ],
       ),
     );

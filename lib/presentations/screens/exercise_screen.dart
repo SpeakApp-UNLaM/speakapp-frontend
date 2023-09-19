@@ -154,7 +154,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 40),
                                       child: _actionBtnGoHome(
-                                          exerciseProv, context),
+                                          exerciseProv, recorderProv, context),
                                     ),
                                 ],
                               )),
@@ -261,8 +261,6 @@ class ExerciseScreenState extends State<ExerciseScreen>
                                   ),
                                   child: FloatingActionButton(
                                     onPressed: () async {
-                                      recorderProv.resetAudio();
-
                                       context.go('/');
                                     },
                                     backgroundColor: colorList[0],
@@ -311,8 +309,8 @@ class ExerciseScreenState extends State<ExerciseScreen>
     );
   }
 
-  SizedBox _actionBtnGoHome(
-      ExerciseProvider exerciseProv, BuildContext context) {
+  SizedBox _actionBtnGoHome(ExerciseProvider exerciseProv,
+      RecorderProvider recorderProv, BuildContext context) {
     return SizedBox(
       height: 50.0,
       width: 250.0,
@@ -355,8 +353,8 @@ class ExerciseScreenState extends State<ExerciseScreen>
                       //TODO: DESCOMENTAR LINEA SENDTRANSCRIPTION
                       //await recorderProv.sendTranscription();
                       //exerciseProv.resetAudio();
-                      //TODO SEND DATA
-
+                      recorderProv.resetProvider();
+                      exerciseProv.sendResultsExercises();
                       setState(() {
                         _isFinishedExercise = true;
                       });
@@ -385,7 +383,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
     );
   }
 
-  SizedBox _actionBtnNext(
+  Widget _actionBtnNext(
       ExerciseProvider exerciseProv, RecorderProvider recorderProv) {
     return SizedBox(
       height: 50.0,
@@ -425,10 +423,9 @@ class ExerciseScreenState extends State<ExerciseScreen>
                   : () async {
                       //TODO: DESCOMENTAR LINEA 153 PARA EJECUTAR CORRECTAMENTE PROCESO
                       //await recorderProv.sendTranscription();
-
-                      recorderProv.resetAudio();
-                      exerciseProv.unfinishExercise();
-
+                      exerciseProv.finishExercise();
+                      //exerciseProv.unfinishExercise();
+                      recorderProv.resetPathAudio();
                       setState(() {
                         exerciseIteration++;
                       });

@@ -23,8 +23,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    User user;
-    UserPreferences().getUser().then((value) => {user = value})  ;
+    //User user;
+    //UserPreferences().getUser().then((value) => {user = value})  ;
     AuthProvider authProvider =
         Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(

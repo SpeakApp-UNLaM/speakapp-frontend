@@ -4,16 +4,17 @@ import 'package:provider/provider.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import '../../../config/helpers/param.dart';
 import '../../../config/theme/app_theme.dart';
+import '../../../domain/entities/result_exercise.dart';
 import '../../../models/image_model.dart';
 import '../../../providers/tts_provider.dart';
 
 class PageExerciseOrderSyllabe extends StatefulWidget {
   final ImageExerciseModel img;
   final String namePhoneme;
-  final int idExercise;
+  final int idTaskItem;
   final List<String> syllables;
   const PageExerciseOrderSyllabe(
-      {required this.idExercise,
+      {required this.idTaskItem,
       required this.img,
       required this.namePhoneme,
       required this.syllables,
@@ -94,7 +95,12 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                           if (widget.syllables.length > formedWord.length) {
                             formedWord.add("");
                           } else {
-                            exerciseProv.finishExercise();
+                            exerciseProv.saveParcialResult(ResultExercise(
+                                idTaskItem: widget.idTaskItem,
+                                type: TypeExercise.order_syllable,
+                                audio: formedWord.join(),
+                                pairImagesResult: []));
+                            //exerciseProv.finishExercise();
                           }
                         });
                       },
@@ -180,7 +186,7 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                     setState(() {
                       formedWord.clear();
                       formedWord.add("");
-                      exerciseProv.unfinishExercise();
+                      //exerciseProv.unfinishExercise();
                     });
                   },
                   child: const Text('Reiniciar'),
