@@ -15,6 +15,10 @@ import '../../providers/login_provider.dart';
 enum SampleItem { config, logOut }
 
 class HomeScreen extends StatelessWidget {
+  Future<User> _getUserData() async {
+    return UserPreferences().getUser();
+  }
+
   static const name = 'home-screen';
 
   final Widget childView;
@@ -24,137 +28,156 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User user;
-    UserPreferences().getUser().then((value) => {user = value})  ;
+    UserPreferences().getUser().then((value) => {user = value});
     AuthProvider authProvider =
         Provider.of<AuthProvider>(context, listen: false);
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 70,
-        titleSpacing: 20,
-        backgroundColor: Theme.of(context).primaryColor,
-        title: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Hola!',
-                style: GoogleFonts.nunito(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 15,
-                  color: Color(0xFFF5F5F5),
-                )),
-            const Text('Tomas Gonzalez',
-                style: TextStyle(
-                    fontSize: 18,
-                    color: Color(0xFFF5F5F5),
-                    fontFamily: 'IkkaRounded',
-                    fontWeight: FontWeight.w400))
-          ],
-        ),
-        actions: <Widget>[
-          Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {},
-                child: PopupMenuButton(
-                    color: colorList[7],
-                    onSelected: (SampleItem) {},
-                    itemBuilder: (BuildContext context) =>
-                        <PopupMenuEntry<SampleItem>>[
-                          const PopupMenuItem<SampleItem>(
-                            value: SampleItem.config,
-                            child: Row(
-                              children: [
-                                Icon(Icons.settings),
-                                SizedBox(width: 8),
-                                Text('Configuracion'),
+    return FutureBuilder<User>(
+      future: _getUserData(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // Muestra un indicador de carga mientras se obtienen los datos.
+          return CircularProgressIndicator(); // Puedes personalizar esto.
+        } else if (snapshot.hasError) {
+          // Maneja cualquier error que ocurra durante la obtención de datos.
+          return Text('Error: ${snapshot.error}');
+        } else if (!snapshot.hasData) {
+          // Si no hay datos disponibles, puedes mostrar un mensaje o hacer algo más.
+          return Text('No hay datos disponibles.');
+        } else {
+          // Si los datos están disponibles, muestra el contenido de la pantalla.
+          final user = snapshot.data;
+
+          return Scaffold(
+            appBar: AppBar(
+              toolbarHeight: 70,
+              titleSpacing: 20,
+              backgroundColor: Theme.of(context).primaryColor,
+              title: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Hola!',
+                      style: GoogleFonts.nunito(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                        color: Color(0xFFF5F5F5),
+                      )),
+                  Text('${snapshot.data!.firstName}',
+                      style: TextStyle(
+                          fontSize: 16,
+                          color: Color(0xFFF5F5F5),
+                          fontFamily: 'IkkaRounded',
+                          fontWeight: FontWeight.w400))
+                ],
+              ),
+              actions: <Widget>[
+                Padding(
+                    padding: const EdgeInsets.only(right: 20.0),
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: PopupMenuButton(
+                          color: colorList[7],
+                          onSelected: (SampleItem) {},
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<SampleItem>>[
+                                const PopupMenuItem<SampleItem>(
+                                  value: SampleItem.config,
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.settings),
+                                      SizedBox(width: 8),
+                                      Text('Configuracion'),
+                                    ],
+                                  ),
+                                ),
+                                const PopupMenuDivider(),
+                                const PopupMenuItem<SampleItem>(
+                                  value: SampleItem.logOut,
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.logout),
+                                      SizedBox(width: 8),
+                                      Text('Salir'),
+                                    ],
+                                  ),
+                                ),
                               ],
-                            ),
-                          ),
-                          const PopupMenuDivider(),
-                          const PopupMenuItem<SampleItem>(
-                            value: SampleItem.logOut,
-                            child: Row(
-                              children: [
-                                Icon(Icons.logout),
-                                SizedBox(width: 8),
-                                Text('Salir'),
-                              ],
-                            ),
-                          ),
-                        ],
-                    child: Icon(
-                      Icons.notifications,
-                      color: colorList[7],
+                          child: Icon(
+                            Icons.notifications,
+                            color: colorList[7],
+                          )),
                     )),
-              )),
-          Padding(
-            padding: const EdgeInsets.only(right: 20.0),
-            child: PopupMenuButton(
-                color: colorList[7],
-                onSelected: (SampleItem item) {
-                  switch (item) {
-                    case SampleItem.logOut:
-                      context.read<LoginProvider>().onLogOut(context);
-                    default:
-                      return;
-                  }
-                },
-                itemBuilder: (BuildContext context) =>
-                    <PopupMenuEntry<SampleItem>>[
-                      const PopupMenuItem<SampleItem>(
-                        value: SampleItem.config,
-                        child: Row(
-                          children: [
-                            Icon(Icons.settings),
-                            SizedBox(width: 8),
-                            Text('Configuracion'),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20.0),
+                  child: PopupMenuButton(
+                      color: colorList[7],
+                      onSelected: (SampleItem item) {
+                        switch (item) {
+                          case SampleItem.logOut:
+                            context.read<LoginProvider>().onLogOut(context);
+                          default:
+                            return;
+                        }
+                      },
+                      itemBuilder: (BuildContext context) =>
+                          <PopupMenuEntry<SampleItem>>[
+                            const PopupMenuItem<SampleItem>(
+                              value: SampleItem.config,
+                              child: Row(
+                                children: [
+                                  Icon(Icons.settings),
+                                  SizedBox(width: 8),
+                                  Text('Configuracion'),
+                                ],
+                              ),
+                            ),
+                            const PopupMenuDivider(),
+                            const PopupMenuItem<SampleItem>(
+                              value: SampleItem.logOut,
+                              child: Row(
+                                children: [
+                                  Icon(Icons.logout),
+                                  SizedBox(width: 8),
+                                  Text('Salir'),
+                                ],
+                              ),
+                            ),
                           ],
-                        ),
-                      ),
-                      const PopupMenuDivider(),
-                      const PopupMenuItem<SampleItem>(
-                        value: SampleItem.logOut,
-                        child: Row(
-                          children: [
-                            Icon(Icons.logout),
-                            SizedBox(width: 8),
-                            Text('Salir'),
-                          ],
-                        ),
-                      ),
-                    ],
-                child: const CircleAvatar(
-                  //TODO GET IMAGE FROM USER
-                  backgroundImage: AssetImage('assets/niño-feliz.jpg'),
-                )),
-          ),
-        ],
-        bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(1.0),
-            child: Container(
-              color: Theme.of(context).primaryColorLight,
-              height: 1.0,
-            )),
-      ),
-      body: childView,
-      bottomNavigationBar: Container(
-          margin: EdgeInsets.zero,
-          child: CurvedNavigationBar(
-            buttonBackgroundColor: colorList[7],
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            color: colorList[7],
-            height: 50,
-            items: <Widget>[
-              ...appMenuItems.map((item) => Icon(
-                    item.icon,
-                    color: item.color,
-                    size: 35,
+                      child: const CircleAvatar(
+                        //TODO GET IMAGE FROM USER
+                        backgroundImage: AssetImage('assets/niño-feliz.jpg'),
+                      )),
+                ),
+              ],
+              bottom: PreferredSize(
+                  preferredSize: const Size.fromHeight(1.0),
+                  child: Container(
+                    color: Theme.of(context).primaryColorLight,
+                    height: 1.0,
                   )),
-            ],
-            onTap: (index) {
-              context.go(appMenuItems[index].link);
-            },
-          )),
+            ),
+            body: childView,
+            bottomNavigationBar: Container(
+                margin: EdgeInsets.zero,
+                child: CurvedNavigationBar(
+                  buttonBackgroundColor: colorList[7],
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                  color: colorList[7],
+                  height: 50,
+                  items: <Widget>[
+                    ...appMenuItems.map((item) => Icon(
+                          item.icon,
+                          color: item.color,
+                          size: 35,
+                        )),
+                  ],
+                  onTap: (index) {
+                    context.go(appMenuItems[index].link);
+                  },
+                )),
+          );
+        }
+      },
     );
   }
 }
