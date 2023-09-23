@@ -1,15 +1,17 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:sp_front/domain/entities/result_pair_images.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../config/helpers/param.dart';
 import '../../../config/theme/app_theme.dart';
+import '../../../domain/entities/result_exercise.dart';
 import '../../../models/image_model.dart';
 import '../../../providers/tts_provider.dart';
 
 class PageExerciseMultipleSelection extends StatefulWidget {
-  final int idExercise;
+  final int idTaskItem;
   final List<ImageExerciseModel> images;
   final String namePhoneme;
   final String syllable;
@@ -18,7 +20,7 @@ class PageExerciseMultipleSelection extends StatefulWidget {
       {Key? key,
       required this.images,
       required this.namePhoneme,
-      required this.idExercise,
+      required this.idTaskItem,
       required this.syllable})
       : super(key: key);
 
@@ -30,6 +32,7 @@ class PageExerciseMultipleSelection extends StatefulWidget {
 class PageExerciseMultipleSelectionState
     extends State<PageExerciseMultipleSelection> {
   List<String> imagesSelected = [];
+  List<ResultPairImages> pairImages = [];
   late List<Image> _listImages;
 
   @override
@@ -73,7 +76,7 @@ class PageExerciseMultipleSelectionState
                 children: [
                   GestureDetector(
                     onTap: () {
-                      exerciseProv.finishExercise();
+                      //exerciseProv.finishExercise();
                       setState(() {});
                       TtsProvider().speak(widget.syllable);
                     },
@@ -117,12 +120,21 @@ class PageExerciseMultipleSelectionState
                         final isSelected =
                             imagesSelected.contains(image.imageData);
                         if (isSelected) {
+                          int index = imagesSelected.indexOf(image.imageData);
                           imagesSelected.remove(image.imageData);
+                          pairImages.removeAt(index);
                         } else {
                           TtsProvider().speak(image.name);
                           imagesSelected.add(image.imageData);
+                          pairImages.add(ResultPairImages(
+                              idImage: image.idImage, nameImage: image.name));
                         }
-                        exerciseProv.finishExercise();
+                        exerciseProv.saveParcialResult(ResultExercise(
+                            idTaskItem: widget.idTaskItem,
+                            type: TypeExercise.multiple_selection,
+                            audio: "",
+                            pairImagesResult: pairImages));
+                        //exerciseProv.finishExercise();
 
                         setState(() {});
                       },

@@ -2,19 +2,22 @@ class ImageExerciseModel {
   String name;
   String imageData;
   List<String> dividedName;
+  int idImage;
 
   ImageExerciseModel({
     required this.name,
     required this.imageData,
     required this.dividedName,
+    required this.idImage,
   });
 
   factory ImageExerciseModel.fromJson(Map<String, dynamic> json) {
     return ImageExerciseModel(
-      name: json["name"],
-      imageData: json["imageData"] ?? "",
-      dividedName: (json["dividedName"] as String?)?.split('-') ?? [],
-    );
+        name: json["name"],
+        imageData: json["imageData"] ?? "",
+        dividedName: (json["dividedName"] as String?)?.split('-') ?? [],
+        //TODO: GET JSON IDIMAGE
+        idImage: 1);
   }
 
   Map<String, dynamic> toJson() => {

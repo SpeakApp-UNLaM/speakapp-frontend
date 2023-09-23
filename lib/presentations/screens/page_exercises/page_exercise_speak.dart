@@ -10,10 +10,10 @@ import '../../../models/image_model.dart';
 class PageExerciseSpeak extends StatefulWidget {
   final List<ImageExerciseModel> img;
   final String namePhoneme;
-  final int idExercise;
+  final int idTaskItem;
   final String result;
   const PageExerciseSpeak(this.img, this.result,
-      {required this.idExercise, required this.namePhoneme, Key? key})
+      {required this.idTaskItem, required this.namePhoneme, Key? key})
       : super(key: key);
 
   @override
@@ -73,7 +73,9 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
                 padding: EdgeInsets.symmetric(horizontal: 40),
                 child: ButtonPlayAudio()),
             const SizedBox(height: 30.0),
-            const ButtonRecorder(),
+            ButtonRecorder(
+              idExercise: widget.idTaskItem,
+            ),
             const SizedBox(height: 10),
           ],
         ),

@@ -5,11 +5,13 @@ import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../config/helpers/param.dart';
 import '../../../config/theme/app_theme.dart';
+import '../../../domain/entities/result_exercise.dart';
+import '../../../domain/entities/result_pair_images.dart';
 import '../../../models/image_model.dart';
 import '../../../providers/tts_provider.dart';
 
 class PageExerciseMinimumPairsSel extends StatefulWidget {
-  final int idExercise;
+  final int idTaskItem;
   final List<ImageExerciseModel> images;
   final String namePhoneme;
 
@@ -17,7 +19,7 @@ class PageExerciseMinimumPairsSel extends StatefulWidget {
       {Key? key,
       required this.images,
       required this.namePhoneme,
-      required this.idExercise})
+      required this.idTaskItem})
       : super(key: key);
 
   @override
@@ -25,7 +27,6 @@ class PageExerciseMinimumPairsSel extends StatefulWidget {
       PageExerciseMinimumPairsSelState();
 }
 
-//TODO: MEJORAR DISEÑO. LOGICA PRINCIPAL ESTÁ FUNCIONAL
 class PageExerciseMinimumPairsSelState
     extends State<PageExerciseMinimumPairsSel> {
   String imageSelected = "";
@@ -125,7 +126,15 @@ class PageExerciseMinimumPairsSelState
               } else {
                 imageSelected = img.name;
               }
-              context.read<ExerciseProvider>().finishExercise();
+              context.read<ExerciseProvider>().saveParcialResult(ResultExercise(
+                      idTaskItem: widget.idTaskItem,
+                      type: TypeExercise.minimum_pairs_selection,
+                      audio: "",
+                      pairImagesResult: [
+                        ResultPairImages(
+                            idImage: img.idImage, nameImage: imageSelected)
+                      ]));
+              //context.read<ExerciseProvider>().finishExercise();
             });
           },
           child: DecoratedBox(

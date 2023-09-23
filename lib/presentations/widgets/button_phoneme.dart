@@ -45,8 +45,6 @@ class ButtonPhoneme extends StatelessWidget {
             child: FloatingActionButton(
               heroTag: tag,
               onPressed: () async {
-                recorderProv.resetAudio();
-
                 context.push("/choice_exercise", extra: task);
               },
               backgroundColor: colorList[0],

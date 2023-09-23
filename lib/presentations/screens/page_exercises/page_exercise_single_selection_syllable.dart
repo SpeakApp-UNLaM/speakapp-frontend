@@ -1,15 +1,17 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:sp_front/domain/entities/result_pair_images.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../config/helpers/param.dart';
 import '../../../config/theme/app_theme.dart';
+import '../../../domain/entities/result_exercise.dart';
 import '../../../models/image_model.dart';
 import '../../../providers/tts_provider.dart';
 
 class PageExerciseSingleSelectionSyllable extends StatefulWidget {
-  final int idExercise;
+  final int idTaskItem;
   final List<ImageExerciseModel> images;
   final String namePhoneme;
 
@@ -19,7 +21,7 @@ class PageExerciseSingleSelectionSyllable extends StatefulWidget {
       {Key? key,
       required this.images,
       required this.namePhoneme,
-      required this.idExercise,
+      required this.idTaskItem,
       required this.syllable})
       : super(key: key);
 
@@ -41,7 +43,6 @@ class PageExerciseSingleSelectionSyllableState
       return Image.memory(
         base64.decode(img.imageData),
         fit: BoxFit.cover,
-
       );
     }).toList();
   }
@@ -131,7 +132,14 @@ class PageExerciseSingleSelectionSyllableState
                 imageSelected = img.name;
                 TtsProvider().speak(img.name);
               }
-              exerciseProv.finishExercise();
+              exerciseProv.saveParcialResult(ResultExercise(
+                  idTaskItem: widget.idTaskItem,
+                  type: TypeExercise.single_selection_syllable,
+                  audio: "",
+                  pairImagesResult: [
+                    ResultPairImages(idImage: img.idImage, nameImage: img.name)
+                  ]));
+              //exerciseProv.finishExercise();
               setState(() {});
             },
             child: DecoratedBox(
