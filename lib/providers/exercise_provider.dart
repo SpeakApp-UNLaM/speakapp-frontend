@@ -1,6 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:sp_front/domain/entities/result_exercise.dart';
 import 'package:sp_front/models/result_exercise_model.dart';
+
+import '../config/helpers/api.dart';
+import '../config/helpers/param.dart';
 
 class ExerciseProvider extends ChangeNotifier {
   bool _existAudio = false;
@@ -12,7 +16,7 @@ class ExerciseProvider extends ChangeNotifier {
   final List<ResultExercise> _listResults = [];
   void finishExercise() {
     _listResults.add(_resultSaved);
-    _exerciseFinished = true;
+    _exerciseFinished = false;
     notifyListeners();
   }
 
@@ -23,14 +27,25 @@ class ExerciseProvider extends ChangeNotifier {
 
   void saveParcialResult(resultExercise) {
     _resultSaved = resultExercise;
+    _exerciseFinished = true;
+    notifyListeners();
   }
 
-  void sendResultsExercises() {
-    final String jsonExercises =
+  Future<void> sendResultsExercises() async {
+    final jsonExercises =
         resultExerciseModelToJson(_listResults.map((resulExercises) {
       return ResultExerciseModel.resultExerciseToModel(resulExercises);
     }).toList());
+    print("aca $jsonExercises");
+    Response response =
+        await Api.post(Param.postSaveResultExercises, jsonExercises);
+    if (response.statusCode == 200) {
+      print("OK!");
+    } else {
+      print("NO OK MANIN!");
+    }
     print(jsonExercises);
     _listResults.clear();
+    _exerciseFinished = false;
   }
 }

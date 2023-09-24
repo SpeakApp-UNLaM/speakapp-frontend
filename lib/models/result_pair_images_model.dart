@@ -7,7 +7,7 @@ class ResultPairImagesModel {
 
   Map<String, dynamic> toJson() => {
         "IdImage": idImage,
-        "data": nameImage,
+        "name": nameImage,
       };
 
   static ResultPairImagesModel resultPairImagesToModel(ResultPairImages e) =>

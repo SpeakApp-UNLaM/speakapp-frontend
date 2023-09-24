@@ -21,7 +21,7 @@ class ResultExerciseModel {
   Map<String, dynamic> toJson() => {
         "idTaskItem": idTaskItem,
         "audio": audio,
-        "imagesData": List<dynamic>.from(pairList.map((x) => x.toJson())),
+        "selectionImages": List<dynamic>.from(pairList.map((x) => x.toJson())),
       };
 
   static ResultExerciseModel resultExerciseToModel(ResultExercise e) =>
