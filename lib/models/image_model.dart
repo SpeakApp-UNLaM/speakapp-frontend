@@ -16,8 +16,7 @@ class ImageExerciseModel {
         name: json["name"],
         imageData: json["imageData"] ?? "",
         dividedName: (json["dividedName"] as String?)?.split('-') ?? [],
-        //TODO: GET JSON IDIMAGE
-        idImage: 1);
+        idImage: json["idImage"]);
   }
 
   Map<String, dynamic> toJson() => {

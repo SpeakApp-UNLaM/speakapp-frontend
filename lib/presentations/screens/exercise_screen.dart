@@ -354,7 +354,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
                       //await recorderProv.sendTranscription();
                       //exerciseProv.resetAudio();
                       recorderProv.resetProvider();
-                      exerciseProv.sendResultsExercises();
+                      await exerciseProv.sendResultsExercises();
                       setState(() {
                         _isFinishedExercise = true;
                       });

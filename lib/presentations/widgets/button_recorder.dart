@@ -22,7 +22,7 @@ class ButtonRecorder extends StatelessWidget {
           await recorderProv.stopRecording();
           if (recorderProv.existAudio) {
             String audioInBase64 = await recorderProv.convertAudioToBase64();
-            audioInBase64 = "audio64";
+
             exerciseProv.saveParcialResult(ResultExercise(
                 idTaskItem: idExercise,
                 type: TypeExercise.speak,
