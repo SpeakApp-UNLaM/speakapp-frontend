@@ -6,7 +6,7 @@ class ResultPairImagesModel {
   ResultPairImagesModel({required this.idImage, required this.nameImage});
 
   Map<String, dynamic> toJson() => {
-        "IdImage": idImage,
+        "idImage": idImage,
         "name": nameImage,
       };
 

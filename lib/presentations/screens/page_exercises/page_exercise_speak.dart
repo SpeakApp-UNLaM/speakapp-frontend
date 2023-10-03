@@ -29,7 +29,8 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('¡Vamos a practicar! \nPalabras con la letra:',
+            Text(
+                '¡Practiquemos tu pronunciación! \n Di la silaba o la palabra de la siguiente imagen:',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontFamily: 'IkkaRounded',

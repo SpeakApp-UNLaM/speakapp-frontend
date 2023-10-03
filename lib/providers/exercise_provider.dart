@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:sp_front/domain/entities/result_exercise.dart';
 import 'package:sp_front/models/result_exercise_model.dart';
@@ -8,7 +7,7 @@ import '../config/helpers/param.dart';
 
 class ExerciseProvider extends ChangeNotifier {
   bool _existAudio = false;
-
+  int idPhonemeActive = 0;
   bool _exerciseFinished = false;
   bool get existAudio => _existAudio;
   bool get isExerciseFinished => _exerciseFinished;
@@ -36,16 +35,16 @@ class ExerciseProvider extends ChangeNotifier {
         resultExerciseModelToJson(_listResults.map((resulExercises) {
       return ResultExerciseModel.resultExerciseToModel(resulExercises);
     }).toList());
-    print("aca $jsonExercises");
-    Response response =
-        await Api.post(Param.postSaveResultExercises, jsonExercises);
-    if (response.statusCode == 200) {
-      print("OK!");
-    } else {
-      print("NO OK MANIN!");
-    }
-    print(jsonExercises);
+
+    await Api.post(Param.postSaveResultExercises, jsonExercises);
+    print("a eliminar: $idPhonemeActive");
+    await Api.delete("${Param.deleteTask}/$idPhonemeActive", {});
+    idPhonemeActive = 0;
     _listResults.clear();
     _exerciseFinished = false;
+  }
+
+  void setIdTaskActive(int idPhoneme) {
+    idPhonemeActive = idPhoneme;
   }
 }
