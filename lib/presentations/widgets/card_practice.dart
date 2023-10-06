@@ -26,12 +26,9 @@ class CardPractice extends StatelessWidget {
           .putIfAbsent(categoryModel.level, () => [])
           .add(categoryModel.category);
     }
-    return Container(
-      width: MediaQuery.of(context)
-          .size
-          .width, // Ocupa todo el ancho de la pantalla
-      margin: const EdgeInsets.all(30.0),
+    return SingleChildScrollView(
       child: Card(
+        margin: const EdgeInsets.all(30.0),
         color: Theme.of(context).cardColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         elevation: 6,
@@ -58,6 +55,7 @@ class CardPractice extends StatelessWidget {
             ListView.builder(
               shrinkWrap: true,
               itemCount: categories.length,
+              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
                 int desafio = index + 1;
                 int nivel = categories.elementAt(index).level;
