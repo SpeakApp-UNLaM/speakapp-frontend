@@ -22,6 +22,7 @@ class Param {
   static const postTranscription = "/speech-recognition/transcription";
 
   static const getCareers = "/careers";
+  static const getExercisesCustom = "/tasks/generate-custom";
   static const getExercises = "/tasks/items";
   static const getTasks = "/tasks/";
   static const getPending = "/pending/1";
@@ -30,6 +31,7 @@ class Param {
   static const postLogin = "/auth/signin";
   static const postSaveResultExercises = "/resolve-exercises";
   static const tamImages = 120.0;
+  static const deleteTask = "/tasks/";
 
   static void showToast(String response) {
     Fluttertoast.showToast(

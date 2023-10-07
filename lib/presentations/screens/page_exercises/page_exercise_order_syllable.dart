@@ -98,7 +98,7 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                             exerciseProv.saveParcialResult(ResultExercise(
                                 idTaskItem: widget.idTaskItem,
                                 type: TypeExercise.order_syllable,
-                                audio: formedWord.join(),
+                                audio: formedWord.join('-'),
                                 pairImagesResult: []));
                             //exerciseProv.finishExercise();
                           }

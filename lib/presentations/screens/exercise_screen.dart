@@ -15,16 +15,21 @@ class ExerciseParameters {
   final String namePhoneme;
   final List<Categories> categories;
   final int level;
+
+  final int idTask;
   const ExerciseParameters(
       {required this.idPhoneme,
       required this.namePhoneme,
       required this.categories,
-      required this.level});
+      required this.level,
+      required this.idTask});
 }
 
+// ignore: must_be_immutable
 class ExerciseScreen extends StatefulWidget {
   final ExerciseParameters object;
-  const ExerciseScreen({super.key, required this.object});
+  Map<String, dynamic>? queryParameters;
+  ExerciseScreen({super.key, required this.object, this.queryParameters});
 
   @override
   ExerciseScreenState createState() => ExerciseScreenState();
@@ -36,26 +41,41 @@ class ExerciseScreenState extends State<ExerciseScreen>
   Future? _fetchData;
   final List<StatefulWidget> _pagesExercisesFounded = [];
   late final AnimationController _controller;
-  bool _dataLoaded = false;
 
   Future<Response> fetchData() async {
-    Map<String, dynamic> data = {
-      "idPhoneme": widget.object.idPhoneme,
-      "level": widget.object.level,
-      "categories": widget.object.categories.map((category) {
-        return category.toString().split('.').last;
-      }).toList()
-    };
-    final response = await Api.post(Param.getExercises, data);
-
-    await Future.delayed(const Duration(seconds: 3), () {
-      for (var element in response.data) {
-        _pagesExercisesFounded.add(ExerciseModel.fromJson(element)
-            .fromEntity(widget.object.namePhoneme));
-      }
-    });
-
-    return response;
+    final response;
+    if (widget.queryParameters == null) {
+      Map<String, dynamic> data = {
+        "idPhoneme": widget.object.idPhoneme,
+        "level": widget.object.level,
+        "categories": widget.object.categories.map((category) {
+          return category.toString().split('.').last;
+        }).toList()
+      };
+      response = await Api.post(Param.getExercises, data);
+      await Future.delayed(const Duration(seconds: 3), () {
+        if (response != null) {
+          for (var element in response.data) {
+            _pagesExercisesFounded.add(ExerciseModel.fromJson(element)
+                .fromEntity(widget.object.namePhoneme));
+          }
+        }
+      });
+      if (response == null) return Response(requestOptions: RequestOptions());
+      return response;
+    } else {
+      response = await Api.get(Param.getExercisesCustom,
+          queryParameters: widget.queryParameters);
+      await Future.delayed(const Duration(seconds: 3), () {
+        if (response != null) {
+          for (var element in response) {
+            _pagesExercisesFounded
+                .add(ExerciseModel.fromJson(element).fromEntity(""));
+          }
+        }
+      });
+      return Response(requestOptions: RequestOptions());
+    }
   }
 
   int currentPageIndex = 0;
@@ -80,6 +100,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
   Widget build(BuildContext context) {
     final exerciseProv = context.watch<ExerciseProvider>();
     final recorderProv = context.watch<RecorderProvider>();
+    exerciseProv.setIdTaskActive(widget.object.idTask);
     return Scaffold(
       body: FutureBuilder(
           future: _fetchData,
@@ -87,7 +108,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
                   child: Padding(
-                padding: EdgeInsets.only(bottom: 100),
+                padding: const EdgeInsets.only(bottom: 100),
                 child: Lottie.asset(
                   'assets/animations/HelloLoading.json',
                   controller: _controller,
@@ -102,6 +123,55 @@ class ExerciseScreenState extends State<ExerciseScreen>
               ));
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
+            } else if (_pagesExercisesFounded.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("No se encontraron ejercicios!",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: colorList[2],
+                          fontFamily: 'IkkaRounded',
+                        )),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Container(
+                      height: 44,
+                      width: 244,
+                      decoration: BoxDecoration(
+                        color: colorList[0],
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(16),
+                        ),
+                      ),
+                      child: FloatingActionButton(
+                        onPressed: () {
+                          if (widget.queryParameters == null) {
+                            context.go('/');
+                          } else {
+                            Navigator.pop(context);
+                          }
+                        },
+                        backgroundColor: colorList[0],
+                        elevation: 10.0,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("VOLVER",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: colorList[2],
+                                  fontFamily: 'IkkaRounded',
+                                ))
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              );
             } else {
               return Stack(children: [
                 Visibility(
@@ -196,7 +266,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
                     child: Center(
                       child: Column(
                         children: [
-                          SizedBox(height: 70),
+                          const SizedBox(height: 70),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Text('FELICITACIONES',
@@ -261,7 +331,16 @@ class ExerciseScreenState extends State<ExerciseScreen>
                                   ),
                                   child: FloatingActionButton(
                                     onPressed: () async {
-                                      context.go('/');
+                                      if (widget.queryParameters == null) {
+                                        context.go('/');
+                                      } else {
+                                        exerciseProv.finishExercise();
+                                        recorderProv.resetPathAudio();
+                                        recorderProv.resetProvider();
+                                        await exerciseProv
+                                            .sendResultsExercises();
+                                        Navigator.pop(context);
+                                      }
                                     },
                                     backgroundColor: colorList[0],
                                     elevation: 10.0,
