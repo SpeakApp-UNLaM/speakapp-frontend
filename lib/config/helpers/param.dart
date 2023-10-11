@@ -16,17 +16,22 @@ enum Categories { syllable, word, phrase }
 
 class Param {
   //10.0.2.2 IP especial para emuladores, que mapea la IP del HOST el cual está ejecutando (equivalente a LOCALHOST)
+  //Si utiliza el celular FISICO para debugging, utilizar la IP de la RED DEL PC (ipconfig 192.168.1.XX) 192.168.1.33
+
   static const urlServer = "http://10.0.2.2:9292/speak-app/";
   static const postTranscription = "/speech-recognition/transcription";
 
   static const getCareers = "/careers";
+  static const getExercisesCustom = "/tasks/generate-custom";
   static const getExercises = "/tasks/items";
   static const getTasks = "/tasks/";
   static const getPending = "/pending/1";
   static const getGroupExercises = "/groupExercises";
   static const modelWhisper = "whisper-1";
   static const postLogin = "/auth/signin";
+  static const postSaveResultExercises = "/resolve-exercises";
   static const tamImages = 120.0;
+  static const deleteTask = "/tasks/";
 
   static void showToast(String response) {
     Fluttertoast.showToast(

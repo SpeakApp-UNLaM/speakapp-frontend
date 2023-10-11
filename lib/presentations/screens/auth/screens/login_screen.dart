@@ -66,7 +66,7 @@ class _LoginForm extends StatelessWidget {
       child: Column(
         children: [
           const SizedBox(height: 50),
-          Text('Login', style:
+          Text('Bienvenido', style:
           GoogleFonts.nunito(
                 textStyle: TextStyle(fontSize: 30, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w800))),
           const SizedBox(height: 90),
@@ -88,7 +88,7 @@ class _LoginForm extends StatelessWidget {
               width: double.infinity,
               height: 60,
               child: CustomFilledButton(
-                text: 'Ingresar',
+                text: 'INGRESAR',
                 buttonColor: colorList[0],
                 onPressed: () {
                   context.read<LoginProvider>().onFormSubmit(context);

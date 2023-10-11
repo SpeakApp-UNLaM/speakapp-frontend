@@ -13,11 +13,10 @@ class Api {
     };
   }
 
-  static Future get(String path) async {
+  static Future get(String path,
+      {Map<String, dynamic>? queryParameters}) async {
     try {
-      final resp = await _dio.get(
-        path,
-      );
+      final resp = await _dio.get(path, queryParameters: queryParameters);
 
       return resp.data;
     } on DioError catch (e) {
@@ -26,7 +25,7 @@ class Api {
     return null;
   }
 
-  static Future post(String path, Map<String, dynamic> data) async {
+  static Future post(String path, final data) async {
     try {
       return await _dio.post(path, data: data);
     } on DioError catch (e) {
@@ -47,10 +46,8 @@ class Api {
   }
 
   static Future delete(String path, Map<String, dynamic> data) async {
-    final formData = FormData.fromMap(data);
-
     try {
-      final resp = await _dio.delete(path, data: formData);
+      final resp = await _dio.delete(path, data: data);
       return resp.data;
     } catch (e) {
       throw ('Error en el delete');

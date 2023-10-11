@@ -1,15 +1,18 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:sp_front/presentations/widgets/lottie_animation.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../config/helpers/param.dart';
 import '../../../config/theme/app_theme.dart';
+import '../../../domain/entities/result_exercise.dart';
+import '../../../domain/entities/result_pair_images.dart';
 import '../../../models/image_model.dart';
 import '../../../providers/tts_provider.dart';
 
 class PageExerciseSingleSelectionWord extends StatefulWidget {
-  final int idExercise;
+  final int idTaskItem;
   final List<ImageExerciseModel> images;
   final String namePhoneme;
 
@@ -19,7 +22,7 @@ class PageExerciseSingleSelectionWord extends StatefulWidget {
       {Key? key,
       required this.images,
       required this.namePhoneme,
-      required this.idExercise,
+      required this.idTaskItem,
       required this.syllable})
       : super(key: key);
 
@@ -76,6 +79,11 @@ class PageExerciseSingleSelectionWordState
               const SizedBox(height: 40.0),
               drawImages(exerciseProv),
               const SizedBox(height: 40.0),
+              const AnimationL(
+                text: "Esta muy bien ! ",
+                animationPath: 'assets/animations/BoyJumping.json',
+                size: 150,
+              )
             ],
           ),
         ),
@@ -97,7 +105,14 @@ class PageExerciseSingleSelectionWordState
                 imageSelected = img.name;
                 TtsProvider().speak(img.name);
               }
-              exerciseProv.finishExercise();
+              exerciseProv.saveParcialResult(ResultExercise(
+                  idTaskItem: widget.idTaskItem,
+                  type: TypeExercise.single_selection_word,
+                  audio: "",
+                  pairImagesResult: [
+                    ResultPairImages(idImage: img.idImage, nameImage: img.name)
+                  ]));
+              //exerciseProv.finishExercise();
               setState(() {});
             },
             child: DecoratedBox(

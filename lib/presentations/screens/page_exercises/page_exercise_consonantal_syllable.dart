@@ -1,22 +1,24 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:sp_front/domain/entities/result_pair_images.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../config/helpers/param.dart';
 import '../../../config/theme/app_theme.dart';
+import '../../../domain/entities/result_exercise.dart';
 import '../../../models/image_model.dart';
 import '../../../providers/tts_provider.dart';
 
 class PageExerciseConsonantalSyllable extends StatefulWidget {
-  final int idExercise;
+  final int idTaskItem;
   final List<ImageExerciseModel> images;
   final String namePhoneme;
   const PageExerciseConsonantalSyllable(
       {Key? key,
       required this.images,
       required this.namePhoneme,
-      required this.idExercise})
+      required this.idTaskItem})
       : super(key: key);
 
   @override
@@ -24,7 +26,6 @@ class PageExerciseConsonantalSyllable extends StatefulWidget {
       PageExerciseConsonantalSyllableState();
 }
 
-//TODO: MEJORAR DISEÑO. LOGICA PRINCIPAL ESTÁ FUNCIONAL
 class PageExerciseConsonantalSyllableState
     extends State<PageExerciseConsonantalSyllable> {
   late List<Image> _listImages;
@@ -85,7 +86,13 @@ class PageExerciseConsonantalSyllableState
               } else {
                 syllableSelected = syllable;
               }
-              exerciseProv.finishExercise();
+              exerciseProv.saveParcialResult(ResultExercise(
+                  idTaskItem: widget.idTaskItem,
+                  type: TypeExercise.consonantal_syllable,
+                  audio: "",
+                  pairImagesResult: [
+                    ResultPairImages(idImage: 0, nameImage: syllableSelected)
+                  ]));
               setState(() {});
             },
             child: DecoratedBox(

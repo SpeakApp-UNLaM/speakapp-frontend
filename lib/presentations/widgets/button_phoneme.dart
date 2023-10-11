@@ -45,8 +45,6 @@ class ButtonPhoneme extends StatelessWidget {
             child: FloatingActionButton(
               heroTag: tag,
               onPressed: () async {
-                recorderProv.resetAudio();
-
                 context.push("/choice_exercise", extra: task);
               },
               backgroundColor: colorList[0],
@@ -54,12 +52,22 @@ class ButtonPhoneme extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(task.phoneme.namePhoneme.toUpperCase(),
+                  Text(task.phoneme.namePhoneme.toUpperCase().split(" ")[0],
                       style: TextStyle(
                         fontSize: 36,
                         color: colorList[2],
                         fontFamily: 'IkkaRounded',
-                      ))
+                      )),
+                  if (task.phoneme.namePhoneme.toUpperCase().split(" ").length >
+                      1)
+                    Text(
+                      task.phoneme.namePhoneme.toUpperCase().split(" ")[1],
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: colorList[2],
+                        fontFamily: 'IkkaRounded',
+                      ),
+                    ),
                 ],
               ),
             ),

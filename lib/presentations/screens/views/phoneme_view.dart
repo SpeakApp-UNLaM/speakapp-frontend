@@ -5,6 +5,7 @@ import 'package:sp_front/config/theme/app_theme.dart';
 import 'package:sp_front/presentations/widgets/button_phoneme.dart';
 import '../../../config/helpers/task_handled.dart';
 import '../../../domain/entities/task.dart';
+import '../../widgets/lottie_animation.dart';
 
 class PhonemeView extends StatefulWidget {
   static const String name = 'pending';
@@ -55,7 +56,7 @@ class PhonemeViewState extends State<PhonemeView>
                     fontWeight: FontWeight.w500,
                     fontSize: 15,
                     color: Theme.of(context).primaryColor,
-                  ))
+                  )),
             ],
           ),
           shape: const RoundedRectangleBorder(

@@ -1,7 +1,7 @@
 class User {
   int userId;
   String username;
-    String firstName;
+  String firstName;
   String lastName;
 
   String email;

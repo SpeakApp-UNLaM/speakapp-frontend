@@ -26,12 +26,9 @@ class CardPractice extends StatelessWidget {
           .putIfAbsent(categoryModel.level, () => [])
           .add(categoryModel.category);
     }
-    return Container(
-      width: MediaQuery.of(context)
-          .size
-          .width, // Ocupa todo el ancho de la pantalla
-      margin: const EdgeInsets.all(30.0),
+    return SingleChildScrollView(
       child: Card(
+        margin: const EdgeInsets.all(30.0),
         color: Theme.of(context).cardColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         elevation: 6,
@@ -57,27 +54,31 @@ class CardPractice extends StatelessWidget {
             const SizedBox(height: 10.0),
             ListView.builder(
               shrinkWrap: true,
-              itemCount: nivelMap.length,
+              itemCount: categories.length,
+              physics: const NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) {
-                final nivel = nivelMap.keys.elementAt(index);
-                final categorias = nivelMap.values.elementAt(index);
+                int desafio = index + 1;
+                int nivel = categories.elementAt(index).level;
+                int idTask = categories.elementAt(index).idTask;
+                late final categorias;
+                if (nivelMap.containsKey(nivel)) {
+                  categorias = nivelMap[
+                      nivel]; // Acceder al valor usando la clave como índice
+                } else {}
+
                 return Row(
                   children: [
                     Expanded(
                       child: ListTile(
                         title: Text(
-                          "Nivel $nivel",
+                          "Desafio $desafio",
                           style: GoogleFonts.nunito(
                               textStyle: TextStyle(
                                   color: Colors.grey.shade700,
                                   fontWeight: FontWeight.w600)),
                         ),
                         subtitle: Text(
-                            categorias
-                                .map((category) =>
-                                    Param.categoriesDescriptions[category])
-                                .toList()
-                                .join(', '),
+                            "Nivel $nivel: ${formatCategories(categorias)}",
                             style: GoogleFonts.nunito(
                                 textStyle:
                                     TextStyle(color: Colors.grey.shade500))),
@@ -95,6 +96,7 @@ class CardPractice extends StatelessWidget {
                                 idPhoneme: idPhoneme,
                                 namePhoneme: namePhoneme,
                                 level: nivel,
+                                idTask: idTask,
                                 categories: categorias);
 
                             context.push("/exercise", extra: params);
@@ -116,5 +118,13 @@ class CardPractice extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String formatCategories(categorias) {
+    Set<dynamic> categoriasSinDuplicados = categorias
+        .map((category) => Param.categoriesDescriptions[category])
+        .toSet();
+
+    return categoriasSinDuplicados.join(', ');
   }
 }
