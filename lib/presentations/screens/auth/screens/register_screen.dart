@@ -14,8 +14,6 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
-    final textStyles = Theme.of(context).textTheme;
-
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -40,7 +38,7 @@ class RegisterScreen extends StatelessWidget {
                 const Spacer(flex: 1),
                 Text('Registro',
                     style: GoogleFonts.nunito(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                             fontSize: 30,
                             color: Colors.white,
                             fontWeight: FontWeight.w800))),

@@ -58,18 +58,10 @@ class PageExerciseSingleSelectionSyllableState
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                  '¡Vamos a practicar! \n¿Cual imagen se corresponde al siguiente sonido?',
+                  '¡Vamos a practicar! \n¿Cuál imágen se corresponde al siguiente sonido?',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'IkkaRounded',
-                      fontSize: 20,
-                      color: Theme.of(context).primaryColorDark)),
+                  style: Theme.of(context).textTheme.headlineMedium),
               const SizedBox(height: 10.0),
-              Text(widget.syllable.toUpperCase(),
-                  style: TextStyle(
-                      fontFamily: 'IkkaRounded',
-                      fontSize: 50,
-                      color: colorList[1])),
               const SizedBox(height: 40.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -100,7 +92,9 @@ class PageExerciseSingleSelectionSyllableState
                                   Icons.volume_up_outlined,
                                   color: Colors.grey.shade400,
                                 ),
-                                const Text("Reproducir")
+                                Text("Reproducir",
+                                    style:
+                                        Theme.of(context).textTheme.titleSmall)
                               ],
                             ),
                           ),

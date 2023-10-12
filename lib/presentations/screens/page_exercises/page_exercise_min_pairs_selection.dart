@@ -55,12 +55,9 @@ class PageExerciseMinimumPairsSelState
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                  '¡Vamos a practicar! \n¿Que imagen se corresponde al siguiente audio?',
+                  '¡Vamos a practicar! \n¿Qué imágen se corresponde al siguiente audio?',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'IkkaRounded',
-                      fontSize: 20,
-                      color: Theme.of(context).primaryColorDark)),
+                  style: Theme.of(context).textTheme.headlineMedium),
               const SizedBox(height: 10.0),
               const SizedBox(height: 40.0),
               Row(
@@ -91,7 +88,10 @@ class PageExerciseMinimumPairsSelState
                                   Icons.volume_up_outlined,
                                   color: Colors.grey.shade400,
                                 ),
-                                const Text("Reproducir")
+                                Text(
+                                  "Reproducir",
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                )
                               ],
                             ),
                           ),

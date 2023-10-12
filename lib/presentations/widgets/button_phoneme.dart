@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import '../../config/theme/app_theme.dart';
 import '../../domain/entities/task.dart';
-import '../../providers/recorder_provider.dart';
 
 class ButtonPhoneme extends StatelessWidget {
   final String tag;
@@ -12,7 +10,6 @@ class ButtonPhoneme extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final recorderProv = context.watch<RecorderProvider>();
     return SizedBox(
       height: 140.0,
       width: 120.0,
@@ -53,20 +50,12 @@ class ButtonPhoneme extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(task.phoneme.namePhoneme.toUpperCase().split(" ")[0],
-                      style: TextStyle(
-                        fontSize: 36,
-                        color: colorList[2],
-                        fontFamily: 'IkkaRounded',
-                      )),
+                      style: Theme.of(context).textTheme.displayLarge),
                   if (task.phoneme.namePhoneme.toUpperCase().split(" ").length >
                       1)
                     Text(
                       task.phoneme.namePhoneme.toUpperCase().split(" ")[1],
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: colorList[2],
-                        fontFamily: 'IkkaRounded',
-                      ),
+                      style: Theme.of(context).textTheme.displaySmall,
                     ),
                 ],
               ),

@@ -1,6 +1,4 @@
-import 'dart:math' show pi;
 import 'package:flutter/material.dart';
-
 
 class GeometricalBackground extends StatelessWidget {
   final Widget child;
@@ -10,14 +8,10 @@ class GeometricalBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final backgroundColor = Theme.of(context).scaffoldBackgroundColor;
-    final borderSize = size.width / 7; // Este es el tamaño para colocar 7 elementos
-
-
 
     return SizedBox.expand(
       child: Stack(
         children: [
-
           Positioned(child: Container(color: backgroundColor)),
 
           // Background with shapes
@@ -26,10 +20,7 @@ class GeometricalBackground extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,
             ),
-          
           ),
-
-          
 
           // Child widget
           child,
@@ -38,7 +29,3 @@ class GeometricalBackground extends StatelessWidget {
     );
   }
 }
-
-
-
-

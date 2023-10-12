@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:sp_front/providers/auth_provider.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import '../../config/helpers/api.dart';
 import '../../config/helpers/param.dart';
@@ -42,7 +44,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
   final List<StatefulWidget> _pagesExercisesFounded = [];
   late final AnimationController _controller;
 
-  Future<Response> fetchData() async {
+  Future fetchData() async {
     final response;
     if (widget.queryParameters == null) {
       Map<String, dynamic> data = {
@@ -54,7 +56,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
       };
       response = await Api.post(Param.getExercises, data);
       await Future.delayed(const Duration(seconds: 3), () {
-        if (response != null) {
+        if (response is! String && response != null) {
           for (var element in response.data) {
             _pagesExercisesFounded.add(ExerciseModel.fromJson(element)
                 .fromEntity(widget.object.namePhoneme));
@@ -100,6 +102,8 @@ class ExerciseScreenState extends State<ExerciseScreen>
   Widget build(BuildContext context) {
     final exerciseProv = context.watch<ExerciseProvider>();
     final recorderProv = context.watch<RecorderProvider>();
+    final authProvider = context.watch<AuthProvider>();
+
     exerciseProv.setIdTaskActive(widget.object.idTask);
     return Scaffold(
       body: FutureBuilder(
@@ -129,11 +133,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("No se encontraron ejercicios!",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: colorList[2],
-                          fontFamily: 'IkkaRounded',
-                        )),
+                        style: Theme.of(context).textTheme.displaySmall),
                     SizedBox(
                       height: 30,
                     ),
@@ -149,7 +149,9 @@ class ExerciseScreenState extends State<ExerciseScreen>
                       child: FloatingActionButton(
                         onPressed: () {
                           if (widget.queryParameters == null) {
-                            context.go('/');
+                            context.go('/',
+                                extra:
+                                    authProvider.prefs.getInt('userId') as int);
                           } else {
                             Navigator.pop(context);
                           }
@@ -160,11 +162,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text("VOLVER",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: colorList[2],
-                                  fontFamily: 'IkkaRounded',
-                                ))
+                                style: Theme.of(context).textTheme.displaySmall)
                           ],
                         ),
                       ),
@@ -188,7 +186,9 @@ class ExerciseScreenState extends State<ExerciseScreen>
                             children: <Widget>[
                               IconButton(
                                 icon: const Icon(Icons.close),
-                                onPressed: () => context.go('/'),
+                                onPressed: () => context.push('/',
+                                    extra: authProvider.prefs.getInt('userId')
+                                        as int),
                               ),
                               Expanded(
                                   child: LinearProgressIndicator(
@@ -240,12 +240,10 @@ class ExerciseScreenState extends State<ExerciseScreen>
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Text(
-                                '¡Sigue intentandolo, lo estas haciendo increible!',
+                                '¡Sigue intentandolo, lo estás haciendo increíble!',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontFamily: 'IkkaRounded',
-                                    fontSize: 20,
-                                    color: Theme.of(context).primaryColorDark)),
+                                style:
+                                    Theme.of(context).textTheme.headlineMedium),
                           ),
                           Lottie.asset(
                             'assets/animations/BoyJumping.json',
@@ -271,19 +269,18 @@ class ExerciseScreenState extends State<ExerciseScreen>
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Text('FELICITACIONES',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontFamily: 'IkkaRounded',
-                                    fontSize: 30,
-                                    color: Theme.of(context).primaryColorDark)),
+                                style:
+                                    Theme.of(context).textTheme.headlineLarge),
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Text('¡Buen trabajo, lo has conseguido!',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontFamily: 'IkkaRounded',
-                                    fontSize: 18,
-                                    color: colorList[1])),
+                                style: GoogleFonts.nunito(
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 21,
+                                  color: colorList[1],
+                                )),
                           ),
                           const SizedBox(height: 50),
                           Container(
@@ -330,15 +327,18 @@ class ExerciseScreenState extends State<ExerciseScreen>
                                     ),
                                   ),
                                   child: FloatingActionButton(
-                                    onPressed: () async {
+                                    onPressed: () {
+                                      exerciseProv.finishExercise();
+                                      recorderProv.resetPathAudio();
+                                      recorderProv.resetProvider();
+                                      exerciseProv.sendResultsExercises();
+
                                       if (widget.queryParameters == null) {
-                                        context.go('/');
+                                        context.go('/',
+                                            extra: authProvider.prefs
+                                                .getInt('userId') as int);
                                       } else {
-                                        exerciseProv.finishExercise();
-                                        recorderProv.resetPathAudio();
-                                        recorderProv.resetProvider();
-                                        await exerciseProv
-                                            .sendResultsExercises();
+                                        //VIENE DE TEST_EXERCISES
                                         Navigator.pop(context);
                                       }
                                     },
@@ -349,11 +349,9 @@ class ExerciseScreenState extends State<ExerciseScreen>
                                           MainAxisAlignment.center,
                                       children: [
                                         Text("FINALIZAR EJERCICIO",
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              color: colorList[2],
-                                              fontFamily: 'IkkaRounded',
-                                            ))
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .displaySmall)
                                       ],
                                     ),
                                   ),
@@ -433,7 +431,6 @@ class ExerciseScreenState extends State<ExerciseScreen>
                       //await recorderProv.sendTranscription();
                       //exerciseProv.resetAudio();
                       recorderProv.resetProvider();
-                      await exerciseProv.sendResultsExercises();
                       setState(() {
                         _isFinishedExercise = true;
                       });
@@ -445,14 +442,16 @@ class ExerciseScreenState extends State<ExerciseScreen>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("CONTINUAR",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: !exerciseProv.isExerciseFinished
-                            ? Colors.grey.shade300
-                            : colorList[2],
-                        fontFamily: 'IkkaRounded',
-                      ))
+                  Text(
+                    "CONTINUAR",
+                    style: GoogleFonts.nunito(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 14,
+                      color: !exerciseProv.isExerciseFinished
+                          ? Colors.grey.shade300
+                          : colorList[2],
+                    ),
+                  )
                 ],
               ),
             ),
@@ -532,14 +531,16 @@ class ExerciseScreenState extends State<ExerciseScreen>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("CONTINUAR",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: !exerciseProv.isExerciseFinished
-                            ? Colors.grey.shade300
-                            : colorList[2],
-                        fontFamily: 'IkkaRounded',
-                      ))
+                  Text(
+                    "CONTINUAR",
+                    style: GoogleFonts.nunito(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 14,
+                      color: !exerciseProv.isExerciseFinished
+                          ? Colors.grey.shade300
+                          : colorList[2],
+                    ),
+                  )
                 ],
               ),
             ),

@@ -1,10 +1,6 @@
 import 'dart:async';
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../auth/user.dart';
 import '../auth/user_preferences.dart';
 import '../config/helpers/api.dart';
@@ -23,12 +19,23 @@ enum Status {
 class AuthProvider with ChangeNotifier {
   final SharedPreferences prefs;
   bool _loggedIn = false;
-
+  String _typeUser = "patient";
+  int _userSelected = 0;
   AuthProvider(this.prefs) {
     loggedIn = prefs.getBool('LoggedIn') ?? false;
+    _typeUser = prefs.getString('type') ?? "";
+    _userSelected = 0;
   }
 
   bool get loggedIn => _loggedIn;
+
+  String get typeUser => _typeUser;
+  int get userSelected => _userSelected;
+  void selectUser(int user) {
+    _userSelected = user;
+    notifyListeners();
+  }
+
   set loggedIn(bool value) {
     _loggedIn = value;
     prefs.setBool('LoggedIn', value);
@@ -40,7 +47,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   Status _loggedInStatus = Status.NotLoggedIn;
-  Status _registeredInStatus = Status.NotRegistered;
+  final Status _registeredInStatus = Status.NotRegistered;
 
   Status get loggedInStatus => _loggedInStatus;
   Status get registeredInStatus => _registeredInStatus;
@@ -53,13 +60,17 @@ class AuthProvider with ChangeNotifier {
     _loggedInStatus = Status.Authenticating;
     notifyListeners();
 
-    Response response = await Api.post(Param.postLogin, data);
+    final response = await Api.post(Param.postLogin, data);
 
-    if (response.statusCode == 200) {
+    if (response is! String && response.statusCode == 200) {
       final Map<String, dynamic> responseData = response.data;
 
       loggedIn = true;
       //User authUser = User.fromJson(userData);
+      responseData['type'] = "patient";
+      if (responseData['username'] != "PATIENT") {
+        responseData['type'] = "professional";
+      }
       User authUser = User(
           userId: responseData['idUser'],
           username: responseData['username'],
@@ -67,30 +78,28 @@ class AuthProvider with ChangeNotifier {
           lastName: responseData['lastName'],
           email: responseData['email'],
           phone: '11311984311',
-          type: 'professional',
+          type: responseData['type'],
           token: responseData['token'],
           renewalToken: responseData['token']);
 
-      UserPreferences().saveUser(authUser);
-
+      await UserPreferences().saveUser(authUser);
       _loggedInStatus = Status.LoggedIn;
+      _typeUser = responseData['type'];
       notifyListeners();
 
       result = {'status': true, 'message': 'Successful', 'user': authUser};
     } else {
+      Param.showToast(response);
       _loggedInStatus = Status.NotLoggedIn;
       notifyListeners();
-      result = {
-        'status': false,
-        'message': json.decode(response.data)['error']
-      };
+      result = {'status': false, 'message': 'ERROR'};
     }
     return result;
   }
 
   logout() {
     UserPreferences().removeUser();
-    
+
     _loggedIn = false;
 
     notifyListeners();

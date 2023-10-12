@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
 import 'package:sp_front/presentations/widgets/button_phoneme.dart';
+import 'package:sp_front/presentations/widgets/lottie_animation.dart';
 import '../../../config/helpers/task_handled.dart';
 import '../../../domain/entities/task.dart';
-import '../../widgets/lottie_animation.dart';
 
 class PhonemeView extends StatefulWidget {
   static const String name = 'pending';
-
-  const PhonemeView({Key? key}) : super(key: key);
+  final int idPatient;
+  const PhonemeView({Key? key, required this.idPatient}) : super(key: key);
 
   @override
   PhonemeViewState createState() => PhonemeViewState();
@@ -45,18 +44,10 @@ class PhonemeViewState extends State<PhonemeView>
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text('Vamos a practicar',
-                  style: TextStyle(
-                      fontSize: 21,
-                      color: Theme.of(context).primaryColor,
-                      fontFamily: 'IkkaRounded',
-                      fontWeight: FontWeight.w400)),
+                  style: Theme.of(context).textTheme.bodyMedium),
               const SizedBox(height: 10),
-              Text('Seleccione un fonema para practicar sus silabas:',
-                  style: GoogleFonts.nunito(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 15,
-                    color: Theme.of(context).primaryColor,
-                  )),
+              Text('Seleccione un fonema para practicar sus sílabas:',
+                  style: Theme.of(context).textTheme.bodySmall),
             ],
           ),
           shape: const RoundedRectangleBorder(
@@ -66,7 +57,7 @@ class PhonemeViewState extends State<PhonemeView>
           ),
         ),
         body: FutureBuilder<List<Task>>(
-          future: taskHandled.fetchData(),
+          future: taskHandled.fetchData(idPatient: widget.idPatient),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
@@ -77,8 +68,6 @@ class PhonemeViewState extends State<PhonemeView>
                       'assets/animations/Loading.json',
                       controller: _controller,
                       onLoaded: (composition) {
-                        // Configure the AnimationController with the duration of the
-                        // Lottie file and start the animation.
                         _controller
                           ..duration = composition.duration
                           ..repeat();
@@ -87,11 +76,22 @@ class PhonemeViewState extends State<PhonemeView>
               );
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
-            } else if (snapshot.hasData) {
+            } else if (snapshot.data!.isNotEmpty) {
               return SingleChildScrollView(
                   child: _ListViewCustomized(tasks: snapshot.data ?? []));
             } else {
-              return const Text('No se han cargado datos.');
+              return const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AnimationL(
+                      animationPath: 'assets/animations/BoyJumping.json',
+                      size: 500),
+                  Text(
+                    'En hora buena!\nNo tienes actividades pendientes!',
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              );
             }
           },
         ));

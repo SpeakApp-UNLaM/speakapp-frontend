@@ -15,15 +15,15 @@ class CheckAuthStatusScreen extends StatelessWidget {
     if (authProvider.loggedInStatus == Status.LoggedIn) {
       // User is logged in, navigate to HomeScreen
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        context.go('/');
+        context.go('/', extra: authProvider.prefs.getInt('userId') as int);
       });
     } else {
-       WidgetsBinding.instance.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         context.go('/login');
       });
     }
 
-    return Scaffold(
+    return const Scaffold(
       body: Center(child: CircularProgressIndicator(strokeWidth: 4)),
     );
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
 import 'package:sp_front/presentations/screens/views/messages_view.dart';
 
@@ -25,7 +24,7 @@ class ButtonHomeMessages extends StatelessWidget {
               width: 136,
               decoration: BoxDecoration(
                 color: colorList[2],
-                borderRadius: BorderRadius.all(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(16),
                 ),
               ),
@@ -36,7 +35,7 @@ class ButtonHomeMessages extends StatelessWidget {
             width: 136,
             decoration: BoxDecoration(
               color: colorList[2],
-              borderRadius: BorderRadius.all(
+              borderRadius: const BorderRadius.all(
                 Radius.circular(16),
               ),
             ),
@@ -48,7 +47,7 @@ class ButtonHomeMessages extends StatelessWidget {
               },
               backgroundColor: colorList[2],
               elevation: 23.0,
-              child:  Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
@@ -60,11 +59,7 @@ class ButtonHomeMessages extends StatelessWidget {
                     height: 10,
                   ),
                   Text("Mensajes",
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: colorList[3],
-                        fontFamily: 'IkkaRounded',
-                      ))
+                      style: Theme.of(context).textTheme.bodyMedium)
                 ],
               ),
             ),

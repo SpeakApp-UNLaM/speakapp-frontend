@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import '../../../config/helpers/param.dart';
-import '../../../config/theme/app_theme.dart';
 import '../../../domain/entities/result_exercise.dart';
 import '../../../models/image_model.dart';
 import '../../../providers/tts_provider.dart';
@@ -53,15 +52,7 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
               children: [
                 Text('¡Vamos a practicar! \nFormemos la palabra',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily: 'IkkaRounded',
-                        fontSize: 20,
-                        color: Theme.of(context).primaryColorDark)),
-                Text(widget.namePhoneme,
-                    style: TextStyle(
-                        fontFamily: 'IkkaRounded',
-                        fontSize: 50,
-                        color: colorList[1])),
+                    style: Theme.of(context).textTheme.headlineMedium),
                 const SizedBox(height: 40.0),
                 GestureDetector(
                   onTap: () {
@@ -170,11 +161,7 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                         alignment: Alignment.center,
                         child: Text(
                           syllable.toUpperCase(),
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColorDark,
-                            fontFamily: "IkkaRounded",
-                            fontSize: 15,
-                          ),
+                          style: Theme.of(context).textTheme.headlineSmall,
                         ),
                       ),
                     );
@@ -229,10 +216,7 @@ class ReorderableSyllableWidget extends StatelessWidget {
       alignment: Alignment.center,
       child: Text(
         syllable.toUpperCase(),
-        style: TextStyle(
-            fontFamily: "IkkaRounded",
-            fontSize: 15,
-            color: Theme.of(context).primaryColorDark),
+        style: Theme.of(context).textTheme.headlineSmall,
       ),
     );
   }

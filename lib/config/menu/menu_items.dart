@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
-
 
 class MenuItem {
   final String title;
@@ -10,24 +8,21 @@ class MenuItem {
   final IconData icon;
   final Color color;
 
-  const MenuItem({
-    required this.title,
-    required this.subtitle,
-    required this.link,
-    required this.icon,
-    required this.color
-  }
-  );
+  const MenuItem(
+      {required this.title,
+      required this.subtitle,
+      required this.link,
+      required this.icon,
+      required this.color});
 }
 
 final appMenuItems = <MenuItem>[
   MenuItem(
-    title: 'Home',
-    subtitle: '',
-    link: '/',
-    icon: Icons.extension,
-    color: colorList[1] 
-  ),
+      title: 'Home',
+      subtitle: '',
+      link: '/',
+      icon: Icons.extension,
+      color: colorList[1]),
   /*
   MenuItem(
     title: 'Ejercicios',
@@ -36,19 +31,42 @@ final appMenuItems = <MenuItem>[
     icon: Icons.extension_outlined
   ),*/
   MenuItem(
-    title: 'Mensajes',
-    subtitle: '',
-    link: '/messages_view',
-    icon: Icons.mail_rounded,
-    color: colorList[4]
-  ),
-  MenuItem(
-    title: 'Turnos',
-    subtitle: '',
-    link: '/turns_view',
-    icon: Icons.calendar_month_rounded,
-    color: Color.fromARGB(255, 31, 86, 196)
-  ),
-
+      title: 'Mensajes',
+      subtitle: '',
+      link: '/messages_view',
+      icon: Icons.mail_rounded,
+      color: colorList[4]),
+  const MenuItem(
+      title: 'Turnos',
+      subtitle: '',
+      link: '/turns_view',
+      icon: Icons.calendar_month_rounded,
+      color: Color.fromARGB(255, 31, 86, 196)),
 ];
 
+final appMenuItemsSpecialists = <MenuItem>[
+  MenuItem(
+      title: 'Home',
+      subtitle: '',
+      link: '/',
+      icon: Icons.extension,
+      color: colorList[1]),
+  MenuItem(
+      title: 'Mensajes',
+      subtitle: '',
+      link: '/messages_view',
+      icon: Icons.mail_rounded,
+      color: colorList[4]),
+  const MenuItem(
+      title: 'Turnos',
+      subtitle: '',
+      link: '/turns_view',
+      icon: Icons.calendar_month_rounded,
+      color: Color.fromARGB(255, 31, 86, 196)),
+  MenuItem(
+      title: 'RFI',
+      subtitle: 'RFI',
+      link: '/rfi_view',
+      icon: Icons.photo_library_rounded,
+      color: colorList[2])
+];

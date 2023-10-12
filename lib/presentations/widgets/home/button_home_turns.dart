@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
 import 'package:sp_front/presentations/screens/views/turns_view.dart';
 
@@ -11,7 +10,7 @@ class ButtonHomeTurns extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      return SizedBox(
+    return SizedBox(
       height: 180.0,
       width: 140.0,
       // Ancho personalizado
@@ -23,9 +22,9 @@ class ButtonHomeTurns extends StatelessWidget {
             child: Container(
               height: 176,
               width: 136,
-              decoration:  BoxDecoration(
+              decoration: BoxDecoration(
                 color: colorList[4],
-                borderRadius: BorderRadius.all(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(16),
                 ),
               ),
@@ -48,7 +47,7 @@ class ButtonHomeTurns extends StatelessWidget {
               },
               backgroundColor: colorList[4],
               elevation: 23.0,
-              child:  Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
@@ -56,45 +55,15 @@ class ButtonHomeTurns extends StatelessWidget {
                     size: 70,
                     color: colorList[5],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                 Text("Turnos",
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: colorList[5],
-                        fontFamily: 'IkkaRounded',
-                      ))
+                  Text("Turnos", style: Theme.of(context).textTheme.bodyMedium)
                 ],
               ),
             ),
           ),
         ],
-      ),
-    );
-    return SizedBox(
-      width: 140.0, // Ancho personalizado
-      height: 180.0, // Alto personalizado
-      child: FloatingActionButton(
-        heroTag: 'turns_screen',
-        onPressed: () {
-          context.pushNamed(TurnsView.name);
-
-          // Acción al presionar el botón
-        },
-        elevation: 23.0,
-        child: const Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-          Icon(Icons.calendar_month, size: 70, color: Color(0xFF008db1)),
-          Text("Turnos",  style: TextStyle(
-                color: Color(0xFF008db1),
-                fontWeight: FontWeight.w600,
-                fontSize: 18
-              ))
-          ],
-        ),
-        // Otras propiedades del FloatingActionButton
       ),
     );
   }

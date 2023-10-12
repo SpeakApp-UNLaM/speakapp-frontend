@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
 import 'package:go_router/go_router.dart';
-import 'package:path/path.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_front/providers/auth_provider.dart';
 
@@ -34,7 +33,7 @@ class LoginProvider extends ChangeNotifier {
     isValid = Formz.validate([newEmail]);
   }
 
-  onFormSubmit(BuildContext context) {
+  onFormSubmit(BuildContext context) async {
     final _email = Email.dirty(email.value);
     final _password = Password.dirty(password.value);
 
@@ -43,16 +42,27 @@ class LoginProvider extends ChangeNotifier {
 
     notifyListeners();
 
-/*
-    if (!isValid) {
-      return;
-    }*/
-
     AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
-
-    auth.login(email.value, password.value).then((value) => {
-          if (auth.loggedInStatus == Status.LoggedIn) {context.go('/')} else {}
-        });
+    await auth.login(email.value, password.value);
+    if (auth.loggedInStatus == Status.LoggedIn) {
+      if (auth.typeUser == 'professional') {
+        context.go('/choice_patient');
+      } else {
+        int idP = auth.prefs.getInt('userId') as int;
+        context.go('/', extra: idP);
+      }
+    }
+    /*auth.login(email.value, password.value).then((value) => {
+          if (auth.loggedInStatus == Status.LoggedIn)
+            {
+              if (auth.typeUser == 'professional')
+                {context.go('/choice_patient')}
+              else
+                {context.go('/', extra: auth.prefs.getInt('userId'))}
+            }
+          else
+            {}
+        });*/
   }
 
   onLogOut(BuildContext context) {

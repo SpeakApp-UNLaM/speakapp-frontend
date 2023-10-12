@@ -7,7 +7,6 @@ import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:sp_front/providers/login_provider.dart';
 import 'package:sp_front/providers/recorder_provider.dart';
 import 'package:provider/provider.dart';
-import 'auth/user_preferences.dart';
 import 'config/helpers/api.dart';
 import 'config/theme/app_theme.dart';
 
@@ -16,10 +15,11 @@ Future<void> main() async {
   FlutterNativeSplash.preserve(
       widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
   final state = AuthProvider(await SharedPreferences.getInstance());
-  //UserPreferences().removeUser();
+
   FlutterNativeSplash.remove();
   state.checkLoggedIn();
   runApp(AudioRecorderApp(authProvider: state));
+  //UserPreferences().removeUser();
 }
 
 class AudioRecorderApp extends StatelessWidget {
@@ -49,7 +49,7 @@ class AudioRecorderApp extends StatelessWidget {
             routerDelegate: router.routerDelegate,
             routeInformationProvider: router.routeInformationProvider,
             debugShowCheckedModeBanner: false,
-            theme: AppTheme.theme(),
+            theme: AppTheme.theme(context),
           );
         },
       ),

@@ -13,6 +13,79 @@ const colorList = <Color>[
 ];
 
 class AppTheme {
+  static ThemeData theme(BuildContext context) {
+    return ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: const Color.fromRGBO(12, 87, 251, 196),
+        textTheme: TextTheme(
+            bodySmall: GoogleFonts.nunito(
+              fontWeight: FontWeight.w800,
+              fontSize: 14,
+              color: const Color.fromARGB(255, 31, 86, 196),
+            ),
+            bodyMedium: GoogleFonts.nunito(
+              fontWeight: FontWeight.w800,
+              fontSize: 21,
+              color: const Color.fromARGB(255, 31, 86, 196),
+            ),
+            bodyLarge: GoogleFonts.nunito(
+              fontWeight: FontWeight.w800,
+              fontSize: 36,
+              color: const Color.fromARGB(255, 31, 86, 196),
+            ),
+            labelSmall: GoogleFonts.nunito(
+              fontWeight: FontWeight.w800,
+              fontSize: 14,
+              color: Colors.white,
+            ),
+            labelMedium: GoogleFonts.nunito(
+              fontWeight: FontWeight.w800,
+              fontSize: 21,
+              color: Colors.white,
+            ),
+            titleSmall: GoogleFonts.nunito(
+                fontSize: 14,
+                color: Colors.grey.shade500,
+                fontWeight: FontWeight.w600),
+            titleMedium: GoogleFonts.nunito(
+                fontSize: 21,
+                color: Colors.grey.shade700,
+                fontWeight: FontWeight.w600),
+            displaySmall: GoogleFonts.nunito(
+              fontWeight: FontWeight.w800,
+              fontSize: 13,
+              color: colorList[2],
+            ),
+            displayMedium: GoogleFonts.nunito(
+              fontWeight: FontWeight.w800,
+              fontSize: 21,
+              color: colorList[2],
+            ),
+            displayLarge: GoogleFonts.nunito(
+              fontWeight: FontWeight.w800,
+              fontSize: 36,
+              color: colorList[2],
+            ),
+            headlineMedium: GoogleFonts.nunito(
+              fontWeight: FontWeight.w800,
+              fontSize: 21,
+              color: Theme.of(context).primaryColorDark,
+            ),
+            headlineSmall: GoogleFonts.nunito(
+              fontWeight: FontWeight.w800,
+              fontSize: 14,
+              color: Theme.of(context).primaryColorDark,
+            ),
+            headlineLarge: GoogleFonts.nunito(
+              fontWeight: FontWeight.w800,
+              fontSize: 36,
+              color: Theme.of(context).primaryColorDark,
+            )));
+  }
+}
+
+/*
+class AppTheme {
   static ThemeData theme() {
     return ThemeData(
         useMaterial3: true,
@@ -53,6 +126,12 @@ class AppTheme {
             bodyMedium: GoogleFonts.nunito(
                 textStyle: TextStyle(fontSize: 15, color: Color(0xFF4b4b4b))),
             bodyLarge: GoogleFonts.nunito(
-                textStyle: TextStyle(fontSize: 18, color: Color(0xFF4b4b4b)))));
+                textStyle: TextStyle(fontSize: 18, color: Color(0xFF4b4b4b))),
+
+                
+                
+                
+                
+                ));
   }
-}
+}*/

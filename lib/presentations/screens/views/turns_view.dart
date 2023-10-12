@@ -11,10 +11,10 @@ class TurnsView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Turnos'),
       ),
-      body: const Center(
+      body: Center(
         child: Text(
           'Contenido de la Turnos',
-          style: TextStyle(fontSize: 24),
+          style: Theme.of(context).textTheme.bodyMedium,
         ),
       ),
     );

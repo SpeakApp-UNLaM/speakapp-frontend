@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
 import 'package:sp_front/presentations/widgets/button_play_audio.dart';
 import 'package:sp_front/presentations/widgets/button_recorder.dart';
@@ -27,21 +28,12 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-                '¡Practiquemos tu pronunciación! \n Di la silaba o la palabra de la siguiente imagen:',
+                '¡Practiquemos tu pronunciación! \n Dí la silaba o la palabra de la siguiente imágen:',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontFamily: 'IkkaRounded',
-                    fontSize: 20,
-                    color: Theme.of(context).primaryColorDark)),
-            Text(widget.namePhoneme,
-                style: TextStyle(
-                    fontFamily: 'IkkaRounded',
-                    fontSize: 40,
-                    color: colorList[1])),
-            const SizedBox(height: 20.0),
+                style: Theme.of(context).textTheme.headlineMedium),
+            const SizedBox(height: 150.0),
             Container(
               padding: const EdgeInsets.all(40),
               decoration: BoxDecoration(
@@ -61,10 +53,11 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
                     : Center(
                         child: Text(
                           widget.result.toUpperCase(),
-                          style: TextStyle(
-                              fontFamily: 'IkkaRounded',
-                              fontSize: 70,
-                              color: colorList[1]),
+                          style: GoogleFonts.nunito(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 70,
+                            color: colorList[2],
+                          ),
                         ),
                       ), // Aquí puedes usar un widget de marcador de posición o el que prefieras
               ),
