@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sp_front/domain/entities/result_pair_images.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:provider/provider.dart';
@@ -49,6 +50,12 @@ class PageExerciseMultipleSelectionState
 
   @override
   Widget build(BuildContext context) {
+    const colors = <Color>[
+      Color(0xFFffa834),
+      Color(0xFF72bb53),
+      Color(0xFF91e4fb),
+      Color(0xFFce82ff),
+    ];
     final exerciseProv = context.watch<ExerciseProvider>();
     return Scaffold(
       body: SingleChildScrollView(
@@ -58,12 +65,12 @@ class PageExerciseMultipleSelectionState
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                  '¡Vamos a practicar! \n¿Cuales imagenes contiene el siguiente sonido?',
+                  '¡Vamos a practicar! \n¿Cuál o Cuáles imagenes contiene el siguiente sonido?',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'IkkaRounded',
+                  style: GoogleFonts.nunito(
                       fontSize: 20,
-                      color: Theme.of(context).primaryColorDark)),
+                      color: Theme.of(context).primaryColorDark,
+                      fontWeight: FontWeight.w800)),
               const SizedBox(height: 10.0),
               Text(widget.namePhoneme,
                   style: TextStyle(
@@ -100,6 +107,7 @@ class PageExerciseMultipleSelectionState
                                 Icons.volume_up_outlined,
                                 color: Colors.grey.shade400,
                               ),
+                              SizedBox(width: 10),
                               const Text("Reproducir")
                             ],
                           ),
@@ -109,7 +117,7 @@ class PageExerciseMultipleSelectionState
                   ),
                 ],
               ),
-              const SizedBox(height: 5.0),
+              const SizedBox(height: 10.0),
               Wrap(
                 spacing: 10.0,
                 runSpacing: 10.0,
@@ -140,15 +148,22 @@ class PageExerciseMultipleSelectionState
                       },
                       child: DecoratedBox(
                         decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black
+                                    .withOpacity(0.1), // Color de la sombra
+                                blurRadius: 5, // Radio de desenfoque
+                                offset: Offset(0, 4))
+                          ],
                           color: Colors.white,
                           borderRadius:
                               const BorderRadius.all(Radius.circular(16)),
                           border: Border.all(
                             color: imagesSelected.contains(image.imageData)
-                                ? colorList[
+                                ? colors[
                                     imagesSelected.indexOf(image.imageData)]
                                 : Colors.grey.shade300,
-                            width: 4.0,
+                            width: 3.0,
                           ),
                         ),
                         child: Padding(

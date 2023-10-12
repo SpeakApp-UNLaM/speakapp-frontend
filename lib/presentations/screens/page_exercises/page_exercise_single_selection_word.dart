@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sp_front/presentations/widgets/lottie_animation.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:provider/provider.dart';
@@ -61,8 +62,8 @@ class PageExerciseSingleSelectionWordState
               Text(
                   '¡Vamos a practicar! \n¿Cual imagen se corresponde al siguiente fonema?',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'IkkaRounded',
+                  style: GoogleFonts.nunito(
+                      fontWeight: FontWeight.w800,
                       fontSize: 20,
                       color: Theme.of(context).primaryColorDark)),
               const SizedBox(height: 10.0),
@@ -117,13 +118,20 @@ class PageExerciseSingleSelectionWordState
             },
             child: DecoratedBox(
               decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color:
+                          Colors.black.withOpacity(0.1), // Color de la sombra
+                      blurRadius: 5, // Radio de desenfoque
+                      offset: Offset(0, 4))
+                ],
                 color: Colors.white,
                 borderRadius: const BorderRadius.all(Radius.circular(16)),
                 border: Border.all(
                   color: imageSelected == img.name
                       ? colorList[1]
                       : Colors.grey.shade300,
-                  width: 4.0,
+                  width: 3.0,
                 ),
               ),
               child: Padding(

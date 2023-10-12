@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import '../../../config/helpers/param.dart';
@@ -53,10 +54,10 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
               children: [
                 Text('¡Vamos a practicar! \nFormemos la palabra',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily: 'IkkaRounded',
-                        fontSize: 20,
-                        color: Theme.of(context).primaryColorDark)),
+                    style: GoogleFonts.nunito(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 20,
+                      color: Theme.of(context).primaryColorDark)),
                 Text(widget.namePhoneme,
                     style: TextStyle(
                         fontFamily: 'IkkaRounded',

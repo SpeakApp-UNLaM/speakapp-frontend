@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sp_front/domain/entities/result_pair_images.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:provider/provider.dart';
@@ -57,8 +58,8 @@ class PageExerciseConsonantalSyllableState
               Text(
                   '¡Vamos a practicar! \nSeleccione el fonema de la siguiente imagen',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'IkkaRounded',
+                  style: GoogleFonts.nunito(
+                      fontWeight: FontWeight.w800,
                       fontSize: 20,
                       color: Theme.of(context).primaryColorDark)),
               const SizedBox(height: 10.0),
@@ -97,6 +98,13 @@ class PageExerciseConsonantalSyllableState
             },
             child: DecoratedBox(
               decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                      color:
+                          Colors.black.withOpacity(0.1), // Color de la sombra
+                      blurRadius: 5, // Radio de desenfoque
+                      offset: Offset(0, 4))
+                ],
                 borderRadius: const BorderRadius.all(Radius.circular(16)),
                 border: Border.all(
                   color: syllableSelected == syllable

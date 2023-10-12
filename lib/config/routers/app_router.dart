@@ -150,7 +150,15 @@ class AppRouter {
       final loggedIn = authProvider.loggedIn;
       //final rootLoc = state.namedLocation(rootRouteName);
 
-      if (!loggedIn) return '/login';
+      if (state.fullPath == '/register') {
+        // Si estás en la página de registro y el usuario está autenticado, puedes redirigir a otra página, por ejemplo, la página de inicio.
+        if (loggedIn) return '/home';
+      } else {
+        // Si no estás en la página de registro, aplicar la lógica original.
+        if (!loggedIn) return '/login';
+      }
+
+      // En cualquier otro caso, no redirigir.
       return null;
     },
   );

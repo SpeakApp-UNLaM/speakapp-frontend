@@ -87,9 +87,37 @@ class PhonemeViewState extends State<PhonemeView>
               );
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
-            } else if (snapshot.hasData) {
+            } else if (snapshot.hasData && snapshot.data?.length != 0) {
               return SingleChildScrollView(
                   child: _ListViewCustomized(tasks: snapshot.data ?? []));
+            } else if (snapshot.data?.length == 0) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                Center(
+                  child: SizedBox(
+                      height: 200,
+                      width: 200,
+                      child: Lottie.asset(
+                        'assets/animations/NoResults.json',
+                        controller: _controller,
+                        onLoaded: (composition) {
+                          // Configure the AnimationController with the duration of the
+                          // Lottie file and start the animation.
+                          _controller
+                            ..duration = composition.duration
+                            ..repeat();
+                        },
+                      )),
+                ),
+                Text(
+                  "Aún no posee ejercicios asignados",
+                  style: GoogleFonts.nunito(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: Theme.of(context).primaryColorDark),
+                )
+              ]);
             } else {
               return const Text('No se han cargado datos.');
             }

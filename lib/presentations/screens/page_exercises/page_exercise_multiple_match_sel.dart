@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../config/helpers/param.dart';
@@ -47,6 +48,12 @@ class PageExerciseMultipleMatchSelState
   late List<ResultPairImages> pairImages;
   @override
   Widget build(BuildContext context) {
+    const colors = <Color>[
+      Color(0xFFffa834),
+      Color(0xFF72bb53),
+      Color(0xFF91e4fb),
+      Color(0xFFce82ff),
+    ];
     print("multiple_match_sel");
     final exerciseProv = context.watch<ExerciseProvider>();
     return Scaffold(
@@ -59,8 +66,8 @@ class PageExerciseMultipleMatchSelState
               Text(
                   '¡Vamos a practicar! \n¿Que imagen se corresponde a cada audio?',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'IkkaRounded',
+                  style: GoogleFonts.nunito(
+                      fontWeight: FontWeight.w800,
                       fontSize: 20,
                       color: Theme.of(context).primaryColorDark)),
               const SizedBox(height: 10.0),
@@ -75,7 +82,7 @@ class PageExerciseMultipleMatchSelState
                 children: widget.images.map((img) {
                   final isSelected = audiosSelected.contains(img.name);
                   final borderColor = isSelected
-                      ? colorList[audiosSelected.indexOf(img.name)]
+                      ? colors[audiosSelected.indexOf(img.name)]
                       : Colors.grey.shade300;
 
                   return GestureDetector(
@@ -108,6 +115,13 @@ class PageExerciseMultipleMatchSelState
                     },
                     child: DecoratedBox(
                       decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black
+                                  .withOpacity(0.1), // Color de la sombra
+                              blurRadius: 5, // Radio de desenfoque
+                              offset: Offset(0, 4))
+                        ],
                         borderRadius:
                             const BorderRadius.all(Radius.circular(32)),
                         border: Border.all(
@@ -142,7 +156,7 @@ class PageExerciseMultipleMatchSelState
                 children: widget.images.map((img) {
                   final isSelected = imagesSelected.contains(img.imageData);
                   final borderColor = isSelected
-                      ? colorList[imagesSelected.indexOf(img.imageData)]
+                      ? colors[imagesSelected.indexOf(img.imageData)]
                       : Colors.grey.shade300;
 
                   return GestureDetector(

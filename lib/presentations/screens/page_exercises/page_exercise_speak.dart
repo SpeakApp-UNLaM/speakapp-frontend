@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
 import 'package:sp_front/presentations/widgets/button_play_audio.dart';
 import 'package:sp_front/presentations/widgets/button_recorder.dart';
@@ -32,10 +33,10 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
             Text(
                 '¡Practiquemos tu pronunciación! \n Di la silaba o la palabra de la siguiente imagen:',
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontFamily: 'IkkaRounded',
-                    fontSize: 20,
-                    color: Theme.of(context).primaryColorDark)),
+                style: GoogleFonts.nunito(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 20,
+                      color: Theme.of(context).primaryColorDark)),
             Text(widget.namePhoneme,
                 style: TextStyle(
                     fontFamily: 'IkkaRounded',

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../config/helpers/param.dart';
@@ -57,8 +58,8 @@ class PageExerciseMinimumPairsSelState
               Text(
                   '¡Vamos a practicar! \n¿Que imagen se corresponde al siguiente audio?',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontFamily: 'IkkaRounded',
+                  style: GoogleFonts.nunito(
+                      fontWeight: FontWeight.w800,
                       fontSize: 20,
                       color: Theme.of(context).primaryColorDark)),
               const SizedBox(height: 10.0),
@@ -139,11 +140,17 @@ class PageExerciseMinimumPairsSelState
           },
           child: DecoratedBox(
             decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black.withOpacity(0.1), // Color de la sombra
+                    blurRadius: 5, // Radio de desenfoque
+                    offset: Offset(0, 4))
+              ],
               color: Colors.white,
               borderRadius: const BorderRadius.all(Radius.circular(16)),
               border: Border.all(
                 color: borderColor,
-                width: 4.0,
+                width: 3.0,
               ),
             ),
             child: Padding(
