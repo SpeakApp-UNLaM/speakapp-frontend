@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sp_front/presentations/widgets/lottie_animation.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../config/helpers/param.dart';
@@ -60,31 +58,14 @@ class PageExerciseSingleSelectionWordState
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                  '¡Vamos a practicar! \n¿Cual imagen se corresponde al siguiente fonema?',
+                  '¡Vamos a practicar! \n¿Cuál imágen se corresponde al siguiente fonema?',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.nunito(
                       fontWeight: FontWeight.w800,
                       fontSize: 20,
                       color: Theme.of(context).primaryColorDark)),
-              const SizedBox(height: 10.0),
-              Text(widget.namePhoneme,
-                  style: TextStyle(
-                      fontFamily: 'IkkaRounded',
-                      fontSize: 50,
-                      color: colorList[1])),
-              Text("Consonántica",
-                  style: TextStyle(
-                      fontFamily: 'IkkaRounded',
-                      fontSize: 20,
-                      color: colorList[1])),
               const SizedBox(height: 40.0),
               drawImages(exerciseProv),
-              const SizedBox(height: 40.0),
-              const AnimationL(
-                text: "Esta muy bien ! ",
-                animationPath: 'assets/animations/BoyJumping.json',
-                size: 150,
-              )
             ],
           ),
         ),

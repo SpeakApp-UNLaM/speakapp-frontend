@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-List<PatientModel> PatientModelFromJson(String str) => List<PatientModel>.from(
+List<PatientModel> patientModelFromJson(String str) => List<PatientModel>.from(
     json.decode(str).map((x) => PatientModel.fromJson(x)));
 
 class PatientModel {
@@ -25,11 +25,11 @@ class PatientModel {
     return PatientModel(
       idPatient: json["idPatient"],
       username: json["username"],
-      email: json["email"],
-      firstName: json["firstName"],
-      lastName: json["lastName"],
-      age: json["age"],
-      gender: json["gender"],
+      email: json["email"] ?? "",
+      firstName: json["firstName"] ?? "",
+      lastName: json["lastName"] ?? "",
+      age: json["age"] ?? "",
+      gender: json["gender"] ?? "",
     );
   }
 
@@ -41,5 +41,5 @@ class PatientModel {
         "lastName": lastName,
         "age": age,
         "gender": gender,
-  };
+      };
 }

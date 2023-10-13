@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
@@ -64,18 +63,13 @@ class PageExerciseMultipleMatchSelState
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                  '¡Vamos a practicar! \n¿Que imagen se corresponde a cada audio?',
+                  '¡Vamos a practicar! \n¿Qué imágen se corresponde a cada audio?',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.nunito(
                       fontWeight: FontWeight.w800,
                       fontSize: 20,
                       color: Theme.of(context).primaryColorDark)),
               const SizedBox(height: 10.0),
-              Text(widget.namePhoneme,
-                  style: TextStyle(
-                      fontFamily: 'IkkaRounded',
-                      fontSize: 50,
-                      color: colorList[1])),
               Wrap(
                 spacing: 10.0,
                 runSpacing: 11,
@@ -140,7 +134,8 @@ class PageExerciseMultipleMatchSelState
                                 Icons.volume_up_outlined,
                                 color: Colors.grey.shade400,
                               ),
-                              const Text("Reproducir")
+                              Text("Reproducir",
+                                  style: Theme.of(context).textTheme.titleSmall)
                             ],
                           ),
                         ),

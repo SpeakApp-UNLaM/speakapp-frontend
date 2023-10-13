@@ -28,11 +28,7 @@ class CardArticulation extends StatelessWidget {
               child: Center(
                 child: Text(
                   'Articulemas',
-                  style: TextStyle(
-                      fontSize: 18.0,
-                      color: colorList[2],
-                      fontWeight: FontWeight.bold,
-                      fontFamily: "IkkaRounded"),
+                  style: Theme.of(context).textTheme.displayMedium,
                 ),
               ),
             ),

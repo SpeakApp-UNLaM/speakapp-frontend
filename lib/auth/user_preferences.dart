@@ -15,6 +15,7 @@ class UserPreferences {
     prefs.setString("token", user.token);
     prefs.setString("renewalToken", user.renewalToken);
 
+    // ignore: deprecated_member_use
     return prefs.commit();
   }
 
@@ -43,7 +44,7 @@ class UserPreferences {
         renewalToken: renewalToken);
   }
 
-  void removeUser() async {
+  Future<void> removeUser() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.remove("username");

@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:sp_front/config/theme/app_theme.dart';
 
 class SeekBar extends StatefulWidget {
   final Duration duration;
@@ -40,77 +39,81 @@ class SeekBarState extends State<SeekBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 150,
-     child: Stack(
-      children: [
-        SliderTheme(
-          data: _sliderThemeData.copyWith(
-            thumbShape: HiddenThumbComponentShape(),
-            activeTrackColor: Colors.grey.shade200,
-            inactiveTrackColor: Colors.grey.shade300,
-          ),
-          child: ExcludeSemantics(
-            child: Slider(
-              min: 0.0,
-              max: widget.duration.inMilliseconds.toDouble(),
-              value: min(widget.bufferedPosition.inMilliseconds.toDouble(),
-                  widget.duration.inMilliseconds.toDouble()),
-              onChanged: (value) {
-                setState(() {
-                  _dragValue = value;
-                });
-                if (widget.onChanged != null) {
-                  widget.onChanged!(Duration(milliseconds: value.round()));
-                }
-              },
-              onChangeEnd: (value) {
-                if (widget.onChangeEnd != null) {
-                  widget.onChangeEnd!(Duration(milliseconds: value.round()));
-                }
-                _dragValue = null;
-              },
+    return SizedBox(
+        width: 150,
+        child: Stack(
+          children: [
+            SliderTheme(
+              data: _sliderThemeData.copyWith(
+                thumbShape: HiddenThumbComponentShape(),
+                activeTrackColor: Colors.grey.shade200,
+                inactiveTrackColor: Colors.grey.shade300,
+              ),
+              child: ExcludeSemantics(
+                child: Slider(
+                  min: 0.0,
+                  max: widget.duration.inMilliseconds.toDouble(),
+                  value: min(widget.bufferedPosition.inMilliseconds.toDouble(),
+                      widget.duration.inMilliseconds.toDouble()),
+                  onChanged: (value) {
+                    setState(() {
+                      _dragValue = value;
+                    });
+                    if (widget.onChanged != null) {
+                      widget.onChanged!(Duration(milliseconds: value.round()));
+                    }
+                  },
+                  onChangeEnd: (value) {
+                    if (widget.onChangeEnd != null) {
+                      widget
+                          .onChangeEnd!(Duration(milliseconds: value.round()));
+                    }
+                    _dragValue = null;
+                  },
+                ),
+              ),
             ),
-          ),
-        ),
-        SliderTheme(
-          data: _sliderThemeData.copyWith(
-            inactiveTrackColor: Colors.transparent,
-          ),
-          child: Slider(
-            min: 0.0,
-            max: widget.duration.inMilliseconds.toDouble(),
-            value: min(_dragValue ?? widget.position.inMilliseconds.toDouble(),
-                widget.duration.inMilliseconds.toDouble()),
-            onChanged: (value) {
-              setState(() {
-                _dragValue = value;
-              });
-              if (widget.onChanged != null) {
-                widget.onChanged!(Duration(milliseconds: value.round()));
-              }
-            },
-            onChangeEnd: (value) {
-              if (widget.onChangeEnd != null) {
-                widget.onChangeEnd!(Duration(milliseconds: value.round()));
-              }
-              _dragValue = null;
-            },
-            activeColor: widget.disable ? Theme.of(context).primaryColorDark : Colors.grey.shade300,
-          ),
-        ),
-        Positioned(
-          right: 16.0,
-          bottom: 0.0,
-          child: Text(
-              RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$')
-                      .firstMatch("$_remaining")
-                      ?.group(1) ??
-                  '$_remaining',
-              style: Theme.of(context).textTheme.bodySmall),
-        ),
-      ],
-    ));
+            SliderTheme(
+              data: _sliderThemeData.copyWith(
+                inactiveTrackColor: Colors.transparent,
+              ),
+              child: Slider(
+                min: 0.0,
+                max: widget.duration.inMilliseconds.toDouble(),
+                value: min(
+                    _dragValue ?? widget.position.inMilliseconds.toDouble(),
+                    widget.duration.inMilliseconds.toDouble()),
+                onChanged: (value) {
+                  setState(() {
+                    _dragValue = value;
+                  });
+                  if (widget.onChanged != null) {
+                    widget.onChanged!(Duration(milliseconds: value.round()));
+                  }
+                },
+                onChangeEnd: (value) {
+                  if (widget.onChangeEnd != null) {
+                    widget.onChangeEnd!(Duration(milliseconds: value.round()));
+                  }
+                  _dragValue = null;
+                },
+                activeColor: widget.disable
+                    ? Theme.of(context).primaryColorDark
+                    : Colors.grey.shade300,
+              ),
+            ),
+            Positioned(
+              right: 16.0,
+              bottom: 0.0,
+              child: Text(
+                  RegExp(r'((^0*[1-9]\d*:)?\d{2}:\d{2})\.\d+$')
+                          .firstMatch("$_remaining")
+                          ?.group(1) ??
+                      '$_remaining',
+                  style: Theme.of(context).textTheme.bodySmall),
+            ),
+          ],
+        ));
   }
 
   Duration get _remaining => widget.duration - widget.position;
@@ -152,7 +155,6 @@ void showSliderDialog({
   required double min,
   required double max,
   String valueSuffix = '',
-  // TODO: Replace these two by ValueStream.
   required double value,
   required Stream<double> stream,
   required ValueChanged<double> onChanged,

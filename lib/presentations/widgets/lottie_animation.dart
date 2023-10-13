@@ -17,6 +17,7 @@ class AnimationL extends StatefulWidget {
 }
 
 class _AnimationLState extends State<AnimationL> with TickerProviderStateMixin {
+  late final AnimationController _controller;
   @override
   void initState() {
     super.initState();
@@ -29,7 +30,6 @@ class _AnimationLState extends State<AnimationL> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  late final AnimationController _controller;
   @override
   Widget build(BuildContext context) {
     return SizedBox(

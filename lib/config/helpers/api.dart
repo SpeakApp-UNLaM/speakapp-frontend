@@ -19,19 +19,39 @@ class Api {
       final resp = await _dio.get(path, queryParameters: queryParameters);
 
       return resp.data;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Param.showToast('Error en el POST: $e');
     }
     return null;
   }
 
-  static Future post(String path, final data) async {
+  /*static Future post(String path, final data) async {
     try {
       return await _dio.post(path, data: data);
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       Param.showToast('Error en el POST: $e');
     }
-    return null;
+    return "ERROR";
+  }*/
+
+  static Future post(String path, final data) async {
+    try {
+      final response = await _dio.post(path, data: data);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // La solicitud fue exitosa
+        return response;
+      } else {
+        // Maneja errores de estado de respuesta HTTP aquí
+        return "Error en el POST: ${response.statusCode}";
+      }
+    } on DioException catch (e) {
+      // Maneja errores específicos de Dio (por ejemplo, errores de red)
+      return "Error en el POST: ${e.message}";
+    } catch (e) {
+      // Maneja otros errores inesperados
+      return "Error inesperado en el POST: $e";
+    }
   }
 
   static Future put(String path, Map<String, dynamic> data) async {

@@ -28,7 +28,7 @@ class LoginScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 80),
             // Icon Banner
-            Image(
+            const Image(
               image: AssetImage('assets/branding/Logo_SpeakApp.png'),
               width: 220,
               height: 100,
@@ -57,30 +57,33 @@ class _LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyles = Theme.of(context).textTheme;
     final loginProv = context.watch<LoginProvider>();
-
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50),
       child: Column(
         children: [
           const SizedBox(height: 50),
-          Text('Bienvenido', style:
-          GoogleFonts.nunito(
-                textStyle: TextStyle(fontSize: 30, color: Theme.of(context).primaryColor, fontWeight: FontWeight.w800))),
+          Text('Bienvenido',
+              style: GoogleFonts.nunito(
+                  textStyle: TextStyle(
+                      fontSize: 30,
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.w800))),
           const SizedBox(height: 90),
           CustomTextFormField(
             label: 'Correo',
             keyboardType: TextInputType.emailAddress,
-            onChanged: (value) => context.read<LoginProvider>().onEmailChange(value),
+            onChanged: (value) =>
+                context.read<LoginProvider>().onEmailChange(value),
             errorMessage: loginProv.email.errorMessage,
           ),
           const SizedBox(height: 30),
           CustomTextFormField(
             label: 'Contraseña',
             obscureText: true,
-            onChanged: (value) => context.read<LoginProvider>().onPasswordChange(value),
+            onChanged: (value) =>
+                context.read<LoginProvider>().onPasswordChange(value),
             errorMessage: loginProv.password.errorMessage,
           ),
           const SizedBox(height: 30),
@@ -90,13 +93,13 @@ class _LoginForm extends StatelessWidget {
               child: CustomFilledButton(
                 text: 'INGRESAR',
                 buttonColor: colorList[0],
-                onPressed: () {
-                  context.read<LoginProvider>().onFormSubmit(context);
+                onPressed: () async {
+                  await context.read<LoginProvider>().onFormSubmit(context);
                 },
               )),
           const Spacer(flex: 2),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Wrap(
+            alignment: WrapAlignment.center,
             children: [
               const Text('¿No tienes cuenta?'),
               TextButton(

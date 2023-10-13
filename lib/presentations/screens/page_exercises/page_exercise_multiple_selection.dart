@@ -65,18 +65,13 @@ class PageExerciseMultipleSelectionState
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                  '¡Vamos a practicar! \n¿Cuál o Cuáles imagenes contiene el siguiente sonido?',
+                  '¡Vamos a practicar! \n¿Cuál o cuáles imagenes contiene el siguiente sonido?',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.nunito(
                       fontSize: 20,
                       color: Theme.of(context).primaryColorDark,
                       fontWeight: FontWeight.w800)),
               const SizedBox(height: 10.0),
-              Text(widget.namePhoneme,
-                  style: TextStyle(
-                      fontFamily: 'IkkaRounded',
-                      fontSize: 50,
-                      color: colorList[1])),
               Wrap(
                 spacing: 10.0,
                 runSpacing: 10.0,
@@ -108,7 +103,8 @@ class PageExerciseMultipleSelectionState
                                 color: Colors.grey.shade400,
                               ),
                               SizedBox(width: 10),
-                              const Text("Reproducir")
+                              Text("Reproducir",
+                                  style: Theme.of(context).textTheme.titleSmall)
                             ],
                           ),
                         ),

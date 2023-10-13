@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sp_front/config/theme/app_theme.dart';
 import '../../common/common.dart';
 import '../../providers/recorder_provider.dart';
 
@@ -17,7 +16,7 @@ class ButtonPlayAudioState extends State<ButtonPlayAudio>
   Widget build(BuildContext context) {
     final recorderProv = context.watch<RecorderProvider>();
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(32)),
           border: Border.all(

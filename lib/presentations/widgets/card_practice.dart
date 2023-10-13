@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
 import '../../config/helpers/param.dart';
 import '../../domain/entities/category.dart';
@@ -42,12 +41,8 @@ class CardPractice extends StatelessWidget {
               padding: const EdgeInsets.all(23),
               child: Center(
                 child: Text(
-                  'Practicas',
-                  style: TextStyle(
-                      fontSize: 18.0,
-                      color: colorList[2],
-                      fontWeight: FontWeight.bold,
-                      fontFamily: "IkkaRounded"),
+                  'Prácticas',
+                  style: Theme.of(context).textTheme.displayMedium,
                 ),
               ),
             ),
@@ -60,28 +55,18 @@ class CardPractice extends StatelessWidget {
                 int desafio = index + 1;
                 int nivel = categories.elementAt(index).level;
                 int idTask = categories.elementAt(index).idTask;
-                late final categorias;
-                if (nivelMap.containsKey(nivel)) {
-                  categorias = nivelMap[
-                      nivel]; // Acceder al valor usando la clave como índice
-                } else {}
 
                 return Row(
                   children: [
                     Expanded(
                       child: ListTile(
                         title: Text(
-                          "Desafio $desafio",
-                          style: GoogleFonts.nunito(
-                              textStyle: TextStyle(
-                                  color: Colors.grey.shade700,
-                                  fontWeight: FontWeight.w600)),
+                          Param.categoriesDescriptions[
+                              categories.elementAt(index).category]!,
+                          style: Theme.of(context).textTheme.titleMedium,
                         ),
-                        subtitle: Text(
-                            "Nivel $nivel: ${formatCategories(categorias)}",
-                            style: GoogleFonts.nunito(
-                                textStyle:
-                                    TextStyle(color: Colors.grey.shade500))),
+                        subtitle: Text("Desafío $desafio: Nivel $nivel",
+                            style: Theme.of(context).textTheme.titleSmall),
                       ),
                     ),
                     Padding(
@@ -97,17 +82,17 @@ class CardPractice extends StatelessWidget {
                                 namePhoneme: namePhoneme,
                                 level: nivel,
                                 idTask: idTask,
-                                categories: categorias);
+                                categories: [
+                                  categories.elementAt(index).category
+                                ]);
 
                             context.push("/exercise", extra: params);
                             // Acción del botón
                             // Puedes agregar aquí la lógica que deseas ejecutar cuando se presiona el botón
                           },
-                          child: const Text(
+                          child: Text(
                             "Comenzar",
-                            style: TextStyle(
-                              fontFamily: 'IkkaRounded',
-                            ),
+                            style: Theme.of(context).textTheme.labelSmall,
                           )),
                     ),
                   ],
@@ -120,11 +105,11 @@ class CardPractice extends StatelessWidget {
     );
   }
 
-  String formatCategories(categorias) {
+  /*String formatCategories(categorias) {
     Set<dynamic> categoriasSinDuplicados = categorias
         .map((category) => Param.categoriesDescriptions[category])
         .toSet();
 
     return categoriasSinDuplicados.join(', ');
-  }
+  }*/
 }

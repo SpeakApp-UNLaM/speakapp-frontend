@@ -56,13 +56,12 @@ class PageExerciseConsonantalSyllableState
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                  '¡Vamos a practicar! \nSeleccione el fonema de la siguiente imagen',
+                  '¡Vamos a practicar! \nSeleccione el fonema de la siguiente imágen',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.nunito(
                       fontWeight: FontWeight.w800,
                       fontSize: 20,
                       color: Theme.of(context).primaryColorDark)),
-              const SizedBox(height: 10.0),
               const SizedBox(height: 40.0),
               drawImages(exerciseProv),
               const SizedBox(height: 40.0),
@@ -122,10 +121,7 @@ class PageExerciseConsonantalSyllableState
                     children: [
                       Text(syllable,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: 'IkkaRounded',
-                              fontSize: 25,
-                              color: Theme.of(context).primaryColorDark))
+                          style: Theme.of(context).textTheme.headlineMedium)
                     ],
                   ),
                 ),

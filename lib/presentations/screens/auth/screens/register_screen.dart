@@ -14,8 +14,6 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
-    final textStyles = Theme.of(context).textTheme;
-
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -70,6 +68,7 @@ class RegisterScreen extends StatelessWidget {
                     onPressed: () {},
                   ),
                 ),
+
               ],
             ),
           ),

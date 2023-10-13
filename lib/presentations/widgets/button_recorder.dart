@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 
@@ -59,11 +58,7 @@ class ButtonRecorder extends StatelessWidget {
               const SizedBox(width: 8.0),
               Text(
                 recorderProv.recordingOn ? '...' : 'Grabar',
-                style: GoogleFonts.nunitoSans(
-                    textStyle: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white)),
+                style: Theme.of(context).textTheme.labelSmall,
               ),
             ],
           ),

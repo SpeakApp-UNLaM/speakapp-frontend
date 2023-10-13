@@ -28,15 +28,14 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-                '¡Practiquemos tu pronunciación! \n Di la silaba o la palabra de la siguiente imagen:',
+                '¡Practiquemos tu pronunciación! \n Dí la silaba o la palabra de la siguiente imágen:',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.nunito(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 20,
-                      color: Theme.of(context).primaryColorDark)),
+                    fontWeight: FontWeight.w800,
+                    fontSize: 20,
+                    color: Theme.of(context).primaryColorDark)),
             Text(widget.namePhoneme,
                 style: TextStyle(
                     fontFamily: 'IkkaRounded',
@@ -62,10 +61,11 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
                     : Center(
                         child: Text(
                           widget.result.toUpperCase(),
-                          style: TextStyle(
-                              fontFamily: 'IkkaRounded',
-                              fontSize: 70,
-                              color: colorList[1]),
+                          style: GoogleFonts.nunito(
+                            fontWeight: FontWeight.w800,
+                            fontSize: 70,
+                            color: colorList[1],
+                          ),
                         ),
                       ), // Aquí puedes usar un widget de marcador de posición o el que prefieras
               ),

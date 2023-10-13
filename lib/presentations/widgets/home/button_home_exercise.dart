@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
 import 'package:sp_front/presentations/screens/views/phoneme_view.dart';
 
@@ -18,8 +17,8 @@ class _ButtonHomeExerciseState extends State<ButtonHomeExercise> {
   double _position = 4;
   @override
   Widget build(BuildContext context) {
-    final double _height = 150 - _shadowSize;
-    final double _width = 300 - _shadowSize;
+    const double height = 150 - _shadowSize;
+    const double width = 300 - _shadowSize;
     return GestureDetector(
         onTapUp: (_) {
           setState(() {
@@ -36,9 +35,9 @@ class _ButtonHomeExerciseState extends State<ButtonHomeExercise> {
             _position = 4;
           });
         },
-        child: Container(
-          height: _height + _shadowSize,
-          width: _width + _shadowSize,
+        child: SizedBox(
+          height: height + _shadowSize,
+          width: width + _shadowSize,
           // Ancho personalizado
           child: Stack(
             children: [
@@ -46,11 +45,11 @@ class _ButtonHomeExerciseState extends State<ButtonHomeExercise> {
                 bottom: 0,
                 right: 0,
                 child: Container(
-                  height: _height,
-                  width: _width,
+                  height: height,
+                  width: width,
                   decoration: BoxDecoration(
                     color: colorList[0],
-                    borderRadius: BorderRadius.all(
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(16),
                     ),
                   ),
@@ -62,8 +61,8 @@ class _ButtonHomeExerciseState extends State<ButtonHomeExercise> {
                 right: _position,
                 curve: Curves.easeIn,
                 child: Container(
-                  height: _height,
-                  width: _width,
+                  height: height,
+                  width: width,
                   decoration: BoxDecoration(
                     color: colorList[0],
                     borderRadius: const BorderRadius.all(
@@ -87,12 +86,8 @@ class _ButtonHomeExerciseState extends State<ButtonHomeExercise> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Text("Practicas",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: colorList[1],
-                              fontFamily: 'IkkaRounded',
-                            ))
+                        Text("Prácticas",
+                            style: Theme.of(context).textTheme.displayMedium)
                       ],
                     ),
                   ),

@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:sp_front/config/theme/app_theme.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import '../../../config/helpers/param.dart';
-import '../../../config/theme/app_theme.dart';
 import '../../../domain/entities/result_exercise.dart';
 import '../../../models/image_model.dart';
 import '../../../providers/tts_provider.dart';
@@ -171,11 +171,7 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                         alignment: Alignment.center,
                         child: Text(
                           syllable.toUpperCase(),
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColorDark,
-                            fontFamily: "IkkaRounded",
-                            fontSize: 15,
-                          ),
+                          style: Theme.of(context).textTheme.headlineSmall,
                         ),
                       ),
                     );
@@ -230,10 +226,7 @@ class ReorderableSyllableWidget extends StatelessWidget {
       alignment: Alignment.center,
       child: Text(
         syllable.toUpperCase(),
-        style: TextStyle(
-            fontFamily: "IkkaRounded",
-            fontSize: 15,
-            color: Theme.of(context).primaryColorDark),
+        style: Theme.of(context).textTheme.headlineSmall,
       ),
     );
   }

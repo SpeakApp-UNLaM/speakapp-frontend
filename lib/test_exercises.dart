@@ -46,8 +46,11 @@ class AudioRecorderApp2 extends StatelessWidget {
 }
 */
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sp_front/presentations/screens/exercise_screen.dart';
+import 'package:sp_front/providers/auth_provider.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:sp_front/providers/recorder_provider.dart';
 
@@ -55,24 +58,34 @@ import 'config/helpers/api.dart';
 import 'config/helpers/param.dart';
 import 'config/theme/app_theme.dart';
 
-void main() {
+Future<void> main() async {
   Api.configureDio();
-  runApp(const MyApp());
+  FlutterNativeSplash.preserve(
+      widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
+  final state = AuthProvider(await SharedPreferences.getInstance());
+  FlutterNativeSplash.remove();
+
+  runApp(MyApp(authProvider: state));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final AuthProvider authProvider;
+
+  const MyApp({super.key, required this.authProvider});
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
+          ChangeNotifierProvider<AuthProvider>(
+              lazy: false,
+              create: (BuildContext createContext) => authProvider),
           ChangeNotifierProvider(create: (_) => RecorderProvider()),
           ChangeNotifierProvider(create: (_) => ExerciseProvider()),
         ],
         child: MaterialApp(
-            title: 'Mi Aplicación Flutter',
-            theme: AppTheme.theme(),
+            title: 'TEST EXERCISES',
+            theme: AppTheme.theme(context),
             debugShowCheckedModeBanner: false,
             home: const MyHomePage()));
   }
@@ -168,6 +181,7 @@ class _MyFormState extends State<MyForm> {
             ),
             const SizedBox(height: 20.0),
             TextFormField(
+              style: Theme.of(context).textTheme.titleMedium,
               validator: (value) {
                 if (value == null || value.isEmpty || value == '') {
                   return 'Este campo es obligatorio';
@@ -175,9 +189,11 @@ class _MyFormState extends State<MyForm> {
                 return null;
               },
               controller: textEditingController1,
-              decoration: const InputDecoration(
-                labelText:
-                    'Ingrese ID del fonema. Utilizar separador ; para mas de un fonema',
+              decoration: InputDecoration(
+                label: Text(
+                  'Ingrese ID del fonema. Utilizar separador ; para mas de un fonema',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
               ),
             ),
             const SizedBox(height: 20.0),
@@ -205,10 +221,14 @@ class _MyFormState extends State<MyForm> {
                 return null;
               },
               controller: textEditingController2,
-              decoration: const InputDecoration(
-                labelText:
+              style: Theme.of(context).textTheme.titleMedium,
+              decoration: InputDecoration(
+                  floatingLabelStyle: Theme.of(context).textTheme.titleMedium,
+                  label: Text(
                     'Ingrese el nivel. Utilizar separador ; para mas de un nivel',
-              ),
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                  suffixStyle: Theme.of(context).textTheme.titleSmall),
             ),
             const SizedBox(height: 20.0),
             ElevatedButton(

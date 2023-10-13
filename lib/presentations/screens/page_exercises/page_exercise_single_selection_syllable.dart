@@ -65,12 +65,6 @@ class PageExerciseSingleSelectionSyllableState
                       fontWeight: FontWeight.w800,
                       fontSize: 20,
                       color: Theme.of(context).primaryColorDark)),
-              const SizedBox(height: 10.0),
-              Text(widget.syllable.toUpperCase(),
-                  style: TextStyle(
-                      fontFamily: 'IkkaRounded',
-                      fontSize: 50,
-                      color: colorList[1])),
               const SizedBox(height: 40.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -101,7 +95,9 @@ class PageExerciseSingleSelectionSyllableState
                                   Icons.volume_up_outlined,
                                   color: Colors.grey.shade400,
                                 ),
-                                const Text("Reproducir")
+                                Text("Reproducir",
+                                    style:
+                                        Theme.of(context).textTheme.titleSmall)
                               ],
                             ),
                           ),
