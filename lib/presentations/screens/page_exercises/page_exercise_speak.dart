@@ -29,19 +29,20 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Text(
-                '¡Practiquemos tu pronunciación! \n Dí la silaba o la palabra de la siguiente imágen:',
+            Text('¡Vamos a practicar!',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.nunito(
                     fontWeight: FontWeight.w800,
                     fontSize: 20,
                     color: Theme.of(context).primaryColorDark)),
-            Text(widget.namePhoneme,
-                style: TextStyle(
-                    fontFamily: 'IkkaRounded',
-                    fontSize: 40,
-                    color: colorList[1])),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 30.0),
+            Text('Reproducí el sónido de la imágen y repetilo:',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.nunito(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15,
+                    color: Theme.of(context).primaryColorDark)),
+            const SizedBox(height: 50.0),
             Container(
               padding: const EdgeInsets.all(40),
               decoration: BoxDecoration(
@@ -74,7 +75,7 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
             const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 40),
                 child: ButtonPlayAudio()),
-            const SizedBox(height: 30.0),
+            const SizedBox(height: 60.0),
             ButtonRecorder(
               idExercise: widget.idTaskItem,
             ),

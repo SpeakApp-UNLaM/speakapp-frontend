@@ -58,14 +58,21 @@ class PageExerciseSingleSelectionSyllableState
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                  '¡Vamos a practicar! \n¿Cuál imagen se corresponde al siguiente sonido?',
+              Text('¡Vamos a practicar!',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.nunito(
                       fontWeight: FontWeight.w800,
                       fontSize: 20,
                       color: Theme.of(context).primaryColorDark)),
-              const SizedBox(height: 40.0),
+              const SizedBox(height: 30.0),
+              Text(
+                  '¿Cuál imagen contiene el siguiente sonido?',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.nunito(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                      color: Theme.of(context).primaryColorDark)),
+              const SizedBox(height: 60.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -105,7 +112,7 @@ class PageExerciseSingleSelectionSyllableState
                   )
                 ],
               ),
-              const SizedBox(height: 40.0),
+              const SizedBox(height: 80.0),
               drawImages(exerciseProv),
               const SizedBox(height: 40.0),
             ],
@@ -121,55 +128,66 @@ class PageExerciseSingleSelectionSyllableState
       runSpacing: 10.0,
       children: [
         for (ImageExerciseModel img in widget.images)
-          GestureDetector(
-            onTap: () {
-              if (imageSelected == img.name) {
-                imageSelected = "";
-              } else {
-                imageSelected = img.name;
-                TtsProvider().speak(img.name);
-              }
-              exerciseProv.saveParcialResult(ResultExercise(
-                  idTaskItem: widget.idTaskItem,
-                  type: TypeExercise.single_selection_syllable,
-                  audio: "",
-                  pairImagesResult: [
-                    ResultPairImages(idImage: img.idImage, nameImage: img.name)
-                  ]));
-              //exerciseProv.finishExercise();
-              setState(() {});
-            },
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      color:
-                          Colors.black.withOpacity(0.1), // Color de la sombra
-                      blurRadius: 5, // Radio de desenfoque
-                      offset: Offset(0, 4))
-                ],
-                color: Colors.white,
-                borderRadius: const BorderRadius.all(Radius.circular(16)),
-                border: Border.all(
-                  color: imageSelected == img.name
-                      ? colorList[1]
-                      : Colors.grey.shade300,
-                  width: 3.0,
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Container(
-                  margin: const EdgeInsets.all(8),
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: SizedBox(
-                    width: Param.tamImages,
-                    height: Param.tamImages,
-                    child: _listImages[widget.images.indexOf(img)],
+          Column(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  if (imageSelected == img.name) {
+                    imageSelected = "";
+                  } else {
+                    imageSelected = img.name;
+                    TtsProvider().speak(img.name);
+                  }
+                  exerciseProv.saveParcialResult(ResultExercise(
+                      idTaskItem: widget.idTaskItem,
+                      type: TypeExercise.single_selection_syllable,
+                      audio: "",
+                      pairImagesResult: [
+                        ResultPairImages(idImage: img.idImage, nameImage: img.name)
+                      ]));
+                  //exerciseProv.finishExercise();
+                  setState(() {});
+                },
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                          color:
+                              Colors.black.withOpacity(0.1), // Color de la sombra
+                          blurRadius: 5, // Radio de desenfoque
+                          offset: Offset(0, 4))
+                    ],
+                    color: Colors.white,
+                    borderRadius: const BorderRadius.all(Radius.circular(16)),
+                    border: Border.all(
+                      color: imageSelected == img.name
+                          ? colorList[1]
+                          : Colors.grey.shade300,
+                      width: 3.0,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Container(
+                      margin: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: SizedBox(
+                        width: Param.tamImages,
+                        height: Param.tamImages,
+                        child: _listImages[widget.images.indexOf(img)],
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
+              SizedBox(height: 15),
+              Text(img.name.toUpperCase(),
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.nunito(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 20,
+                      color: Theme.of(context).primaryColorDark))
+            ],
           ),
       ],
     );
