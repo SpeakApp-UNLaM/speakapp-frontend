@@ -64,16 +64,14 @@ class PageExerciseMultipleSelectionState
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                  '¡Vamos a practicar!',
+              Text('¡Vamos a practicar!',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.nunito(
                       fontSize: 20,
                       color: Theme.of(context).primaryColorDark,
                       fontWeight: FontWeight.w800)),
               const SizedBox(height: 30.0),
-              Text(
-                  '¿Cuál o cuáles imágenes contienen el siguiente sonido?',
+              Text('¿Cuál o cuáles imágenes contienen el siguiente sonido?',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.nunito(
                       fontSize: 15,
@@ -150,38 +148,52 @@ class PageExerciseMultipleSelectionState
 
                         setState(() {});
                       },
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black
-                                    .withOpacity(0.1), // Color de la sombra
-                                blurRadius: 5, // Radio de desenfoque
-                                offset: Offset(0, 4))
-                          ],
-                          color: Colors.white,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(16)),
-                          border: Border.all(
-                            color: imagesSelected.contains(image.imageData)
-                                ? colors[
-                                    imagesSelected.indexOf(image.imageData)]
-                                : Colors.grey.shade300,
-                            width: 3.0,
+                      child: Stack(
+                        children: [
+                          DecoratedBox(
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black
+                                        .withOpacity(0.1), // Color de la sombra
+                                    blurRadius: 5, // Radio de desenfoque
+                                    offset: Offset(0, 4))
+                              ],
+                              color: Colors.white,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(16)),
+                              border: Border.all(
+                                color: imagesSelected.contains(image.imageData)
+                                    ? colors[
+                                        imagesSelected.indexOf(image.imageData)]
+                                    : Colors.grey.shade300,
+                                width: 3.0,
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Container(
+                                margin: const EdgeInsets.all(8),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                child: SizedBox(
+                                    width: Param.tamImages,
+                                    height: Param.tamImages,
+                                    child: _listImages[
+                                        widget.images.indexOf(image)]),
+                              ),
+                            ),
                           ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Container(
-                            margin: const EdgeInsets.all(8),
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: SizedBox(
-                                width: Param.tamImages,
-                                height: Param.tamImages,
-                                child:
-                                    _listImages[widget.images.indexOf(image)]),
+                          Positioned(
+                            bottom: 7,
+                            right: 7,
+                            child: Icon(
+                              Icons.volume_up,
+                              color: colorList[4],
+                              size: 24,
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
                 ],

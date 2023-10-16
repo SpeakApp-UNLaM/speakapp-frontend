@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
 import 'package:sp_front/presentations/widgets/button_play_audio.dart';
 import 'package:sp_front/presentations/widgets/button_recorder.dart';
+import 'package:sp_front/providers/tts_provider.dart';
 
 import '../../../config/helpers/param.dart';
 import '../../../models/image_model.dart';
@@ -43,39 +44,58 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
                     fontSize: 15,
                     color: Theme.of(context).primaryColorDark)),
             const SizedBox(height: 50.0),
-            Container(
-              padding: const EdgeInsets.all(40),
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(16)),
-                  border: Border.all(
-                    color: Colors.grey.shade300,
-                    width: 4.0,
-                  )), // Establecer la altura deseada
-              child: SizedBox(
-                width: Param.tamImages,
-                height: Param.tamImages,
-                child: widget.img.isNotEmpty
-                    ? Image.memory(
-                        base64.decode(widget.img.first.imageData),
-                        fit: BoxFit.cover,
-                      )
-                    : Center(
-                        child: Text(
-                          widget.result.toUpperCase(),
-                          style: GoogleFonts.nunito(
-                            fontWeight: FontWeight.w800,
-                            fontSize: 70,
-                            color: colorList[1],
-                          ),
-                        ),
-                      ), // Aquí puedes usar un widget de marcador de posición o el que prefieras
+            GestureDetector(
+              onTap: () {
+                TtsProvider().speak(widget.result.toUpperCase());
+              },
+              child: Stack(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(40),
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(16)),
+                        border: Border.all(
+                          color: Colors.grey.shade300,
+                          width: 4.0,
+                        )), // Establecer la altura deseada
+                    child: SizedBox(
+                      width: Param.tamImages,
+                      height: Param.tamImages,
+                      child: widget.img.isNotEmpty
+                          ? Image.memory(
+                              base64.decode(widget.img.first.imageData),
+                              fit: BoxFit.cover,
+                            )
+                          : Center(
+                              child: Text(
+                                widget.result.toUpperCase(),
+                                style: GoogleFonts.nunito(
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 70,
+                                  color: colorList[1],
+                                ),
+                              ),
+                            ), // Aquí puedes usar un widget de marcador de posición o el que prefieras
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 7,
+                    right: 7,
+                    child: Icon(
+                      Icons.volume_up,
+                      color: colorList[4],
+                      size: 24,
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 30.0),
             const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 40),
                 child: ButtonPlayAudio()),
-            const SizedBox(height: 60.0),
+            const SizedBox(height: 40.0),
             ButtonRecorder(
               idExercise: widget.idTaskItem,
             ),

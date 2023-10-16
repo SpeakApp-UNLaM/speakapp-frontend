@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../config/theme/app_theme.dart';
 import '../../domain/entities/task.dart';
 import '../widgets/card_practice.dart';
@@ -44,8 +45,28 @@ class ChoiceExerciseScreen extends StatelessWidget {
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(children: [
-          //CardArticulation(),
+        child:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          SizedBox(height: 20),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                  object.phoneme.namePhoneme
+                      .replaceAll("CONSONANTICA", "")
+                      .trim(),
+                  style: GoogleFonts.nunito(
+                      fontSize: 28,
+                      color: colorList[2],
+                      fontWeight: FontWeight.w900)),
+              if (object.phoneme.namePhoneme.length > 3)
+                Text("Consonántica",
+                    style: GoogleFonts.nunito(
+                        fontSize: 16,
+                        color: colorList[2],
+                        fontWeight: FontWeight.w900))
+            ],
+          ),
           CardPractice(
               idPhoneme: object.phoneme.idPhoneme,
               namePhoneme: object.phoneme.namePhoneme,

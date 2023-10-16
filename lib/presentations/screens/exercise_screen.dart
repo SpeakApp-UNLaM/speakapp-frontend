@@ -166,9 +166,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
                             children: <Widget>[
                               IconButton(
                                 icon: const Icon(Icons.close),
-                                onPressed: () => context.push('/',
-                                    extra: authProvider.prefs.getInt('userId')
-                                        as int),
+                                onPressed: () => Navigator.pop(context),
                               ),
                               Expanded(
                                   child: Padding(

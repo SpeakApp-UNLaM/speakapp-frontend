@@ -44,11 +44,17 @@ class PhonemeViewState extends State<PhonemeView>
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('Vamos a practicar',
-                  style: Theme.of(context).textTheme.bodyMedium),
+              Align(
+                alignment: Alignment.center,
+                child: Text('Vamos a practicar',
+                    style: Theme.of(context).textTheme.bodyMedium),
+              ),
               const SizedBox(height: 10),
-              Text('Seleccione un fonema para practicar sus sílabas:',
-                  style: Theme.of(context).textTheme.bodySmall),
+              Align(
+                alignment: Alignment.center,
+                child: Text('Seleccione un fonema para practicar sus sílabas:',
+                    style: Theme.of(context).textTheme.bodySmall),
+              ),
             ],
           ),
           shape: const RoundedRectangleBorder(
@@ -81,33 +87,36 @@ class PhonemeViewState extends State<PhonemeView>
               return SingleChildScrollView(
                   child: _ListViewCustomized(tasks: snapshot.data ?? []));
             } else if (snapshot.data?.length == 0) {
-              return Column(
+              return Center(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Center(
-                      child: SizedBox(
-                          height: 200,
-                          width: 200,
-                          child: Lottie.asset(
-                            'assets/animations/NoResults.json',
-                            controller: _controller,
-                            onLoaded: (composition) {
-                              // Configure the AnimationController with the duration of the
-                              // Lottie file and start the animation.
-                              _controller
-                                ..duration = composition.duration
-                                ..repeat();
-                            },
-                          )),
+                    Lottie.asset(
+                      'assets/animations/NoResults.json',
+                      controller: _controller,
+                      onLoaded: (composition) {
+                        _controller
+                          ..duration = composition.duration
+                          ..repeat();
+                      },
+                      width:
+                          200, // Ajusta el ancho de la animación según tus necesidades
+                      height:
+                          200, // Ajusta el alto de la animación según tus necesidades
                     ),
+                    const SizedBox(
+                        height: 50), // Espacio entre la animación y el texto
                     Text(
                       "Aún no posee ejercicios asignados",
                       style: GoogleFonts.nunito(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Theme.of(context).primaryColorDark),
-                    )
-                  ]);
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Theme.of(context).primaryColorDark,
+                      ),
+                    ),
+                  ],
+                ),
+              );
             } else {
               return const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
