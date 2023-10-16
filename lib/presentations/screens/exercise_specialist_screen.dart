@@ -12,31 +12,17 @@ import '../../config/theme/app_theme.dart';
 import '../../models/exercise_model.dart';
 import '../../providers/recorder_provider.dart';
 
-class ExerciseParameters {
-  final int idPhoneme;
-  final String namePhoneme;
-  final List<Categories> categories;
-  final int level;
-
-  final int idTask;
-  const ExerciseParameters(
-      {required this.idPhoneme,
-      required this.namePhoneme,
-      required this.categories,
-      required this.level,
-      required this.idTask});
-}
-
 // ignore: must_be_immutable
-class ExerciseScreen extends StatefulWidget {
-  final ExerciseParameters object;
-  const ExerciseScreen({super.key, required this.object});
+class ExerciseSpecialistScreen extends StatefulWidget {
+  Map<String, dynamic> queryParameters;
+  ExerciseSpecialistScreen({super.key, required this.queryParameters});
 
   @override
-  ExerciseScreenState createState() => ExerciseScreenState();
+  ExerciseSpecialistScreenState createState() =>
+      ExerciseSpecialistScreenState();
 }
 
-class ExerciseScreenState extends State<ExerciseScreen>
+class ExerciseSpecialistScreenState extends State<ExerciseSpecialistScreen>
     with TickerProviderStateMixin {
   final PageController _pc = PageController();
   Future? _fetchData;
@@ -44,23 +30,16 @@ class ExerciseScreenState extends State<ExerciseScreen>
   late final AnimationController _controller;
 
   Future fetchData() async {
-    Map<String, dynamic> data = {
-      "idPhoneme": widget.object.idPhoneme,
-      "level": widget.object.level,
-      "categories": widget.object.categories.map((category) {
-        return category.toString().split('.').last;
-      }).toList()
-    };
-    final response = await Api.post(Param.getExercises, data);
+    final response = await Api.get(Param.getExercisesCustom,
+        queryParameters: widget.queryParameters);
     await Future.delayed(const Duration(seconds: 3), () {
-      if (response is! String && response != null) {
-        for (var element in response.data) {
-          _pagesExercisesFounded.add(ExerciseModel.fromJson(element)
-              .fromEntity(widget.object.namePhoneme));
+      if (response != null) {
+        for (var element in response) {
+          _pagesExercisesFounded
+              .add(ExerciseModel.fromJson(element).fromEntity(""));
         }
       }
     });
-    if (response == null) return Response(requestOptions: RequestOptions());
     return response;
   }
 
@@ -88,7 +67,6 @@ class ExerciseScreenState extends State<ExerciseScreen>
     final recorderProv = context.watch<RecorderProvider>();
     final authProvider = context.watch<AuthProvider>();
 
-    exerciseProv.setIdTaskActive(widget.object.idTask);
     return Scaffold(
       body: FutureBuilder(
           future: _fetchData,
@@ -171,16 +149,13 @@ class ExerciseScreenState extends State<ExerciseScreen>
                                         as int),
                               ),
                               Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 16, bottom: 8, top: 8, left: 8),
-                                    child: LinearProgressIndicator(
-                                                                  backgroundColor: colorList[7],
-                                                                  color: colorList[4],
-                                                                  value: currentPageIndex /
-                                      _pagesExercisesFounded.length,
-                                                                  minHeight: 6,
-                                                                ),
-                                  )),
+                                  child: LinearProgressIndicator(
+                                backgroundColor: colorList[7],
+                                color: colorList[4],
+                                value: currentPageIndex /
+                                    _pagesExercisesFounded.length,
+                                minHeight: 6,
+                              )),
                             ],
                           ),
                           Expanded(
@@ -282,7 +257,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
                               )),
                           const SizedBox(height: 50),
                           SizedBox(
-                            height: 55.0,
+                            height: 50.0,
                             width: 250.0,
                             // Ancho personalizado
                             child: Stack(
@@ -290,7 +265,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
                                 Positioned(
                                   bottom: 0,
                                   child: Container(
-                                    height: 51,
+                                    height: 46,
                                     width: 246,
                                     decoration: BoxDecoration(
                                       color: colorList[1],
@@ -301,8 +276,8 @@ class ExerciseScreenState extends State<ExerciseScreen>
                                   ),
                                 ),
                                 Container(
-                                  height: 49,
-                                  width: 270,
+                                  height: 44,
+                                  width: 244,
                                   decoration: BoxDecoration(
                                     color: colorList[0],
                                     borderRadius: const BorderRadius.all(
@@ -316,9 +291,14 @@ class ExerciseScreenState extends State<ExerciseScreen>
                                       recorderProv.resetProvider();
                                       exerciseProv.sendResultsExercises();
 
-                                      context.go('/',
-                                          extra: authProvider.prefs
-                                              .getInt('userId') as int);
+                                      if (widget.queryParameters == null) {
+                                        context.go('/',
+                                            extra: authProvider.prefs
+                                                .getInt('userId') as int);
+                                      } else {
+                                        //VIENE DE TEST_EXERCISES
+                                        Navigator.pop(context);
+                                      }
                                     },
                                     backgroundColor: colorList[0],
                                     elevation: 10.0,
@@ -326,12 +306,10 @@ class ExerciseScreenState extends State<ExerciseScreen>
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Text(" CONTINUAR",
-                                            style: GoogleFonts.nunito(
-                                              fontSize: 15,
-                                              color: colorList[2],
-                                              fontWeight: FontWeight.w800
-                                            ))
+                                        Text("FINALIZAR EJERCICIO",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .displaySmall)
                                       ],
                                     ),
                                   ),
@@ -423,7 +401,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "FINALIZAR EJERCICIO",
+                    "CONTINUAR",
                     style: GoogleFonts.nunito(
                       fontWeight: FontWeight.w800,
                       fontSize: 14,

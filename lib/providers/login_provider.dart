@@ -45,12 +45,8 @@ class LoginProvider extends ChangeNotifier {
     AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
     await auth.login(email.value, password.value);
     if (auth.loggedInStatus == Status.LoggedIn) {
-      if (auth.typeUser == 'professional') {
-        context.go('/choice_patient');
-      } else {
-        int idP = auth.prefs.getInt('userId') as int;
-        context.go('/', extra: idP);
-      }
+      int idP = auth.prefs.getInt('userId') as int;
+      context.go('/', extra: idP);
     }
     /*auth.login(email.value, password.value).then((value) => {
           if (auth.loggedInStatus == Status.LoggedIn)

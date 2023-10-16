@@ -26,6 +26,7 @@ class Param {
   static const getExercisesCustom = "/tasks/generate-custom";
   static const getExercises = "/tasks/items";
   static const getTasks = "/tasks/";
+  static const getAllPhonemes = "/phonemes";
   static const getPending = "/pending/1";
   static const getGroupExercises = "/groupExercises";
   static const modelWhisper = "whisper-1";
