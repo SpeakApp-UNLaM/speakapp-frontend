@@ -144,17 +144,19 @@ class ExerciseSpecialistScreenState extends State<ExerciseSpecialistScreen>
                             children: <Widget>[
                               IconButton(
                                 icon: const Icon(Icons.close),
-                                onPressed: () => context.push('/',
-                                    extra: authProvider.prefs.getInt('userId')
-                                        as int),
+                                onPressed: () => Navigator.pop(context),
                               ),
                               Expanded(
-                                  child: LinearProgressIndicator(
-                                backgroundColor: colorList[7],
-                                color: colorList[4],
-                                value: currentPageIndex /
-                                    _pagesExercisesFounded.length,
-                                minHeight: 6,
+                                  child: Padding(
+                                padding: const EdgeInsets.only(
+                                    right: 16, bottom: 8, top: 8, left: 8),
+                                child: LinearProgressIndicator(
+                                  backgroundColor: colorList[7],
+                                  color: colorList[4],
+                                  value: currentPageIndex /
+                                      _pagesExercisesFounded.length,
+                                  minHeight: 6,
+                                ),
                               )),
                             ],
                           ),

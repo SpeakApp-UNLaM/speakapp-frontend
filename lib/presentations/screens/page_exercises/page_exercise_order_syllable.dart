@@ -55,14 +55,28 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                 Text('¡Vamos a practicar! \nFormemos la palabra',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.nunito(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 20,
-                      color: Theme.of(context).primaryColorDark)),
-                Text(widget.namePhoneme,
-                    style: TextStyle(
-                        fontFamily: 'IkkaRounded',
-                        fontSize: 50,
-                        color: colorList[1])),
+                        fontWeight: FontWeight.w800,
+                        fontSize: 20,
+                        color: Theme.of(context).primaryColorDark)),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                        widget.namePhoneme
+                            .replaceAll("CONSONANTICA", "")
+                            .trim(),
+                        style: GoogleFonts.nunito(
+                            fontSize: 50,
+                            color: colorList[2],
+                            fontWeight: FontWeight.w900)),
+                    if (widget.namePhoneme.length > 3)
+                      Text("Consonántica",
+                          style: GoogleFonts.nunito(
+                              fontSize: 36,
+                              color: colorList[2],
+                              fontWeight: FontWeight.w900))
+                  ],
+                ),
                 const SizedBox(height: 40.0),
                 GestureDetector(
                   onTap: () {
