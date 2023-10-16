@@ -171,13 +171,16 @@ class ExerciseScreenState extends State<ExerciseScreen>
                                         as int),
                               ),
                               Expanded(
-                                  child: LinearProgressIndicator(
-                                backgroundColor: colorList[7],
-                                color: colorList[4],
-                                value: currentPageIndex /
-                                    _pagesExercisesFounded.length,
-                                minHeight: 6,
-                              )),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 16, bottom: 8, top: 8, left: 8),
+                                    child: LinearProgressIndicator(
+                                                                  backgroundColor: colorList[7],
+                                                                  color: colorList[4],
+                                                                  value: currentPageIndex /
+                                      _pagesExercisesFounded.length,
+                                                                  minHeight: 6,
+                                                                ),
+                                  )),
                             ],
                           ),
                           Expanded(
@@ -279,7 +282,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
                               )),
                           const SizedBox(height: 50),
                           SizedBox(
-                            height: 50.0,
+                            height: 55.0,
                             width: 250.0,
                             // Ancho personalizado
                             child: Stack(
@@ -287,7 +290,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
                                 Positioned(
                                   bottom: 0,
                                   child: Container(
-                                    height: 46,
+                                    height: 51,
                                     width: 246,
                                     decoration: BoxDecoration(
                                       color: colorList[1],
@@ -298,8 +301,8 @@ class ExerciseScreenState extends State<ExerciseScreen>
                                   ),
                                 ),
                                 Container(
-                                  height: 44,
-                                  width: 244,
+                                  height: 49,
+                                  width: 270,
                                   decoration: BoxDecoration(
                                     color: colorList[0],
                                     borderRadius: const BorderRadius.all(
@@ -323,10 +326,12 @@ class ExerciseScreenState extends State<ExerciseScreen>
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Text("FINALIZAR EJERCICIO",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .displaySmall)
+                                        Text(" CONTINUAR",
+                                            style: GoogleFonts.nunito(
+                                              fontSize: 15,
+                                              color: colorList[2],
+                                              fontWeight: FontWeight.w800
+                                            ))
                                       ],
                                     ),
                                   ),
@@ -418,7 +423,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "CONTINUAR",
+                    "FINALIZAR EJERCICIO",
                     style: GoogleFonts.nunito(
                       fontWeight: FontWeight.w800,
                       fontSize: 14,
