@@ -57,14 +57,26 @@ class PageExerciseSingleSelectionWordState
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                  '¡Vamos a practicar! \n¿Cuál imágen se corresponde al siguiente fonema?',
+              Text('¡Vamos a practicar!',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.nunito(
                       fontWeight: FontWeight.w800,
                       fontSize: 20,
                       color: Theme.of(context).primaryColorDark)),
-              const SizedBox(height: 40.0),
+              const SizedBox(height: 30.0),
+              Text('¿Cuál imagen corresponde al siguiente fonema?',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.nunito(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                      color: Theme.of(context).primaryColorDark)),
+              const SizedBox(height: 20.0),
+              Text(widget.namePhoneme,
+                  style: TextStyle(
+                      fontFamily: 'IkkaRounded',
+                      fontSize: 50,
+                      color: colorList[1])),
+              const SizedBox(height: 60.0),
               drawImages(exerciseProv),
             ],
           ),
@@ -97,36 +109,49 @@ class PageExerciseSingleSelectionWordState
               //exerciseProv.finishExercise();
               setState(() {});
             },
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      color:
-                          Colors.black.withOpacity(0.1), // Color de la sombra
-                      blurRadius: 5, // Radio de desenfoque
-                      offset: Offset(0, 4))
-                ],
-                color: Colors.white,
-                borderRadius: const BorderRadius.all(Radius.circular(16)),
-                border: Border.all(
-                  color: imageSelected == img.name
-                      ? colorList[1]
-                      : Colors.grey.shade300,
-                  width: 3.0,
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Container(
-                  margin: const EdgeInsets.all(8),
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: SizedBox(
-                    width: Param.tamImages,
-                    height: Param.tamImages,
-                    child: _listImages[widget.images.indexOf(img)],
+            child: Stack(
+              children: [
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 5,
+                        offset: Offset(0, 4),
+                      ),
+                    ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(16)),
+                    border: Border.all(
+                      color: imageSelected == img.name
+                          ? colorList[1]
+                          : Colors.grey.shade300,
+                      width: 3.0,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Container(
+                      margin: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: SizedBox(
+                        width: Param.tamImages,
+                        height: Param.tamImages,
+                        child: _listImages[widget.images.indexOf(img)],
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                Positioned(
+                  bottom: 7,
+                  right: 7,
+                  child: Icon(
+                    Icons.volume_up,
+                    color: colorList[4],
+                    size: 24,
+                  ),
+                ),
+              ],
             ),
           ),
       ],
