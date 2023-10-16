@@ -10,6 +10,17 @@ import '../../../domain/entities/result_pair_images.dart';
 import '../../../models/image_model.dart';
 import '../../../providers/tts_provider.dart';
 
+const colorListPairImages = <Color>[
+  Colors.blue,
+  Colors.brown,
+  Colors.red,
+  Colors.purple,
+  Colors.green,
+  Colors.orange,
+  Colors.blueGrey,
+  Colors.lime
+];
+
 class PageExerciseMultipleMatchSel extends StatefulWidget {
   final int idTaskItem;
   final List<ImageExerciseModel> images;
@@ -44,16 +55,9 @@ class PageExerciseMultipleMatchSelState
   }
 
   List<String> audiosSelected = [], imagesSelected = [];
-  late List<ResultPairImages> pairImages;
+  List<ResultPairImages> pairImages = [];
   @override
   Widget build(BuildContext context) {
-    const colors = <Color>[
-      Color(0xFFffa834),
-      Color(0xFF72bb53),
-      Color(0xFF91e4fb),
-      Color(0xFFce82ff),
-    ];
-    print("multiple_match_sel");
     final exerciseProv = context.watch<ExerciseProvider>();
     return Scaffold(
       body: SingleChildScrollView(
@@ -76,7 +80,7 @@ class PageExerciseMultipleMatchSelState
                 children: widget.images.map((img) {
                   final isSelected = audiosSelected.contains(img.name);
                   final borderColor = isSelected
-                      ? colors[audiosSelected.indexOf(img.name)]
+                      ? colorListPairImages[audiosSelected.indexOf(img.name)]
                       : Colors.grey.shade300;
 
                   return GestureDetector(
@@ -85,14 +89,16 @@ class PageExerciseMultipleMatchSelState
                         final index = audiosSelected.indexOf(img.name);
                         if (imagesSelected.length >= audiosSelected.length) {
                           imagesSelected.removeAt(index);
-                          pairImages.removeAt(index);
                         }
+
+                        pairImages.removeAt(index);
                         audiosSelected.remove(img.name);
                       } else {
                         TtsProvider().speak(img.name);
                         audiosSelected.add(img.name);
                         int auxIndex = audiosSelected.lastIndexOf(img.name);
-                        if (pairImages[auxIndex] != null) {
+                        if (pairImages.isNotEmpty &&
+                            auxIndex < pairImages.length) {
                           pairImages[auxIndex].setAudio(img.name);
                         } else {
                           pairImages.add(ResultPairImages(
@@ -151,7 +157,8 @@ class PageExerciseMultipleMatchSelState
                 children: widget.images.map((img) {
                   final isSelected = imagesSelected.contains(img.imageData);
                   final borderColor = isSelected
-                      ? colors[imagesSelected.indexOf(img.imageData)]
+                      ? colorListPairImages[
+                          imagesSelected.indexOf(img.imageData)]
                       : Colors.grey.shade300;
 
                   return GestureDetector(
@@ -160,15 +167,16 @@ class PageExerciseMultipleMatchSelState
                         final index = imagesSelected.indexOf(img.imageData);
                         if (audiosSelected.length >= imagesSelected.length) {
                           audiosSelected.removeAt(index);
-                          pairImages.removeAt(index);
                         }
+                        pairImages.removeAt(index);
                         imagesSelected.remove(img.imageData);
                       } else {
                         imagesSelected.add(img.imageData);
                         int auxIndex =
                             imagesSelected.lastIndexOf(img.imageData);
-                        if (pairImages[auxIndex] != null) {
-                          pairImages[auxIndex].setIdImage(1);
+                        if (pairImages.isNotEmpty &&
+                            auxIndex < pairImages.length) {
+                          pairImages[auxIndex].setIdImage(img.idImage);
                         } else {
                           pairImages.add(ResultPairImages(
                               idImage: img.idImage, nameImage: ""));

@@ -9,18 +9,19 @@ import '../../config/theme/app_theme.dart';
 import '../../models/patient_model.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/login_provider.dart';
-import 'home_screen_specialist.dart';
+import 'home_specialist_screen.dart';
 
-class CardUser extends StatefulWidget {
-  const CardUser({
+class ChoicePatientScreen extends StatefulWidget {
+  const ChoicePatientScreen({
     super.key,
   });
 
   @override
-  CardUserState createState() => CardUserState();
+  ChoicePatientScreenState createState() => ChoicePatientScreenState();
 }
 
-class CardUserState extends State<CardUser> with TickerProviderStateMixin {
+class ChoicePatientScreenState extends State<ChoicePatientScreen>
+    with TickerProviderStateMixin {
   final List<PatientModel> _patientsList = [];
   Future? _fetchData;
 
@@ -45,105 +46,6 @@ class CardUserState extends State<CardUser> with TickerProviderStateMixin {
     AuthProvider authProvider =
         Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 70,
-        titleSpacing: 20,
-        backgroundColor: Theme.of(context).primaryColor,
-        title: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Hola!', style: Theme.of(context).textTheme.labelSmall),
-            Text('Tomas Gonzalez',
-                style: Theme.of(context).textTheme.labelMedium)
-          ],
-        ),
-        actions: <Widget>[
-          Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {},
-                child: PopupMenuButton(
-                    color: colorList[7],
-                    onSelected: (sampleItem) {},
-                    itemBuilder: (BuildContext context) =>
-                        <PopupMenuEntry<SampleItem>>[
-                          const PopupMenuItem<SampleItem>(
-                            value: SampleItem.config,
-                            child: Row(
-                              children: [
-                                Icon(Icons.settings),
-                                SizedBox(width: 8),
-                                Text('Configuración'),
-                              ],
-                            ),
-                          ),
-                          const PopupMenuDivider(),
-                          const PopupMenuItem<SampleItem>(
-                            value: SampleItem.logOut,
-                            child: Row(
-                              children: [
-                                Icon(Icons.logout),
-                                SizedBox(width: 8),
-                                Text('Salir'),
-                              ],
-                            ),
-                          ),
-                        ],
-                    child: Icon(
-                      Icons.notifications,
-                      color: colorList[7],
-                    )),
-              )),
-          Padding(
-            padding: const EdgeInsets.only(right: 20.0),
-            child: PopupMenuButton(
-                color: colorList[7],
-                onSelected: (SampleItem item) {
-                  switch (item) {
-                    case SampleItem.logOut:
-                      context.read<LoginProvider>().onLogOut(context);
-                    default:
-                      return;
-                  }
-                },
-                itemBuilder: (BuildContext context) =>
-                    <PopupMenuEntry<SampleItem>>[
-                      const PopupMenuItem<SampleItem>(
-                        value: SampleItem.config,
-                        child: Row(
-                          children: [
-                            Icon(Icons.settings),
-                            SizedBox(width: 8),
-                            Text('Configuración'),
-                          ],
-                        ),
-                      ),
-                      const PopupMenuDivider(),
-                      const PopupMenuItem<SampleItem>(
-                        value: SampleItem.logOut,
-                        child: Row(
-                          children: [
-                            Icon(Icons.logout),
-                            SizedBox(width: 8),
-                            Text('Salir'),
-                          ],
-                        ),
-                      ),
-                    ],
-                child: const CircleAvatar(
-                  //TODO GET IMAGE FROM USER
-                  backgroundImage: AssetImage('assets/niño-feliz.jpg'),
-                )),
-          ),
-        ],
-        bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(1.0),
-            child: Container(
-              color: Theme.of(context).primaryColorLight,
-              height: 1.0,
-            )),
-      ),
       body: Container(
         width: MediaQuery.of(context)
             .size
@@ -218,7 +120,7 @@ class CardUserState extends State<CardUser> with TickerProviderStateMixin {
                                       onPressed: () {
                                         authProvider.selectUser(
                                             _patientsList[index].idPatient);
-                                        context.go("/",
+                                        context.push("/rfi",
                                             extra:
                                                 _patientsList[index].idPatient);
                                       },

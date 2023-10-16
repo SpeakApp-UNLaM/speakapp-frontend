@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
+import 'package:sp_front/presentations/screens/choice_patient_screen.dart';
 
 class RfiView extends StatefulWidget {
   static const String name = 'rfi_view';
@@ -48,7 +49,11 @@ class RfiViewState extends State<RfiView> with TickerProviderStateMixin {
             ),
           ),
         ),
-        body: Center(
+        body: const ChoicePatientScreen());
+  }
+}
+
+/*Center(
           child: FilledButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: colorList[4],
@@ -60,6 +65,4 @@ class RfiViewState extends State<RfiView> with TickerProviderStateMixin {
                 "Comenzar Test RFI",
                 style: Theme.of(context).textTheme.labelSmall,
               )),
-        ));
-  }
-}
+        )*/

@@ -9,12 +9,12 @@ import '../../providers/login_provider.dart';
 
 enum SampleItem { config, logOut }
 
-class HomeScreenSpecialist extends StatelessWidget {
+class HomeSpecialistScreen extends StatelessWidget {
   static const name = 'home-screen';
 
   final Widget childView;
 
-  const HomeScreenSpecialist({super.key, required this.childView});
+  const HomeSpecialistScreen({super.key, required this.childView});
 
   @override
   Widget build(BuildContext context) {

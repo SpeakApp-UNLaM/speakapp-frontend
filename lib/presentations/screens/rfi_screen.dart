@@ -31,7 +31,6 @@ class RfiScreenState extends State<RfiScreen> with TickerProviderStateMixin {
   final List<RFI> _rfiImages = [];
   final List<RFIExerciseModel> _rfiResults = [];
   void _listenController() => setState(() {});
-
   @override
   void initState() {
     super.initState();
@@ -60,7 +59,6 @@ class RfiScreenState extends State<RfiScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  int indexCards = 0;
   @override
   Widget build(BuildContext context) {
     final authProvider = context.watch<AuthProvider>();
@@ -138,14 +136,30 @@ class RfiScreenState extends State<RfiScreen> with TickerProviderStateMixin {
                 children: [
                   Visibility(
                     visible: !exerciseProv.isExerciseFinished,
-                    child: LinearProgressIndicator(
-                      backgroundColor: colorList[7],
-                      color: colorList[4],
-                      value: indexCards / _rfiImages.length,
-                      minHeight: 6,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width - 90),
+                          child: LinearProgressIndicator(
+                            backgroundColor: colorList[7],
+                            color: colorList[4],
+                            value: _controllerSwipable.currentIndex /
+                                _rfiImages.length,
+                            minHeight: 6,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child:
+                              Text(" ${_controllerSwipable.currentIndex}/57"),
+                        )
+                      ],
                     ),
                   ),
                   SwipableStack(
+                    stackClipBehaviour: Clip.none,
                     onSwipeCompleted: (index, direction) {
                       if (direction == SwipeDirection.left) {
                         _rfiResults.add(RFIExerciseModel(
@@ -160,10 +174,9 @@ class RfiScreenState extends State<RfiScreen> with TickerProviderStateMixin {
                             name: _rfiImages[index].name,
                             status: "YES"));
                       }
-                      setState(() {
-                        indexCards++;
-                      });
-                      if (indexCards >= _rfiImages.length) {
+                      setState(() {});
+                      if (_controllerSwipable.currentIndex >=
+                          _rfiImages.length - 1) {
                         exerciseProv.saveParcialResult(ResultExercise(
                             type: TypeExercise.consonantal_syllable,
                             audio: "audio",
@@ -183,41 +196,43 @@ class RfiScreenState extends State<RfiScreen> with TickerProviderStateMixin {
                         overlayBuilderCard(swipeProperty),
                     itemCount: _rfiImages.length,
                     builder: (context, properties) {
-                      return Center(
-                          child: Container(
-                              width: MediaQuery.of(context).size.width - 50,
-                              height: MediaQuery.of(context).size.height - 350,
-                              decoration: const BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(16)),
-                              ), // Establecer la altura deseada
-                              child: Card(
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width -
-                                          -50,
-                                      child: Image.memory(
-                                        base64.decode(
-                                            _rfiImages[properties.index]
-                                                .imageData),
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 30,
-                                    ),
-                                    Text(
-                                      _rfiImages[properties.index]
-                                          .name
-                                          .toUpperCase(),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
-                                    )
-                                  ],
+                      return Padding(
+                        padding: const EdgeInsets.all(50.0),
+                        child: Container(
+                          padding: const EdgeInsets.all(40),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(16)),
+                              border: Border.all(
+                                color: Colors.grey.shade300,
+                                width: 4.0,
+                              )),
+                          width: MediaQuery.of(context).size.width - 50,
+                          height: MediaQuery.of(context).size.height - 300,
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                width: double
+                                    .infinity, // Ajusta la altura de la imagen según tus necesidades
+                                child: Image.memory(
+                                  base64.decode(
+                                      _rfiImages[properties.index].imageData),
+                                  fit: BoxFit.cover,
                                 ),
-                              )));
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Text(_rfiImages[properties.index]
+                                  .name
+                                  .toUpperCase()),
+                            ],
+                          ),
+                        ),
+                      );
                     },
                   ),
                   Visibility(
@@ -269,7 +284,7 @@ class RfiScreenState extends State<RfiScreen> with TickerProviderStateMixin {
                                   )),
                             ),
                             const SizedBox(height: 50),
-                            Container(
+                            SizedBox(
                                 width: 600,
                                 height: 450,
                                 child: Lottie.asset(
@@ -314,11 +329,11 @@ class RfiScreenState extends State<RfiScreen> with TickerProviderStateMixin {
                                     ),
                                     child: FloatingActionButton(
                                       onPressed: () async {
-                                        int idPatient = authProvider.prefs
-                                            .getInt('userId') as int;
+                                        int idPatient =
+                                            authProvider.userSelected;
                                         exerciseProv.sendRFIResults(
                                             _rfiResults, idPatient);
-                                        context.go('/', extra: idPatient);
+                                        context.go('/', extra: 1);
                                       },
                                       backgroundColor: colorList[0],
                                       elevation: 10.0,
@@ -350,26 +365,14 @@ class RfiScreenState extends State<RfiScreen> with TickerProviderStateMixin {
   }
 
   Widget overlayBuilderCard(OverlaySwipeProperties swipeProperty) {
-    return Center(
+    return Padding(
+      padding: const EdgeInsets.all(50.0),
       child: SizedBox(
         width: MediaQuery.of(context).size.width - 50,
-        height: MediaQuery.of(context).size.height - 350,
+        height: MediaQuery.of(context).size.height - 300,
         child: Opacity(
             opacity: min(swipeProperty.swipeProgress, .8),
-            child: Card(
-              elevation: 10,
-              child: swipeProperty.direction == SwipeDirection.right
-                  ? const Icon(
-                      Icons.check_circle,
-                      color: Colors.green,
-                      size: 60.0,
-                    )
-                  : const Icon(
-                      Icons.remove_circle,
-                      color: Colors.red,
-                      size: 60.0,
-                    ),
-            )),
+            child: const Card(elevation: 10, child: Text(""))),
       ),
     );
   }
@@ -381,10 +384,7 @@ class RfiScreenState extends State<RfiScreen> with TickerProviderStateMixin {
         heroTag: 'rewind_rfi',
         onPressed: () {
           setState(() {
-            indexCards--;
-            if (indexCards < 0) {
-              indexCards = 0;
-            } else {
+            if (_rfiResults.isNotEmpty) {
               _rfiResults.removeLast();
               _controllerSwipable.rewind();
             }
@@ -403,10 +403,9 @@ class RfiScreenState extends State<RfiScreen> with TickerProviderStateMixin {
       child: FloatingActionButton(
         heroTag: 'reset_rfi',
         onPressed: () {
-          _controllerSwipable.currentIndex = 0;
           setState(() {
+            _controllerSwipable.currentIndex = 0;
             _rfiResults.clear();
-            indexCards = 0;
           });
         },
         child: const Icon(

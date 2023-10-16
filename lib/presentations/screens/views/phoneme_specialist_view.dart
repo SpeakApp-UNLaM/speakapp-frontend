@@ -2,23 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
-import 'package:sp_front/presentations/widgets/button_phoneme.dart';
 import 'package:sp_front/presentations/widgets/lottie_animation.dart';
 import '../../../config/helpers/task_handled.dart';
-import '../../../domain/entities/task.dart';
+import '../../../domain/entities/phoneme.dart';
+import '../../widgets/button_phoneme_specialist.dart';
 
-class PhonemeView extends StatefulWidget {
-  static const String name = 'pending';
-  final int idPatient;
-  const PhonemeView({Key? key, required this.idPatient}) : super(key: key);
+class PhonemeSpecialistView extends StatefulWidget {
+  static const String name = 'phonemeSpecialistView';
+  const PhonemeSpecialistView({Key? key}) : super(key: key);
 
   @override
-  PhonemeViewState createState() => PhonemeViewState();
+  PhonemeSpecialistViewState createState() => PhonemeSpecialistViewState();
 }
 
-class PhonemeViewState extends State<PhonemeView>
+class PhonemeSpecialistViewState extends State<PhonemeSpecialistView>
     with TickerProviderStateMixin {
-  List<ButtonPhoneme> buttonsGroupLists = [];
   TaskHandled taskHandled = TaskHandled();
   late final AnimationController _controller;
 
@@ -57,8 +55,8 @@ class PhonemeViewState extends State<PhonemeView>
             ),
           ),
         ),
-        body: FutureBuilder<List<Task>>(
-          future: taskHandled.fetchData(idPatient: widget.idPatient),
+        body: FutureBuilder<List<Phoneme>>(
+          future: taskHandled.fetchAllPhonemes(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
@@ -77,9 +75,11 @@ class PhonemeViewState extends State<PhonemeView>
               );
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
+              // ignore: prefer_is_empty
             } else if (snapshot.hasData && snapshot.data?.length != 0) {
               return SingleChildScrollView(
-                  child: _ListViewCustomized(tasks: snapshot.data ?? []));
+                  child: _ListViewCustomized(phonemes: snapshot.data ?? []));
+              // ignore: prefer_is_empty
             } else if (snapshot.data?.length == 0) {
               return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -128,19 +128,19 @@ class PhonemeViewState extends State<PhonemeView>
 }
 
 class _ListViewCustomized extends StatelessWidget {
-  final List<ButtonPhoneme> buttonsGroupLists = [];
+  final List<ButtonPhonemeSpecialist> buttonsGroupLists = [];
 
-  final List<Task> tasks;
+  final List<Phoneme> phonemes;
 
-  _ListViewCustomized({required this.tasks});
+  _ListViewCustomized({required this.phonemes});
 
   @override
   Widget build(BuildContext context) {
-    if (tasks.isNotEmpty) {
-      for (int i = 0; i < tasks.length; i++) {
-        buttonsGroupLists.add(ButtonPhoneme(
-          tag: tasks[i].phoneme.idPhoneme.toString(),
-          task: tasks[i],
+    if (phonemes.isNotEmpty) {
+      for (int i = 0; i < phonemes.length; i++) {
+        buttonsGroupLists.add(ButtonPhonemeSpecialist(
+          tag: phonemes[i].idPhoneme.toString(),
+          phoneme: phonemes[i],
         ));
       }
     }
