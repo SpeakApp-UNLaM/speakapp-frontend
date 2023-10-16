@@ -13,6 +13,12 @@ class Api {
     };
   }
 
+  static void setToken(String token) {
+    if (token != "") {
+      _dio.options.headers[HttpHeaders.authorizationHeader] = "Bearer $token";
+    }
+  }
+
   static Future get(String path,
       {Map<String, dynamic>? queryParameters}) async {
     try {

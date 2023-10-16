@@ -15,12 +15,16 @@ class PageExerciseConsonantalSyllable extends StatefulWidget {
   final int idTaskItem;
   final List<ImageExerciseModel> images;
   final String namePhoneme;
-  const PageExerciseConsonantalSyllable(
-      {Key? key,
-      required this.images,
-      required this.namePhoneme,
-      required this.idTaskItem})
-      : super(key: key);
+  final String incorrectSyllable;
+  final String correctSyllable;
+  const PageExerciseConsonantalSyllable({
+    Key? key,
+    required this.images,
+    required this.namePhoneme,
+    required this.idTaskItem,
+    required this.incorrectSyllable,
+    required this.correctSyllable,
+  }) : super(key: key);
 
   @override
   PageExerciseConsonantalSyllableState createState() =>
@@ -46,7 +50,10 @@ class PageExerciseConsonantalSyllableState
   String syllableSelected = "";
   @override
   Widget build(BuildContext context) {
-    final List<String> syllables = widget.images.first.getSyllables();
+    final List<String> syllables = [
+      widget.incorrectSyllable,
+      widget.correctSyllable,
+    ];
     final exerciseProv = context.watch<ExerciseProvider>();
     return Scaffold(
       body: SingleChildScrollView(

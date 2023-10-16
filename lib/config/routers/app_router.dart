@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_front/presentations/screens/choice_exercise_screen.dart';
+import 'package:sp_front/presentations/screens/choice_exercise_specialist_screen.dart';
 import 'package:sp_front/presentations/screens/choice_patient_screen.dart';
 import 'package:sp_front/presentations/screens/home_specialist_screen.dart';
 import 'package:sp_front/providers/auth_provider.dart';
@@ -14,7 +15,6 @@ import '../../presentations/screens/exercise_specialist_screen.dart';
 import '../../presentations/screens/rfi_screen.dart';
 import '../../presentations/screens/views.dart';
 import '../../presentations/screens/views/phoneme_specialist_view.dart';
-import '../../test_exercises.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> _shellNavigator =

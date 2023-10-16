@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../auth/user.dart';
 import '../auth/user_preferences.dart';
@@ -67,10 +68,11 @@ class AuthProvider with ChangeNotifier {
 
       loggedIn = true;
       //User authUser = User.fromJson(userData);
-      responseData['type'] = "patient";
-      if (responseData['username'] != "PATIENT") {
-        responseData['type'] = "professional";
-      }
+      Map<String, dynamic> decodedToken =
+          JwtDecoder.decode(responseData['token']);
+      responseData['type'] =
+          decodedToken['is_patient'] ? "patient" : "professional";
+      Api.setToken(responseData['token']);
       User authUser = User(
           userId: responseData['idUser'],
           username: responseData['username'],

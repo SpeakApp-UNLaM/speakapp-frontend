@@ -30,11 +30,11 @@ class PageExerciseOrderSyllabe extends StatefulWidget {
 class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
   List<String> formedWord = [];
   late Image _image;
-
+  List<String> possibleSyllables = [];
   @override
   void initState() {
     super.initState();
-
+    possibleSyllables = [...widget.syllables];
     _image = Image.memory(
       base64.decode(widget.img.imageData),
       fit: BoxFit.cover,
@@ -55,9 +55,9 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                 Text('¡Vamos a practicar! \nFormemos la palabra',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.nunito(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 20,
-                      color: Theme.of(context).primaryColorDark)),
+                        fontWeight: FontWeight.w800,
+                        fontSize: 20,
+                        color: Theme.of(context).primaryColorDark)),
                 Text(widget.namePhoneme,
                     style: TextStyle(
                         fontFamily: 'IkkaRounded',
@@ -91,10 +91,11 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                     return DragTarget<String>(
                       onAccept: (value) {
                         setState(() {
-                          formedWord.removeWhere((element) => element.isEmpty);
+                          possibleSyllables.remove(value);
+                          //formedWord.removeWhere((element) => element.isEmpty);
                           formedWord.add(value);
                           if (widget.syllables.length > formedWord.length) {
-                            formedWord.add("");
+                            //formedWord.add("");
                           } else {
                             exerciseProv.saveParcialResult(ResultExercise(
                                 idTaskItem: widget.idTaskItem,
@@ -130,9 +131,7 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                 Wrap(
                   spacing: 20,
                   runSpacing: 20,
-                  children: widget.syllables
-                      .where((syllable) => !formedWord.contains(syllable))
-                      .map((syllable) {
+                  children: possibleSyllables.map((syllable) {
                     return Draggable<String>(
                       data: syllable,
                       feedback: ReorderableSyllableWidget(syllable: syllable),
@@ -181,8 +180,9 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      formedWord.clear();
-                      formedWord.add("");
+                      print("asd");
+                      formedWord = [];
+                      possibleSyllables = [...widget.syllables];
                       //exerciseProv.unfinishExercise();
                     });
                   },

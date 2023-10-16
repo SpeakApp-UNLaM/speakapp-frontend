@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sp_front/auth/user_preferences.dart';
 import 'package:sp_front/config/routers/app_router.dart';
 import 'package:sp_front/providers/auth_provider.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
@@ -18,6 +21,7 @@ Future<void> main() async {
 
   FlutterNativeSplash.remove();
   state.checkLoggedIn();
+
   runApp(AudioRecorderApp(authProvider: state));
   //UserPreferences().removeUser();
 }

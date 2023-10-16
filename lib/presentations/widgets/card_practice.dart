@@ -76,7 +76,7 @@ class CardPractice extends StatelessWidget {
                             backgroundColor:
                                 colorList[4], // Cambia el color de fondo aquí
                           ),
-                          onPressed: () async {
+                          onPressed: () {
                             ExerciseParameters params = ExerciseParameters(
                                 idPhoneme: idPhoneme,
                                 namePhoneme: namePhoneme,
@@ -86,7 +86,7 @@ class CardPractice extends StatelessWidget {
                                   categories.elementAt(index).category
                                 ]);
 
-                            context.push("/exercise", extra: params);
+                            context.go("/exercise", extra: params);
                             // Acción del botón
                             // Puedes agregar aquí la lógica que deseas ejecutar cuando se presiona el botón
                           },
