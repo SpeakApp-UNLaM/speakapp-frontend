@@ -51,34 +51,36 @@ class PageExerciseSingleSelectionWordState
   Widget build(BuildContext context) {
     final exerciseProv = context.watch<ExerciseProvider>();
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('¡Vamos a practicar!',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.nunito(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 20,
-                      color: Theme.of(context).primaryColorDark)),
-              const SizedBox(height: 30.0),
-              Text('¿Cuál imagen corresponde al siguiente fonema?',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.nunito(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 15,
-                      color: Theme.of(context).primaryColorDark)),
-              const SizedBox(height: 20.0),
-              Text(widget.namePhoneme,
-                  style: TextStyle(
-                      fontFamily: 'IkkaRounded',
-                      fontSize: 50,
-                      color: colorList[1])),
-              const SizedBox(height: 60.0),
-              drawImages(exerciseProv),
-            ],
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('¡Vamos a practicar!',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.nunito(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 20,
+                        color: Theme.of(context).primaryColorDark)),
+                const SizedBox(height: 30.0),
+                Text('¿Cuál imagen corresponde al siguiente fonema?',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.nunito(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                        color: Theme.of(context).primaryColorDark)),
+                const SizedBox(height: 20.0),
+                Text(widget.namePhoneme,
+                    style: TextStyle(
+                        fontFamily: 'IkkaRounded',
+                        fontSize: 50,
+                        color: colorList[1])),
+                const SizedBox(height: 60.0),
+                drawImages(exerciseProv),
+              ],
+            ),
           ),
         ),
       ),
@@ -95,17 +97,20 @@ class PageExerciseSingleSelectionWordState
             onTap: () {
               if (imageSelected == img.name) {
                 imageSelected = "";
+                exerciseProv.unfinishExercise();
               } else {
                 imageSelected = img.name;
                 TtsProvider().speak(img.name);
+                exerciseProv.saveParcialResult(ResultExercise(
+                    idTaskItem: widget.idTaskItem,
+                    type: TypeExercise.single_selection_word,
+                    audio: "",
+                    pairImagesResult: [
+                      ResultPairImages(
+                          idImage: img.idImage, nameImage: img.name)
+                    ]));
               }
-              exerciseProv.saveParcialResult(ResultExercise(
-                  idTaskItem: widget.idTaskItem,
-                  type: TypeExercise.single_selection_word,
-                  audio: "",
-                  pairImagesResult: [
-                    ResultPairImages(idImage: img.idImage, nameImage: img.name)
-                  ]));
+
               //exerciseProv.finishExercise();
               setState(() {});
             },

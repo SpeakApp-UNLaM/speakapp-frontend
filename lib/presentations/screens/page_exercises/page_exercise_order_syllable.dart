@@ -205,10 +205,10 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      print("asd");
                       formedWord = [];
                       possibleSyllables = [...widget.syllables];
-                      //exerciseProv.unfinishExercise();
+
+                      exerciseProv.unfinishExercise();
                     });
                   },
                   child: const Text('Reiniciar'),

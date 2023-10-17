@@ -20,6 +20,10 @@ class ExerciseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void initExercise() {
+    _exerciseFinished = false;
+  }
+
   void unfinishExercise() {
     _exerciseFinished = false;
     notifyListeners();

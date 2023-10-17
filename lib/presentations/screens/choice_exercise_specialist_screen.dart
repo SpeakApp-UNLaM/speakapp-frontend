@@ -176,6 +176,7 @@ class ChoiceExerciseSpecialistScreenState
                         label: 'Tipo'),
                     const SizedBox(height: 30.0),
                     CustomTextFormField(
+                      textEditingController: textEditingController1,
                       validator: (value) {
                         if (value == null || value.isEmpty || value == '') {
                           return 'Este campo es obligatorio';
@@ -204,15 +205,15 @@ class ChoiceExerciseSpecialistScreenState
                       ),
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          context.push("/exercise_specialist", extra: {
+                          Map<String, dynamic> extras = {
                             'typesExercise': selectedValue2,
                             'idsPhoneme': widget.phoneme.idPhoneme,
                             'categories': selectedValue1,
                             'levels': nivelList,
-                          });
-
+                          };
                           textEditingController1.clear();
                           textEditingController2.clear();
+                          context.push("/exercise_specialist", extra: extras);
                         }
                       },
                       child: Text(

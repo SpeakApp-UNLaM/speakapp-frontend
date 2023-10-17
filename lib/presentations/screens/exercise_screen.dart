@@ -91,53 +91,6 @@ class ExerciseScreenState extends State<ExerciseScreen>
 
     exerciseProv.setIdTaskActive(widget.object.idTask);
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          Visibility(
-            visible: !_showCongratulations &&
-                !_isFinishedExercise &&
-                _pagesExercisesFounded.isNotEmpty,
-            maintainState: true,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                ConstrainedBox(
-                  constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width - 100),
-                  child: TweenAnimationBuilder<double>(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOutSine,
-                    tween: Tween<double>(
-                      begin: 0,
-                      end: _pagesExercisesFounded.isEmpty
-                          ? 0
-                          : currentPageIndex / _pagesExercisesFounded.length,
-                    ),
-                    builder: (context, value, _) => LinearProgressIndicator(
-                      borderRadius: BorderRadius.circular(15),
-                      backgroundColor: colorList[7],
-                      color: colorList[4],
-                      value: value,
-                      minHeight: 10,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "$currentPageIndex/${_pagesExercisesFounded.length}",
-                    style: GoogleFonts.nunito(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 21,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          )
-        ],
-      ),
       body: FutureBuilder(
           future: _fetchData,
           builder: (context, snapshot) {
@@ -208,6 +161,46 @@ class ExerciseScreenState extends State<ExerciseScreen>
                           top: 30, right: 5, left: 5, bottom: 20),
                       child: Column(
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.close),
+                                onPressed: () {
+                                  exerciseProv.unfinishExercise();
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              ConstrainedBox(
+                                constraints: BoxConstraints(
+                                    maxWidth:
+                                        MediaQuery.of(context).size.width -
+                                            150),
+                                child: TweenAnimationBuilder<double>(
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeInOutSine,
+                                  tween: Tween<double>(
+                                    begin: 0,
+                                    end: currentPageIndex /
+                                        _pagesExercisesFounded.length,
+                                  ),
+                                  builder: (context, value, _) =>
+                                      LinearProgressIndicator(
+                                    borderRadius: BorderRadius.circular(15),
+                                    backgroundColor: colorList[7],
+                                    color: colorList[4],
+                                    value: value,
+                                    minHeight: 10,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                    "$currentPageIndex/${_pagesExercisesFounded.length}"),
+                              )
+                            ],
+                          ),
                           Expanded(
                             child: _listPagesExercises(exerciseProv),
                           ),
@@ -341,9 +334,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
                                       recorderProv.resetProvider();
                                       exerciseProv.sendResultsExercises();
 
-                                      context.go('/',
-                                          extra: authProvider.prefs
-                                              .getInt('userId') as int);
+                                      Navigator.pop(context);
                                     },
                                     backgroundColor: colorList[0],
                                     elevation: 10.0,

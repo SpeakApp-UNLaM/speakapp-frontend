@@ -139,11 +139,17 @@ class PageExerciseMultipleSelectionState
                           pairImages.add(ResultPairImages(
                               idImage: image.idImage, nameImage: image.name));
                         }
-                        exerciseProv.saveParcialResult(ResultExercise(
-                            idTaskItem: widget.idTaskItem,
-                            type: TypeExercise.multiple_selection,
-                            audio: "",
-                            pairImagesResult: pairImages));
+
+                        if (imagesSelected.isEmpty) {
+                          exerciseProv.unfinishExercise();
+                        } else {
+                          exerciseProv.saveParcialResult(ResultExercise(
+                              idTaskItem: widget.idTaskItem,
+                              type: TypeExercise.multiple_selection,
+                              audio: "",
+                              pairImagesResult: pairImages));
+                        }
+
                         //exerciseProv.finishExercise();
 
                         setState(() {});

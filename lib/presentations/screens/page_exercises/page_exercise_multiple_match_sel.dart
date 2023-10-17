@@ -106,11 +106,17 @@ class PageExerciseMultipleMatchSelState
                                 idImage: 0, nameImage: img.name));
                           }
                         }
-                        exerciseProv.saveParcialResult(ResultExercise(
-                            idTaskItem: widget.idTaskItem,
-                            type: TypeExercise.multiple_match_selection,
-                            audio: "",
-                            pairImagesResult: pairImages));
+                        if (imagesSelected.length == widget.images.length &&
+                            audiosSelected.length == widget.images.length) {
+                          exerciseProv.saveParcialResult(ResultExercise(
+                              idTaskItem: widget.idTaskItem,
+                              type: TypeExercise.multiple_match_selection,
+                              audio: "",
+                              pairImagesResult: pairImages));
+                        } else {
+                          exerciseProv.unfinishExercise();
+                        }
+
                         //exerciseProv.finishExercise();
                         setState(() {});
                       },
@@ -185,11 +191,16 @@ class PageExerciseMultipleMatchSelState
                           }
                         }
                         //exerciseProv.finishExercise();
-                        exerciseProv.saveParcialResult(ResultExercise(
-                            idTaskItem: widget.idTaskItem,
-                            type: TypeExercise.multiple_match_selection,
-                            audio: "",
-                            pairImagesResult: pairImages));
+                        if (imagesSelected.length == widget.images.length &&
+                            audiosSelected.length == widget.images.length) {
+                          exerciseProv.saveParcialResult(ResultExercise(
+                              idTaskItem: widget.idTaskItem,
+                              type: TypeExercise.multiple_match_selection,
+                              audio: "",
+                              pairImagesResult: pairImages));
+                        } else {
+                          exerciseProv.unfinishExercise();
+                        }
                         setState(() {});
                       },
                       child: DecoratedBox(
