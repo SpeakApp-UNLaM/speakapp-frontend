@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:multi_dropdown/multiselect_dropdown.dart';
@@ -23,6 +24,10 @@ class ChoiceExerciseSpecialistScreenState
     extends State<ChoiceExerciseSpecialistScreen> {
   List<String> _selectedValue1 = [];
   List<String> _selectedValue2 = [];
+  List<String> _selectedValue3 = [];
+
+  List<String> _typeOptions = [];
+  List<String> _levelOptions = ['1', '2', '3'];
 
   String selectedValue1 = 'syllable';
 
@@ -99,101 +104,78 @@ class ChoiceExerciseSpecialistScreenState
                     ),
                   ],
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    /*
-                    MultiSelectDropDown(
-                      hint: 'Categoría',
-                      onOptionSelected: (newValue) {
-                        setState(() {
-                          (newValue).forEach((element) {
-                            _selectedValue1.add(element.value as String);
-                            _selectedValue2 = [
-                              optionsMap[element.value as String]!.first
-                            ];
-                          });
-                        });
-                      },
-                      options: Categories.values
-                          .map((category) => ValueItem(
-                              value: category.toString().split('.').last,
-                              label: category.toString().split('.').last))
-                          .toList(),
-                      selectionType: SelectionType.multi,
-                      chipConfig: const ChipConfig(wrapType: WrapType.wrap),
-                      dropdownHeight: 400,
-                      optionTextStyle: const TextStyle(fontSize: 16),
-                      selectedOptionIcon: const Icon(Icons.check_circle),
-                    ),
-                     MultiSelectDropDown(
-                      hint: 'Categoría',
-                      onOptionSelected: (newValue) {
-                        setState(() {
-                          (newValue).forEach((element) {
-                            _selectedValue1.add(element.value as String);
-                            _selectedValue2 = [
-                              optionsMap[element.value as String]!.first
-                            ];
-                          });
-                        });
-                      },
-                      options: Categories.values
-                          .map((category) => ValueItem(
-                              value: category.toString().split('.').last,
-                              label: category.toString().split('.').last))
-                          .toList(),
-                      selectionType: SelectionType.multi,
-                      chipConfig: const ChipConfig(wrapType: WrapType.wrap),
-                      dropdownHeight: 400,
-                      optionTextStyle: const TextStyle(fontSize: 16),
-                      selectedOptionIcon: const Icon(Icons.check_circle),
-                    ),*/
-                    CustomDropdownButton(
-                        value: selectedValue1,
-                        onChanged: (newValue) {
+                SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      MultiSelectDropDown(
+                        hint: 'Categoría',
+                        onOptionSelected: (newValue) {
                           setState(() {
-                            selectedValue1 = newValue as String;
-                            selectedValue2 = optionsMap[selectedValue1]!.first;
+                            _typeOptions = [];
+                            _selectedValue1 = [];
+                            (newValue).forEach((element) {
+                              _selectedValue1.add(element.value as String);
+                              _typeOptions = [...?optionsMap[element.value]];
+                            });
                           });
                         },
                         options: Categories.values
-                            .map((category) =>
-                                category.toString().split('.').last)
+                            .map((category) => ValueItem(
+                                value: category.toString().split('.').last,
+                                label: category.toString().split('.').last))
                             .toList(),
-                        errorMessage: null,
-                        label: 'Tipo'),
-                    const SizedBox(height: 30.0),
-                    CustomDropdownButton(
-                        value: selectedValue2,
-                        onChanged: (newValue) {
+                        selectionType: SelectionType.multi,
+                        chipConfig: const ChipConfig(wrapType: WrapType.scroll),
+                        dropdownHeight: 400,
+                        optionTextStyle: const TextStyle(fontSize: 16),
+                        selectedOptionIcon: const Icon(Icons.check_circle),
+                      ),
+                      const SizedBox(height: 30.0),
+                      MultiSelectDropDown(
+                        hint: 'Tipo Ejercicio',
+                        onOptionSelected: (newValue) {
                           setState(() {
-                            selectedValue2 = newValue as String;
+                            _selectedValue2 = [];
+                            (newValue).forEach((element) {
+                              _selectedValue2.add(element.value as String);
+                            });
                           });
                         },
-                        options: optionsMap[selectedValue1],
-                        errorMessage: null,
-                        label: 'Tipo'),
-                    const SizedBox(height: 30.0),
-                    CustomTextFormField(
-                      validator: (value) {
-                        if (value == null || value.isEmpty || value == '') {
-                          return 'Este campo es obligatorio';
-                        }
-
-                        return null;
-                      },
-                      onChanged: (value) {
-                        nivelList = value
-                            .split(';')
-                            .map((str) => int.parse(str))
-                            .toList();
-                      },
-                      label: 'Nivel',
-                      hint: 'Utilizar separador ; para mas de un nivel',
-                      obscureText: false,
-                    ),
-                  ],
+                        options: _typeOptions
+                            .map((tipo) => ValueItem(
+                                label: tipo.toString(), value: tipo.toString()))
+                            .toList(),
+                        selectionType: SelectionType.multi,
+                        chipConfig: const ChipConfig(wrapType: WrapType.scroll),
+                        dropdownHeight: 400,
+                        optionTextStyle: const TextStyle(fontSize: 16),
+                        selectedOptionIcon: const Icon(Icons.check_circle),
+                      ),
+                      const SizedBox(height: 30.0),
+                      MultiSelectDropDown(
+                        hint: 'Nivel Ejercicio',
+                        onOptionSelected: (newValue) {
+                          setState(() {
+                            _selectedValue3 = [];
+                            (newValue).forEach((element) {
+                              _selectedValue3.add(element.value as String);
+                            });
+                          });
+                        },
+                        options: _levelOptions
+                            .map((level) => ValueItem(
+                                label: level.toString(),
+                                value: level.toString()))
+                            .toList(),
+                        selectionType: SelectionType.multi,
+                        chipConfig: const ChipConfig(wrapType: WrapType.scroll),
+                        dropdownHeight: 400,
+                        optionTextStyle: const TextStyle(fontSize: 16),
+                        selectedOptionIcon: const Icon(Icons.check_circle),
+                      ),
+                    ],
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
@@ -203,16 +185,30 @@ class ChoiceExerciseSpecialistScreenState
                             colorList[4], // Cambia el color de fondo aquí
                       ),
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
+                        if (_selectedValue1.isNotEmpty &&
+                            _selectedValue2.isNotEmpty &&
+                            _selectedValue3.isNotEmpty) {
                           context.push("/exercise_specialist", extra: {
-                            'typesExercise': selectedValue2,
+                            'typesExercise': _selectedValue2,
                             'idsPhoneme': widget.phoneme.idPhoneme,
-                            'categories': selectedValue1,
-                            'levels': nivelList,
+                            'categories': _selectedValue1,
+                            'levels': _selectedValue3,
                           });
 
                           textEditingController1.clear();
                           textEditingController2.clear();
+                        } else {
+                          Fluttertoast.showToast(
+                            msg: 'Existen campos incompletos', // Mensaje de la excepción
+                            toastLength: Toast
+                                .LENGTH_LONG, // Duración del toast (Toast.LENGTH_LONG o Toast.LENGTH_SHORT)
+                            gravity: ToastGravity
+                                .CENTER, // Posición del toast (ToastGravity.TOP, ToastGravity.CENTER, ToastGravity.BOTTOM)
+                            backgroundColor:
+                                Colors.amberAccent, // Color de fondo del toast
+                            textColor:
+                                Colors.white, // Color del texto del toast
+                          );
                         }
                       },
                       child: Text(

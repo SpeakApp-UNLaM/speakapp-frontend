@@ -61,19 +61,25 @@ class PageExerciseMultipleMatchSelState
     final exerciseProv = context.watch<ExerciseProvider>();
     return Scaffold(
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+        child: Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                  '¡Vamos a practicar! \n¿Qué imágen se corresponde a cada audio?',
+              Text('¡Vamos a practicar!',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.nunito(
                       fontWeight: FontWeight.w800,
                       fontSize: 20,
                       color: Theme.of(context).primaryColorDark)),
-              const SizedBox(height: 10.0),
+              const SizedBox(height: 20.0),
+              Text('¿Qué imágen se corresponde a cada audio?',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.nunito(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                      color: Theme.of(context).primaryColorDark)),
+              const SizedBox(height: 30.0),
               Wrap(
                 spacing: 10.0,
                 runSpacing: 11,
@@ -82,7 +88,7 @@ class PageExerciseMultipleMatchSelState
                   final borderColor = isSelected
                       ? colorListPairImages[audiosSelected.indexOf(img.name)]
                       : Colors.grey.shade300;
-
+          
                   return GestureDetector(
                     onTap: () {
                       if (isSelected) {
@@ -90,7 +96,7 @@ class PageExerciseMultipleMatchSelState
                         if (imagesSelected.length >= audiosSelected.length) {
                           imagesSelected.removeAt(index);
                         }
-
+          
                         pairImages.removeAt(index);
                         audiosSelected.remove(img.name);
                       } else {
@@ -115,13 +121,6 @@ class PageExerciseMultipleMatchSelState
                     },
                     child: DecoratedBox(
                       decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black
-                                  .withOpacity(0.1), // Color de la sombra
-                              blurRadius: 5, // Radio de desenfoque
-                              offset: Offset(0, 4))
-                        ],
                         borderRadius:
                             const BorderRadius.all(Radius.circular(32)),
                         border: Border.all(
@@ -152,15 +151,15 @@ class PageExerciseMultipleMatchSelState
               ),
               const SizedBox(height: 40.0),
               Wrap(
-                spacing: 10.0,
-                runSpacing: 10.0,
+                runSpacing: 10,
+                spacing: 10,
                 children: widget.images.map((img) {
                   final isSelected = imagesSelected.contains(img.imageData);
                   final borderColor = isSelected
                       ? colorListPairImages[
                           imagesSelected.indexOf(img.imageData)]
                       : Colors.grey.shade300;
-
+          
                   return GestureDetector(
                     onTap: () {
                       if (isSelected) {
