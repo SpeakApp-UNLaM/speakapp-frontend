@@ -86,7 +86,7 @@ class CardPractice extends StatelessWidget {
                                   categories.elementAt(index).category
                                 ]);
 
-                            context.go("/exercise", extra: params);
+                            context.push("/exercise", extra: params);
                             // Acción del botón
                             // Puedes agregar aquí la lógica que deseas ejecutar cuando se presiona el botón
                           },

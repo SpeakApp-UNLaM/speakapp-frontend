@@ -139,25 +139,31 @@ class ExerciseSpecialistScreenState extends State<ExerciseSpecialistScreen>
                       child: Column(
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
                               IconButton(
                                 icon: const Icon(Icons.close),
                                 onPressed: () => Navigator.pop(context),
                               ),
-                              Expanded(
-                                  child: Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 16, bottom: 8, top: 8, left: 8),
+                              ConstrainedBox(
+                                constraints: BoxConstraints(
+                                    maxWidth:
+                                        MediaQuery.of(context).size.width -
+                                            150),
                                 child: LinearProgressIndicator(
+                                  borderRadius: BorderRadius.circular(15),
                                   backgroundColor: colorList[7],
                                   color: colorList[4],
                                   value: currentPageIndex /
                                       _pagesExercisesFounded.length,
-                                  minHeight: 6,
+                                  minHeight: 10,
                                 ),
-                              )),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                    "$currentPageIndex/${_pagesExercisesFounded.length}"),
+                              )
                             ],
                           ),
                           Expanded(
