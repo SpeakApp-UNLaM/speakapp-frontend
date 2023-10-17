@@ -41,6 +41,7 @@ class PageExerciseMultipleMatchSel extends StatefulWidget {
 class PageExerciseMultipleMatchSelState
     extends State<PageExerciseMultipleMatchSel> {
   late List<Image> _listImages;
+  late List<ImageExerciseModel> _shuffleListImages;
 
   @override
   void initState() {
@@ -52,6 +53,11 @@ class PageExerciseMultipleMatchSelState
         fit: BoxFit.cover,
       );
     }).toList();
+
+
+    _shuffleListImages = widget.images;
+    _shuffleListImages.shuffle();
+
   }
 
   List<String> audiosSelected = [], imagesSelected = [];
@@ -67,18 +73,25 @@ class PageExerciseMultipleMatchSelState
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                    '¡Vamos a practicar! \n¿Qué imágen se corresponde a cada audio?',
+                Text('¡Vamos a practicar!',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.nunito(
                         fontWeight: FontWeight.w800,
                         fontSize: 20,
                         color: Theme.of(context).primaryColorDark)),
                 const SizedBox(height: 10.0),
+                const SizedBox(height: 20.0),
+                Text('¿Qué imágen se corresponde a cada audio?',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.nunito(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        color: Theme.of(context).primaryColorDark)),
+                const SizedBox(height: 30.0),
                 Wrap(
                   spacing: 10.0,
                   runSpacing: 11,
-                  children: widget.images.map((img) {
+                  children: _shuffleListImages.map((img) {
                     final isSelected = audiosSelected.contains(img.name);
                     final borderColor = isSelected
                         ? colorListPairImages[audiosSelected.indexOf(img.name)]
@@ -116,13 +129,6 @@ class PageExerciseMultipleMatchSelState
                       },
                       child: DecoratedBox(
                         decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black
-                                    .withOpacity(0.1), // Color de la sombra
-                                blurRadius: 5, // Radio de desenfoque
-                                offset: Offset(0, 4))
-                          ],
                           borderRadius:
                               const BorderRadius.all(Radius.circular(32)),
                           border: Border.all(

@@ -131,7 +131,7 @@ class ChoiceExerciseSpecialistScreenState
                         optionTextStyle: const TextStyle(fontSize: 16),
                         selectedOptionIcon: const Icon(Icons.check_circle),
                       ),
-                      const SizedBox(height: 30.0),
+                      const SizedBox(height: 50.0),
                       MultiSelectDropDown(
                         hint: 'Tipo Ejercicio',
                         onOptionSelected: (newValue) {
@@ -152,7 +152,7 @@ class ChoiceExerciseSpecialistScreenState
                         optionTextStyle: const TextStyle(fontSize: 16),
                         selectedOptionIcon: const Icon(Icons.check_circle),
                       ),
-                      const SizedBox(height: 30.0),
+                      const SizedBox(height: 50.0),
                       MultiSelectDropDown(
                         hint: 'Nivel Ejercicio',
                         onOptionSelected: (newValue) {
