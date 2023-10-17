@@ -13,16 +13,18 @@ class ExerciseModel {
   TypeExercise type;
   String result;
   List<ImageExerciseModel> images;
+  String incorrect;
 
-  ExerciseModel({
-    required this.idTaskItem,
-    required this.type,
-    required this.result,
-    required this.images,
-  });
+  ExerciseModel(
+      {required this.idTaskItem,
+      required this.type,
+      required this.result,
+      required this.images,
+      required this.incorrect});
 
   factory ExerciseModel.fromJson(Map<String, dynamic> json) {
     return ExerciseModel(
+      incorrect: json["incorrect"],
       idTaskItem: json["idTaskItem"], // Valor predeterminado si es nulo
       type: Param.stringToEnumTypeExercise(json["type"]),
       result: json["result"] ?? "", // Valor predeterminado si es nulo
@@ -85,10 +87,11 @@ class ExerciseModel {
             syllable: result);
       case TypeExercise.consonantal_syllable:
         return PageExerciseConsonantalSyllable(
-          images: images,
-          namePhoneme: letra,
-          idTaskItem: idTaskItem,
-        );
+            images: images,
+            namePhoneme: letra,
+            idTaskItem: idTaskItem,
+            incorrectSyllable: incorrect,
+            correctSyllable: result);
       default:
         return PageExerciseSpeak(
           images,

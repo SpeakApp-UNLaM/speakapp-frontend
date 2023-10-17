@@ -60,6 +60,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
         }
       }
     });
+    setState(() {});
     if (response == null) return Response(requestOptions: RequestOptions());
     return response;
   }
@@ -90,6 +91,53 @@ class ExerciseScreenState extends State<ExerciseScreen>
 
     exerciseProv.setIdTaskActive(widget.object.idTask);
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          Visibility(
+            visible: !_showCongratulations &&
+                !_isFinishedExercise &&
+                _pagesExercisesFounded.isNotEmpty,
+            maintainState: true,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width - 100),
+                  child: TweenAnimationBuilder<double>(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeInOutSine,
+                    tween: Tween<double>(
+                      begin: 0,
+                      end: _pagesExercisesFounded.isEmpty
+                          ? 0
+                          : currentPageIndex / _pagesExercisesFounded.length,
+                    ),
+                    builder: (context, value, _) => LinearProgressIndicator(
+                      borderRadius: BorderRadius.circular(15),
+                      backgroundColor: colorList[7],
+                      color: colorList[4],
+                      value: value,
+                      minHeight: 10,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "$currentPageIndex/${_pagesExercisesFounded.length}",
+                    style: GoogleFonts.nunito(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 21,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          )
+        ],
+      ),
       body: FutureBuilder(
           future: _fetchData,
           builder: (context, snapshot) {
@@ -160,27 +208,6 @@ class ExerciseScreenState extends State<ExerciseScreen>
                           top: 30, right: 5, left: 5, bottom: 20),
                       child: Column(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              IconButton(
-                                icon: const Icon(Icons.close),
-                                onPressed: () => Navigator.pop(context),
-                              ),
-                              Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 16, bottom: 8, top: 8, left: 8),
-                                    child: LinearProgressIndicator(
-                                                                  backgroundColor: colorList[7],
-                                                                  color: colorList[4],
-                                                                  value: currentPageIndex /
-                                      _pagesExercisesFounded.length,
-                                                                  minHeight: 6,
-                                                                ),
-                                  )),
-                            ],
-                          ),
                           Expanded(
                             child: _listPagesExercises(exerciseProv),
                           ),
@@ -326,10 +353,9 @@ class ExerciseScreenState extends State<ExerciseScreen>
                                       children: [
                                         Text(" CONTINUAR",
                                             style: GoogleFonts.nunito(
-                                              fontSize: 15,
-                                              color: colorList[2],
-                                              fontWeight: FontWeight.w800
-                                            ))
+                                                fontSize: 15,
+                                                color: colorList[2],
+                                                fontWeight: FontWeight.w800))
                                       ],
                                     ),
                                   ),

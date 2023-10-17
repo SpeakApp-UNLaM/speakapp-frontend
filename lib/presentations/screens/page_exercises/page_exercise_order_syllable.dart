@@ -30,11 +30,11 @@ class PageExerciseOrderSyllabe extends StatefulWidget {
 class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
   List<String> formedWord = [];
   late Image _image;
-
+  List<String> possibleSyllables = [];
   @override
   void initState() {
     super.initState();
-
+    possibleSyllables = [...widget.syllables];
     _image = Image.memory(
       base64.decode(widget.img.imageData),
       fit: BoxFit.cover,
@@ -82,20 +82,31 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                   onTap: () {
                     TtsProvider().speak(widget.img.name);
                   },
-                  child: Container(
-                    padding: const EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(16)),
-                        border: Border.all(
-                          color: Colors.grey.shade300,
-                          width: 4.0,
-                        )), // Establecer la altura deseada
-                    child: SizedBox(
-                        height: Param.tamImages,
-                        width: Param.tamImages,
-                        child: _image),
-                  ),
+                  child: Stack(children: [
+                    Container(
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(16)),
+                          border: Border.all(
+                            color: Colors.grey.shade300,
+                            width: 4.0,
+                          )), // Establecer la altura deseada
+                      child: SizedBox(
+                          height: Param.tamImages,
+                          width: Param.tamImages,
+                          child: _image),
+                    ),
+                    Positioned(
+                      bottom: 7,
+                      right: 7,
+                      child: Icon(
+                        Icons.volume_up,
+                        color: colorList[4],
+                        size: 24,
+                      ),
+                    )
+                  ]),
                 ),
                 Wrap(
                   spacing: 20,
@@ -105,10 +116,11 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                     return DragTarget<String>(
                       onAccept: (value) {
                         setState(() {
-                          formedWord.removeWhere((element) => element.isEmpty);
+                          possibleSyllables.remove(value);
+                          //formedWord.removeWhere((element) => element.isEmpty);
                           formedWord.add(value);
                           if (widget.syllables.length > formedWord.length) {
-                            formedWord.add("");
+                            //formedWord.add("");
                           } else {
                             exerciseProv.saveParcialResult(ResultExercise(
                                 idTaskItem: widget.idTaskItem,
@@ -144,9 +156,7 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                 Wrap(
                   spacing: 20,
                   runSpacing: 20,
-                  children: widget.syllables
-                      .where((syllable) => !formedWord.contains(syllable))
-                      .map((syllable) {
+                  children: possibleSyllables.map((syllable) {
                     return Draggable<String>(
                       data: syllable,
                       feedback: ReorderableSyllableWidget(syllable: syllable),
@@ -195,8 +205,9 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
-                      formedWord.clear();
-                      formedWord.add("");
+                      print("asd");
+                      formedWord = [];
+                      possibleSyllables = [...widget.syllables];
                       //exerciseProv.unfinishExercise();
                     });
                   },

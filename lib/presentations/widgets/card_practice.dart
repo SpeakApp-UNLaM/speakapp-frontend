@@ -76,7 +76,7 @@ class CardPractice extends StatelessWidget {
                             backgroundColor:
                                 colorList[4], // Cambia el color de fondo aquí
                           ),
-                          onPressed: () async {
+                          onPressed: () {
                             ExerciseParameters params = ExerciseParameters(
                                 idPhoneme: idPhoneme,
                                 namePhoneme: namePhoneme,
