@@ -149,25 +149,37 @@ class PageExerciseConsonantalSyllableState
               TtsProvider().speak(img.name);
               setState(() {});
             },
-            child: DecoratedBox(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: const BorderRadius.all(Radius.circular(16)),
-                    border: Border.all(
-                      color: Colors.grey.shade300,
-                      width: 4.0,
-                    )),
-                child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Container(
-                      margin: const EdgeInsets.all(8),
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: SizedBox(
-                        width: Param.tamImages, // Establecer el ancho deseado
-                        height: Param.tamImages, // Establecer la altura deseada
-                        child: _listImages[widget.images.indexOf(img)],
-                      ),
-                    ))),
+            child: Stack(children: [
+              DecoratedBox(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: const BorderRadius.all(Radius.circular(16)),
+                      border: Border.all(
+                        color: Colors.grey.shade300,
+                        width: 4.0,
+                      )),
+                  child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Container(
+                        margin: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: SizedBox(
+                          width: Param.tamImages, // Establecer el ancho deseado
+                          height:
+                              Param.tamImages, // Establecer la altura deseada
+                          child: _listImages[widget.images.indexOf(img)],
+                        ),
+                      ))),
+              Positioned(
+                bottom: 7,
+                right: 7,
+                child: Icon(
+                  Icons.volume_up,
+                  color: colorList[4],
+                  size: 24,
+                ),
+              )
+            ]),
           ),
       ],
     );
