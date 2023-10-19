@@ -35,6 +35,8 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
   void initState() {
     super.initState();
     possibleSyllables = [...widget.syllables];
+    widget.syllables.shuffle();
+    possibleSyllables.shuffle();
     _image = Image.memory(
       base64.decode(widget.img.imageData),
       fit: BoxFit.cover,
@@ -52,31 +54,19 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('¡Vamos a practicar! \nFormemos la palabra',
+                Text('¡Vamos a practicar!',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.nunito(
                         fontWeight: FontWeight.w800,
                         fontSize: 20,
                         color: Theme.of(context).primaryColorDark)),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                        widget.namePhoneme
-                            .replaceAll("CONSONANTICA", "")
-                            .trim(),
-                        style: GoogleFonts.nunito(
-                            fontSize: 50,
-                            color: colorList[2],
-                            fontWeight: FontWeight.w900)),
-                    if (widget.namePhoneme.length > 3)
-                      Text("Consonántica",
-                          style: GoogleFonts.nunito(
-                              fontSize: 36,
-                              color: colorList[2],
-                              fontWeight: FontWeight.w900))
-                  ],
-                ),
+                const SizedBox(height: 20.0),
+                Text('Formemos la palabra',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.nunito(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        color: Theme.of(context).primaryColorDark)),
                 const SizedBox(height: 40.0),
                 GestureDetector(
                   onTap: () {
@@ -84,19 +74,26 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                   },
                   child: Stack(children: [
                     Container(
-                      padding: const EdgeInsets.all(15),
-                      decoration: BoxDecoration(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey
+                                  .withOpacity(0.5), // Color de la sombra
+                              spreadRadius:
+                                  5, // Radio de expansión de la sombra
+                              blurRadius: 5, // Radio de desenfoque de la sombra
+                              offset: Offset(3,
+                                  0), // Desplazamiento cero para que la sombra rodee el contenido
+                            ),
+                          ],
                           borderRadius:
                               const BorderRadius.all(Radius.circular(16)),
-                          border: Border.all(
-                            color: Colors.grey.shade300,
-                            width: 4.0,
-                          )), // Establecer la altura deseada
-                      child: SizedBox(
-                          height: Param.tamImages,
-                          width: Param.tamImages,
-                          child: _image),
-                    ),
+                        ),
+                        width: 200,
+                        height: 200,
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: _image)),
                     Positioned(
                       bottom: 7,
                       right: 7,
@@ -108,6 +105,7 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                     )
                   ]),
                 ),
+                const SizedBox(height: 40),
                 Wrap(
                   spacing: 20,
                   runSpacing: 20,
@@ -144,6 +142,7 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                                     syllable: formedWord[index]),
                               Divider(
                                 color: Theme.of(context).primaryColorDark,
+                                thickness: 2,
                               ),
                             ],
                           ),

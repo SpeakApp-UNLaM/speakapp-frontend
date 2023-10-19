@@ -62,16 +62,22 @@ class PageExerciseConsonantalSyllableState
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                  '¡Vamos a practicar! \nSeleccione el fonema de la siguiente imágen',
+              Text('¡Vamos a practicar!',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.nunito(
                       fontWeight: FontWeight.w800,
                       fontSize: 20,
                       color: Theme.of(context).primaryColorDark)),
-              const SizedBox(height: 40.0),
+              const SizedBox(height: 30.0),
+              Text('Seleccione el fonema de la siguiente imágen',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.nunito(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 15,
+                      color: Theme.of(context).primaryColorDark)),
+              const SizedBox(height: 60.0),
               drawImages(exerciseProv),
-              const SizedBox(height: 40.0),
+              const SizedBox(height: 50.0),
               drawElements(exerciseProv, syllables)
             ],
           ),
@@ -104,13 +110,6 @@ class PageExerciseConsonantalSyllableState
             },
             child: DecoratedBox(
               decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      color:
-                          Colors.black.withOpacity(0.1), // Color de la sombra
-                      blurRadius: 5, // Radio de desenfoque
-                      offset: Offset(0, 4))
-                ],
                 borderRadius: const BorderRadius.all(Radius.circular(16)),
                 border: Border.all(
                   color: syllableSelected == syllable
@@ -150,26 +149,25 @@ class PageExerciseConsonantalSyllableState
               setState(() {});
             },
             child: Stack(children: [
-              DecoratedBox(
+              Container(
                   decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: const BorderRadius.all(Radius.circular(16)),
-                      border: Border.all(
-                        color: Colors.grey.shade300,
-                        width: 4.0,
-                      )),
-                  child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Container(
-                        margin: const EdgeInsets.all(8),
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: SizedBox(
-                          width: Param.tamImages, // Establecer el ancho deseado
-                          height:
-                              Param.tamImages, // Establecer la altura deseada
-                          child: _listImages[widget.images.indexOf(img)],
-                        ),
-                      ))),
+                    boxShadow: [
+                      BoxShadow(
+                        color:
+                            Colors.grey.withOpacity(0.5), // Color de la sombra
+                        spreadRadius: 5, // Radio de expansión de la sombra
+                        blurRadius: 5, // Radio de desenfoque de la sombra
+                        offset: Offset(3,
+                            0), // Desplazamiento cero para que la sombra rodee el contenido
+                      ),
+                    ],
+                    borderRadius: const BorderRadius.all(Radius.circular(16)),
+                  ),
+                  width: 200,
+                  height: 200,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: _listImages[widget.images.indexOf(img)])),
               Positioned(
                 bottom: 7,
                 right: 7,

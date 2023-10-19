@@ -51,93 +51,86 @@ class ChoicePatientScreenState extends State<ChoicePatientScreen>
             .size
             .width, // Ocupa todo el ancho de la pantalla
         margin: const EdgeInsets.all(30.0),
-        child: Card(
-          color: Theme.of(context).cardColor,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          elevation: 6,
-          child: Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                padding: const EdgeInsets.all(23),
-                child: Center(
-                  child: SearchBar(
-                      side: MaterialStateProperty.all(
-                          BorderSide(color: Theme.of(context).primaryColor)),
-                      hintText: 'Buscar paciente',
-                      hintStyle: MaterialStateProperty.all(
-                          Theme.of(context).textTheme.titleMedium),
-                      constraints: const BoxConstraints(
-                        maxWidth: 400,
-                        maxHeight: 100,
-                      ),
-                      trailing: [
-                        IconButton(
-                          icon: Icon(Icons.search,
-                              color: Theme.of(context).primaryColor),
-                          onPressed: () {},
-                        ),
-                      ],
-                      backgroundColor: MaterialStateProperty.all(Colors.white)),
-                ),
+        child: Column(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
               ),
-              const SizedBox(height: 10.0),
-              FutureBuilder(
-                  future: _fetchData,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: _patientsList.length,
-                          itemBuilder: (context, index) {
-                            return Row(
-                              children: [
-                                Expanded(
-                                  child: ListTile(
-                                    title: Text(
-                                      '${_patientsList[index].firstName} ${_patientsList[index].lastName}',
-                                      style: GoogleFonts.nunito(
-                                          textStyle: Theme.of(context)
-                                              .textTheme
-                                              .titleMedium),
-                                    ),
+              padding: const EdgeInsets.all(23),
+              child: Center(
+                child: SearchBar(
+                    textStyle: MaterialStateProperty.all(
+                        Theme.of(context).textTheme.titleMedium),
+                    hintText: 'Buscar paciente',
+                    hintStyle: MaterialStateProperty.all(
+                        Theme.of(context).textTheme.titleMedium),
+                    constraints: const BoxConstraints(
+                      maxWidth: 400,
+                      maxHeight: 100,
+                    ),
+                    trailing: [
+                      IconButton(
+                        icon: Icon(Icons.search,
+                            color: Theme.of(context).primaryColor),
+                        onPressed: () {},
+                      ),
+                    ],
+                    backgroundColor: MaterialStateProperty.all(Colors.white)),
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            FutureBuilder(
+                future: _fetchData,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: _patientsList.length,
+                        itemBuilder: (context, index) {
+                          return Row(
+                            children: [
+                              Expanded(
+                                child: ListTile(
+                                  title: Text(
+                                    '${_patientsList[index].firstName} ${_patientsList[index].lastName}',
+                                    style: GoogleFonts.nunito(
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium),
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: FilledButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: colorList[4],
-                                      ),
-                                      onPressed: () {
-                                        authProvider.selectUser(
-                                            _patientsList[index].idPatient);
-                                        context.push("/rfi",
-                                            extra:
-                                                _patientsList[index].idPatient);
-                                      },
-                                      child: Text(
-                                        "Ingresar",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelSmall,
-                                      )),
-                                ),
-                              ],
-                            );
-                          });
-                    }
-                  })
-            ],
-          ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: FilledButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: colorList[4],
+                                    ),
+                                    onPressed: () {
+                                      authProvider.selectUser(
+                                          _patientsList[index].idPatient);
+                                      context.push("/rfi",
+                                          extra:
+                                              _patientsList[index].idPatient);
+                                    },
+                                    child: Text(
+                                      "Ingresar",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall,
+                                    )),
+                              ),
+                            ],
+                          );
+                        });
+                  }
+                })
+          ],
         ),
       ),
     );

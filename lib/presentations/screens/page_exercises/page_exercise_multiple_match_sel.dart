@@ -54,10 +54,8 @@ class PageExerciseMultipleMatchSelState
       );
     }).toList();
 
-
     _shuffleListImages = widget.images;
     _shuffleListImages.shuffle();
-
   }
 
   List<String> audiosSelected = [], imagesSelected = [];
@@ -79,7 +77,6 @@ class PageExerciseMultipleMatchSelState
                         fontWeight: FontWeight.w800,
                         fontSize: 20,
                         color: Theme.of(context).primaryColorDark)),
-                const SizedBox(height: 10.0),
                 const SizedBox(height: 20.0),
                 Text('¿Qué imágen se corresponde a cada audio?',
                     textAlign: TextAlign.center,
@@ -198,29 +195,29 @@ class PageExerciseMultipleMatchSelState
                             pairImagesResult: pairImages));
                         setState(() {});
                       },
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(16)),
-                          border: Border.all(
-                            color: borderColor,
-                            width: 4.0,
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Container(
-                            margin: const EdgeInsets.all(8),
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: SizedBox(
-                              width: Param.tamImages,
-                              height: Param.tamImages,
-                              child: _listImages[widget.images.indexOf(img)],
+                      child: Container(
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.black
+                                      .withOpacity(0.1), // Color de la sombra
+                                  blurRadius: 5, // Radio de desenfoque
+                                  offset: Offset(0, 4))
+                            ],
+                            color: Colors.white,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(16)),
+                            border: Border.all(
+                              color: borderColor,
+                              width: 3.0,
                             ),
                           ),
-                        ),
-                      ),
+                          width: 150,
+                          height: 150,
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child:
+                                  _listImages[widget.images.indexOf(img)])),
                     );
                   }).toList(),
                 ),

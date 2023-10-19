@@ -150,37 +150,29 @@ class PageExerciseSingleSelectionSyllableState
                 },
                 child: Stack(
                   children: [
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 5,
-                            offset: Offset(0, 4),
-                          ),
-                        ],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(16)),
-                        border: Border.all(
-                          color: imageSelected == img.name
-                              ? colorList[1]
-                              : Colors.grey.shade300,
-                          width: 3.0,
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Container(
-                          margin: const EdgeInsets.all(8),
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: SizedBox(
-                            width: Param.tamImages,
-                            height: Param.tamImages,
-                            child: _listImages[widget.images.indexOf(img)],
+                    Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black
+                                    .withOpacity(0.1), // Color de la sombra
+                                blurRadius: 5, // Radio de desenfoque
+                                offset: Offset(0, 4))
+                          ],
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(16)),
+                          border: Border.all(
+                            color: imageSelected == img.name
+                                ? colorList[1]
+                                : Colors.transparent,
+                            width: 3.0,
                           ),
                         ),
-                      ),
-                    ),
+                        width: 160,
+                        height: 160,
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(14),
+                            child: _listImages[widget.images.indexOf(img)])),
                     Positioned(
                       bottom: 7,
                       right: 7,

@@ -51,33 +51,69 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
               child: Stack(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(40),
                     decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(16)),
-                        border: Border.all(
-                          color: Colors.grey.shade300,
-                          width: 4.0,
-                        )), // Establecer la altura deseada
+                      borderRadius: const BorderRadius.all(Radius.circular(16)),
+                    ), // Establecer la altura deseada
                     child: SizedBox(
-                      width: Param.tamImages,
-                      height: Param.tamImages,
-                      child: widget.img.isNotEmpty
-                          ? Image.memory(
-                              base64.decode(widget.img.first.imageData),
-                              fit: BoxFit.cover,
-                            )
-                          : Center(
-                              child: Text(
-                                widget.result.toUpperCase(),
-                                style: GoogleFonts.nunito(
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 70,
-                                  color: colorList[1],
+                        width: 200,
+                        height: 200,
+                        child: widget.img.isNotEmpty
+                            ? Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                      16), // Redondear las esquinas
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(
+                                          0.5), // Color de la sombra
+                                      spreadRadius:
+                                          5, // Radio de expansión de la sombra
+                                      blurRadius:
+                                          7, // Radio de desenfoque de la sombra
+                                      offset: Offset(3,
+                                          0), // Desplazamiento cero para que la sombra rodee el contenido
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ), // Aquí puedes usar un widget de marcador de posición o el que prefieras
-                    ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Image.memory(
+                                    base64.decode(widget.img.first.imageData),
+                                    fit: BoxFit.cover,
+                                    width: Param.tamImages,
+                                    height: Param.tamImages,
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(
+                                          0.5), // Color de la sombra
+                                      spreadRadius:
+                                          5, // Radio de expansión de la sombra
+                                      blurRadius:
+                                          7, // Radio de desenfoque de la sombra
+                                      offset: Offset(3,
+                                          0), // Desplazamiento cero para que la sombra rodee el contenido
+                                    ),
+                                  ], // Redondear las esquinas
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    widget.result.toUpperCase(),
+                                    style: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 70,
+                                      color: colorList[1],
+                                    ),
+                                  ),
+                                ),
+                              ) // Aquí puedes usar un widget de marcador de posición o el que prefieras
+                        ),
                   ),
                   Positioned(
                     bottom: 7,

@@ -77,7 +77,7 @@ class PageExerciseMultipleSelectionState
                       fontSize: 15,
                       color: Theme.of(context).primaryColorDark,
                       fontWeight: FontWeight.w600)),
-              const SizedBox(height: 20.0),
+              const SizedBox(height: 30.0),
               Wrap(
                 spacing: 10.0,
                 runSpacing: 10.0,
@@ -119,7 +119,7 @@ class PageExerciseMultipleSelectionState
                   ),
                 ],
               ),
-              const SizedBox(height: 20.0),
+              const SizedBox(height: 50.0),
               Wrap(
                 spacing: 10.0,
                 runSpacing: 10.0,
@@ -150,40 +150,33 @@ class PageExerciseMultipleSelectionState
                       },
                       child: Stack(
                         children: [
-                          DecoratedBox(
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.black
-                                        .withOpacity(0.1), // Color de la sombra
-                                    blurRadius: 5, // Radio de desenfoque
-                                    offset: Offset(0, 4))
-                              ],
-                              color: Colors.white,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(16)),
-                              border: Border.all(
-                                color: imagesSelected.contains(image.imageData)
-                                    ? colors[
-                                        imagesSelected.indexOf(image.imageData)]
-                                    : Colors.grey.shade300,
-                                width: 3.0,
+                          Container(
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Colors.black.withOpacity(
+                                          0.1), // Color de la sombra
+                                      blurRadius: 5, // Radio de desenfoque
+                                      offset: Offset(0, 4))
+                                ],
+                                color: Colors.white,
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(16)),
+                                border: Border.all(
+                                  color:
+                                      imagesSelected.contains(image.imageData)
+                                          ? colors[imagesSelected
+                                              .indexOf(image.imageData)]
+                                          : Colors.grey.shade300,
+                                  width: 3.0,
+                                ),
                               ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Container(
-                                margin: const EdgeInsets.all(8),
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: SizedBox(
-                                    width: Param.tamImages,
-                                    height: Param.tamImages,
-                                    child: _listImages[
-                                        widget.images.indexOf(image)]),
-                              ),
-                            ),
-                          ),
+                              width: 150,
+                              height: 150,
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: _listImages[
+                                      widget.images.indexOf(image)])),
                           Positioned(
                             bottom: 7,
                             right: 7,
