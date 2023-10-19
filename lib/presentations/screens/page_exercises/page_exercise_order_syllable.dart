@@ -61,7 +61,7 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                         fontSize: 20,
                         color: Theme.of(context).primaryColorDark)),
                 const SizedBox(height: 20.0),
-                Text('Formemos la palabra',
+                Text('Reproducí el sónido de la imágen y forma la palabra',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.nunito(
                         fontWeight: FontWeight.w600,
