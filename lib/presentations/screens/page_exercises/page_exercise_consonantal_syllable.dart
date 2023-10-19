@@ -96,16 +96,18 @@ class PageExerciseConsonantalSyllableState
             onTap: () {
               if (syllableSelected == syllable) {
                 syllableSelected = "";
+                exerciseProv.unfinishExercise();
               } else {
                 syllableSelected = syllable;
+                exerciseProv.saveParcialResult(ResultExercise(
+                    idTaskItem: widget.idTaskItem,
+                    type: TypeExercise.consonantal_syllable,
+                    audio: "",
+                    pairImagesResult: [
+                      ResultPairImages(idImage: 0, nameImage: syllableSelected)
+                    ]));
               }
-              exerciseProv.saveParcialResult(ResultExercise(
-                  idTaskItem: widget.idTaskItem,
-                  type: TypeExercise.consonantal_syllable,
-                  audio: "",
-                  pairImagesResult: [
-                    ResultPairImages(idImage: 0, nameImage: syllableSelected)
-                  ]));
+
               setState(() {});
             },
             child: DecoratedBox(

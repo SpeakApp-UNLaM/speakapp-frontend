@@ -133,18 +133,20 @@ class PageExerciseSingleSelectionSyllableState
                 onTap: () {
                   if (imageSelected == img.name) {
                     imageSelected = "";
+                    exerciseProv.unfinishExercise();
                   } else {
                     imageSelected = img.name;
                     TtsProvider().speak(img.name);
+                    exerciseProv.saveParcialResult(ResultExercise(
+                        idTaskItem: widget.idTaskItem,
+                        type: TypeExercise.single_selection_syllable,
+                        audio: "",
+                        pairImagesResult: [
+                          ResultPairImages(
+                              idImage: img.idImage, nameImage: img.name)
+                        ]));
                   }
-                  exerciseProv.saveParcialResult(ResultExercise(
-                      idTaskItem: widget.idTaskItem,
-                      type: TypeExercise.single_selection_syllable,
-                      audio: "",
-                      pairImagesResult: [
-                        ResultPairImages(
-                            idImage: img.idImage, nameImage: img.name)
-                      ]));
+
                   //exerciseProv.finishExercise();
                   setState(() {});
                 },

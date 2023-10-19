@@ -66,7 +66,6 @@ class ExerciseSpecialistScreenState extends State<ExerciseSpecialistScreen>
     final exerciseProv = context.watch<ExerciseProvider>();
     final recorderProv = context.watch<RecorderProvider>();
     final authProvider = context.watch<AuthProvider>();
-
     return Scaffold(
       body: FutureBuilder(
           future: _fetchData,
@@ -143,20 +142,32 @@ class ExerciseSpecialistScreenState extends State<ExerciseSpecialistScreen>
                             children: [
                               IconButton(
                                 icon: const Icon(Icons.close),
-                                onPressed: () => Navigator.pop(context),
+                                onPressed: () {
+                                  exerciseProv.unfinishExercise();
+                                  Navigator.pop(context);
+                                },
                               ),
                               ConstrainedBox(
                                 constraints: BoxConstraints(
                                     maxWidth:
                                         MediaQuery.of(context).size.width -
                                             150),
-                                child: LinearProgressIndicator(
-                                  borderRadius: BorderRadius.circular(15),
-                                  backgroundColor: colorList[7],
-                                  color: colorList[4],
-                                  value: currentPageIndex /
-                                      _pagesExercisesFounded.length,
-                                  minHeight: 10,
+                                child: TweenAnimationBuilder<double>(
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeInOutSine,
+                                  tween: Tween<double>(
+                                    begin: 0,
+                                    end: currentPageIndex /
+                                        _pagesExercisesFounded.length,
+                                  ),
+                                  builder: (context, value, _) =>
+                                      LinearProgressIndicator(
+                                    borderRadius: BorderRadius.circular(15),
+                                    backgroundColor: colorList[7],
+                                    color: colorList[4],
+                                    value: value,
+                                    minHeight: 10,
+                                  ),
                                 ),
                               ),
                               Padding(

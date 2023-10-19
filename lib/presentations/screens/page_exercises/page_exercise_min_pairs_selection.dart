@@ -132,17 +132,20 @@ class PageExerciseMinimumPairsSelState
             setState(() {
               if (isSelected) {
                 imageSelected = "";
+                context.read<ExerciseProvider>().unfinishExercise();
               } else {
                 imageSelected = img.name;
+                context.read<ExerciseProvider>().saveParcialResult(
+                        ResultExercise(
+                            idTaskItem: widget.idTaskItem,
+                            type: TypeExercise.minimum_pairs_selection,
+                            audio: "",
+                            pairImagesResult: [
+                          ResultPairImages(
+                              idImage: img.idImage, nameImage: imageSelected)
+                        ]));
               }
-              context.read<ExerciseProvider>().saveParcialResult(ResultExercise(
-                      idTaskItem: widget.idTaskItem,
-                      type: TypeExercise.minimum_pairs_selection,
-                      audio: "",
-                      pairImagesResult: [
-                        ResultPairImages(
-                            idImage: img.idImage, nameImage: imageSelected)
-                      ]));
+
               //context.read<ExerciseProvider>().finishExercise();
             });
           },
