@@ -29,7 +29,7 @@ class ExerciseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void saveParcialResult(resultExercise) {
+  Future<void> saveParcialResult(resultExercise) async {
     _resultSaved = resultExercise;
     _exerciseFinished = true;
     notifyListeners();
@@ -54,10 +54,10 @@ class ExerciseProvider extends ChangeNotifier {
   }
 
   void sendRFIResults(List<RFIExerciseModel> rfiResults, int idPatient) async {
+    _exerciseFinished = false;
     await Api.post(
         "${Param.postRfi}/$idPatient", RFIExerciseModelToJson(rfiResults));
     idPhonemeActive = 0;
     _listResults.clear();
-    _exerciseFinished = false;
   }
 }

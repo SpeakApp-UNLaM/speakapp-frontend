@@ -64,12 +64,6 @@ class RfiScreenState extends State<RfiScreen> with TickerProviderStateMixin {
     final authProvider = context.watch<AuthProvider>();
     final exerciseProv = context.watch<ExerciseProvider>();
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'RFI',
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-      ),
       body: FutureBuilder(
         future: _fetchData,
         builder: (context, snapshot) {
@@ -131,7 +125,7 @@ class RfiScreenState extends State<RfiScreen> with TickerProviderStateMixin {
             );
           } else {
             return SafeArea(
-              top: false,
+              top: true,
               child: Stack(
                 children: [
                   Visibility(
@@ -139,21 +133,39 @@ class RfiScreenState extends State<RfiScreen> with TickerProviderStateMixin {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: () {
+                            exerciseProv.unfinishExercise();
+                            Navigator.pop(context);
+                          },
+                        ),
                         ConstrainedBox(
                           constraints: BoxConstraints(
-                              maxWidth: MediaQuery.of(context).size.width - 90),
-                          child: LinearProgressIndicator(
-                            backgroundColor: colorList[7],
-                            color: colorList[4],
-                            value: _controllerSwipable.currentIndex /
-                                _rfiImages.length,
-                            minHeight: 6,
+                              maxWidth:
+                                  MediaQuery.of(context).size.width - 150),
+                          child: TweenAnimationBuilder<double>(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOutSine,
+                            tween: Tween<double>(
+                              begin: 0,
+                              end: _controllerSwipable.currentIndex /
+                                  _rfiImages.length,
+                            ),
+                            builder: (context, value, _) =>
+                                LinearProgressIndicator(
+                              borderRadius: BorderRadius.circular(15),
+                              backgroundColor: colorList[7],
+                              color: colorList[4],
+                              value: value,
+                              minHeight: 10,
+                            ),
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child:
-                              Text(" ${_controllerSwipable.currentIndex}/57"),
+                          child: Text(
+                              "${_controllerSwipable.currentIndex} / ${_rfiImages.length}"),
                         )
                       ],
                     ),
@@ -217,11 +229,15 @@ class RfiScreenState extends State<RfiScreen> with TickerProviderStateMixin {
                               SizedBox(
                                 width: double
                                     .infinity, // Ajusta la altura de la imagen según tus necesidades
-                                child: Image.memory(
-                                  base64.decode(
-                                      _rfiImages[properties.index].imageData),
-                                  fit: BoxFit.cover,
-                                ),
+                                child: RepaintBoundary(
+                                    child: Image.memory(
+                                        base64.decode(
+                                            _rfiImages[properties.index]
+                                                .imageData),
+                                        fit: BoxFit.cover,
+                                        gaplessPlayback: true)
+                                    //Image.asset(arrImages[properties.index]),
+                                    ),
                               ),
                               const SizedBox(
                                 height: 20,
@@ -333,7 +349,7 @@ class RfiScreenState extends State<RfiScreen> with TickerProviderStateMixin {
                                             authProvider.userSelected;
                                         exerciseProv.sendRFIResults(
                                             _rfiResults, idPatient);
-                                        context.go('/', extra: 1);
+                                        Navigator.pop(context);
                                       },
                                       backgroundColor: colorList[0],
                                       elevation: 10.0,

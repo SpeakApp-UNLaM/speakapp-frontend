@@ -22,21 +22,11 @@ class ButtonRecorder extends StatelessWidget {
         GestureDetector(
             onTapUp: (details) async {
               await recorderProv.stopRecording();
-              if (recorderProv.existAudio) {
-                String audioInBase64 =
-                    await recorderProv.convertAudioToBase64();
-
-                exerciseProv.saveParcialResult(ResultExercise(
-                    idTaskItem: idExercise,
-                    type: TypeExercise.speak,
-                    audio: audioInBase64,
-                    pairImagesResult: []));
-                //exerciseProv.finishExercise();
-              }
+              saveParcialResult(recorderProv, exerciseProv);
             },
             onTapDown: (details) async => await recorderProv.startRecording(),
             child: AnimatedContainer(
-              duration: const Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOutCirc,
               decoration: BoxDecoration(
                 color:
@@ -64,7 +54,7 @@ class ButtonRecorder extends StatelessWidget {
                 ],
               ),
             )),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Text(
@@ -74,5 +64,18 @@ class ButtonRecorder extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Future<void> saveParcialResult(
+      RecorderProvider recorderProv, ExerciseProvider exerciseProv) async {
+    if (recorderProv.existAudio) {
+      String audioInBase64 = await recorderProv.convertAudioToBase64();
+
+      exerciseProv.saveParcialResult(ResultExercise(
+          idTaskItem: idExercise,
+          type: TypeExercise.speak,
+          audio: audioInBase64,
+          pairImagesResult: []));
+    }
   }
 }

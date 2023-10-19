@@ -58,7 +58,7 @@ dependencies:
   flare_flutter: ^3.0.2
   lottie: ^2.6.0
   swipable_stack: ^2.0.0
-  multi_dropdown: ^2.0.0
+  multi_dropdown: ^2.0.0 
 dev_dependencies:
 
   # The "flutter_lints" package below contains a set of recommended lints to
