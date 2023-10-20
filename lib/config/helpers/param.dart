@@ -58,6 +58,17 @@ class Param {
     Categories.phrase: "Frases"
   };
 
+   static Map<String, String> typeExercisesDescription = {
+    "speak": "Hablar",
+    "order_syllable": "Ordenar Sílabas",
+    "consonantal_syllable": "Sílaba Consonante",
+    "minimum_pairs_selection": "Selección Pares Mínimos",
+    "single_selection_syllable": "Selección de Sílaba",
+    "multiple_match_selection": "Ordenar Selección Múltiple",
+    "single_selection_word": "Selección de Palabra",
+    "multiple_selection": "Selección Múltiple",
+  };
+
   static Categories stringToEnumCategories(String value) {
     return Categories.values
         .firstWhere((element) => element.toString() == 'Categories.$value');

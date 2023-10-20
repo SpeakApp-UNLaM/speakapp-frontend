@@ -84,7 +84,7 @@ class ChoiceExerciseSpecialistScreenState
         child: Form(
           key: _formKey,
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Row(
                   children: [
@@ -104,6 +104,22 @@ class ChoiceExerciseSpecialistScreenState
                     ),
                   ],
                 ),
+                Text(
+                 "Seleccione categoría, tipo y nivel del grupo de ejercicios para el fónema:", 
+                 textAlign: TextAlign.center,
+                 style: GoogleFonts.nunito(
+                  color: Theme.of(context).primaryColorDark,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600
+                 ),             
+                ),
+                Text(
+                  widget.phoneme.namePhoneme,
+                  style: GoogleFonts.nunito(
+                      fontSize: 32,
+                      color: colorList[1],
+                      fontWeight: FontWeight.w800),
+                ),
                 SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -112,7 +128,6 @@ class ChoiceExerciseSpecialistScreenState
                         hint: 'Categoría',
                         onOptionSelected: (newValue) {
                           setState(() {
-                            _typeOptions = [];
                             _selectedValue1 = [];
                             (newValue).forEach((element) {
                               _selectedValue1.add(element.value as String);
@@ -123,7 +138,8 @@ class ChoiceExerciseSpecialistScreenState
                         options: Categories.values
                             .map((category) => ValueItem(
                                 value: category.toString().split('.').last,
-                                label: category.toString().split('.').last))
+                                label: Param.categoriesDescriptions[category]
+                                    .toString()))
                             .toList(),
                         selectionType: SelectionType.multi,
                         chipConfig: const ChipConfig(wrapType: WrapType.scroll),
@@ -144,7 +160,9 @@ class ChoiceExerciseSpecialistScreenState
                         },
                         options: _typeOptions
                             .map((tipo) => ValueItem(
-                                label: tipo.toString(), value: tipo.toString()))
+                                label: Param.typeExercisesDescription[tipo]
+                                    as String,
+                                value: tipo.toString()))
                             .toList(),
                         selectionType: SelectionType.multi,
                         chipConfig: const ChipConfig(wrapType: WrapType.scroll),
@@ -178,7 +196,8 @@ class ChoiceExerciseSpecialistScreenState
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 20),
                   child: FilledButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor:
@@ -199,7 +218,8 @@ class ChoiceExerciseSpecialistScreenState
                           textEditingController2.clear();
                         } else {
                           Fluttertoast.showToast(
-                            msg: 'Existen campos incompletos', // Mensaje de la excepción
+                            msg:
+                                'Existen campos incompletos', // Mensaje de la excepción
                             toastLength: Toast
                                 .LENGTH_LONG, // Duración del toast (Toast.LENGTH_LONG o Toast.LENGTH_SHORT)
                             gravity: ToastGravity
