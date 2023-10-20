@@ -51,13 +51,16 @@ class PageExerciseSingleSelectionWordState
   Widget build(BuildContext context) {
     final exerciseProv = context.watch<ExerciseProvider>();
     return Scaffold(
-      body: Center(
+      body: Align(
+        alignment: Alignment.topCenter,
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(8.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                SizedBox(
+                  height: 50,
+                ),
                 Text('¡Vamos a practicar!',
                     textAlign: TextAlign.center,
                     style: GoogleFonts.nunito(
@@ -117,28 +120,27 @@ class PageExerciseSingleSelectionWordState
             child: Stack(
               children: [
                 Container(
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black
-                                    .withOpacity(0.1), // Color de la sombra
-                                blurRadius: 5, // Radio de desenfoque
-                                offset: Offset(0, 4))
-                          ],
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(16)),
-                          border: Border.all(
-                            color: imageSelected == img.name
-                                ? colorList[1]
-                                : Colors.transparent,
-                            width: 3.0,
-                          ),
-                        ),
-                        width: 160,
-                        height: 160,
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(14),
-                            child: _listImages[widget.images.indexOf(img)])),
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black
+                                .withOpacity(0.1), // Color de la sombra
+                            blurRadius: 5, // Radio de desenfoque
+                            offset: Offset(0, 4))
+                      ],
+                      borderRadius: const BorderRadius.all(Radius.circular(16)),
+                      border: Border.all(
+                        color: imageSelected == img.name
+                            ? colorList[1]
+                            : Colors.transparent,
+                        width: 3.0,
+                      ),
+                    ),
+                    width: 160,
+                    height: 160,
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(14),
+                        child: _listImages[widget.images.indexOf(img)])),
                 Positioned(
                   bottom: 7,
                   right: 7,

@@ -15,8 +15,9 @@ import '../../providers/recorder_provider.dart';
 // ignore: must_be_immutable
 class ExerciseSpecialistScreen extends StatefulWidget {
   Map<String, dynamic> queryParameters;
-  ExerciseSpecialistScreen({super.key, required this.queryParameters});
-
+  ExerciseSpecialistScreen(
+      {super.key, required this.queryParameters, required this.namePhoneme});
+  String namePhoneme;
   @override
   ExerciseSpecialistScreenState createState() =>
       ExerciseSpecialistScreenState();
@@ -30,13 +31,15 @@ class ExerciseSpecialistScreenState extends State<ExerciseSpecialistScreen>
   late final AnimationController _controller;
 
   Future fetchData() async {
-    final response = await Api.get(Param.getExercisesCustom,
-        queryParameters: widget.queryParameters);
+    final param = {...widget.queryParameters};
+    param.remove("namePhoneme");
+    final response =
+        await Api.get(Param.getExercisesCustom, queryParameters: param);
     await Future.delayed(const Duration(seconds: 3), () {
       if (response != null) {
         for (var element in response) {
-          _pagesExercisesFounded
-              .add(ExerciseModel.fromJson(element).fromEntity(""));
+          _pagesExercisesFounded.add(
+              ExerciseModel.fromJson(element).fromEntity(widget.namePhoneme));
         }
       }
     });

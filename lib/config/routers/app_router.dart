@@ -231,8 +231,10 @@ class AppRouter {
           builder: (context, state) {
             Map<String, dynamic> queryParameters =
                 state.extra as Map<String, dynamic>;
-
-            return ExerciseSpecialistScreen(queryParameters: queryParameters);
+            return ExerciseSpecialistScreen(
+              queryParameters: queryParameters,
+              namePhoneme: queryParameters["namePhoneme"],
+            );
           }),
     ],
     redirect: (context, state) {
