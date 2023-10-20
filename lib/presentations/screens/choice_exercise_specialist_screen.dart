@@ -207,12 +207,16 @@ class ChoiceExerciseSpecialistScreenState
                         if (_selectedValue1.isNotEmpty &&
                             _selectedValue2.isNotEmpty &&
                             _selectedValue3.isNotEmpty) {
-                          context.push("/exercise_specialist", extra: {
-                            'typesExercise': _selectedValue2,
-                            'idsPhoneme': widget.phoneme.idPhoneme,
-                            'categories': _selectedValue1,
-                            'levels': _selectedValue3,
-                          });
+                          context.push(
+                            "/exercise_specialist",
+                            extra: {
+                              'typesExercise': _selectedValue2,
+                              'idsPhoneme': widget.phoneme.idPhoneme,
+                              'categories': _selectedValue1,
+                              'levels': _selectedValue3,
+                              'namePhoneme': widget.phoneme.namePhoneme
+                            },
+                          );
 
                           textEditingController1.clear();
                           textEditingController2.clear();
