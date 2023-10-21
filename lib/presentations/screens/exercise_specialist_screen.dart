@@ -148,6 +148,7 @@ class ExerciseSpecialistScreenState extends State<ExerciseSpecialistScreen>
                                 onPressed: () {
                                   exerciseProv.unfinishExercise();
                                   Navigator.pop(context);
+                                  Navigator.pop(context);
                                 },
                               ),
                               ConstrainedBox(
@@ -312,15 +313,10 @@ class ExerciseSpecialistScreenState extends State<ExerciseSpecialistScreen>
                                       recorderProv.resetPathAudio();
                                       recorderProv.resetProvider();
                                       exerciseProv.sendResultsExercises();
-
-                                      if (widget.queryParameters == null) {
-                                        context.go('/',
-                                            extra: authProvider.prefs
-                                                .getInt('userId') as int);
-                                      } else {
-                                        //VIENE DE TEST_EXERCISES
-                                        Navigator.pop(context);
-                                      }
+                                      Navigator.pop(context);
+                                      //context.push('/',
+                                      //    extra: authProvider.prefs
+                                      //        .getInt('userId') as int);
                                     },
                                     backgroundColor: colorList[0],
                                     elevation: 10.0,

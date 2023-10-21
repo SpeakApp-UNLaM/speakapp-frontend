@@ -43,8 +43,12 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void checkLoggedIn() {
+  Future<void> checkLoggedIn() async {
     loggedIn = prefs.getBool('LoggedIn') ?? false;
+    if (loggedIn) {
+      final token = await UserPreferences().getToken();
+      Api.setToken(token);
+    }
   }
 
   Status _loggedInStatus = Status.NotLoggedIn;

@@ -66,7 +66,10 @@ class ExerciseModel {
         );
       case TypeExercise.minimum_pairs_selection:
         return PageExerciseMinimumPairsSel(
-            images: images, namePhoneme: letra, idTaskItem: idTaskItem);
+            images: images,
+            namePhoneme: letra,
+            idTaskItem: idTaskItem,
+            result: result);
       case TypeExercise.multiple_selection:
         return PageExerciseMultipleSelection(
             images: images,

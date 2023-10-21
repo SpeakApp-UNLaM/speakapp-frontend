@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:sp_front/domain/entities/phoneme.dart';
+import 'package:sp_front/presentations/screens/views/phoneme_view.dart';
 import 'package:sp_front/providers/auth_provider.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import '../../config/helpers/api.dart';
@@ -168,7 +170,9 @@ class ExerciseScreenState extends State<ExerciseScreen>
                                 icon: const Icon(Icons.close),
                                 onPressed: () {
                                   exerciseProv.unfinishExercise();
-                                  Navigator.pop(context);
+                                  Navigator.pushReplacementNamed(context, '/',
+                                      arguments: authProvider.prefs
+                                          .getInt('userId') as int);
                                 },
                               ),
                               ConstrainedBox(

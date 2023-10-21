@@ -55,7 +55,7 @@ class PageExerciseMultipleMatchSelState
     }).toList();
 
     _shuffleListImages = widget.images;
-    _shuffleListImages.shuffle();
+    //_shuffleListImages.shuffle();
   }
 
   List<String> audiosSelected = [], imagesSelected = [];
@@ -227,8 +227,7 @@ class PageExerciseMultipleMatchSelState
                           height: 150,
                           child: ClipRRect(
                               borderRadius: BorderRadius.circular(16),
-                              child:
-                                  _listImages[widget.images.indexOf(img)])),
+                              child: _listImages[widget.images.indexOf(img)])),
                     );
                   }).toList(),
                 ),

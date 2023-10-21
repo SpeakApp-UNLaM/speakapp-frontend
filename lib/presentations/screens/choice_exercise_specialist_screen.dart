@@ -78,6 +78,7 @@ class ChoiceExerciseSpecialistScreenState
   Widget build(BuildContext context) {
     final authProvider = context.watch<AuthProvider>();
     List<int> nivelList = [];
+    print("HOLAAAAAAAAAAAAAAAAAAAAAAAA");
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),

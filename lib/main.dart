@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -18,12 +19,12 @@ Future<void> main() async {
   FlutterNativeSplash.preserve(
       widgetsBinding: WidgetsFlutterBinding.ensureInitialized());
   final state = AuthProvider(await SharedPreferences.getInstance());
-
+  /*await UserPreferences().removeUser();
+  exit(1);*/
   FlutterNativeSplash.remove();
-  state.checkLoggedIn();
+  await state.checkLoggedIn();
 
   runApp(AudioRecorderApp(authProvider: state));
-  //UserPreferences().removeUser();
 }
 
 class AudioRecorderApp extends StatelessWidget {
