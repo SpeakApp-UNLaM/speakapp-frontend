@@ -2,8 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:sp_front/config/helpers/play_audio_manager.dart';
 import 'package:sp_front/providers/auth_provider.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import '../../config/helpers/api.dart';
@@ -406,10 +408,17 @@ class ExerciseSpecialistScreenState extends State<ExerciseSpecialistScreen>
                       //TODO: DESCOMENTAR LINEA SENDTRANSCRIPTION
                       //await recorderProv.sendTranscription();
                       //exerciseProv.resetAudio();
+
                       recorderProv.resetProvider();
                       setState(() {
                         _isFinishedExercise = true;
                       });
+
+                      final AudioPlayer audioPlayer = AudioPlayer();
+                      await audioPlayer
+                          .setAsset('assets/audio/FinDeEjercicio.mp3');
+                      await audioPlayer.play();
+                      await audioPlayer.dispose();
                     },
               backgroundColor: !exerciseProv.isExerciseFinished
                   ? Colors.grey.shade200
@@ -480,6 +489,7 @@ class ExerciseSpecialistScreenState extends State<ExerciseSpecialistScreen>
                       exerciseProv.finishExercise();
                       //exerciseProv.unfinishExercise();
                       recorderProv.resetPathAudio();
+
                       setState(() {
                         exerciseIteration++;
                       });
@@ -487,18 +497,37 @@ class ExerciseSpecialistScreenState extends State<ExerciseSpecialistScreen>
                       // Muestra la animación de felicitación cada 3 iteraciones
                       if (exerciseIteration % 3 == 0) {
                         _showCongratulations = true;
+                        final AudioPlayer audioPlayer = AudioPlayer();
+                        await audioPlayer
+                            .setAsset('assets/audio/NeneSaltando.mp3');
+                        await audioPlayer.play();
+                        await audioPlayer.dispose();
+
+                        _pc.nextPage(
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.linearToEaseOut,
+                        );
+
                         Future.delayed(const Duration(seconds: 6), () {
                           setState(() {
                             _showCongratulations = false;
                           });
                         });
-                      } // Incrementa el contador de iteraciones de ejercicio
-                      // Espera 5 segundos antes de cambiar _showCongratulations a false
+                      } else {
+                        final AudioPlayer audioPlayer = AudioPlayer();
+                        await audioPlayer
+                            .setAsset('assets/audio/SiguienteEjercicio2.mp3');
+                        await audioPlayer.play();
+                        await audioPlayer.dispose();
 
-                      _pc.nextPage(
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.linearToEaseOut,
-                      );
+                        _pc.nextPage(
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.linearToEaseOut,
+                        );
+                      }
+
+                      // Incrementa el contador de iteraciones de ejercicio
+                      // Espera 5 segundos antes de cambiar _showCongratulations a false
                     },
               backgroundColor: !exerciseProv.isExerciseFinished
                   ? Colors.grey.shade200
