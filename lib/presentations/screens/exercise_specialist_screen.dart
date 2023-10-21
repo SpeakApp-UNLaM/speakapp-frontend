@@ -419,10 +419,8 @@ class ExerciseSpecialistScreenState extends State<ExerciseSpecialistScreen>
                       });
 
                       final AudioPlayer audioPlayer = AudioPlayer();
-                      await audioPlayer
-                          .setAsset('assets/audio/FinDeEjercicio.mp3');
-                      await audioPlayer.play();
-                      await audioPlayer.dispose();
+                      audioPlayer.setAsset('assets/audio/FinDeEjercicio.mp3');
+                      audioPlayer.play();
                     },
               backgroundColor: !exerciseProv.isExerciseFinished
                   ? Colors.grey.shade200
@@ -502,10 +500,9 @@ class ExerciseSpecialistScreenState extends State<ExerciseSpecialistScreen>
                       if (exerciseIteration % 3 == 0) {
                         _showCongratulations = true;
                         final AudioPlayer audioPlayer = AudioPlayer();
-                        await audioPlayer
-                            .setAsset('assets/audio/NeneSaltando.mp3');
-                        await audioPlayer.play();
-                        await audioPlayer.dispose();
+                        audioPlayer.setAsset('assets/audio/NeneSaltando.mp3');
+                        audioPlayer.play();
+                        //await audioPlayer.dispose();
 
                         _pc.nextPage(
                           duration: const Duration(milliseconds: 500),
@@ -519,10 +516,10 @@ class ExerciseSpecialistScreenState extends State<ExerciseSpecialistScreen>
                         });
                       } else {
                         final AudioPlayer audioPlayer = AudioPlayer();
-                        await audioPlayer
+                        audioPlayer
                             .setAsset('assets/audio/SiguienteEjercicio2.mp3');
-                        await audioPlayer.play();
-                        await audioPlayer.dispose();
+                        audioPlayer.play();
+                        //await audioPlayer.dispose();
 
                         _pc.nextPage(
                           duration: const Duration(milliseconds: 500),
