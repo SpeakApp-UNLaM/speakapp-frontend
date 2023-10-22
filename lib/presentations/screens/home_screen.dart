@@ -2,7 +2,10 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:sp_front/auth/user.dart';
+import 'package:sp_front/auth/user_preferences.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
+import 'package:sp_front/providers/auth_provider.dart';
 import '../../config/menu/menu_items.dart';
 import '../../providers/login_provider.dart';
 
@@ -17,8 +20,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //User user;
-    //UserPreferences().getUser().then((value) => {user = value})  ;
+    User? user;
+    UserPreferences().getUser().then((value) => {user = value})  ;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 70,
@@ -29,7 +32,7 @@ class HomeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('Hola!', style: Theme.of(context).textTheme.labelSmall),
-            Text('Tomas Gonzalez',
+            Text(context.read<AuthProvider>().loggedUser.firstName,
                 style: Theme.of(context).textTheme.labelMedium)
           ],
         ),
