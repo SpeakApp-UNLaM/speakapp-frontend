@@ -45,6 +45,7 @@ class PageExerciseMinimumPairsSelState
         fit: BoxFit.cover,
       );
     }).toList();
+    _listImages.shuffle();
   }
 
   @override

@@ -49,11 +49,11 @@ class Api {
         return response;
       } else {
         // Maneja errores de estado de respuesta HTTP aquí
-        return "Error en el POST: ${response.statusCode}";
+        return "${response.statusCode}";
       }
     } on DioException catch (e) {
       // Maneja errores específicos de Dio (por ejemplo, errores de red)
-      return "Error en el POST: ${e.message}";
+      return "${e.response?.statusCode}";
     } catch (e) {
       // Maneja otros errores inesperados
       return "Error inesperado en el POST: $e";

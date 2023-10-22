@@ -45,6 +45,7 @@ class PageExerciseSingleSelectionWordState
         fit: BoxFit.cover,
       );
     }).toList();
+    _listImages.shuffle();
   }
 
   @override

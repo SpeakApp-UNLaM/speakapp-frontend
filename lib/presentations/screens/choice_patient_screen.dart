@@ -28,9 +28,10 @@ class ChoicePatientScreenState extends State<ChoicePatientScreen>
 
   Future fetchData() async {
     final response = await Api.get(Param.getPatients);
-
-    for (var element in response) {
-      _patientsList.add(PatientModel.fromJson(element));
+    if (response != null) {
+      for (var element in response) {
+        _patientsList.add(PatientModel.fromJson(element));
+      }
     }
 
     return response;

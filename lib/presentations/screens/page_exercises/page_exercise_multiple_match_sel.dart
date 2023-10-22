@@ -54,8 +54,8 @@ class PageExerciseMultipleMatchSelState
       );
     }).toList();
 
-    _shuffleListImages = widget.images;
-    //_shuffleListImages.shuffle();
+    _shuffleListImages = [...widget.images];
+    _shuffleListImages.shuffle();
   }
 
   List<String> audiosSelected = [], imagesSelected = [];
@@ -116,6 +116,7 @@ class PageExerciseMultipleMatchSelState
                                 idImage: 0, nameImage: img.name));
                           }
                         }
+
                         if (imagesSelected.length == widget.images.length &&
                             audiosSelected.length == widget.images.length) {
                           exerciseProv.saveParcialResult(ResultExercise(

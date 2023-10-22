@@ -29,7 +29,6 @@ class AuthProvider with ChangeNotifier {
   }
 
   bool get loggedIn => _loggedIn;
-
   String get typeUser => _typeUser;
   int get userSelected => _userSelected;
   void selectUser(int user) {
@@ -47,7 +46,15 @@ class AuthProvider with ChangeNotifier {
     loggedIn = prefs.getBool('LoggedIn') ?? false;
     if (loggedIn) {
       final token = await UserPreferences().getToken();
-      Api.setToken(token);
+      bool tokenIsExpired = JwtDecoder.isExpired(token);
+      if (tokenIsExpired) {
+        //eliminamos el sharedPreference del usuario ya que vence el token
+        await UserPreferences().removeUser();
+        loggedIn = false;
+        Param.showToast("Su sesión ha vencido");
+      } else {
+        Api.setToken(token);
+      }
     }
   }
 
@@ -95,7 +102,11 @@ class AuthProvider with ChangeNotifier {
 
       result = {'status': true, 'message': 'Successful', 'user': authUser};
     } else {
-      Param.showToast(response);
+      if (response == "401") {
+        Param.showToast("Usuario y contraseña incorrectos!");
+      } else {
+        Param.showToast(response);
+      }
       _loggedInStatus = Status.NotLoggedIn;
       notifyListeners();
       result = {'status': false, 'message': 'ERROR'};

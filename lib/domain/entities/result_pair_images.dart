@@ -10,4 +10,8 @@ class ResultPairImages {
   void setIdImage(int idImag) {
     idImage = idImag;
   }
+
+  String getNameImage() {
+    return nameImage;
+  }
 }

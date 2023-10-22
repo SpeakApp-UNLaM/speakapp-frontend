@@ -35,7 +35,6 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
   void initState() {
     super.initState();
     possibleSyllables = [...widget.syllables];
-    widget.syllables.shuffle();
     possibleSyllables.shuffle();
     _image = Image.memory(
       base64.decode(widget.img.imageData),
@@ -206,7 +205,7 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                     setState(() {
                       formedWord = [];
                       possibleSyllables = [...widget.syllables];
-
+                      possibleSyllables.shuffle();
                       exerciseProv.unfinishExercise();
                     });
                   },
