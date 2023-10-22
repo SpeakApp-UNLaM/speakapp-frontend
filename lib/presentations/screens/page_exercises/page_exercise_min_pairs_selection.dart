@@ -32,6 +32,8 @@ class PageExerciseMinimumPairsSel extends StatefulWidget {
 
 class PageExerciseMinimumPairsSelState
     extends State<PageExerciseMinimumPairsSel> {
+  bool speakSlow = false;
+
   String imageSelected = "";
   late List<Image> _listImages;
 
@@ -75,7 +77,11 @@ class PageExerciseMinimumPairsSelState
                 children: [
                   GestureDetector(
                     onTap: () {
-                      TtsProvider().speak(widget.result);
+                      setState(() {
+                        speakSlow = !speakSlow;
+                      });
+                      TtsProvider()
+                          .speak(widget.result, speakSlow == true ? 0.1 : 0.5);
                     },
                     child: DecoratedBox(
                         decoration: BoxDecoration(

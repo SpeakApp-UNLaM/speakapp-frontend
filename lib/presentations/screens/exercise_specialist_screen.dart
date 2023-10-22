@@ -150,7 +150,6 @@ class ExerciseSpecialistScreenState extends State<ExerciseSpecialistScreen>
                                 onPressed: () {
                                   exerciseProv.unfinishExercise();
                                   Navigator.pop(context);
-                                  Navigator.pop(context);
                                 },
                               ),
                               ConstrainedBox(

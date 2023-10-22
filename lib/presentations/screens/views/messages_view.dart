@@ -64,7 +64,7 @@ class TextToSpeech extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             ElevatedButton(
-                child: Text("NU"), onPressed: () => TtsProvider().speak("NU"))
+                child: Text("NU"), onPressed: () => TtsProvider().speak("NU", 0.5))
           ],
         ),
       ),
@@ -83,7 +83,7 @@ class TextToSpeech2 extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             ElevatedButton(
-                child: Text("BLA"), onPressed: () => TtsProvider().speak("BLA"))
+                child: Text("BLA"), onPressed: () => TtsProvider().speak("BLA", 0.5))
           ],
         ),
       ),
@@ -102,7 +102,7 @@ class TextToSpeech3 extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             ElevatedButton(
-                child: Text("DO"), onPressed: () => TtsProvider().speak("DO"))
+                child: Text("DO"), onPressed: () => TtsProvider().speak("DO", 0.5))
           ],
         ),
       ),

@@ -23,6 +23,8 @@ class PageExerciseSpeak extends StatefulWidget {
 }
 
 class PageExerciseSpeakState extends State<PageExerciseSpeak> {
+  bool speakSlow = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +48,10 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
             const SizedBox(height: 50.0),
             GestureDetector(
               onTap: () {
-                TtsProvider().speak(widget.result.toUpperCase());
+                setState(() {
+                  speakSlow = !speakSlow;
+                });
+                TtsProvider().speak(widget.result, speakSlow == true ? 0.1 : 0.7);
               },
               child: Stack(
                 children: [

@@ -147,7 +147,7 @@ class PageExerciseConsonantalSyllableState
         for (ImageExerciseModel img in widget.images)
           GestureDetector(
             onTap: () {
-              TtsProvider().speak(img.name);
+              TtsProvider().speak(img.name, 0.5);
               setState(() {});
             },
             child: Stack(children: [

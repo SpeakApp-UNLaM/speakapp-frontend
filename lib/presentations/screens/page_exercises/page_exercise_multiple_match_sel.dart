@@ -105,7 +105,7 @@ class PageExerciseMultipleMatchSelState
                           pairImages.removeAt(index);
                           audiosSelected.remove(img.name);
                         } else {
-                          TtsProvider().speak(img.name);
+                          TtsProvider().speak(img.name, 0.5);
                           audiosSelected.add(img.name);
                           int auxIndex = audiosSelected.lastIndexOf(img.name);
                           if (pairImages.isNotEmpty &&

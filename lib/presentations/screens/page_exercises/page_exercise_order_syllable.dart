@@ -70,7 +70,7 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                 const SizedBox(height: 40.0),
                 GestureDetector(
                   onTap: () {
-                    TtsProvider().speak(widget.img.name);
+                    TtsProvider().speak(widget.img.name, 0.5);
                   },
                   child: Stack(children: [
                     Container(
