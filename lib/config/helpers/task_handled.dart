@@ -21,9 +21,12 @@ class TaskHandled {
   Future<List<Phoneme>> fetchAllPhonemes() async {
     List<Phoneme> lst = [];
     final response = await Api.get(Param.getAllPhonemes);
-    for (var element in response) {
-      lst.add(PhonemeModel.fromJson(element).toPhonemeEntity());
+    if (response != null) {
+      for (var element in response) {
+        lst.add(PhonemeModel.fromJson(element).toPhonemeEntity());
+      }
     }
+
     return lst;
   }
 }

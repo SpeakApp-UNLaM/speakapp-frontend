@@ -45,6 +45,7 @@ class PageExerciseConsonantalSyllableState
         fit: BoxFit.cover,
       );
     }).toList();
+    _listImages.shuffle();
   }
 
   String syllableSelected = "";
@@ -69,7 +70,8 @@ class PageExerciseConsonantalSyllableState
                       fontSize: 20,
                       color: Theme.of(context).primaryColorDark)),
               const SizedBox(height: 30.0),
-              Text('Reproducí el sónido de la imágen y selecciona la silaba que contiene',
+              Text(
+                  'Reproducí el sónido de la imágen y selecciona la silaba que contiene',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.nunito(
                       fontWeight: FontWeight.w600,

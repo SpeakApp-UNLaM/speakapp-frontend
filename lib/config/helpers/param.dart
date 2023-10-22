@@ -58,7 +58,7 @@ class Param {
     Categories.phrase: "Frases"
   };
 
-   static Map<String, String> typeExercisesDescription = {
+  static Map<String, String> typeExercisesDescription = {
     "speak": "Hablar",
     "order_syllable": "Ordenar Sílabas",
     "consonantal_syllable": "Sílaba Consonante",

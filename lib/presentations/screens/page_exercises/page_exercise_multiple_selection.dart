@@ -47,15 +47,20 @@ class PageExerciseMultipleSelectionState
         fit: BoxFit.cover,
       );
     }).toList();
+    _listImages.shuffle();
   }
 
   @override
   Widget build(BuildContext context) {
     const colors = <Color>[
-      Color(0xFFffa834),
-      Color(0xFF72bb53),
-      Color(0xFF91e4fb),
-      Color(0xFFce82ff),
+      Colors.blue,
+      Colors.brown,
+      Colors.red,
+      Colors.purple,
+      Colors.green,
+      Colors.orange,
+      Colors.blueGrey,
+      Colors.lime
     ];
     final exerciseProv = context.watch<ExerciseProvider>();
     return Scaffold(

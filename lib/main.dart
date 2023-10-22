@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sp_front/auth/user_preferences.dart';
@@ -50,6 +51,13 @@ class AudioRecorderApp extends StatelessWidget {
         builder: (BuildContext context) {
           final router = Provider.of<AppRouter>(context, listen: false).router;
           return MaterialApp.router(
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('es', 'ES'),
+            ],
             routeInformationParser: router.routeInformationParser,
             routerDelegate: router.routerDelegate,
             routeInformationProvider: router.routeInformationProvider,
