@@ -40,7 +40,7 @@ class ExerciseProvider extends ChangeNotifier {
         resultExerciseModelToJson(_listResults.map((resulExercises) {
       return ResultExerciseModel.resultExerciseToModel(resulExercises);
     }).toList());
-
+    print(jsonExercises);
     await Api.post(Param.postSaveResultExercises, jsonExercises);
     //print("a eliminar: $idPhonemeActive");
     //await Api.delete("${Param.deleteTask}/$idPhonemeActive", {});

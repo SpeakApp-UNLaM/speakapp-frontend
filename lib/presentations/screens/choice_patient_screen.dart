@@ -12,6 +12,7 @@ import '../../providers/login_provider.dart';
 import 'home_specialist_screen.dart';
 
 class ChoicePatientScreen extends StatefulWidget {
+  final String name = "choicePatientScreen";
   const ChoicePatientScreen({
     super.key,
   });

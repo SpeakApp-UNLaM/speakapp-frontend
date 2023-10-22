@@ -15,12 +15,14 @@ class PageExerciseMinimumPairsSel extends StatefulWidget {
   final int idTaskItem;
   final List<ImageExerciseModel> images;
   final String namePhoneme;
+  final String result;
 
   const PageExerciseMinimumPairsSel(
       {Key? key,
       required this.images,
       required this.namePhoneme,
-      required this.idTaskItem})
+      required this.idTaskItem,
+      required this.result})
       : super(key: key);
 
   @override
@@ -47,7 +49,6 @@ class PageExerciseMinimumPairsSelState
 
   @override
   Widget build(BuildContext context) {
-    String nameAudio = widget.images.first.name;
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -74,7 +75,7 @@ class PageExerciseMinimumPairsSelState
                 children: [
                   GestureDetector(
                     onTap: () {
-                      TtsProvider().speak(nameAudio);
+                      TtsProvider().speak(widget.result);
                     },
                     child: DecoratedBox(
                         decoration: BoxDecoration(

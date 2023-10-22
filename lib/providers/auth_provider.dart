@@ -19,6 +19,7 @@ enum Status {
 
 class AuthProvider with ChangeNotifier {
   final SharedPreferences prefs;
+  late User _loggedUser;
   bool _loggedIn = false;
   String _typeUser = "patient";
   int _userSelected = 0;
@@ -26,12 +27,15 @@ class AuthProvider with ChangeNotifier {
     loggedIn = prefs.getBool('LoggedIn') ?? false;
     _typeUser = prefs.getString('type') ?? "";
     _userSelected = 0;
+    getUser();
   }
 
   bool get loggedIn => _loggedIn;
 
   String get typeUser => _typeUser;
   int get userSelected => _userSelected;
+  User get loggedUser => _loggedUser;
+
   void selectUser(int user) {
     _userSelected = user;
     notifyListeners();
@@ -43,8 +47,16 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void checkLoggedIn() {
+  void getUser() async {
+    _loggedUser = await UserPreferences().getUser();
+  }
+
+  Future<void> checkLoggedIn() async {
     loggedIn = prefs.getBool('LoggedIn') ?? false;
+    if (loggedIn) {
+      final token = await UserPreferences().getToken();
+      Api.setToken(token);
+    }
   }
 
   Status _loggedInStatus = Status.NotLoggedIn;
@@ -84,6 +96,7 @@ class AuthProvider with ChangeNotifier {
           token: responseData['token'],
           renewalToken: responseData['token']);
 
+      _loggedUser = authUser;
       await UserPreferences().saveUser(authUser);
       _loggedInStatus = Status.LoggedIn;
       _typeUser = responseData['type'];

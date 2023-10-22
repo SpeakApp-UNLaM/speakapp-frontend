@@ -52,11 +52,10 @@ class UserPreferences {
     prefs.remove("phone");
     prefs.remove("type");
     prefs.remove("token");
-
     prefs.clear();
   }
 
-  Future<String> getToken(args) async {
+  Future<String> getToken() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token") as String;
     return token;

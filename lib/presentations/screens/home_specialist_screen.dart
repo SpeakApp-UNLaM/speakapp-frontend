@@ -30,7 +30,7 @@ class HomeSpecialistScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('Hola!', style: Theme.of(context).textTheme.labelSmall),
-            Text('Tomas Gonzalez',
+            Text(context.read<AuthProvider>().loggedUser.firstName,
                 style: Theme.of(context).textTheme.labelMedium)
           ],
         ),
