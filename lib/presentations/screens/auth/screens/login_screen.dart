@@ -98,13 +98,19 @@ class _LoginForm extends StatelessWidget {
                 },
               )),
           const Spacer(flex: 2),
-          Wrap(
-            alignment: WrapAlignment.center,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              const Text('¿No tienes cuenta?'),
+              Text(
+                '¿No tienes una cuenta?',
+                style: GoogleFonts.nunito(
+                    color: Colors.grey.shade500, fontSize: 14),
+              ),
               TextButton(
                   onPressed: () => context.push('/register'),
-                  child: const Text('Crea una aquí'))
+                  child: Text('Crea una aquí',
+                      style: GoogleFonts.nunito(
+                          color: Theme.of(context).primaryColor, fontSize: 14)))
             ],
           ),
           const Spacer(flex: 1),
