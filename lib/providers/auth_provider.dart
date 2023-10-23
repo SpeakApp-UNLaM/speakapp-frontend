@@ -47,7 +47,9 @@ class AuthProvider with ChangeNotifier {
   }
 
   void getUser() async {
-    _loggedUser = await UserPreferences().getUser();
+    if (_loggedIn) {
+      _loggedUser = await UserPreferences().getUser();
+    }
   }
 
   Future<void> checkLoggedIn() async {

@@ -54,69 +54,86 @@ class PageExerciseSingleSelectionSyllableState
     final exerciseProv = context.watch<ExerciseProvider>();
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('¡Vamos a practicar!',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.nunito(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 20,
-                      color: Theme.of(context).primaryColorDark)),
-              const SizedBox(height: 30.0),
-              Text('¿Cuál imagen contiene el siguiente sonido?',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.nunito(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 15,
-                      color: Theme.of(context).primaryColorDark)),
-              const SizedBox(height: 60.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        speakSlow = !speakSlow;
-                      });
-                      TtsProvider().speak(
-                          widget.syllable, speakSlow == true ? 0.1 : 0.5);
-                    },
-                    child: DecoratedBox(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Column(
+              children: [
+                Text('¡Vamos a practicar!',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.nunito(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 20,
+                        color: Theme.of(context).primaryColorDark)),
+                SizedBox(height: 15),
+                Text('¿Cuál imagen contiene el siguiente sonido?',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.nunito(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                        color: Theme.of(context).primaryColorDark)),
+                SizedBox(height: 50),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        //exerciseProv.finishExercise();
+                        setState(() {
+                          speakSlow = !speakSlow;
+                        });
+                        TtsProvider().speak(
+                            widget.syllable, speakSlow == true ? 0.1 : 0.5);
+                      },
+                      child: DecoratedBox(
                         decoration: BoxDecoration(
-                            color: colorList[4],
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(8)),
-                            border: Border.all(
-                              color: colorList[4],
-                              width: 2.0,
-                            )),
+                          color: Theme.of(context).primaryColorDark,
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black
+                                    .withOpacity(0.1), // Color de la sombra
+                                blurRadius: 5, // Radio de desenfoque
+                                offset: Offset(0, 5))
+                          ],
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(32)),
+                        ),
                         child: Container(
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Icon(
-                                Icons.play_arrow,
-                                color: Colors.white,
-                                size: 30,
-                              ),
-                            ],
+                          constraints: BoxConstraints(
+                            minWidth: 100, // Ancho mínimo deseado
+                            maxWidth: MediaQuery.of(context).size.width *
+                                0.35, // Ancho máximo del 30% del ancho disponible
                           ),
-                        )),
-                  )
-                ],
-              ),
-              const SizedBox(height: 80.0),
-              drawImages(exerciseProv),
-              const SizedBox(height: 40.0),
-            ],
-          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 5, right: 5, top: 10, bottom: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.volume_up_outlined,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(width: 10),
+                                Text("Reproducir",
+                                    style: GoogleFonts.nunito(
+                                        fontSize: 14, color: Colors.white))
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const Spacer(flex: 1),
+            Center(child: drawImages(exerciseProv)),
+            const Spacer(flex: 1),
+          ],
         ),
       ),
     );

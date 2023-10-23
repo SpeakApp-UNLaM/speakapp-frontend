@@ -279,61 +279,64 @@ class ExerciseSpecialistScreenState extends State<ExerciseSpecialistScreen>
                                     ..repeat();
                                 },
                               )),
-                          const SizedBox(height: 50),
-                          SizedBox(
-                            height: 50.0,
-                            width: 250.0,
-                            // Ancho personalizado
-                            child: Stack(
-                              children: [
-                                Positioned(
-                                  bottom: 0,
-                                  child: Container(
-                                    height: 46,
-                                    width: 246,
+                          const Spacer(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 30),
+                            child: SizedBox(
+                              height: 50.0,
+                              width: 250.0,
+                              // Ancho personalizado
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    bottom: 0,
+                                    child: Container(
+                                      height: 46,
+                                      width: 246,
+                                      decoration: BoxDecoration(
+                                        color: colorList[1],
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(16),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 44,
+                                    width: 244,
                                     decoration: BoxDecoration(
-                                      color: colorList[1],
+                                      color: colorList[0],
                                       borderRadius: const BorderRadius.all(
                                         Radius.circular(16),
                                       ),
                                     ),
-                                  ),
-                                ),
-                                Container(
-                                  height: 44,
-                                  width: 244,
-                                  decoration: BoxDecoration(
-                                    color: colorList[0],
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(16),
+                                    child: FloatingActionButton(
+                                      onPressed: () {
+                                        exerciseProv.finishExercise();
+                                        recorderProv.resetPathAudio();
+                                        recorderProv.resetProvider();
+                                        exerciseProv.sendResultsExercises();
+                                        Navigator.pop(context);
+                                        //context.push('/',
+                                        //    extra: authProvider.prefs
+                                        //        .getInt('userId') as int);
+                                      },
+                                      backgroundColor: colorList[0],
+                                      elevation: 10.0,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text("FINALIZAR EJERCICIO",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .displaySmall)
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                  child: FloatingActionButton(
-                                    onPressed: () {
-                                      exerciseProv.finishExercise();
-                                      recorderProv.resetPathAudio();
-                                      recorderProv.resetProvider();
-                                      exerciseProv.sendResultsExercises();
-                                      Navigator.pop(context);
-                                      //context.push('/',
-                                      //    extra: authProvider.prefs
-                                      //        .getInt('userId') as int);
-                                    },
-                                    backgroundColor: colorList[0],
-                                    elevation: 10.0,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text("FINALIZAR EJERCICIO",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .displaySmall)
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ],
