@@ -35,7 +35,7 @@ class PageExerciseMultipleSelectionState
   List<String> imagesSelected = [];
   List<ResultPairImages> pairImages = [];
   late List<Image> _listImages;
-  bool speakSlow = false;
+  bool speakSlow = true;
 
   @override
   void initState() {

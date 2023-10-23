@@ -32,7 +32,7 @@ class PageExerciseMinimumPairsSel extends StatefulWidget {
 
 class PageExerciseMinimumPairsSelState
     extends State<PageExerciseMinimumPairsSel> {
-  bool speakSlow = false;
+  bool speakSlow = true;
 
   String imageSelected = "";
   late List<Image> _listImages;

@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sp_front/domain/entities/result_pair_images.dart';
-import 'package:sp_front/presentations/widgets/button_play.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../config/helpers/param.dart';
@@ -36,7 +35,7 @@ class PageExerciseSingleSelectionSyllableState
     extends State<PageExerciseSingleSelectionSyllable> {
   String imageSelected = "";
   late List<Image> _listImages;
-  bool speakSlow = false;
+  bool speakSlow = true;
 
   @override
   void initState() {

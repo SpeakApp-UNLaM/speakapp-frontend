@@ -23,7 +23,7 @@ class PageExerciseSpeak extends StatefulWidget {
 }
 
 class PageExerciseSpeakState extends State<PageExerciseSpeak> {
-  bool speakSlow = false;
+  bool speakSlow = true;
 
   @override
   Widget build(BuildContext context) {
