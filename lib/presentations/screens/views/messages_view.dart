@@ -31,7 +31,26 @@ class _MessagesView extends State<MessagesView> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: const ChatPage(),
+      body: /*const ChatPage(),*/
+       Center(
+        child: Column(
+          children: [
+            Text("COMING SOON - NOVIEMBRE 2023",
+                style: Theme.of(context).textTheme.headlineMedium),
+            Lottie.asset(
+              'assets/animations/congrats.json',
+              controller: _controller,
+              onLoaded: (composition) {
+                // Configure the AnimationController with the duration of the
+                // Lottie file and start the animation.
+                _controller
+                  ..duration = composition.duration
+                  ..forward();
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -56,7 +56,7 @@ class PhonemeSpecialistViewState extends State<PhonemeSpecialistView>
           ),
         ),
         body: FutureBuilder<List<Phoneme>>(
-          future: taskHandled.fetchAllPhonemes(),
+          future: taskHandled.fetchAvailablePhonemes(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
