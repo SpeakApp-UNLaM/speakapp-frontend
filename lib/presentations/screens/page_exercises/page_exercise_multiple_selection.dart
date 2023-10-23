@@ -63,151 +63,155 @@ class PageExerciseMultipleSelectionState
     ];
     final exerciseProv = context.watch<ExerciseProvider>();
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('¡Vamos a practicar!',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.nunito(
-                      fontSize: 20,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Column(
+              children: [
+                Text('¡Vamos a practicar!',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.nunito(
+                        fontSize: 20,
+                        color: Theme.of(context).primaryColorDark,
+                        fontWeight: FontWeight.w800)),
+                const SizedBox(height: 15.0),
+                Text('¿Cuál o cuáles imágenes contienen el siguiente sonido?',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.nunito(
+                        fontSize: 15,
+                        color: Theme.of(context).primaryColorDark,
+                        fontWeight: FontWeight.w600)),
+                const SizedBox(height: 30.0),
+                GestureDetector(
+                  onTap: () {
+                    //exerciseProv.finishExercise();
+                    setState(() {
+                      speakSlow = !speakSlow;
+                    });
+                    TtsProvider()
+                        .speak(widget.syllable, speakSlow == true ? 0.1 : 0.5);
+                  },
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
                       color: Theme.of(context).primaryColorDark,
-                      fontWeight: FontWeight.w800)),
-              const SizedBox(height: 30.0),
-              Text('¿Cuál o cuáles imágenes contienen el siguiente sonido?',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.nunito(
-                      fontSize: 15,
-                      color: Theme.of(context).primaryColorDark,
-                      fontWeight: FontWeight.w600)),
-              const SizedBox(height: 30.0),
-              Wrap(
-                spacing: 10.0,
-                runSpacing: 10.0,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      //exerciseProv.finishExercise();
-                      setState(() {
-                        speakSlow = !speakSlow;
-                      });
-                      TtsProvider().speak(
-                          widget.syllable, speakSlow == true ? 0.1 : 0.5);
-                    },
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(32)),
-                        border: Border.all(
-                          color: Colors.grey.shade300,
-                          width: 3.0,
-                        ),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black
+                                .withOpacity(0.1), // Color de la sombra
+                            blurRadius: 5, // Radio de desenfoque
+                            offset: Offset(0, 5))
+                      ],
+                      borderRadius: const BorderRadius.all(Radius.circular(32)),
+                    ),
+                    child: Container(
+                      constraints: BoxConstraints(
+                        minWidth: 100, // Ancho mínimo deseado
+                        maxWidth: MediaQuery.of(context).size.width *
+                            0.35, // Ancho máximo del 30% del ancho disponible
                       ),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 10),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 5, right: 5),
-                          child: Wrap(
-                            children: [
-                              Icon(
-                                Icons.volume_up_outlined,
-                                color: Colors.grey.shade400,
-                              ),
-                              SizedBox(width: 10),
-                              Text("Reproducir",
-                                  style: Theme.of(context).textTheme.titleSmall)
-                            ],
-                          ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 5, right: 5, top: 10, bottom: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.volume_up_outlined,
+                              color: Colors.white,
+                            ),
+                            SizedBox(width: 10),
+                            Text("Reproducir",
+                                style: GoogleFonts.nunito(
+                                    fontSize: 14, color: Colors.white))
+                          ],
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
-              const SizedBox(height: 50.0),
-              Wrap(
-                spacing: 10.0,
-                runSpacing: 10.0,
-                children: [
-                  for (var image in widget.images)
-                    GestureDetector(
-                      onTap: () {
-                        final isSelected =
-                            imagesSelected.contains(image.imageData);
-                        if (isSelected) {
-                          int index = imagesSelected.indexOf(image.imageData);
-                          imagesSelected.remove(image.imageData);
-                          pairImages.removeAt(index);
-                        } else {
-                          TtsProvider().speak(image.name, 0.5);
-                          imagesSelected.add(image.imageData);
-                          pairImages.add(ResultPairImages(
-                              idImage: image.idImage, nameImage: image.name));
-                        }
+                ),
+              ],
+            ),
+            Spacer(),
+            Wrap(
+              spacing: 10.0,
+              runSpacing: 10.0,
+              children: [
+                for (var image in widget.images)
+                  GestureDetector(
+                    onTap: () {
+                      final isSelected =
+                          imagesSelected.contains(image.imageData);
+                      if (isSelected) {
+                        int index = imagesSelected.indexOf(image.imageData);
+                        imagesSelected.remove(image.imageData);
+                        pairImages.removeAt(index);
+                      } else {
+                        TtsProvider().speak(image.name, 0.5);
+                        imagesSelected.add(image.imageData);
+                        pairImages.add(ResultPairImages(
+                            idImage: image.idImage, nameImage: image.name));
+                      }
 
-                        if (imagesSelected.isEmpty) {
-                          exerciseProv.unfinishExercise();
-                        } else {
-                          exerciseProv.saveParcialResult(ResultExercise(
-                              idTaskItem: widget.idTaskItem,
-                              type: TypeExercise.multiple_selection,
-                              audio: "",
-                              pairImagesResult: pairImages));
-                        }
+                      if (imagesSelected.isEmpty) {
+                        exerciseProv.unfinishExercise();
+                      } else {
+                        exerciseProv.saveParcialResult(ResultExercise(
+                            idTaskItem: widget.idTaskItem,
+                            type: TypeExercise.multiple_selection,
+                            audio: "",
+                            pairImagesResult: pairImages));
+                      }
 
-                        //exerciseProv.finishExercise();
+                      //exerciseProv.finishExercise();
 
-                        setState(() {});
-                      },
-                      child: Stack(
-                        children: [
-                          Container(
-                              decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black.withOpacity(
-                                          0.1), // Color de la sombra
-                                      blurRadius: 5, // Radio de desenfoque
-                                      offset: Offset(0, 4))
-                                ],
-                                color: Colors.white,
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(16)),
-                                border: Border.all(
-                                  color:
-                                      imagesSelected.contains(image.imageData)
-                                          ? colors[imagesSelected
-                                              .indexOf(image.imageData)]
-                                          : Colors.grey.shade300,
-                                  width: 3.0,
-                                ),
+                      setState(() {});
+                    },
+                    child: Stack(
+                      children: [
+                        Container(
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.black
+                                        .withOpacity(0.1), // Color de la sombra
+                                    blurRadius: 5, // Radio de desenfoque
+                                    offset: Offset(0, 4))
+                              ],
+                              color: Colors.white,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(16)),
+                              border: Border.all(
+                                color: imagesSelected.contains(image.imageData)
+                                    ? colors[
+                                        imagesSelected.indexOf(image.imageData)]
+                                    : Colors.grey.shade300,
+                                width: 3.0,
                               ),
-                              width: 150,
-                              height: 150,
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(16),
-                                  child: _listImages[
-                                      widget.images.indexOf(image)])),
-                          Positioned(
-                            bottom: 7,
-                            right: 7,
-                            child: Icon(
-                              Icons.volume_up,
-                              color: colorList[4],
-                              size: 24,
                             ),
+                            width: 150,
+                            height: 150,
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child:
+                                    _listImages[widget.images.indexOf(image)])),
+                        Positioned(
+                          bottom: 7,
+                          right: 7,
+                          child: Icon(
+                            Icons.volume_up,
+                            color: colorList[4],
+                            size: 24,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                ],
-              ),
-              const SizedBox(height: 40.0),
-            ],
-          ),
+                  ),
+              ],
+            ),
+            Spacer(),
+          ],
         ),
       ),
     );

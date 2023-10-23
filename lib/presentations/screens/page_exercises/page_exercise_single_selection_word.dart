@@ -51,39 +51,39 @@ class PageExerciseSingleSelectionWordState
   Widget build(BuildContext context) {
     final exerciseProv = context.watch<ExerciseProvider>();
     return Scaffold(
-      body: Align(
-        alignment: Alignment.topCenter,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 50,
-                ),
-                Text('¡Vamos a practicar!',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.nunito(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 20,
-                        color: Theme.of(context).primaryColorDark)),
-                const SizedBox(height: 30.0),
-                Text('¿Cuál imagen corresponde al siguiente fonema?',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.nunito(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
-                        color: Theme.of(context).primaryColorDark)),
-                const SizedBox(height: 20.0),
-                Text(widget.namePhoneme,
-                    style: TextStyle(
-                        fontFamily: 'IkkaRounded',
-                        fontSize: 50,
-                        color: colorList[1])),
-                const SizedBox(height: 60.0),
-                drawImages(exerciseProv),
-              ],
-            ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Column(
+                children: [
+                  Text('¡Vamos a practicar!',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.nunito(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 20,
+                          color: Theme.of(context).primaryColorDark)),
+                  const SizedBox(height: 15.0),
+                  Text('¿Cuál imagen corresponde al siguiente fonema?',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.nunito(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15,
+                          color: Theme.of(context).primaryColorDark)),
+                  const SizedBox(height: 50.0),
+                  Text(widget.namePhoneme,
+                      style: TextStyle(
+                          fontFamily: 'IkkaRounded',
+                          fontSize: 50,
+                          color: colorList[1])),
+                ],
+              ),
+              const Spacer(),
+              drawImages(exerciseProv),
+              const Spacer()
+            ],
           ),
         ),
       ),

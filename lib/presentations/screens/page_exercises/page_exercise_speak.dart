@@ -31,27 +31,34 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('¡Vamos a practicar!',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.nunito(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 20,
-                    color: Theme.of(context).primaryColorDark)),
-            const SizedBox(height: 30.0),
-            Text('Reproducí el sónido de la imágen y repetilo:',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.nunito(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 15,
-                    color: Theme.of(context).primaryColorDark)),
-            const SizedBox(height: 50.0),
+            Column(
+              verticalDirection: VerticalDirection.down,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('¡Vamos a practicar!',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.nunito(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 20,
+                        color: Theme.of(context).primaryColorDark)),
+                SizedBox(height: 10),
+                Text('Reproducí el sónido de la imágen y repetilo:',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.nunito(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                        color: Theme.of(context).primaryColorDark)),
+              ],
+            ),
             GestureDetector(
               onTap: () {
                 setState(() {
                   speakSlow = !speakSlow;
                 });
-                TtsProvider().speak(widget.result, speakSlow == true ? 0.1 : 0.7);
+                TtsProvider()
+                    .speak(widget.result, speakSlow == true ? 0.1 : 0.7);
               },
               child: Stack(
                 children: [
@@ -108,6 +115,8 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
                                   ], // Redondear las esquinas
                                 ),
                                 child: Center(
+                                    child: FittedBox(
+                                  fit: BoxFit.contain,
                                   child: Text(
                                     widget.result.toUpperCase(),
                                     style: GoogleFonts.nunito(
@@ -116,7 +125,7 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
                                       color: colorList[1],
                                     ),
                                   ),
-                                ),
+                                )),
                               ) // Aquí puedes usar un widget de marcador de posición o el que prefieras
                         ),
                   ),
@@ -132,15 +141,12 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
                 ],
               ),
             ),
-            const SizedBox(height: 30.0),
             const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 40),
                 child: ButtonPlayAudio()),
-            const SizedBox(height: 40.0),
             ButtonRecorder(
               idExercise: widget.idTaskItem,
             ),
-            const SizedBox(height: 10),
           ],
         ),
       ),

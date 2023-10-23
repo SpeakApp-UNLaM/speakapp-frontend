@@ -53,74 +53,85 @@ class PageExerciseMinimumPairsSelState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('¡Vamos a practicar!',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.nunito(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 20,
-                      color: Theme.of(context).primaryColorDark)),
-              const SizedBox(height: 30.0),
-              Text('¿Qué imágen se corresponde al siguiente audio?',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.nunito(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 15,
-                      color: Theme.of(context).primaryColorDark)),
-              const SizedBox(height: 40.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        speakSlow = !speakSlow;
-                      });
-                      TtsProvider()
-                          .speak(widget.result, speakSlow == true ? 0.1 : 0.5);
-                    },
-                    child: DecoratedBox(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Column(
+              children: [
+                Text('¡Vamos a practicar!',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.nunito(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 20,
+                        color: Theme.of(context).primaryColorDark)),
+                const SizedBox(height: 15),
+                Text('¿Qué imágen se corresponde al siguiente audio?',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.nunito(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                        color: Theme.of(context).primaryColorDark)),
+                const SizedBox(height: 40),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          speakSlow = !speakSlow;
+                        });
+                        TtsProvider().speak(
+                            widget.result, speakSlow == true ? 0.1 : 0.5);
+                      },
+                      child: DecoratedBox(
                         decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(32)),
-                            border: Border.all(
-                              color: Colors.grey.shade300,
-                              width: 3.0,
-                            )),
+                          color: Theme.of(context).primaryColorDark,
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black
+                                    .withOpacity(0.1), // Color de la sombra
+                                blurRadius: 5, // Radio de desenfoque
+                                offset: Offset(0, 5))
+                          ],
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(32)),
+                        ),
                         child: Container(
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 10),
+                          constraints: BoxConstraints(
+                            minWidth: 100, // Ancho mínimo deseado
+                            maxWidth: MediaQuery.of(context).size.width *
+                                0.35, // Ancho máximo del 30% del ancho disponible
+                          ),
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 5, right: 5),
+                            padding: const EdgeInsets.only(
+                                left: 5, right: 5, top: 10, bottom: 10),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
                                   Icons.volume_up_outlined,
-                                  color: Colors.grey.shade400,
+                                  color: Colors.white,
                                 ),
-                                Text(
-                                  "Reproducir",
-                                  style: Theme.of(context).textTheme.titleSmall,
-                                )
+                                SizedBox(width: 10),
+                                Text("Reproducir",
+                                    style: GoogleFonts.nunito(
+                                        fontSize: 14, color: Colors.white))
                               ],
                             ),
                           ),
-                        )),
-                  )
-                ],
-              ),
-              const SizedBox(height: 40.0),
-              drawImages(),
-              const SizedBox(height: 40.0),
-            ],
-          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+            Spacer(),
+            drawImages(),
+            Spacer(),
+          ],
         ),
       ),
     );

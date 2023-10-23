@@ -302,7 +302,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
                                     ..repeat();
                                 },
                               )),
-                          const SizedBox(height: 50),
+                          const Spacer(),
                           SizedBox(
                             height: 55.0,
                             width: 250.0,
