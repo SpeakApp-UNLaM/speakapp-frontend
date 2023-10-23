@@ -43,15 +43,10 @@ class ButtonRecorder extends StatelessWidget {
               ),
               padding:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 80.0),
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.mic,
-                    color: Colors.white,
-                    size: 40,
-                  ),
-                ],
+              child: const Icon(
+                Icons.mic,
+                color: Colors.white,
+                size: 40,
               ),
             )),
         const SizedBox(

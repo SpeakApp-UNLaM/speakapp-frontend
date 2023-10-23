@@ -165,7 +165,7 @@ class RfiScreenState extends State<RfiScreen> with TickerProviderStateMixin {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                              "${_controllerSwipable.currentIndex} / ${_rfiImages.length}"),
+                              "${_controllerSwipable.currentIndex + 1} / ${_rfiImages.length}"),
                         )
                       ],
                     ),

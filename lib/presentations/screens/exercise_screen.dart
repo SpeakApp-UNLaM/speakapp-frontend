@@ -201,7 +201,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                    "$currentPageIndex/${_pagesExercisesFounded.length}"),
+                                    "${currentPageIndex + 1}/${_pagesExercisesFounded.length}"),
                               )
                             ],
                           ),
