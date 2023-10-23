@@ -35,6 +35,7 @@ class PageExerciseMultipleSelectionState
   List<String> imagesSelected = [];
   List<ResultPairImages> pairImages = [];
   late List<Image> _listImages;
+  bool speakSlow = true;
 
   @override
   void initState() {
@@ -89,8 +90,11 @@ class PageExerciseMultipleSelectionState
                   GestureDetector(
                     onTap: () {
                       //exerciseProv.finishExercise();
-                      setState(() {});
-                      TtsProvider().speak(widget.syllable);
+                      setState(() {
+                        speakSlow = !speakSlow;
+                      });
+                      TtsProvider().speak(
+                          widget.syllable, speakSlow == true ? 0.1 : 0.5);
                     },
                     child: DecoratedBox(
                       decoration: BoxDecoration(
@@ -138,7 +142,7 @@ class PageExerciseMultipleSelectionState
                           imagesSelected.remove(image.imageData);
                           pairImages.removeAt(index);
                         } else {
-                          TtsProvider().speak(image.name);
+                          TtsProvider().speak(image.name, 0.5);
                           imagesSelected.add(image.imageData);
                           pairImages.add(ResultPairImages(
                               idImage: image.idImage, nameImage: image.name));

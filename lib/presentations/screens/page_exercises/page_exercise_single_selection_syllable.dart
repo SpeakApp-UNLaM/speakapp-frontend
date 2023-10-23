@@ -35,6 +35,7 @@ class PageExerciseSingleSelectionSyllableState
     extends State<PageExerciseSingleSelectionSyllable> {
   String imageSelected = "";
   late List<Image> _listImages;
+  bool speakSlow = true;
 
   @override
   void initState() {
@@ -51,6 +52,7 @@ class PageExerciseSingleSelectionSyllableState
   @override
   Widget build(BuildContext context) {
     final exerciseProv = context.watch<ExerciseProvider>();
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -77,35 +79,34 @@ class PageExerciseSingleSelectionSyllableState
                 children: [
                   GestureDetector(
                     onTap: () {
-                      setState(() {});
-                      TtsProvider().speak(widget.syllable);
+                      setState(() {
+                        speakSlow = !speakSlow;
+                      });
+                      TtsProvider().speak(
+                          widget.syllable, speakSlow == true ? 0.1 : 0.5);
                     },
                     child: DecoratedBox(
                         decoration: BoxDecoration(
+                            color: colorList[4],
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(32)),
+                                const BorderRadius.all(Radius.circular(8)),
                             border: Border.all(
-                              color: Colors.grey.shade300,
-                              width: 3.0,
+                              color: colorList[4],
+                              width: 2.0,
                             )),
                         child: Container(
                           alignment: Alignment.center,
                           padding: const EdgeInsets.symmetric(
                               vertical: 10, horizontal: 10),
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 5, right: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Icon(
-                                  Icons.volume_up_outlined,
-                                  color: Colors.grey.shade400,
-                                ),
-                                Text("Reproducir",
-                                    style:
-                                        Theme.of(context).textTheme.titleSmall)
-                              ],
-                            ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Icon(
+                                Icons.play_arrow,
+                                color: Colors.white,
+                                size: 30,
+                              ),
+                            ],
                           ),
                         )),
                   )
@@ -136,7 +137,7 @@ class PageExerciseSingleSelectionSyllableState
                     exerciseProv.unfinishExercise();
                   } else {
                     imageSelected = img.name;
-                    TtsProvider().speak(img.name);
+                    TtsProvider().speak(img.name, 0.5);
                     exerciseProv.saveParcialResult(ResultExercise(
                         idTaskItem: widget.idTaskItem,
                         type: TypeExercise.single_selection_syllable,

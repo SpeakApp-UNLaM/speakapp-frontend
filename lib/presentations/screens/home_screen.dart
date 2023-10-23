@@ -20,8 +20,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    User? user;
-    UserPreferences().getUser().then((value) => {user = value})  ;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 70,

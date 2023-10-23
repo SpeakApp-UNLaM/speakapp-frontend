@@ -103,7 +103,7 @@ class PageExerciseSingleSelectionWordState
                 exerciseProv.unfinishExercise();
               } else {
                 imageSelected = img.name;
-                TtsProvider().speak(img.name);
+                TtsProvider().speak(img.name, 0.5);
                 exerciseProv.saveParcialResult(ResultExercise(
                     idTaskItem: widget.idTaskItem,
                     type: TypeExercise.single_selection_word,
