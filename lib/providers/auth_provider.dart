@@ -62,6 +62,7 @@ class AuthProvider with ChangeNotifier {
         Param.showToast("Su sesión ha vencido");
       } else {
         Api.setToken(token);
+        print(token);
       }
     }
   }

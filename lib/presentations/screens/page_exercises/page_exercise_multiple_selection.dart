@@ -39,14 +39,13 @@ class PageExerciseMultipleSelectionState
   @override
   void initState() {
     super.initState();
-
+    widget.images.shuffle();
     _listImages = widget.images.map((img) {
       return Image.memory(
         base64.decode(img.imageData),
         fit: BoxFit.cover,
       );
     }).toList();
-    _listImages.shuffle();
   }
 
   @override

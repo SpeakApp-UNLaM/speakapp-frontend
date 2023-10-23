@@ -34,27 +34,26 @@ class PageExerciseConsonantalSyllable extends StatefulWidget {
 class PageExerciseConsonantalSyllableState
     extends State<PageExerciseConsonantalSyllable> {
   late List<Image> _listImages;
-
+  List<String> syllables = [];
   @override
   void initState() {
     super.initState();
-
     _listImages = widget.images.map((img) {
       return Image.memory(
         base64.decode(img.imageData),
         fit: BoxFit.cover,
       );
     }).toList();
-    _listImages.shuffle();
+    syllables = [
+      widget.incorrectSyllable,
+      widget.correctSyllable,
+    ];
+    syllables.shuffle();
   }
 
   String syllableSelected = "";
   @override
   Widget build(BuildContext context) {
-    final List<String> syllables = [
-      widget.incorrectSyllable,
-      widget.correctSyllable,
-    ];
     final exerciseProv = context.watch<ExerciseProvider>();
     return Scaffold(
       body: SingleChildScrollView(
