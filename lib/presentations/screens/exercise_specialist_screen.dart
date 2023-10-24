@@ -507,7 +507,7 @@ class ExerciseSpecialistScreenState extends State<ExerciseSpecialistScreen>
                           curve: Curves.linearToEaseOut,
                         );
 
-                        Future.delayed(const Duration(seconds: 6), () {
+                        Future.delayed(const Duration(seconds: 3), () {
                           setState(() {
                             _showCongratulations = false;
                           });
