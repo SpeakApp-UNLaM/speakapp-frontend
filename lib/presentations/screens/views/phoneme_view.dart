@@ -63,8 +63,8 @@ class PhonemeViewState extends State<PhonemeView>
             ),
           ),
         ),
-        body: FutureBuilder<List<Task>>(
-          future: taskHandled.fetchData(idPatient: widget.idPatient),
+        body: StreamBuilder<List<Task>>(
+          stream: TaskHandled.fetchDataStream(idPatient: widget.idPatient),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(

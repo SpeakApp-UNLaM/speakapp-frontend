@@ -6,6 +6,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_front/config/helpers/play_audio_manager.dart';
+import 'package:sp_front/config/helpers/task_handled.dart';
 import 'package:sp_front/providers/auth_provider.dart';
 import 'package:sp_front/providers/exercise_provider.dart';
 import '../../config/helpers/api.dart';
@@ -316,6 +317,7 @@ class ExerciseSpecialistScreenState extends State<ExerciseSpecialistScreen>
                                         recorderProv.resetPathAudio();
                                         recorderProv.resetProvider();
                                         exerciseProv.sendResultsExercises();
+
                                         Navigator.pop(context);
                                         //context.push('/',
                                         //    extra: authProvider.prefs

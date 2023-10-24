@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:sp_front/config/helpers/task_handled.dart';
 import 'package:sp_front/domain/entities/phoneme.dart';
 import 'package:sp_front/presentations/screens/views/phoneme_view.dart';
 import 'package:sp_front/providers/auth_provider.dart';
@@ -170,9 +171,9 @@ class ExerciseScreenState extends State<ExerciseScreen>
                                 icon: const Icon(Icons.close),
                                 onPressed: () {
                                   exerciseProv.unfinishExercise();
-                                  Navigator.pushReplacementNamed(context, '/',
-                                      arguments: authProvider.prefs
-                                          .getInt('userId') as int);
+
+                                  context.pushReplacement('/',
+                                      extra: authProvider.loggedUser.userId);
                                 },
                               ),
                               ConstrainedBox(
@@ -266,99 +267,101 @@ class ExerciseScreenState extends State<ExerciseScreen>
                     )),
                 Visibility(
                     visible: _isFinishedExercise,
-                    child: Center(
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 70),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Text('FELICITACIONES',
-                                textAlign: TextAlign.center,
-                                style:
-                                    Theme.of(context).textTheme.headlineLarge),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Text('¡Buen trabajo, lo has conseguido!',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.nunito(
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 21,
-                                  color: colorList[1],
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 70),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Text('FELICITACIONES',
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineLarge),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Text('¡Buen trabajo, lo has conseguido!',
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.nunito(
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 21,
+                                    color: colorList[1],
+                                  )),
+                            ),
+                            const SizedBox(height: 50),
+                            Container(
+                                width: 600,
+                                height: 450,
+                                child: Lottie.asset(
+                                  'assets/animations/Confetti.json',
+                                  controller: _controller,
+                                  onLoaded: (composition) {
+                                    // Configure the AnimationController with the duration of the
+                                    // Lottie file and start the animation.
+                                    _controller
+                                      ..duration = composition.duration
+                                      ..repeat();
+                                  },
                                 )),
-                          ),
-                          const SizedBox(height: 50),
-                          Container(
-                              width: 600,
-                              height: 450,
-                              child: Lottie.asset(
-                                'assets/animations/Confetti.json',
-                                controller: _controller,
-                                onLoaded: (composition) {
-                                  // Configure the AnimationController with the duration of the
-                                  // Lottie file and start the animation.
-                                  _controller
-                                    ..duration = composition.duration
-                                    ..repeat();
-                                },
-                              )),
-                          const Spacer(),
-                          SizedBox(
-                            height: 55.0,
-                            width: 250.0,
-                            // Ancho personalizado
-                            child: Stack(
-                              children: [
-                                Positioned(
-                                  bottom: 0,
-                                  child: Container(
-                                    height: 51,
-                                    width: 246,
+                            const Spacer(),
+                            SizedBox(
+                              height: 55.0,
+                              width: 250.0,
+
+                              // Ancho personalizado
+                              child: Stack(
+                                children: [
+                                  Positioned(
+                                    bottom: 0,
+                                    child: Container(
+                                      height: 51,
+                                      width: 246,
+                                      decoration: BoxDecoration(
+                                        color: colorList[1],
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(16),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 49,
+                                    width: 270,
                                     decoration: BoxDecoration(
-                                      color: colorList[1],
+                                      color: colorList[0],
                                       borderRadius: const BorderRadius.all(
                                         Radius.circular(16),
                                       ),
                                     ),
-                                  ),
-                                ),
-                                Container(
-                                  height: 49,
-                                  width: 270,
-                                  decoration: BoxDecoration(
-                                    color: colorList[0],
-                                    borderRadius: const BorderRadius.all(
-                                      Radius.circular(16),
+                                    child: FloatingActionButton(
+                                      onPressed: () {
+                                        exerciseProv.finishExercise();
+                                        recorderProv.resetPathAudio();
+                                        recorderProv.resetProvider();
+                                        exerciseProv.sendResultsExercises();
+                                        context.pushReplacement('/',
+                                            extra:
+                                                authProvider.loggedUser.userId);
+                                      },
+                                      backgroundColor: colorList[0],
+                                      elevation: 10.0,
+                                      child: Text("CONTINUAR",
+                                          style: GoogleFonts.nunito(
+                                              fontSize: 15,
+                                              color: colorList[2],
+                                              fontWeight: FontWeight.w800)),
                                     ),
                                   ),
-                                  child: FloatingActionButton(
-                                    onPressed: () {
-                                      exerciseProv.finishExercise();
-                                      recorderProv.resetPathAudio();
-                                      recorderProv.resetProvider();
-                                      exerciseProv.sendResultsExercises();
-
-                                      Navigator.pop(context);
-                                    },
-                                    backgroundColor: colorList[0],
-                                    elevation: 10.0,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(" CONTINUAR",
-                                            style: GoogleFonts.nunito(
-                                                fontSize: 15,
-                                                color: colorList[2],
-                                                fontWeight: FontWeight.w800))
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ))
               ]);
