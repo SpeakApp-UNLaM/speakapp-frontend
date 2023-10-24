@@ -56,32 +56,35 @@ class PageExerciseConsonantalSyllableState
   Widget build(BuildContext context) {
     final exerciseProv = context.watch<ExerciseProvider>();
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('¡Vamos a practicar!',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.nunito(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 20,
-                      color: Theme.of(context).primaryColorDark)),
-              const SizedBox(height: 30.0),
-              Text(
-                  'Reproducí el sónido de la imágen y selecciona la silaba que contiene',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.nunito(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 15,
-                      color: Theme.of(context).primaryColorDark)),
-              const SizedBox(height: 60.0),
-              drawImages(exerciseProv),
-              const SizedBox(height: 50.0),
-              drawElements(exerciseProv, syllables)
-            ],
-          ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Column(
+              children: [
+                Text('¡Vamos a practicar!',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.nunito(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 20,
+                        color: Theme.of(context).primaryColorDark)),
+                const SizedBox(height: 20.0),
+                Text(
+                    'Reproducí el sónido de la imágen y selecciona la silaba que contiene',
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.nunito(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 15,
+                        color: Theme.of(context).primaryColorDark)),
+              ],
+            ),
+            const Spacer(),
+            drawImages(exerciseProv),
+            const Spacer(),
+            drawElements(exerciseProv, syllables),
+            const Spacer()
+          ],
         ),
       ),
     );

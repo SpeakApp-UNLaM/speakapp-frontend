@@ -40,4 +40,16 @@ class TaskHandled {
 
     return lst;
   }
+
+  Future<List<Phoneme>> fetchAvailablePhonemes() async {
+    List<Phoneme> lst = [];
+    final response = await Api.get(Param.getAvailablesPhonemes);
+    if (response != null) {
+      for (var element in response) {
+        lst.add(PhonemeModel.fromJson(element).toPhonemeEntity());
+      }
+    }
+
+    return lst;
+  }
 }
