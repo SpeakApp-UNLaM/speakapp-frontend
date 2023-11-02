@@ -56,8 +56,8 @@ class ExerciseSpecialistScreenState extends State<ExerciseSpecialistScreen>
 
   @override
   void initState() {
-    super.initState();
     _fetchData = fetchData();
+    super.initState();
     _controller = AnimationController(vsync: this);
   }
 
@@ -93,7 +93,44 @@ class ExerciseSpecialistScreenState extends State<ExerciseSpecialistScreen>
                 ),
               ));
             } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('${snapshot.error}',
+                        style: Theme.of(context).textTheme.displaySmall),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Container(
+                      height: 44,
+                      width: 244,
+                      decoration: BoxDecoration(
+                        color: colorList[0],
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(16),
+                        ),
+                      ),
+                      child: FloatingActionButton(
+                        onPressed: () {
+                          context.go('/',
+                              extra:
+                                  authProvider.prefs.getInt('userId') as int);
+                        },
+                        backgroundColor: colorList[0],
+                        elevation: 10.0,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("VOLVER",
+                                style: Theme.of(context).textTheme.displaySmall)
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              );
             } else if (_pagesExercisesFounded.isEmpty) {
               return Center(
                 child: Column(

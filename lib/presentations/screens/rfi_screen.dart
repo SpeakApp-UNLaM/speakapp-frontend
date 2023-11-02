@@ -31,15 +31,6 @@ class RfiScreenState extends State<RfiScreen> with TickerProviderStateMixin {
   final List<RFI> _rfiImages = [];
   final List<RFIExerciseModel> _rfiResults = [];
   void _listenController() => setState(() {});
-  @override
-  void initState() {
-    super.initState();
-    _fetchData = _fechData();
-    _controller = AnimationController(vsync: this);
-    _controllerSwipable = SwipableStackController()
-      ..addListener(_listenController);
-  }
-
   Future _fechData() async {
     final response = await Api.get(Param.getRfi);
     if (response is! String && response != null) {
@@ -48,6 +39,15 @@ class RfiScreenState extends State<RfiScreen> with TickerProviderStateMixin {
       }
     }
     return response;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchData = _fechData();
+    _controller = AnimationController(vsync: this);
+    _controllerSwipable = SwipableStackController()
+      ..addListener(_listenController);
   }
 
   @override
@@ -84,7 +84,43 @@ class RfiScreenState extends State<RfiScreen> with TickerProviderStateMixin {
               ),
             ));
           } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('${snapshot.error}',
+                      style: Theme.of(context).textTheme.displaySmall),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Container(
+                    height: 44,
+                    width: 244,
+                    decoration: BoxDecoration(
+                      color: colorList[0],
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(16),
+                      ),
+                    ),
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        context.go('/',
+                            extra: authProvider.prefs.getInt('userId') as int);
+                      },
+                      backgroundColor: colorList[0],
+                      elevation: 10.0,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("VOLVER",
+                              style: Theme.of(context).textTheme.displaySmall)
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            );
           } else if (_rfiImages.isEmpty) {
             return Center(
               child: Column(

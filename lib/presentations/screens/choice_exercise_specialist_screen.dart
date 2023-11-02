@@ -79,8 +79,8 @@ class ChoiceExerciseSpecialistScreenState
 
   @override
   void initState() {
-    super.initState();
     _fetchData = fetchData();
+    super.initState();
   }
 
   @override
@@ -102,7 +102,7 @@ class ChoiceExerciseSpecialistScreenState
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
+                  return Center(child: Text('${snapshot.error}'));
                 } else {
                   return Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -163,20 +163,21 @@ class ChoiceExerciseSpecialistScreenState
                                               .typeExercises;
                                       List<int> availableLevels = phonemeOption
                                           .where((e) =>
-                                              e.category.name ==
-                                              element.value)
+                                              e.category.name == element.value)
                                           .last
                                           .levels;
 
                                       _typeOptions = <String>{
                                         ...availableTypes
                                             .map((e) => e.name)
-                                            .toList(), ..._typeOptions
+                                            .toList(),
+                                        ..._typeOptions
                                       }.toList();
                                       _levelOptions = <String>{
                                         ...availableLevels
                                             .map((e) => e.toString())
-                                            .toList(), ..._levelOptions
+                                            .toList(),
+                                        ..._levelOptions
                                       }.toList();
                                     });
                                   });
@@ -272,7 +273,6 @@ class ChoiceExerciseSpecialistScreenState
                                       'namePhoneme': widget.phoneme.namePhoneme
                                     },
                                   );
-
                                 } else {
                                   Fluttertoast.showToast(
                                     msg:

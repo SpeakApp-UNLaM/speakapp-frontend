@@ -131,7 +131,7 @@ class PageExerciseConsonantalSyllableState
                   padding: const EdgeInsets.only(left: 5, right: 5),
                   child: Wrap(
                     children: [
-                      Text(syllable,
+                      Text(syllable.toUpperCase(),
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.headlineMedium)
                     ],

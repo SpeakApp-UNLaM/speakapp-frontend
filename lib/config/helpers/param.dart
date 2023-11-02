@@ -15,10 +15,10 @@ enum TypeExercise {
 enum Categories { syllable, word, phrase }
 
 class Param {
-  //20.228.196.68 10.0.2.2 IP especial para emuladores, que mapea la IP del HOST el cual está ejecutando (equivalente a LOCALHOST)
+  //52.146.34.30 10.0.2.2 IP especial para emuladores, que mapea la IP del HOST el cual está ejecutando (equivalente a LOCALHOST)
   //Si utiliza el celular FISICO para debugging, utilizar la IP de la RED DEL PC (ipconfig 192.168.1.XX) 192.168.1.33
 
-  static const urlServer = "http://52.146.34.30:9292/speak-app/";
+  static const urlServer = "http://20.51.135.236:9292/speak-app/";
   static const postTranscription = "/speech-recognition/transcription";
   static const postRfi = "/rfi";
   static const getRfi = "/rfi";
@@ -36,6 +36,8 @@ class Param {
   static const tamImages = 120.0;
   static const deleteTask = "/tasks/";
   static const getPatients = "/patients";
+  static const getMessages = "/chat-messages";
+  static const postSendMessage = "/chat-messages";
   static void showToast(String response) {
     Fluttertoast.showToast(
       msg: 'Error: $response', // Mensaje de la excepción

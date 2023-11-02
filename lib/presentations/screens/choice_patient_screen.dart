@@ -8,14 +8,11 @@ import '../../config/helpers/param.dart';
 import '../../config/theme/app_theme.dart';
 import '../../models/patient_model.dart';
 import '../../providers/auth_provider.dart';
-import '../../providers/login_provider.dart';
-import 'home_specialist_screen.dart';
 
 class ChoicePatientScreen extends StatefulWidget {
   final String name = "choicePatientScreen";
-  const ChoicePatientScreen({
-    super.key,
-  });
+  final String route;
+  const ChoicePatientScreen({super.key, required this.route});
 
   @override
   ChoicePatientScreenState createState() => ChoicePatientScreenState();
@@ -39,8 +36,8 @@ class ChoicePatientScreenState extends State<ChoicePatientScreen>
 
   @override
   void initState() {
-    super.initState();
     _fetchData = fetchData();
+    super.initState();
   }
 
   @override
@@ -88,7 +85,7 @@ class ChoicePatientScreenState extends State<ChoicePatientScreen>
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
+                    return Center(child: Text('${snapshot.error}'));
                   } else {
                     return ListView.builder(
                         shrinkWrap: true,
@@ -116,7 +113,7 @@ class ChoicePatientScreenState extends State<ChoicePatientScreen>
                                     onPressed: () {
                                       authProvider.selectUser(
                                           _patientsList[index].idPatient);
-                                      context.push("/rfi",
+                                      context.push("/${widget.route}",
                                           extra:
                                               _patientsList[index].idPatient);
                                     },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
@@ -74,8 +75,7 @@ class PhonemeSpecialistViewState extends State<PhonemeSpecialistView>
                     )),
               );
             } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
-              // ignore: prefer_is_empty
+              return Center(child: Text('${snapshot.error}'));
             } else if (snapshot.hasData && snapshot.data?.length != 0) {
               return SingleChildScrollView(
                   child: _ListViewCustomized(phonemes: snapshot.data ?? []));

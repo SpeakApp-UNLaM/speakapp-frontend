@@ -100,22 +100,56 @@ class ExerciseScreenState extends State<ExerciseScreen>
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
-                  child: Padding(
-                padding: const EdgeInsets.only(bottom: 100),
-                child: Lottie.asset(
-                  'assets/animations/HelloLoading.json',
-                  controller: _controller,
-                  onLoaded: (composition) {
-                    // Configure the AnimationController with the duration of the
-                    // Lottie file and start the animation.
-                    _controller
-                      ..duration = composition.duration
-                      ..repeat();
-                  },
-                ),
+                  child: Lottie.asset(
+                'assets/animations/HelloLoading.json',
+                controller: _controller,
+                onLoaded: (composition) {
+                  // Configure the AnimationController with the duration of the
+                  // Lottie file and start the animation.
+                  _controller
+                    ..duration = composition.duration
+                    ..repeat();
+                },
               ));
             } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}');
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('${snapshot.error}',
+                        style: Theme.of(context).textTheme.displaySmall),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Container(
+                      height: 44,
+                      width: 244,
+                      decoration: BoxDecoration(
+                        color: colorList[0],
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(16),
+                        ),
+                      ),
+                      child: FloatingActionButton(
+                        onPressed: () {
+                          context.go('/',
+                              extra:
+                                  authProvider.prefs.getInt('userId') as int);
+                        },
+                        backgroundColor: colorList[0],
+                        elevation: 10.0,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("VOLVER",
+                                style: Theme.of(context).textTheme.displaySmall)
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              );
             } else if (_pagesExercisesFounded.isEmpty) {
               return Center(
                 child: Column(

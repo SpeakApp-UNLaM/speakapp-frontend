@@ -41,24 +41,14 @@ class LoginProvider extends ChangeNotifier {
     isValid = Formz.validate([_email, _password]);
 
     notifyListeners();
-
-    AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
-    await auth.login(email.value, password.value);
-    if (auth.loggedInStatus == Status.LoggedIn) {
-      int idP = auth.prefs.getInt('userId') as int;
-      context.go('/', extra: idP);
+    if (isValid) {
+      AuthProvider auth = Provider.of<AuthProvider>(context, listen: false);
+      await auth.login(email.value, password.value);
+      if (auth.loggedInStatus == Status.LoggedIn) {
+        int idP = auth.prefs.getInt('userId') as int;
+        context.go('/', extra: idP);
+      }
     }
-    /*auth.login(email.value, password.value).then((value) => {
-          if (auth.loggedInStatus == Status.LoggedIn)
-            {
-              if (auth.typeUser == 'professional')
-                {context.go('/choice_patient')}
-              else
-                {context.go('/', extra: auth.prefs.getInt('userId'))}
-            }
-          else
-            {}
-        });*/
   }
 
   onLogOut(BuildContext context) {

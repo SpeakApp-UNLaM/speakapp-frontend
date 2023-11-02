@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sp_front/config/helpers/no_connection_backend_exception.dart';
 import '../auth/user.dart';
 import '../auth/user_preferences.dart';
 import '../config/helpers/api.dart';
@@ -76,52 +77,59 @@ class AuthProvider with ChangeNotifier {
   Status get registeredInStatus => _registeredInStatus;
 
   Future<Map<String, dynamic>> login(String username, String password) async {
-    var result;
+    Map<String, dynamic> result = {};
 
     Map<String, dynamic> data = {'username': username, 'password': password};
 
     _loggedInStatus = Status.Authenticating;
     notifyListeners();
 
-    final response = await Api.post(Param.postLogin, data);
+    try {
+      final response = await Api.post(Param.postLogin, data);
 
-    if (response is! String && response.statusCode == 200) {
-      final Map<String, dynamic> responseData = response.data;
+      if (response is! String && response.statusCode == 200) {
+        final Map<String, dynamic> responseData = response.data;
 
-      loggedIn = true;
-      //User authUser = User.fromJson(userData);
-      Map<String, dynamic> decodedToken =
-          JwtDecoder.decode(responseData['token']);
-      responseData['type'] =
-          decodedToken['is_patient'] ? "patient" : "professional";
-      Api.setToken(responseData['token']);
-      User authUser = User(
-          userId: responseData['idUser'],
-          username: responseData['username'],
-          firstName: responseData['firstName'],
-          lastName: responseData['lastName'],
-          email: responseData['email'],
-          phone: '11311984311',
-          type: responseData['type'],
-          token: responseData['token'],
-          renewalToken: responseData['token']);
+        loggedIn = true;
+        //User authUser = User.fromJson(userData);
+        Map<String, dynamic> decodedToken =
+            JwtDecoder.decode(responseData['token']);
+        responseData['type'] =
+            decodedToken['is_patient'] ? "patient" : "professional";
+        Api.setToken(responseData['token']);
+        User authUser = User(
+            userId: responseData['idUser'],
+            username: responseData['username'],
+            firstName: responseData['firstName'],
+            lastName: responseData['lastName'],
+            email: responseData['email'],
+            phone: '11311984311',
+            type: responseData['type'],
+            token: responseData['token'],
+            renewalToken: responseData['token']);
 
-      _loggedUser = authUser;
-      await UserPreferences().saveUser(authUser);
-      _loggedInStatus = Status.LoggedIn;
-      _typeUser = responseData['type'];
-      notifyListeners();
+        _loggedUser = authUser;
+        await UserPreferences().saveUser(authUser);
+        _loggedInStatus = Status.LoggedIn;
+        _typeUser = responseData['type'];
+        notifyListeners();
 
-      result = {'status': true, 'message': 'Successful', 'user': authUser};
-    } else {
-      if (response == "401") {
-        Param.showToast("Usuario y contraseña incorrectos!");
+        result = {'status': true, 'message': 'Successful', 'user': authUser};
       } else {
-        Param.showToast(response);
+        if (response == "401") {
+          Param.showToast("Usuario y contraseña incorrectos!");
+        } else if (response == "400") {
+          Param.showToast(
+              "el Nombre de usuario debe tener entre 6 y 50 caracteres!");
+        }
+        _loggedInStatus = Status.NotLoggedIn;
+        notifyListeners();
+        result = {'status': false, 'message': 'ERROR'};
       }
+    } on NoBackendConnectionException catch (_) {
+      Param.showToast("Error de conexión");
       _loggedInStatus = Status.NotLoggedIn;
       notifyListeners();
-      result = {'status': false, 'message': 'ERROR'};
     }
     return result;
   }

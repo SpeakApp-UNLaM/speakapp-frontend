@@ -49,7 +49,9 @@ class RfiViewState extends State<RfiView> with TickerProviderStateMixin {
             ),
           ),
         ),
-        body: const ChoicePatientScreen());
+        body: const ChoicePatientScreen(
+          route: "rfi",
+        ));
   }
 }
 

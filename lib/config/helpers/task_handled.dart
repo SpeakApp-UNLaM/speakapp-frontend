@@ -12,8 +12,7 @@ class TaskHandled {
     while (true) {
       final data = await fetchData(idPatient: idPatient);
       yield data;
-      await Future.delayed(const Duration(
-          seconds: 3)); // Espera 5 segundos antes de la próxima actualización
+      await Future.delayed(const Duration(seconds: 3));
     }
   }
 

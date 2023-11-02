@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
+import 'package:sp_front/providers/auth_provider.dart';
 import 'package:sp_front/providers/login_provider.dart';
 
 import '../../../../shared/custom_filled_button.dart';
@@ -58,7 +59,7 @@ class _LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loginProv = context.watch<LoginProvider>();
-
+    final authProvider = context.watch<AuthProvider>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50),
       child: Column(
@@ -96,6 +97,29 @@ class _LoginForm extends StatelessWidget {
                 onPressed: () async {
                   await context.read<LoginProvider>().onFormSubmit(context);
                 },
+              )),
+          const SizedBox(
+            height: 12,
+          ),
+          Visibility(
+              visible: authProvider.loggedInStatus == Status.Authenticating,
+              maintainState: true,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 4)),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    "Iniciando...",
+                    style: GoogleFonts.nunito(
+                        color: Theme.of(context).primaryColor, fontSize: 14),
+                  )
+                ],
               )),
           const Spacer(flex: 2),
           Row(

@@ -51,6 +51,7 @@ class AudioRecorderApp extends StatelessWidget {
         builder: (BuildContext context) {
           final router = Provider.of<AppRouter>(context, listen: false).router;
           return MaterialApp.router(
+            title: 'SpeakApp',
             localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,

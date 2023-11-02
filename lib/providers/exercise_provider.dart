@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sp_front/config/helpers/no_connection_backend_exception.dart';
 import 'package:sp_front/domain/entities/result_exercise.dart';
 import 'package:sp_front/models/result_exercise_model.dart';
 import 'package:sp_front/models/rfi_model.dart';
@@ -41,9 +42,11 @@ class ExerciseProvider extends ChangeNotifier {
       return ResultExerciseModel.resultExerciseToModel(resulExercises);
     }).toList());
     print(jsonExercises);
-    await Api.post(Param.postSaveResultExercises, jsonExercises);
-    //print("a eliminar: $idPhonemeActive");
-    //await Api.delete("${Param.deleteTask}/$idPhonemeActive", {});
+    try {
+      await Api.post(Param.postSaveResultExercises, jsonExercises);
+    } catch (_) {
+      Param.showToast("Error de conexión");
+    }
     idPhonemeActive = 0;
     _listResults.clear();
     _exerciseFinished = false;
@@ -55,8 +58,12 @@ class ExerciseProvider extends ChangeNotifier {
 
   void sendRFIResults(List<RFIExerciseModel> rfiResults, int idPatient) async {
     _exerciseFinished = false;
-    await Api.post(
-        "${Param.postRfi}/$idPatient", RFIExerciseModelToJson(rfiResults));
+    try {
+      await Api.post(
+          "${Param.postRfi}/$idPatient", RFIExerciseModelToJson(rfiResults));
+    } catch (_) {
+      Param.showToast("Error de conexión");
+    }
     idPhonemeActive = 0;
     _listResults.clear();
   }

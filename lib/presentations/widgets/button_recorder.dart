@@ -25,6 +25,10 @@ class ButtonRecorder extends StatelessWidget {
               saveParcialResult(recorderProv, exerciseProv);
             },
             onTapDown: (details) async => await recorderProv.startRecording(),
+            onTapCancel: () async {
+              await recorderProv.stopRecording();
+              saveParcialResult(recorderProv, exerciseProv);
+            },
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOutCirc,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:sp_front/presentations/messages_screen.dart';
 import 'package:sp_front/presentations/screens/choice_exercise_screen.dart';
 import 'package:sp_front/presentations/screens/choice_exercise_specialist_screen.dart';
 import 'package:sp_front/presentations/screens/choice_patient_screen.dart';
@@ -51,7 +52,15 @@ class AppRouter {
         path: '/choice_patient',
         pageBuilder: (context, state) => MaterialPage<void>(
           key: state.pageKey,
-          child: const ChoicePatientScreen(),
+          child: const ChoicePatientScreen(route: "rfi"),
+        ),
+      ),
+      GoRoute(
+        name: 'MessagesScreen',
+        path: '/messages_screen',
+        pageBuilder: (context, state) => MaterialPage<void>(
+          key: state.pageKey,
+          child: const MessagesScreen(),
         ),
       ),
       ShellRoute(

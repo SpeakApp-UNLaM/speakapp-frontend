@@ -1,51 +1,58 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:mime/mime.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:sp_front/shared/custom_text_form_field.dart';
+import 'package:sp_front/config/theme/app_theme.dart';
 import 'package:uuid/uuid.dart';
 
-void main() {
-  initializeDateFormatting().then((_) => runApp(const MyApp()));
-}
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+import 'package:provider/provider.dart';
+import 'package:sp_front/config/helpers/api.dart';
+import 'package:sp_front/config/helpers/param.dart';
+import 'package:sp_front/providers/auth_provider.dart';
 
-  @override
-  Widget build(BuildContext context) => const MaterialApp(
-        home: ChatPage(),
-      );
-}
-
-class ChatPage extends StatefulWidget {
-  const ChatPage({super.key});
+class MessagesScreen extends StatefulWidget {
+  const MessagesScreen({super.key});
 
   @override
-  State<ChatPage> createState() => _ChatPageState();
+  State<MessagesScreen> createState() => _MessagesScreenState();
 }
 
-class _ChatPageState extends State<ChatPage> {
-  List<types.Message> _messages = [];
-  final _user = const types.User(
-    id: '82091008-a484-4a89-ae75-a22bf8d6f3ac',
-  );
+class _MessagesScreenState extends State<MessagesScreen> {
+  final AudioPlayer _audioPlayer = AudioPlayer();
 
+  final List<types.Message> _messages = [];
+  late Timer _timer;
+  late final _user;
+  int userId = 0;
+  int _userTo = 0;
   @override
   void initState() {
+    context.read<AuthProvider>().loggedUser.firstName;
+    userId = context.read<AuthProvider>().loggedUser.userId;
+    _userTo = context.read<AuthProvider>().userSelected;
+    _user = types.User(
+      id: "$userId",
+    );
     super.initState();
-    _loadMessages();
+    _timer = Timer.periodic(
+        const Duration(seconds: 2), (timer) async => _loadMessages());
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   void _addMessage(types.Message message) {
@@ -54,6 +61,73 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
+  Future<void> _handleSendPressed(types.PartialText message) async {
+    final jsonMessage = {
+      "fromUser": "$userId",
+      "status": "sent",
+      "text": message.text,
+      "type": "text",
+      "toUser": _userTo
+    };
+    await Api.post(Param.postSendMessage, jsonMessage);
+
+    final textMessage = types.TextMessage(
+      author: _user,
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      id: const Uuid().v4(),
+      text: message.text,
+    );
+    _addMessage(textMessage);
+
+    await _audioPlayer.setAsset('assets/audio/message_sent2.mp3',
+        initialPosition: const Duration(seconds: 0));
+    await _audioPlayer.play();
+  }
+
+  Future<void> _loadMessages() async {
+    final response = await Api.get("${Param.getMessages}/$_userTo",
+        queryParameters: {"limit": 20});
+    _messages.clear();
+    response.forEach((e) {
+      e['id'] = e['id'].toString();
+      e['author']['id'] = e['author']['id'].toString();
+
+      _messages.add(types.Message.fromJson(e));
+    });
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
+        child: Chat(
+          messages: _messages,
+          onSendPressed: _handleSendPressed,
+          showUserNames: true,
+          user: _user,
+          l10n: const ChatL10nEs(),
+          theme: DefaultChatTheme(
+              primaryColor: Theme.of(context).primaryColorDark,
+              secondaryColor: colorList[7],
+              userAvatarNameColors: [Theme.of(context).primaryColor],
+              inputBackgroundColor: Colors.white,
+              inputTextColor: Colors.black,
+              inputBorderRadius: BorderRadius.circular(50),
+              inputContainerDecoration: BoxDecoration(
+                  color: Colors.grey.shade100,
+                  borderRadius: const BorderRadius.all(Radius.circular(50)))),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+/*
   void _handleAttachmentPressed() {
     showModalBottomSheet<void>(
       context: context,
@@ -201,48 +275,4 @@ class _ChatPageState extends State<ChatPage> {
       _messages[index] = updatedMessage;
     });
   }
-
-  void _handleSendPressed(types.PartialText message) {
-    final textMessage = types.TextMessage(
-      author: _user,
-      createdAt: DateTime.now().millisecondsSinceEpoch,
-      id: const Uuid().v4(),
-      text: message.text,
-    );
-
-    _addMessage(textMessage);
-  }
-
-  void _loadMessages() async {
-    final response = await rootBundle.loadString('assets/messages.json');
-    final messages = (jsonDecode(response) as List)
-        .map((e) => types.Message.fromJson(e as Map<String, dynamic>))
-        .toList();
-
-    setState(() {
-      _messages = messages;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Chat(
-          messages: _messages,
-          onAttachmentPressed: _handleAttachmentPressed,
-          onMessageTap: _handleMessageTap,
-          onPreviewDataFetched: _handlePreviewDataFetched,
-          onSendPressed: _handleSendPressed,
-          showUserAvatars: true,
-          showUserNames: true,
-          user: _user,
-          l10n: const ChatL10nEs(),
-          theme: DefaultChatTheme(
-              inputBackgroundColor: Colors.white,
-              inputTextColor: Colors.black,
-              inputBorderRadius: BorderRadius.circular(23),
-              inputContainerDecoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                  borderRadius: const BorderRadius.all(Radius.circular(23)))),
-        ),
-      );
-}
+  */

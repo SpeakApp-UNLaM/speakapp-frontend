@@ -83,7 +83,7 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                                 .withOpacity(0.5), // Color de la sombra
                             spreadRadius: 5, // Radio de expansión de la sombra
                             blurRadius: 5, // Radio de desenfoque de la sombra
-                            offset: Offset(3,
+                            offset: const Offset(3,
                                 0), // Desplazamiento cero para que la sombra rodee el contenido
                           ),
                         ],
@@ -131,19 +131,20 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                       });
                     },
                     builder: (context, acceptedItems, rejectedItems) {
-                      return Container(
-                        width: 70,
+                      return SizedBox(
                         height: 70,
-                        alignment: Alignment.center,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             if (formedWord.length > index)
                               ReorderableSyllableWidget(
                                   syllable: formedWord[index]),
-                            Divider(
-                              color: Theme.of(context).primaryColorDark,
-                              thickness: 2,
+                            SizedBox(
+                              width: 70,
+                              child: Divider(
+                                color: Theme.of(context).primaryColorDark,
+                                thickness: 2,
+                              ),
                             ),
                           ],
                         ),
@@ -152,7 +153,7 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                   );
                 }).toList(),
               ),
-              Spacer(),
+              const Spacer(),
               Wrap(
                 spacing: 20,
                 runSpacing: 20,
@@ -161,22 +162,24 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                     data: syllable,
                     feedback: ReorderableSyllableWidget(syllable: syllable),
                     childWhenDragging: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: Offset(0, 3),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.2),
+                              spreadRadius: 2,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            syllable.toUpperCase(),
+                            style: Theme.of(context).textTheme.headlineSmall,
                           ),
-                        ],
-                      ),
-                      alignment: Alignment.center,
-                    ),
+                        )),
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -186,16 +189,16 @@ class PageExerciseOrderSyllabeState extends State<PageExerciseOrderSyllabe> {
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 2,
                             blurRadius: 5,
-                            offset: Offset(0, 3),
+                            offset: const Offset(0, 3),
                           ),
                         ],
                       ),
-                      width: 40,
-                      height: 40,
-                      alignment: Alignment.center,
-                      child: Text(
-                        syllable.toUpperCase(),
-                        style: Theme.of(context).textTheme.headlineSmall,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          syllable.toUpperCase(),
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
                       ),
                     ),
                   );
@@ -241,16 +244,16 @@ class ReorderableSyllableWidget extends StatelessWidget {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 2,
             blurRadius: 5,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
-      width: 40,
-      height: 40,
-      alignment: Alignment.center,
-      child: Text(
-        syllable.toUpperCase(),
-        style: Theme.of(context).textTheme.headlineSmall,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          syllable.toUpperCase(),
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
       ),
     );
   }
