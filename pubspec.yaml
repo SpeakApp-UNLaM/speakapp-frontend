@@ -65,6 +65,7 @@ dependencies:
   image_picker: ^1.0.4
   open_filex: ^4.3.4
   avatar_glow: ^2.0.2
+  syncfusion_flutter_calendar: ^23.1.42
 dev_dependencies:
 
   # The "flutter_lints" package below contains a set of recommended lints to

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:sp_front/presentations/messages_screen.dart';
-import 'package:sp_front/providers/tts_provider.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class TurnsView extends StatefulWidget {
   static const String name = 'messages';
@@ -30,8 +29,13 @@ class _TurnsView extends State<TurnsView> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: /*const ChatPage(),*/
+        appBar: AppBar(),
+        body: SfCalendar(
+          view: CalendarView.month,
+          dataSource: MeetingDataSource(getAppointments(context)),
+          monthViewSettings: const MonthViewSettings(showAgenda: true),
+        ) /*const ChatPage(),*/
+        /*
        Center(
         child: Column(
           children: [
@@ -50,9 +54,29 @@ class _TurnsView extends State<TurnsView> with TickerProviderStateMixin {
             ),
           ],
         ),
-      ),
-    );
+      ),*/
+        );
   }
 }
 
+List<Appointment> getAppointments(BuildContext context) {
+  List<Appointment> meetings = <Appointment>[];
+  final DateTime today = DateTime.now();
+  final DateTime startTime =
+      DateTime(today.year, today.month, today.day, 9, 0, 0);
+  final DateTime endTime = startTime.add(const Duration(hours: 2));
 
+  meetings.add(Appointment(
+      startTime: startTime,
+      endTime: endTime,
+      subject: 'Turno',
+      color: Theme.of(context).primaryColor));
+
+  return meetings;
+}
+
+class MeetingDataSource extends CalendarDataSource {
+  MeetingDataSource(List<Appointment> source) {
+    appointments = source;
+  }
+}
