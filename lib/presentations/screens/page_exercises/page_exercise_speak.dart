@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
@@ -44,12 +45,19 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
                         fontSize: 20,
                         color: Theme.of(context).primaryColorDark)),
                 SizedBox(height: 10),
-                Text('Reproducí el sónido de la imágen y repetilo:',
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.nunito(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
-                        color: Theme.of(context).primaryColorDark)),
+                widget.result.split(' ').length == 1
+                    ? Text('Reproducí el sónido de la imágen y repetilo:',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.nunito(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                            color: Theme.of(context).primaryColorDark))
+                    : Text('Pronunciar la siguiente frase:',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.nunito(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                            color: Theme.of(context).primaryColorDark)),
               ],
             ),
             GestureDetector(
@@ -115,18 +123,29 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
                                   ], // Redondear las esquinas
                                 ),
                                 child: Center(
-                                    child: FittedBox(
-                                  fit: BoxFit.contain,
-                                  child: Text(
-                                    widget.result.toUpperCase(),
-                                    style: GoogleFonts.nunito(
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 70,
-                                      color: colorList[1],
-                                    ),
-                                  ),
-                                )),
-                              ) // Aquí puedes usar un widget de marcador de posición o el que prefieras
+                                  child: widget.result.split(' ').length == 1
+                                      ? AutoSizeText(
+                                          widget.result.toUpperCase(),
+                                          style: GoogleFonts.nunito(
+                                              fontWeight: FontWeight.w800,
+                                              color: colorList[1],
+                                              fontSize: 70),
+                                          textAlign: TextAlign.center,
+                                          maxLines: 3,
+                                        )
+                                      : Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: AutoSizeText(
+                                            widget.result,
+                                            style: GoogleFonts.nunito(
+                                                fontWeight: FontWeight.w700,
+                                                color: Theme.of(context).primaryColorDark,
+                                                fontSize: 70),
+                                            textAlign: TextAlign.center,
+                                            maxLines: 3,
+                                          ),
+                                      ),
+                                )) // Aquí puedes usar un widget de marcador de posición o el que prefieras
                         ),
                   ),
                   Positioned(

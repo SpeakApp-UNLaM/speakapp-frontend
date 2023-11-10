@@ -9,7 +9,8 @@ enum TypeExercise {
   single_selection_syllable, // ignore: constant_identifier_names
   order_syllable, // ignore: constant_identifier_names
   single_selection_word, // ignore: constant_identifier_names
-  consonantal_syllable, // ignore: constant_identifier_names
+  consonantal_syllable,
+  order_word // ignore: constant_identifier_names
 }
 
 enum Categories { syllable, word, phrase }
@@ -70,6 +71,7 @@ class Param {
     "multiple_match_selection": "Ordenar Selección Múltiple",
     "single_selection_word": "Selección de Palabra",
     "multiple_selection": "Selección Múltiple",
+    "order_word": "Ordenar Palabras"
   };
 
   static Categories stringToEnumCategories(String value) {

@@ -27,8 +27,8 @@ class Api {
           .get(path,
               queryParameters: queryParameters,
               options: Options(
-                  sendTimeout: const Duration(seconds: 10),
-                  receiveTimeout: const Duration(seconds: 10)))
+                  sendTimeout: const Duration(seconds: 15),
+                  receiveTimeout: const Duration(seconds: 15)))
           .timeout(const Duration(seconds: 10));
 
       return resp.data;

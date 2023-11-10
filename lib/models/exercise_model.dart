@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:sp_front/presentations/screens/page_exercises/page_exercise_order_word.dart';
 import 'package:sp_front/presentations/screens/page_exercises/pages_exercises.dart';
 import '../config/helpers/param.dart';
 import 'image_model.dart';
@@ -63,6 +64,13 @@ class ExerciseModel {
           namePhoneme: letra,
           idTaskItem: idTaskItem,
           syllables: images.first.dividedName,
+        );
+      case TypeExercise.order_word:
+        return PageExerciseOrderWord(
+          result: result,
+          namePhoneme: letra,
+          idTaskItem: idTaskItem,
+          words: result.split(' '),
         );
       case TypeExercise.minimum_pairs_selection:
         return PageExerciseMinimumPairsSel(
