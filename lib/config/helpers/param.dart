@@ -19,7 +19,7 @@ class Param {
   //52.146.34.30 10.0.2.2 IP especial para emuladores, que mapea la IP del HOST el cual está ejecutando (equivalente a LOCALHOST)
   //Si utiliza el celular FISICO para debugging, utilizar la IP de la RED DEL PC (ipconfig 192.168.1.XX) 192.168.1.33
 
-  static const urlServer = "http://20.51.135.236:9292/speak-app/";
+  static const urlServer = "http://20.122.114.157:9292/speak-app/";
   static const postTranscription = "/speech-recognition/transcription";
   static const postRfi = "/rfi";
   static const getRfi = "/rfi";
