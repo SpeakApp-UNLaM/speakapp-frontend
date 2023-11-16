@@ -26,6 +26,7 @@ class Param {
   static const getCareers = "/careers";
   static const getExercisesCustom = "/task-items/generate-custom";
   static const getExercises = "/task-items";
+  static const getArticulemes = "/articulations";
   static const getTasks = "/tasks/";
   static const getAllPhonemes = "/phonemes";
   static const getAvailablesPhonemes = "$getAllPhonemes/available";

@@ -36,12 +36,6 @@ final appMenuItems = <MenuItem>[
       link: '/messages_view',
       icon: Icons.mail_rounded,
       color: colorList[4]),
-  const MenuItem(
-      title: 'Turnos',
-      subtitle: '',
-      link: '/turns_view',
-      icon: Icons.calendar_month_rounded,
-      color: Color.fromARGB(255, 31, 86, 196)),
 ];
 
 final appMenuItemsSpecialists = <MenuItem>[
@@ -63,10 +57,4 @@ final appMenuItemsSpecialists = <MenuItem>[
       link: '/messages_view',
       icon: Icons.mail_rounded,
       color: colorList[4]),
-  const MenuItem(
-      title: 'Turnos',
-      subtitle: '',
-      link: '/turns_view',
-      icon: Icons.calendar_month_rounded,
-      color: Color.fromARGB(255, 31, 86, 196)),
 ];

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:sp_front/presentations/messages_screen.dart';
+import 'package:sp_front/presentations/screens/articuleme_screen.dart';
 import 'package:sp_front/presentations/screens/choice_exercise_screen.dart';
 import 'package:sp_front/presentations/screens/choice_exercise_specialist_screen.dart';
 import 'package:sp_front/presentations/screens/choice_patient_screen.dart';
@@ -233,6 +234,13 @@ class AppRouter {
           builder: (context, state) {
             ExerciseParameters params = state.extra as ExerciseParameters;
             return ExerciseScreen(object: params);
+          }),
+      GoRoute(
+          path: '/articuleme',
+          parentNavigatorKey: _rootNavigatorKey,
+          builder: (context, state) {
+            ArticulemeParameters params = state.extra as ArticulemeParameters;
+            return ArticulemeScreen(param: params);
           }),
       GoRoute(
           path: '/exercise_specialist',

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sp_front/config/theme/app_theme.dart';
-import 'package:sp_front/presentations/screens/choice_patient_screen.dart';
+import 'package:sp_front/presentations/screens/choice_patient_screen_rfi.dart';
 
 class RfiView extends StatefulWidget {
   static const String name = 'rfi_view';

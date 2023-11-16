@@ -94,7 +94,10 @@ class _MessagesScreenState extends State<MessagesScreen> {
 
       _messages.add(types.Message.fromJson(e));
     });
-    setState(() {});
+
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
