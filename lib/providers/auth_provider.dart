@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,6 +25,10 @@ class AuthProvider with ChangeNotifier {
   bool _loggedIn = false;
   String _typeUser = "patient";
   int _userSelected = 0;
+  String _userToFirstName = "";
+  String _userToLastName = "";
+  Image? _userToImageData;
+
   AuthProvider(this.prefs) {
     loggedIn = prefs.getBool('LoggedIn') ?? false;
     _typeUser = prefs.getString('type') ?? "";
@@ -34,10 +39,19 @@ class AuthProvider with ChangeNotifier {
   bool get loggedIn => _loggedIn;
   String get typeUser => _typeUser;
   int get userSelected => _userSelected;
+  String get userToFirstName => _userToFirstName;
+  String get userToLastName => _userToLastName;
+  Image? get userToImageData => _userToImageData;
   User get loggedUser => _loggedUser;
 
-  void selectUser(int user) {
+  void selectUser(
+      int user, String firstName, String lastName, String? imageData) {
     _userSelected = user;
+    _userToFirstName = firstName;
+    _userToLastName = lastName;
+    _userToImageData = imageData != null
+        ? Image.memory(base64.decode(imageData), fit: BoxFit.cover)
+        : null;
     notifyListeners();
   }
 

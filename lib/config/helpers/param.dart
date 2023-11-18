@@ -32,6 +32,8 @@ class Param {
   static const getAvailablesPhonemes = "$getAllPhonemes/available";
   static const getPending = "/pending/1";
   static const getGroupExercises = "/groupExercises";
+  static const getContacts = "/chat-messages/contacts";
+
   static const modelWhisper = "whisper-1";
   static const postLogin = "/auth/signin";
   static const postSaveResultExercises = "/resolve-exercises";

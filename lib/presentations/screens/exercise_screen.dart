@@ -132,9 +132,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
                       ),
                       child: FloatingActionButton(
                         onPressed: () {
-                          context.go('/',
-                              extra:
-                                  authProvider.prefs.getInt('userId') as int);
+                          Navigator.pop(context);
                         },
                         backgroundColor: colorList[0],
                         elevation: 10.0,
@@ -171,9 +169,7 @@ class ExerciseScreenState extends State<ExerciseScreen>
                       ),
                       child: FloatingActionButton(
                         onPressed: () {
-                          context.go('/',
-                              extra:
-                                  authProvider.prefs.getInt('userId') as int);
+                          Navigator.pop(context);
                         },
                         backgroundColor: colorList[0],
                         elevation: 10.0,

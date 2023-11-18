@@ -36,42 +36,6 @@ class HomeSpecialistScreen extends StatelessWidget {
         ),
         actions: <Widget>[
           Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {},
-                child: PopupMenuButton(
-                    color: colorList[7],
-                    onSelected: (SampleItem) {},
-                    itemBuilder: (BuildContext context) =>
-                        <PopupMenuEntry<SampleItem>>[
-                          const PopupMenuItem<SampleItem>(
-                            value: SampleItem.config,
-                            child: Row(
-                              children: [
-                                Icon(Icons.settings),
-                                SizedBox(width: 8),
-                                Text('Configuración'),
-                              ],
-                            ),
-                          ),
-                          const PopupMenuDivider(),
-                          const PopupMenuItem<SampleItem>(
-                            value: SampleItem.logOut,
-                            child: Row(
-                              children: [
-                                Icon(Icons.logout),
-                                SizedBox(width: 8),
-                                Text('Salir'),
-                              ],
-                            ),
-                          ),
-                        ],
-                    child: Icon(
-                      Icons.notifications,
-                      color: colorList[7],
-                    )),
-              )),
-          Padding(
             padding: const EdgeInsets.only(right: 20.0),
             child: PopupMenuButton(
                 color: colorList[7],
@@ -129,11 +93,13 @@ class HomeSpecialistScreen extends StatelessWidget {
             color: colorList[7],
             height: 50,
             items: <Widget>[
-              ...appMenuItemsSpecialists.map((item) => Icon(
-                    item.icon,
-                    color: item.color,
-                    size: 35,
-                  )),
+              ...appMenuItemsSpecialists.map(
+                (item) => Icon(
+                  item.icon,
+                  color: item.color,
+                  size: 35,
+                ),
+              )
             ],
             onTap: (index) {
               if (appMenuItemsSpecialists[index].link == '/') {

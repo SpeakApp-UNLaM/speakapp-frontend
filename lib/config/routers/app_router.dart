@@ -5,7 +5,7 @@ import 'package:sp_front/presentations/messages_screen.dart';
 import 'package:sp_front/presentations/screens/articuleme_screen.dart';
 import 'package:sp_front/presentations/screens/choice_exercise_screen.dart';
 import 'package:sp_front/presentations/screens/choice_exercise_specialist_screen.dart';
-import 'package:sp_front/presentations/screens/choice_patient_screen.dart';
+import 'package:sp_front/presentations/screens/choice_patient_screen_rfi.dart';
 import 'package:sp_front/presentations/screens/home_specialist_screen.dart';
 import 'package:sp_front/providers/auth_provider.dart';
 import '../../domain/entities/phoneme.dart';
@@ -54,14 +54,6 @@ class AppRouter {
         pageBuilder: (context, state) => MaterialPage<void>(
           key: state.pageKey,
           child: const ChoicePatientScreen(route: "rfi"),
-        ),
-      ),
-      GoRoute(
-        name: 'MessagesScreen',
-        path: '/messages_screen',
-        pageBuilder: (context, state) => MaterialPage<void>(
-          key: state.pageKey,
-          child: const MessagesScreen(),
         ),
       ),
       ShellRoute(
@@ -235,6 +227,15 @@ class AppRouter {
             ExerciseParameters params = state.extra as ExerciseParameters;
             return ExerciseScreen(object: params);
           }),
+      GoRoute(
+        name: 'MessagesScreen',
+        parentNavigatorKey: _rootNavigatorKey,
+        path: '/messages_screen',
+        pageBuilder: (context, state) => MaterialPage<void>(
+          key: state.pageKey,
+          child: const MessagesScreen(),
+        ),
+      ),
       GoRoute(
           path: '/articuleme',
           parentNavigatorKey: _rootNavigatorKey,

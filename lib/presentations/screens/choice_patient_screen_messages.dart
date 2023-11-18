@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sp_front/models/contact_model.dart';
 
 import '../../config/helpers/api.dart';
 import '../../config/helpers/param.dart';
@@ -21,15 +25,27 @@ class ChoicePatientScreenMessages extends StatefulWidget {
 
 class ChoicePatientScreenMessagesState
     extends State<ChoicePatientScreenMessages> with TickerProviderStateMixin {
-  final List<PatientModel> _patientsList = [];
+  List<ContactModel> _patientsList = [];
+  List<Image?> _patientsImages = [];
+
   Future? _fetchData;
 
   Future fetchData() async {
-    final response = await Api.get(Param.getPatients);
-    if (response != null) {
-      for (var element in response) {
-        _patientsList.add(PatientModel.fromJson(element));
-      }
+    _patientsList = [];
+    final response = await Api.get(Param.getContacts);
+
+    for (var element in response) {
+      _patientsList.add(ContactModel.fromJson(element));
+    }
+
+    _patientsList.sort((a, b) => (b.lastDateMessage ?? DateTime(0))
+        .compareTo(a.lastDateMessage ?? DateTime(0)));
+
+    for (var element in _patientsList) {
+      _patientsImages.add(element.author.imageData == null
+          ? null
+          : Image.memory(base64.decode(element.author.imageData as String),
+              fit: BoxFit.cover));
     }
 
     return response;
@@ -50,14 +66,14 @@ class ChoicePatientScreenMessagesState
         width: MediaQuery.of(context)
             .size
             .width, // Ocupa todo el ancho de la pantalla
-        margin: const EdgeInsets.all(30.0),
+        margin: const EdgeInsets.all(15.0),
         child: Column(
           children: [
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.0),
               ),
-              padding: const EdgeInsets.all(23),
+              padding: const EdgeInsets.symmetric(vertical: 23),
               child: Center(
                 child: SearchBar(
                     textStyle: MaterialStateProperty.all(
@@ -104,44 +120,84 @@ class ChoicePatientScreenMessagesState
                                 ),
                                 onTap: () {
                                   authProvider.selectUser(
-                                      _patientsList[index].idPatient);
+                                      _patientsList[index].author.id,
+                                      _patientsList[index].author.firstName,
+                                      _patientsList[index].author.lastName,
+                                      _patientsList[index].author.imageData);
                                   context.push("/${widget.route}",
-                                      extra: _patientsList[index].idPatient);
+                                      extra: _patientsList[index].author.id);
                                 },
                                 contentPadding: EdgeInsets.symmetric(
                                     vertical: 10, horizontal: 10),
-                                title: Text(
-                                  '${_patientsList[index].firstName} ${_patientsList[index].lastName}',
-                                  style: GoogleFonts.nunito(
-                                      textStyle: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium),
-                                ),
-                                leading: _patientsList[index].imageData == null
+                                title: _patientsList[index].lastMessage != null
+                                    ? Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        children: [
+                                          Text(
+                                            "${_patientsList[index].author.firstName} ${_patientsList[index].author.lastName}",
+                                            textAlign: TextAlign.left,
+                                            style: GoogleFonts.nunito(
+                                              color: Theme.of(context)
+                                                  .primaryColorDark,
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          Text(
+                                            "${_patientsList[index].lastMessage}",
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.left,
+                                            style: GoogleFonts.nunito(
+                                              color: Colors.grey.shade500,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : Text(
+                                        "${_patientsList[index].author.firstName} ${_patientsList[index].author.lastName}",
+                                        style: GoogleFonts.nunito(
+                                          color: Theme.of(context)
+                                              .primaryColorDark,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                leading: _patientsList[index]
+                                            .author
+                                            .imageData ==
+                                        null
                                     ? const CircleAvatar(
+                                        radius: 20,
                                         child: ClipOval(
                                           child: Icon(Icons.person),
                                         ),
                                       )
                                     : CircleAvatar(
-                                        //TODO GET IMAGE FROM USER
-                                        backgroundImage: (_patientsList[index]
-                                                .imageData as Image)
-                                            .image),
-                                /*
-                                trailing: FilledButton(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          Theme.of(context).primaryColor,
-                                    ),
-                                    onPressed: () {
-                                      authProvider.selectUser(
-                                          _patientsList[index].idPatient);
-                                      context.push("/${widget.route}",
-                                          extra:
-                                              _patientsList[index].idPatient);
-                                    },
-                                    child: Icon(Icons.start_outlined)),*/
+                                        radius: 20,
+                                        backgroundImage:
+                                            (_patientsImages[index] as Image)
+                                                .image),
+                                trailing: _patientsList[index]
+                                            .lastDateMessage !=
+                                        null
+                                    ? Text(
+                                        DateFormat('dd/MM/yyyy HH:mm').format(
+                                            (_patientsList[index]
+                                                        .lastDateMessage
+                                                    as DateTime)
+                                                .subtract(
+                                                    const Duration(hours: 3))),
+                                        style: GoogleFonts.nunito(
+                                            color: Colors.grey.shade500,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w600),
+                                      )
+                                    : const Text(""),
                               );
                             });
                       }

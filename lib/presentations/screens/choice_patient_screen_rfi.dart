@@ -29,6 +29,9 @@ class ChoicePatientScreenState extends State<ChoicePatientScreen>
       for (var element in response) {
         _patientsList.add(PatientModel.fromJson(element));
       }
+
+      _patientsList.sort((a, b) => (a.lastName)
+        .compareTo(b.lastName));
     }
 
     return response;
@@ -56,7 +59,7 @@ class ChoicePatientScreenState extends State<ChoicePatientScreen>
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.0),
               ),
-              padding: const EdgeInsets.all(23),
+              padding: const EdgeInsets.symmetric(vertical: 23),
               child: Center(
                 child: SearchBar(
                     textStyle: MaterialStateProperty.all(
@@ -120,17 +123,16 @@ class ChoicePatientScreenState extends State<ChoicePatientScreen>
                                             .image),
                                 trailing: FilledButton(
                                     style: ElevatedButton.styleFrom(
+                                      elevation: 5,
                                       backgroundColor:
                                           Theme.of(context).primaryColor,
                                     ),
                                     onPressed: () {
-                                      authProvider.selectUser(
-                                          _patientsList[index].idPatient);
                                       context.push("/${widget.route}",
                                           extra:
                                               _patientsList[index].idPatient);
                                     },
-                                    child: Icon(Icons.start_outlined)),
+                                    child: Text("Iniciar")),
                               );
                             });
                       }

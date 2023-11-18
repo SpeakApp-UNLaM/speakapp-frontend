@@ -153,6 +153,9 @@ class _ListViewCustomized extends StatelessWidget {
           task: tasks[i],
         ));
       }
+
+      buttonsGroupLists.sort((a, b) =>
+          (a.task.phoneme.namePhoneme).compareTo(b.task.phoneme.namePhoneme));
     }
 
     return Container(

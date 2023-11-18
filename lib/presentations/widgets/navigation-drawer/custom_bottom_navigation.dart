@@ -13,31 +13,45 @@ class CustomBottomNavigation extends StatelessWidget {
   int getCurrentIndex(BuildContext context) {
     final String location = GoRouterState.of(context).location;
 
-    switch(location) {
+    switch (location) {
       case '/':
         return 0;
-        /*
+      /*
       case '/exercises_pending_view':
         return 1;*/
       case '/messages_view':
         return 1;
       case '/turns_view':
         return 2;
-      default: 
+      default:
         return 0;
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      elevation: 0,
-      currentIndex: getCurrentIndex(context),
-      onTap: (value) => onItemTapped(context, appMenuItems[value]),
-      items: [
-        ...appMenuItems.map((item) =>  BottomNavigationBarItem(
-                icon: Icon(item.icon, color: item.color, size: 35,),
+        elevation: 0,
+        currentIndex: getCurrentIndex(context),
+        onTap: (value) => onItemTapped(context, appMenuItems[value]),
+        items: [
+          ...appMenuItems.map((item) => BottomNavigationBarItem(
+                icon: Stack(
+                  children: <Widget>[
+                    Positioned(
+                      left: 1.0,
+                      top: 2.0,
+                      child: Icon(item.icon, color: Colors.black54, size: 35),
+                    ),
+                    Icon(
+                      item.icon,
+                      color: item.color,
+                      size: 35,
+                    ),
+                  ],
+                ),
                 label: '',
               ))
-      ]);
+        ]);
   }
 }

@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -102,7 +104,46 @@ class _MessagesScreenState extends State<MessagesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
+      appBar: authProvider.typeUser != 'patient' ? AppBar(
+        backgroundColor: Theme.of(context).dialogBackgroundColor,
+        toolbarHeight: 60,
+        leading: authProvider.typeUser == 'patient' ? IconButton(
+            onPressed: () {
+              if (!context.canPop()) return;
+              context.pop();
+            },
+            icon: Icon(Icons.arrow_back_rounded,
+                size: 25, color: Theme.of(context).primaryColor)) : null,
+        title: Row(
+          children: [
+            authProvider.userToImageData == null
+                ? const CircleAvatar(
+                    radius: 20,
+                    child: ClipOval(
+                      child: Icon(Icons.person),
+                    ),
+                  )
+                : CircleAvatar(
+                    radius: 20,
+                    //TODO GET IMAGE FROM USER
+                    backgroundImage:
+                        (authProvider.userToImageData as Image).image),
+            SizedBox(width: 10),
+            Text(
+              "${authProvider.userToFirstName} ${authProvider.userToLastName}",
+              textAlign: TextAlign.left,
+              style: GoogleFonts.nunito(
+                color: Theme.of(context).primaryColorDark,
+                fontWeight: FontWeight.w700,
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
+      ) : null,
       body: Padding(
         padding: const EdgeInsets.only(bottom: 20, left: 10, right: 10),
         child: Chat(
