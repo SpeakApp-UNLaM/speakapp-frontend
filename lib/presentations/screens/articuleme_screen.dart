@@ -271,13 +271,11 @@ class ArticulemeScreenState extends State<ArticulemeScreen>
                                       ),
                                       child: FloatingActionButton(
                                         onPressed: () {
-                                          context.pushReplacement('/',
-                                              extra: authProvider
-                                                  .loggedUser.userId);
+                                          Navigator.pop(context);
                                         },
                                         backgroundColor: colorList[0],
                                         elevation: 10.0,
-                                        child: Text("CONTINUAR",
+                                        child: Text("FINALIZAR",
                                             style: GoogleFonts.nunito(
                                                 fontSize: 15,
                                                 color: colorList[2],

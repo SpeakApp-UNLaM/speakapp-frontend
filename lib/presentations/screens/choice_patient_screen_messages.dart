@@ -30,6 +30,9 @@ class ChoicePatientScreenMessagesState
 
   Future? _fetchData;
 
+  late final TextEditingController _searchController;
+  String _searchQuery = '';
+
   Future fetchData() async {
     _patientsList = [];
     final response = await Api.get(Param.getContacts);
@@ -51,10 +54,37 @@ class ChoicePatientScreenMessagesState
     return response;
   }
 
+  void _onSearchChanged() {
+    setState(() {
+      _searchQuery = _searchController.text;
+    });
+  }
+
   @override
   void initState() {
+    _searchController = TextEditingController();
+    _searchController.addListener(_onSearchChanged);
     _fetchData = fetchData();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+
+    super.dispose();
+  }
+
+  List<ContactModel> get _filteredPatientsList {
+    if (_searchQuery.isEmpty) {
+      return _patientsList;
+    } else {
+      return _patientsList.where((patient) {
+        final fullName =
+            '${patient.author.firstName} ${patient.author.lastName}';
+        return fullName.toLowerCase().contains(_searchQuery.toLowerCase());
+      }).toList();
+    }
   }
 
   @override
@@ -76,6 +106,7 @@ class ChoicePatientScreenMessagesState
               padding: const EdgeInsets.symmetric(vertical: 23),
               child: Center(
                 child: SearchBar(
+                    controller: _searchController,
                     textStyle: MaterialStateProperty.all(
                         Theme.of(context).textTheme.titleMedium),
                     hintText: 'Buscar paciente',
@@ -96,112 +127,113 @@ class ChoicePatientScreenMessagesState
               ),
             ),
             const SizedBox(height: 10.0),
-            Container(
-              height: 400,
-              child: SingleChildScrollView(
-                child: FutureBuilder(
-                    future: _fetchData,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text('${snapshot.error}'));
-                      } else {
-                        return ListView.separated(
-                            physics: BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            separatorBuilder: (context, index) =>
-                                Divider(color: Colors.grey.shade400),
-                            itemCount: _patientsList.length,
-                            itemBuilder: (context, index) {
-                              return ListTile(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                onTap: () {
-                                  authProvider.selectUser(
-                                      _patientsList[index].author.id,
-                                      _patientsList[index].author.firstName,
-                                      _patientsList[index].author.lastName,
-                                      _patientsList[index].author.imageData);
-                                  context.push("/${widget.route}",
-                                      extra: _patientsList[index].author.id);
-                                },
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 10),
-                                title: _patientsList[index].lastMessage != null
-                                    ? Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.stretch,
-                                        children: [
-                                          Text(
-                                            "${_patientsList[index].author.firstName} ${_patientsList[index].author.lastName}",
-                                            textAlign: TextAlign.left,
-                                            style: GoogleFonts.nunito(
-                                              color: Theme.of(context)
-                                                  .primaryColorDark,
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 14,
+            Expanded(
+              child: Container(
+                child: SingleChildScrollView(
+                  child: FutureBuilder(
+                      future: _fetchData,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Center(child: Text('${snapshot.error}'));
+                        } else {
+                          return ListView.separated(
+                              physics: BouncingScrollPhysics(),
+                              shrinkWrap: true,
+                              separatorBuilder: (context, index) =>
+                                  Divider(color: Colors.grey.shade400),
+                              itemCount: _filteredPatientsList.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  onTap: () {
+                                    authProvider.selectUser(
+                                        _filteredPatientsList[index].author.id,
+                                        _filteredPatientsList[index].author.firstName,
+                                        _filteredPatientsList[index].author.lastName,
+                                        _filteredPatientsList[index].author.imageData);
+                                    context.push("/${widget.route}",
+                                        extra: _filteredPatientsList[index].author.id);
+                                  },
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 10, horizontal: 10),
+                                  title: _filteredPatientsList[index].lastMessage != null
+                                      ? Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            Text(
+                                              "${_filteredPatientsList[index].author.firstName} ${_filteredPatientsList[index].author.lastName}",
+                                              textAlign: TextAlign.left,
+                                              style: GoogleFonts.nunito(
+                                                color: Theme.of(context)
+                                                    .primaryColorDark,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 14,
+                                              ),
                                             ),
+                                            Text(
+                                              "${_filteredPatientsList[index].lastMessage}",
+                                              overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.left,
+                                              style: GoogleFonts.nunito(
+                                                color: Colors.grey.shade500,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      : Text(
+                                          "${_filteredPatientsList[index].author.firstName} ${_filteredPatientsList[index].author.lastName}",
+                                          style: GoogleFonts.nunito(
+                                            color: Theme.of(context)
+                                                .primaryColorDark,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 14,
                                           ),
-                                          Text(
-                                            "${_patientsList[index].lastMessage}",
-                                            overflow: TextOverflow.ellipsis,
-                                            textAlign: TextAlign.left,
-                                            style: GoogleFonts.nunito(
+                                        ),
+                                  leading: _filteredPatientsList[index]
+                                              .author
+                                              .imageData ==
+                                          null
+                                      ? const CircleAvatar(
+                                          radius: 20,
+                                          child: ClipOval(
+                                            child: Icon(Icons.person),
+                                          ),
+                                        )
+                                      : CircleAvatar(
+                                          radius: 20,
+                                          backgroundImage:
+                                              (_patientsImages[index] as Image)
+                                                  .image),
+                                  trailing: _filteredPatientsList[index]
+                                              .lastDateMessage !=
+                                          null
+                                      ? Text(
+                                          DateFormat('dd/MM/yyyy HH:mm').format(
+                                              (_filteredPatientsList[index]
+                                                          .lastDateMessage
+                                                      as DateTime)
+                                                  .subtract(
+                                                      const Duration(hours: 3))),
+                                          style: GoogleFonts.nunito(
                                               color: Colors.grey.shade500,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    : Text(
-                                        "${_patientsList[index].author.firstName} ${_patientsList[index].author.lastName}",
-                                        style: GoogleFonts.nunito(
-                                          color: Theme.of(context)
-                                              .primaryColorDark,
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                leading: _patientsList[index]
-                                            .author
-                                            .imageData ==
-                                        null
-                                    ? const CircleAvatar(
-                                        radius: 20,
-                                        child: ClipOval(
-                                          child: Icon(Icons.person),
-                                        ),
-                                      )
-                                    : CircleAvatar(
-                                        radius: 20,
-                                        backgroundImage:
-                                            (_patientsImages[index] as Image)
-                                                .image),
-                                trailing: _patientsList[index]
-                                            .lastDateMessage !=
-                                        null
-                                    ? Text(
-                                        DateFormat('dd/MM/yyyy HH:mm').format(
-                                            (_patientsList[index]
-                                                        .lastDateMessage
-                                                    as DateTime)
-                                                .subtract(
-                                                    const Duration(hours: 3))),
-                                        style: GoogleFonts.nunito(
-                                            color: Colors.grey.shade500,
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w600),
-                                      )
-                                    : const Text(""),
-                              );
-                            });
-                      }
-                    }),
+                                              fontSize: 10,
+                                              fontWeight: FontWeight.w600),
+                                        )
+                                      : const Text(""),
+                                );
+                              });
+                        }
+                      }),
+                ),
               ),
             )
           ],

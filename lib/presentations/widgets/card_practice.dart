@@ -45,6 +45,62 @@ class CardPractice extends StatelessWidget {
                 padding: const EdgeInsets.all(23),
                 child: Center(
                   child: Text(
+                    'Articulemas',
+                    style: Theme.of(context).textTheme.displayMedium,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10.0),
+              Row(
+                children: [
+                  Expanded(
+                    child: ListTile(
+                      title: Text(
+                        "Articulema",
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: FilledButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              colorList[4], // Cambia el color de fondo aquí
+                        ),
+                        onPressed: () {
+                          ArticulemeParameters params = ArticulemeParameters(
+                            idPhoneme: idPhoneme,
+                            namePhoneme: namePhoneme,
+                          );
+                          context.push("/articuleme", extra: params);
+                        },
+                        child: Text(
+                          "Comenzar",
+                          style: Theme.of(context).textTheme.labelSmall,
+                        )),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+        Card(
+          margin: const EdgeInsets.all(30.0),
+          color: Theme.of(context).cardColor,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          elevation: 6,
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: colorList[0],
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                padding: const EdgeInsets.all(23),
+                child: Center(
+                  child: Text(
                     'Prácticas',
                     style: Theme.of(context).textTheme.displayMedium,
                   ),
@@ -103,62 +159,6 @@ class CardPractice extends StatelessWidget {
                   );
                 },
               ),
-            ],
-          ),
-        ),
-        Card(
-          margin: const EdgeInsets.all(30.0),
-          color: Theme.of(context).cardColor,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          elevation: 6,
-          child: Column(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: colorList[0],
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                padding: const EdgeInsets.all(23),
-                child: Center(
-                  child: Text(
-                    'Articulemas',
-                    style: Theme.of(context).textTheme.displayMedium,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10.0),
-              Row(
-                children: [
-                  Expanded(
-                    child: ListTile(
-                      title: Text(
-                        "Articulema",
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: FilledButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              colorList[4], // Cambia el color de fondo aquí
-                        ),
-                        onPressed: () {
-                          ArticulemeParameters params = ArticulemeParameters(
-                            idPhoneme: idPhoneme,
-                            namePhoneme: namePhoneme,
-                          );
-                          context.push("/articuleme", extra: params);
-                        },
-                        child: Text(
-                          "Comenzar",
-                          style: Theme.of(context).textTheme.labelSmall,
-                        )),
-                  ),
-                ],
-              )
             ],
           ),
         ),
