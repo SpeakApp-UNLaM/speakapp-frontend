@@ -162,6 +162,10 @@ class ChoicePatientScreenState extends State<ChoicePatientScreen>
                                             Theme.of(context).primaryColor,
                                       ),
                                       onPressed: () {
+                                        authProvider.selectUserRfi(
+                                             _filteredPatientsList[index]
+                                                .idPatient);
+                                            
                                         context.push("/${widget.route}",
                                             extra: _filteredPatientsList[index]
                                                 .idPatient);

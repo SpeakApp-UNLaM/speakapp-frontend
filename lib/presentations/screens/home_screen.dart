@@ -38,43 +38,70 @@ class HomeScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
             child: PopupMenuButton(
-                color: colorList[7],
-                onSelected: (SampleItem item) {
-                  switch (item) {
-                    case SampleItem.logOut:
-                      context.read<LoginProvider>().onLogOut(context);
-                    default:
-                      return;
-                  }
-                },
-                itemBuilder: (BuildContext context) =>
-                    <PopupMenuEntry<SampleItem>>[
-                      const PopupMenuItem<SampleItem>(
-                        value: SampleItem.config,
-                        child: Row(
-                          children: [
-                            Icon(Icons.settings),
-                            SizedBox(width: 8),
-                            Text('Configuración'),
-                          ],
-                        ),
-                      ),
-                      const PopupMenuDivider(),
-                      const PopupMenuItem<SampleItem>(
-                        value: SampleItem.logOut,
-                        child: Row(
-                          children: [
-                            Icon(Icons.logout),
-                            SizedBox(width: 8),
-                            Text('Salir'),
-                          ],
-                        ),
-                      ),
+              color: colorList[7],
+              onSelected: (SampleItem item) {
+                switch (item) {
+                  case SampleItem.logOut:
+                    context.read<LoginProvider>().onLogOut(context);
+                  default:
+                    return;
+                }
+              },
+              itemBuilder: (BuildContext context) =>
+                  <PopupMenuEntry<SampleItem>>[
+                const PopupMenuItem<SampleItem>(
+                  value: SampleItem.config,
+                  child: Row(
+                    children: [
+                      Icon(Icons.settings),
+                      SizedBox(width: 8),
+                      Text('Configuración'),
                     ],
-                child: const CircleAvatar(
-                  //TODO GET IMAGE FROM USER
-                  backgroundImage: AssetImage('assets/niño-feliz.jpg'),
-                )),
+                  ),
+                ),
+                const PopupMenuDivider(),
+                const PopupMenuItem<SampleItem>(
+                  value: SampleItem.logOut,
+                  child: Row(
+                    children: [
+                      Icon(Icons.logout),
+                      SizedBox(width: 8),
+                      Text('Salir'),
+                    ],
+                  ),
+                ),
+              ],
+              child: context.read<AuthProvider>().loggedUser.imageData == null
+                  ? PhysicalModel(
+                      color: Theme.of(context).primaryColor,
+                      shadowColor: Theme.of(context).primaryColor,
+                      elevation: 12,
+                      shape: BoxShape.circle,
+                      child: CircleAvatar(
+                        radius: 20,
+                        backgroundColor:
+                            Theme.of(context).scaffoldBackgroundColor,
+                        foregroundColor: Theme.of(context).primaryColor,
+                        child: const ClipOval(
+                          child: Icon(Icons.person, size: 30),
+                        ),
+                      ),
+                    )
+                  : PhysicalModel(
+                      color: Theme.of(context).primaryColor,
+                      shape: BoxShape.circle,
+                      shadowColor: Theme.of(context).primaryColor,
+                      elevation: 12,
+                      child: CircleAvatar(
+                          radius: 20,
+                          //TODO GET IMAGE FROM USER
+                          backgroundImage: (context
+                                  .read<AuthProvider>()
+                                  .loggedUser
+                                  .imageData as Image)
+                              .image),
+                    ),
+            ),
           ),
         ],
         bottom: PreferredSize(

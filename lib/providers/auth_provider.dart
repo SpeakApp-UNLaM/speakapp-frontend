@@ -55,6 +55,10 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void selectUserRfi(int user) {
+    _userSelected = user;
+  }
+
   set loggedIn(bool value) {
     _loggedIn = value;
     prefs.setBool('LoggedIn', value);
@@ -120,7 +124,11 @@ class AuthProvider with ChangeNotifier {
             phone: '11311984311',
             type: responseData['type'],
             token: responseData['token'],
-            renewalToken: responseData['token']);
+            renewalToken: responseData['token'],
+            imageData: responseData["imageData"] != null
+                ? Image.memory(base64.decode(responseData["imageData"]),
+                    fit: BoxFit.cover)
+                : null);
 
         _loggedUser = authUser;
         await UserPreferences().saveUser(authUser);

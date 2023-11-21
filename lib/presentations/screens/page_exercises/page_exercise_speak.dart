@@ -66,7 +66,7 @@ class PageExerciseSpeakState extends State<PageExerciseSpeak> {
                   speakSlow = !speakSlow;
                 });
                 TtsProvider()
-                    .speak(widget.result, speakSlow == true ? 0.1 : 0.7);
+                    .speak(widget.result, speakSlow == true ? 0.1 : 0.5);
               },
               child: Stack(
                 children: [

@@ -71,10 +71,36 @@ class HomeSpecialistScreen extends StatelessWidget {
                         ),
                       ),
                     ],
-                child: const CircleAvatar(
-                  //TODO GET IMAGE FROM USER
-                  backgroundImage: AssetImage('assets/niño-feliz.jpg'),
-                )),
+                child: context.read<AuthProvider>().loggedUser.imageData == null
+                  ? PhysicalModel(
+                      color: Theme.of(context).primaryColor,
+                      shadowColor: Theme.of(context).primaryColor,
+                      elevation: 12,
+                      shape: BoxShape.circle,
+                      child: CircleAvatar(
+                        radius: 20,
+                        backgroundColor:
+                            Theme.of(context).scaffoldBackgroundColor,
+                        foregroundColor: Theme.of(context).primaryColor,
+                        child: const ClipOval(
+                          child: Icon(Icons.person, size: 30),
+                        ),
+                      ),
+                    )
+                  : PhysicalModel(
+                      color: Theme.of(context).primaryColor,
+                      shape: BoxShape.circle,
+                      shadowColor: Theme.of(context).primaryColor,
+                      elevation: 12,
+                      child: CircleAvatar(
+                          radius: 20,
+                          //TODO GET IMAGE FROM USER
+                          backgroundImage: (context
+                                  .read<AuthProvider>()
+                                  .loggedUser
+                                  .imageData as Image)
+                              .image),
+                    ),),
           ),
         ],
         bottom: PreferredSize(
