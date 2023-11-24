@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -9,12 +11,35 @@ import '../../providers/login_provider.dart';
 
 enum SampleItem { config, logOut }
 
-class HomeSpecialistScreen extends StatelessWidget {
-  static const name = 'home-screen';
 
+class HomeSpecialistScreen extends StatefulWidget {
   final Widget childView;
+    static const name = 'home-screen';
 
-  const HomeSpecialistScreen({super.key, required this.childView});
+  const HomeSpecialistScreen({Key? key, required this.childView}) : super(key: key);
+
+  @override
+  _HomeSpecialistScreenState createState() => _HomeSpecialistScreenState();
+}
+
+class _HomeSpecialistScreenState extends State<HomeSpecialistScreen> {
+    late Image? userImage;
+
+  @override
+  void initState() {
+    String? userImageData = context.read<AuthProvider>().loggedUser.imageData;
+    if (userImageData != null && userImageData != "") {
+      userImage = Image.memory(
+          base64.decode(
+              context.read<AuthProvider>().loggedUser.imageData as String),
+          fit: BoxFit.cover);
+    } else {
+      userImage = null;
+    }
+
+    super.initState();
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +96,7 @@ class HomeSpecialistScreen extends StatelessWidget {
                         ),
                       ),
                     ],
-                child: context.read<AuthProvider>().loggedUser.imageData == null
+                child: userImage == null
                   ? PhysicalModel(
                       color: Theme.of(context).primaryColor,
                       shadowColor: Theme.of(context).primaryColor,
@@ -95,11 +120,7 @@ class HomeSpecialistScreen extends StatelessWidget {
                       child: CircleAvatar(
                           radius: 20,
                           //TODO GET IMAGE FROM USER
-                          backgroundImage: (context
-                                  .read<AuthProvider>()
-                                  .loggedUser
-                                  .imageData as Image)
-                              .image),
+                          backgroundImage: (userImage as Image).image),
                     ),),
           ),
         ],
@@ -110,7 +131,7 @@ class HomeSpecialistScreen extends StatelessWidget {
               height: 1.0,
             )),
       ),
-      body: childView,
+      body: widget.childView,
       bottomNavigationBar: Container(
           margin: EdgeInsets.zero,
           child: CurvedNavigationBar(

@@ -12,9 +12,12 @@ class PlayAudioManager {
 
   Future<void> playAudio(String pathAudio) async {
     isPlaying = true;
-    _audioPlayer.setFilePath(pathAudio);
+    await _audioPlayer.setFilePath(pathAudio);
     await _audioPlayer.play();
-    await _audioPlayer.seek(Duration.zero);
+    await _audioPlayer.stop();
+
+    await _audioPlayer.seek(Duration.zero, index: 0);
+
     isPlaying = false;
   }
 
